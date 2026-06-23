@@ -204,13 +204,9 @@
     <p id="meta-line">Baseline · June 2026 · Run ID: 2026-06-RUN-1 · Source: Claude · GPT-4o · Gemini 2.5 Pro</p>
   </div>
   <div class="header-right">
-    <span class="badge">3 models · 70 prompts · Prompt Bank v2.6</span>
+    <span class="badge">Prompt Bank v2.6 · 9 models · June 2026</span>
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
-    <label class="upload-btn" title="Upload benchmark CSV to update dashboard">
-      📂 Upload CSV
-      <input type="file" id="csv-upload" accept=".csv" style="display:none;">
-    </label>
-    <div id="upload-status" style="font-size:11px;color:#68d391;display:none;"></div>
+    <!-- CSV upload removed — dashboard updates automatically via geo_monthly_benchmark.bat -->
   </div>
 </div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 50 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
 <div class="last-updated-bar">
@@ -282,37 +278,28 @@
   <div class="grid-2" style="margin-top:24px;">
     <div class="card">
       <h3>✅ What We Track</h3>
+      <div style="background:#1a0a0a;border:1px solid #744210;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:12px;">
+        <strong style="color:#f6ad55;">⚠️ June 2026 Anomalies:</strong>
+        <span style="color:#cbd5e0;"> GPT-5: aided SOV 0% (branded prompts not detected — detection issue, not a real signal).
+        o3 + o3-mini: aided SOV 57–86% (reasoning models respond differently to branded queries).
+        Gemini 3.1 Pro Preview: aided 28.6% (preview model, inconsistent responses).</span>
+      </div>
       <table class="model-table">
-        <thead><tr><th>Source</th><th>Unaided SOV</th><th>Status</th></tr></thead>
-        <tbody>
+        <thead>
           <tr>
-            <td><strong>Claude Sonnet 4.6</strong></td>
-            <td><span class="model-tag tag-red" id="sov-claude">0%</span></td>
-            <td style="color:#68d391;">✅ Verified — June 2026</td>
+            <th>Model</th>
+            <th>Unaided SOV</th>
+            <th>Aided SOV</th>
+            <th>Rate Saver</th>
+            <th>Status</th>
           </tr>
-          <tr>
-            <td><strong>GPT-4o</strong></td>
-            <td><span class="model-tag tag-red" id="sov-chatgpt">—</span></td>
-            <td style="color:#718096;">⏳ Run benchmark to update</td>
-          </tr>
-          <tr>
-            <td><strong>Gemini 2.5 Pro</strong></td>
-            <td><span class="model-tag tag-red" id="sov-gemini">—</span></td>
-            <td style="color:#718096;">⏳ Run benchmark to update</td>
-          </tr>
-          <tr>
-            <td><strong>Citation tracking</strong></td>
-            <td><span class="model-tag tag-red">Absent 7/8</span></td>
-            <td style="color:#90cdf4;">✅ Tracked (CITE)</td>
-          </tr>
-          <tr>
-            <td><strong>Community signals</strong></td>
-            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">5 drafted</span></td>
-            <td style="color:#90cdf4;">✅ Tracked (AMPLIFY)</td>
-          </tr>
+        </thead>
+        <tbody id="model-sov-rows">
+          <!-- Populated by data-binding script from data.json -->
+          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;">Benchmark runs via GoCode proxy — Claude Sonnet 4.6, GPT-4o, and Gemini 2.5 Pro. 70 prompts × 3 models = 210 data points. Run <code>geo_benchmark_multi_model.py --models claude openai gemini</code> then <code>update_dashboard.py</code>.</p>
+      <p style="font-size:11px;color:#718096;margin-top:10px;">9-model benchmark via GoCode proxy (June 2026 W26). 70 prompts × 9 models = 630 data points. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
     </div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
@@ -453,11 +440,11 @@
     .then(function (r) { if (!r.ok) throw new Error('data.json HTTP ' + r.status); return r.json(); })
     .then(function (d) {
       var meta = document.getElementById('meta-line');
-      if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + ' \u00b7 Source: ' + d.meta.sources;
+      if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Last updated: ' + d.meta.run_date : '') + ' \u00b7 ' + (d.meta.sources||'');
       // Last Updated bar
       if (d.meta) {
         var luDate = document.getElementById('lu-date');
-        if (luDate) luDate.textContent = d.meta.period || '—';
+        if (luDate) luDate.textContent = (d.meta.run_date || d.meta.period || '—');
         var luRun = document.getElementById('lu-run');
         if (luRun) luRun.textContent = d.meta.run_id || '—';
         var luMod = document.getElementById('lu-models');
@@ -502,19 +489,27 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Model SOV rows
-      if (d.model_sov) {
-        var mc = document.getElementById('sov-claude');
-        if (mc && d.model_sov.claude) { mc.textContent = d.model_sov.claude.value; mc.style.color = d.model_sov.claude.color; }
-        var mg = document.getElementById('sov-chatgpt');
-        if (mg && d.model_sov.chatgpt) { mg.textContent = d.model_sov.chatgpt.value; mg.style.color = d.model_sov.chatgpt.color; }
-        var gg = document.getElementById('sov-gemini');
-        if (gg && d.model_sov.gemini) { gg.textContent = d.model_sov.gemini.value; gg.style.color = d.model_sov.gemini.color; }
+      // Model SOV table — render all models from data.json
+      var modelRows = document.getElementById('model-sov-rows');
+      if (modelRows && d.model_sov) {
+        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
+        var rows = Object.values(d.model_sov).map(function(m) {
+          var icon = STATUS_ICON[m.status] || '—';
+          var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
+          return '<tr>' +
+            '<td><strong>' + (m.name||'') + '</strong></td>' +
+            '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
+            '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#fc8181') + ';">' + (m.aided||'—') + '</span></td>' +
+            '<td style="color:#718096;">' + (m.rs||'—') + '</td>' +
+            '<td>' + icon + note + '</td>' +
+            '</tr>';
+        }).join('');
+        modelRows.innerHTML = rows;
       }
       // Update header badge
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        if (badge) badge.textContent = '3 models · ' + (d.meta.prompt_count || 70) + ' prompts · Prompt Bank v2.6';
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.6') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
       }
     })
     .catch(function (err) {

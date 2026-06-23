@@ -56,6 +56,72 @@ def load_csv(path):
     with open(path, newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
+def score_comparison(rows):
+    """Score a geo_multi_comparison_*.csv — builds multi-model SOV table."""
+    import re
+
+    def parse_pct(s):
+        try: return float(str(s).strip("%"))
+        except: return 0.0
+
+    STATUS_COLOR = {"success": "#68d391", "partial": "#f6e05e", "anomaly": "#fc8181", "error": "#fc8181"}
+
+    model_sov = {}
+    run_id  = "2026-06-W26"
+    period  = "June 2026"
+    run_date = ""
+
+    # Use first successful model for overall SOV
+    u_sov, a_sov, r_sov = 0.0, 0.0, 0.0
+    success_models = [r for r in rows if r.get("status","") == "success"]
+    if success_models:
+        u_sov = parse_pct(success_models[0].get("unaided_sov","0"))
+        a_sov = parse_pct(success_models[0].get("aided_sov","0"))
+        r_sov = parse_pct(success_models[0].get("rate_saver_sov","0"))
+
+    for r in rows:
+        mid   = r.get("model_id", r.get("model_name","")).lower().replace("-","_").replace(".","_").replace(" ","_")
+        mname = r.get("model_name", mid)
+        aided = parse_pct(r.get("aided_sov","0"))
+        a_color = "#68d391" if aided >= 90 else "#f6e05e" if aided >= 60 else "#fc8181"
+        status = r.get("status","success")
+        model_sov[mid] = {
+            "name":    mname,
+            "unaided": r.get("unaided_sov","0%"),
+            "aided":   r.get("aided_sov","0%"),
+            "rs":      r.get("rate_saver_sov","0%"),
+            "status":  status,
+            "note":    "",
+            "u_color": "#fc8181",
+            "a_color": a_color,
+        }
+
+    models_str = ", ".join(r.get("model_name","") for r in rows if r.get("model_name"))
+
+    def fmt(v): return f"{v:.0f}%" if v == int(v) else f"{v:.1f}%"
+    def color_for(sov, p1=40):
+        r = sov/p1 if p1 else 0
+        if r < 0.33: return "#fc8181","red"
+        if r < 0.80: return "#f6e05e","yellow"
+        return "#68d391","green"
+
+    u_col,_ = color_for(u_sov)
+    a_col   = "#68d391" if a_sov >= 90 else "#f6e05e" if a_sov >= 70 else "#fc8181"
+    r_col,_ = color_for(r_sov, 25)
+
+    # Build category list from existing data.json
+    categories = []
+
+    return dict(
+        run_id=run_id, period=period, run_date=run_date,
+        u_sov=u_sov, a_sov=a_sov, r_sov=r_sov,
+        u_col=u_col, a_col=a_col, r_col=r_col,
+        categories=categories, model_sov=model_sov,
+        models_str=models_str, promptCount=70,
+        u_count=63, a_count=7,
+    )
+
+
 def score(rows):
     unaided = [r for r in rows if r.get("type","").upper() == "U"]
     aided   = [r for r in rows if r.get("type","").upper() == "B"]
@@ -146,12 +212,14 @@ def build_data_json(s, existing, label=None, prior=None):
                            {"value": "25pts", "fill": 0, "color": "#f6e05e"}),
             "tech_health": {"value": fmt(s["r_sov"]), "fill": round(s["r_sov"]), "color": s["r_col"]},
         },
-        "categories":  s["categories"],
+        "categories":  s.get("categories") or existing.get("categories",[]),
         "competitors": existing.get("competitors", []),
         "model_sov":   s.get("model_sov", {}),
     }
-    data["meta"]["models"] = s.get("models_str", "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro")
-    data["meta"]["sources"] = s.get("models_str", "Claude · GPT-4o · Gemini 2.5 Pro") + " (GoCode proxy)"
+    data["meta"]["models"]    = s.get("models_str", "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro")
+    data["meta"]["sources"]   = s.get("models_str", "9-model benchmark") + " (GoCode proxy)"
+    if s.get("run_date"): data["meta"]["run_date"] = s["run_date"]
+    if s.get("promptCount"): data["meta"]["prompt_count"] = s["promptCount"]
     if prior is not None:
         delta = round(s["u_sov"] - float(prior), 1)
         data["meta"]["unaided_delta"] = f"{'+' if delta >= 0 else ''}{delta}pts vs prior"
@@ -211,6 +279,12 @@ def main():
     # Validate inputs
     if not os.path.exists(args.csv_path):
         print(f"ERROR: CSV not found: {args.csv_path}"); sys.exit(1)
+
+    # Detect if this is a comparison summary CSV (geo_multi_comparison_*.csv)
+    is_comparison = "comparison" in os.path.basename(args.csv_path)
+    if is_comparison:
+        print(f"  Detected: multi-model comparison CSV")
+        print(f"  Will build model_sov table from all model rows")
     if not os.path.exists(data_json_path):
         print(f"ERROR: data.json not found at {data_json_path}"); sys.exit(1)
 
@@ -219,11 +293,15 @@ def main():
     rows = load_csv(args.csv_path)
     if not rows:
         print("ERROR: CSV is empty"); sys.exit(1)
-    missing = [k for k in ["type","category","godaddy_mentioned"] if k not in rows[0]]
-    if missing:
-        print(f"ERROR: CSV missing columns: {', '.join(missing)}"); sys.exit(1)
 
-    scored = score(rows)
+    if is_comparison:
+        # Comparison CSV: model_id, model_name, unaided_sov, aided_sov, rate_saver_sov, status
+        scored = score_comparison(rows)
+    else:
+        missing = [k for k in ["type","category","godaddy_mentioned"] if k not in rows[0]]
+        if missing:
+            print(f"ERROR: CSV missing columns: {', '.join(missing)}"); sys.exit(1)
+        scored = score(rows)
 
     # Load existing data.json to preserve competitors
     with open(data_json_path) as f:

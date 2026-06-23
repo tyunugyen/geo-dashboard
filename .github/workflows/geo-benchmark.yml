@@ -28,7 +28,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install anthropic
+        run: pip install openai
 
       # Check the secret is set before running — gives a clear error if missing
       - name: Check API key is configured

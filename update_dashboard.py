@@ -90,8 +90,9 @@ def score(rows):
     run_id = rows[0].get("run_id", "UNKNOWN") if rows else "UNKNOWN"
     period = "Unknown"
     try:
-        ym = run_id.split("-RUN")[0]
-        y, m = ym.split("-")
+        # Handle both formats: "2026-06-RUN-1" and "2026-06-W26"
+        parts = run_id.split("-")
+        y, m = parts[0], parts[1]
         months = ["January","February","March","April","May","June",
                   "July","August","September","October","November","December"]
         period = f"{months[int(m)-1]} {y}"
@@ -101,11 +102,31 @@ def score(rows):
     u_col, _ = color_for(u_sov, "40%")
     a_col    = "#68d391" if a_sov >= 90 else "#f6e05e" if a_sov >= 70 else "#fc8181"
     r_col, _ = color_for(r_sov, "25%")
+
+    # Per-model SOV (from multi-model CSV — uses 'model' or 'model_name' column)
+    model_sov = {}
+    model_col = "model_name" if rows and "model_name" in rows[0] else "model"
+    models_seen = list(dict.fromkeys(r.get(model_col, "") for r in rows if r.get(model_col)))
+    for mname in models_seen:
+        mrows = [r for r in unaided if r.get(model_col, "") == mname]
+        if not mrows: continue
+        m_sov = pct(sum(1 for r in mrows if hit(r)), len(mrows))
+        m_col, _ = color_for(m_sov, "40%")
+        ml = mname.lower()
+        key = ("claude"  if "claude"  in ml else
+               "chatgpt" if any(x in ml for x in ["gpt","openai"]) else
+               "gemini"  if "gemini"  in ml else
+               ml.replace(" ","_").replace("-","_"))
+        model_sov[key] = {"value": fmt(m_sov), "color": m_col}
+
+    # Models string for meta
+    models_str = ", ".join(models_seen) if models_seen else "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro"
+
     return dict(
         run_id=run_id, period=period,
         u_sov=u_sov, a_sov=a_sov, r_sov=r_sov,
         u_col=u_col, a_col=a_col, r_col=r_col,
-        categories=categories,
+        categories=categories, model_sov=model_sov, models_str=models_str,
         u_count=len(unaided), a_count=len(aided),
     )
 
@@ -127,7 +148,10 @@ def build_data_json(s, existing, label=None, prior=None):
         },
         "categories":  s["categories"],
         "competitors": existing.get("competitors", []),
+        "model_sov":   s.get("model_sov", {}),
     }
+    data["meta"]["models"] = s.get("models_str", "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro")
+    data["meta"]["sources"] = s.get("models_str", "Claude · GPT-4o · Gemini 2.5 Pro") + " (GoCode proxy)"
     if prior is not None:
         delta = round(s["u_sov"] - float(prior), 1)
         data["meta"]["unaided_delta"] = f"{'+' if delta >= 0 else ''}{delta}pts vs prior"
@@ -146,7 +170,8 @@ def run_git(args, cwd, dry_run=False):
 
 def main():
     ap = argparse.ArgumentParser(description="Score benchmark CSV and push data.json to GitHub")
-    ap.add_argument("csv_path",           help="geo_audit_results_[RUN_ID].csv")
+    ap.add_argument("csv_path", nargs="?", default=None,
+                    help="geo_audit_results_[RUN_ID].csv (auto-detects latest if omitted)")
     ap.add_argument("--repo",   default=".", help="Path to repo root (default: current dir)")
     ap.add_argument("--label",  default=None)
     ap.add_argument("--prior",  default=None, type=float)
@@ -155,6 +180,33 @@ def main():
 
     repo = os.path.abspath(args.repo)
     data_json_path = os.path.join(repo, "public", "data.json")
+
+    # Auto-detect latest CSV if not specified
+    if args.csv_path is None:
+        import glob
+        # Priority order: detailed results first, comparison summary last
+        # geo_audit_results_* has full prompt-level data (type, category, godaddy_mentioned)
+        # geo_multi_comparison_* is model-level summary only — NOT suitable for scoring
+        priority_patterns = [
+            os.path.join(repo, "benchmarks", "geo_audit_results_*.csv"),
+            "geo_audit_results_*.csv",
+            os.path.join(repo, "benchmarks", "geo_multi_*.csv"),
+        ]
+        candidates = []
+        for pat in priority_patterns:
+            matches = [f for f in glob.glob(pat) if "comparison" not in f]
+            candidates.extend(matches)
+        # Fall back to any CSV in benchmarks if nothing found above
+        if not candidates:
+            candidates = glob.glob(os.path.join(repo, "benchmarks", "*.csv"))
+            candidates = [f for f in candidates if "comparison" not in f]
+        if not candidates:
+            print("ERROR: No detailed results CSV found.")
+            print("Run geo_benchmark_runner.py or geo_benchmark_multi_model.py first.")
+            print("Note: geo_multi_comparison_*.csv cannot be used — pass a detailed CSV explicitly.")
+            sys.exit(1)
+        args.csv_path = max(candidates, key=os.path.getmtime)
+        print(f"  Auto-detected: {args.csv_path}")
 
     # Validate inputs
     if not os.path.exists(args.csv_path):
@@ -208,8 +260,18 @@ def main():
     benchmarks_dir = os.path.join(repo, "benchmarks")
     os.makedirs(benchmarks_dir, exist_ok=True)
     csv_dest = os.path.join(benchmarks_dir, os.path.basename(args.csv_path))
-    shutil.copy2(args.csv_path, csv_dest)
-    print(f"  Copied CSV to: benchmarks/{os.path.basename(args.csv_path)}")
+    # Use read/write instead of shutil.copy2 to avoid Windows file lock errors
+    if os.path.abspath(args.csv_path) != os.path.abspath(csv_dest):
+        try:
+            with open(args.csv_path, "r", encoding="utf-8") as src_f:
+                content = src_f.read()
+            with open(csv_dest, "w", encoding="utf-8") as dst_f:
+                dst_f.write(content)
+            print(f"  Copied CSV to: benchmarks/{os.path.basename(args.csv_path)}")
+        except PermissionError:
+            print(f"  ⚠️  CSV already in benchmarks/ (file in use) — skipping copy")
+    else:
+        print(f"  CSV already in benchmarks/ — no copy needed")
 
     steps = [
         (["add", "public/data.json"],

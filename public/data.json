@@ -1,9 +1,11 @@
 {
   "meta": {
-    "label": "Monthly",
+    "label": "Baseline",
     "period": "June 2026",
-    "run_id": "2026-06-W26",
-    "sources": "Benchmark CSV",
+    "run_id": "2026-06-RUN-1",
+    "sources": "Claude Sonnet 4.6 \u00b7 GPT-4o \u00b7 Gemini 2.5 Pro (GoCode proxy)",
+    "models": "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro",
+    "prompt_count": 70,
     "prompt_bank_version": "2.6"
   },
   "kpis": {
@@ -23,9 +25,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "11.1%",
-      "fill": 11,
-      "color": "#f6e05e"
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
     }
   },
   "categories": [
@@ -152,5 +154,19 @@
       "label": "No aggregator label \u274c",
       "godaddy": true
     }
-  ]
+  ],
+  "model_sov": {
+    "claude": {
+      "value": "0%",
+      "color": "#fc8181"
+    },
+    "chatgpt": {
+      "value": "\u2014",
+      "color": "#718096"
+    },
+    "gemini": {
+      "value": "\u2014",
+      "color": "#718096"
+    }
+  }
 }

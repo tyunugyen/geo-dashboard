@@ -1,11 +1,8 @@
 name: GEO Benchmark
 
 on:
-  # Run every Monday at 9am UTC
   schedule:
-    - cron: '0 9 * * 1'
-
-  # Also allow manual trigger from GitHub UI
+    - cron: '0 9 * * 1'   # Every Monday 9am UTC
   workflow_dispatch:
     inputs:
       reason:
@@ -19,34 +16,43 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write   # needed to push data.json + CSV back to repo
+      contents: write
 
     steps:
-      # 1. Check out the repo
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3. Install Anthropic SDK (only dependency)
       - name: Install dependencies
         run: pip install anthropic
 
-      # 4. Run the benchmark
+      # Check the secret is set before running — gives a clear error if missing
+      - name: Check API key is configured
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "ERROR: ANTHROPIC_API_KEY secret is not set."
+            echo "Go to: github.com/tyunugyen/geo-dashboard → Settings → Secrets and variables → Actions → New repository secret"
+            echo "Name: ANTHROPIC_API_KEY"
+            echo "Value: your sk-ant-... key from console.anthropic.com"
+            exit 1
+          fi
+          echo "API key is configured (length: ${#ANTHROPIC_API_KEY})"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
       - name: Run GEO benchmark
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python geo_benchmark_runner.py
 
-      # 5. Commit and push results
       - name: Commit and push results
         run: |
           git config user.name  "GEO Benchmark Bot"
           git config user.email "geo-benchmark@godaddy.com"
           git add public/data.json benchmarks/
-          git diff --staged --quiet || git commit -m "GEO benchmark auto-update: $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet && echo "No changes to commit" || git commit -m "GEO benchmark: $(date -u +%Y-%m-%d)"
           git push

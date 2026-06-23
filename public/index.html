@@ -201,10 +201,10 @@
 <div class="header">
   <div class="header-left">
     <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p id="meta-line">Baseline · June 2026 · Run ID: 2026-06-RUN-1 · Source: Claude (verified) + Citation + Community</p>
+    <p id="meta-line">Baseline · June 2026 · Run ID: 2026-06-RUN-1 · Source: Claude benchmark</p>
   </div>
   <div class="header-right">
-    <span class="badge">3 models · 70 prompts · Prompt Bank v2.6</span>
+    <span class="badge">Claude · 70 prompts · Prompt Bank v2.6</span>
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
     <label class="upload-btn" title="Upload benchmark CSV to update dashboard">
       📂 Upload CSV
@@ -287,18 +287,8 @@
         <tbody>
           <tr>
             <td><strong>Claude 3.5 Sonnet</strong></td>
-            <td><span class="model-tag tag-red" id="sov-claude">~0%</span></td>
-            <td style="color:#68d391;">✅ Running (API)</td>
-          </tr>
-          <tr>
-            <td><strong>ChatGPT GPT-4o</strong></td>
-            <td><span class="model-tag tag-red" id="sov-chatgpt">~0%</span></td>
-            <td style="color:#68d391;">✅ Running (API)</td>
-          </tr>
-          <tr>
-            <td><strong>Perplexity Sonar</strong></td>
-            <td><span class="model-tag tag-red" id="sov-perplexity">~0%</span></td>
-            <td style="color:#f6e05e;">⚡ Live web search (cites NerdWallet/Forbes)</td>
+            <td><span class="model-tag tag-red" id="sov-claude">0%</span></td>
+            <td style="color:#68d391;">✅ Verified — June 2026</td>
           </tr>
           <tr>
             <td><strong>Citation tracking</strong></td>
@@ -312,7 +302,7 @@
           </tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;">Gemini and Copilot are <strong>not in this benchmark</strong> — no stable API. Run <code>geo_audit_benchmark.py</code> to update all three model rows above. 70 prompts × 3 models = 210 data points per run.</p>
+      <p style="font-size:11px;color:#718096;margin-top:10px;">Benchmark runs via the GoDaddy GEO Agent (Claude). 70 prompts answered monthly — no API keys required. Run <code>update_dashboard.py</code> after each session to push to the dashboard.</p>
     </div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
@@ -449,19 +439,15 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Per-model SOV rows
-      if (d.model_sov) {
+      // Claude SOV row
+      if (d.model_sov && d.model_sov.claude) {
         var mc = document.getElementById('sov-claude');
-        if (mc && d.model_sov.claude) { mc.textContent = d.model_sov.claude.value; mc.style.color = d.model_sov.claude.color; }
-        var mg = document.getElementById('sov-chatgpt');
-        if (mg && d.model_sov.chatgpt) { mg.textContent = d.model_sov.chatgpt.value; mg.style.color = d.model_sov.chatgpt.color; }
-        var mp = document.getElementById('sov-perplexity');
-        if (mp && d.model_sov.perplexity) { mp.textContent = d.model_sov.perplexity.value; mp.style.color = d.model_sov.perplexity.color; }
+        if (mc) { mc.textContent = d.model_sov.claude.value; mc.style.color = d.model_sov.claude.color; }
       }
-      // Update header badge with run metadata
-      if (d.meta && d.meta.models) {
+      // Update header badge
+      if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        if (badge) badge.textContent = '3 models · ' + (d.meta.prompt_count || 70) + ' prompts · Prompt Bank v2.6';
+        if (badge) badge.textContent = 'Claude · ' + (d.meta.prompt_count || 70) + ' prompts · Prompt Bank v2.6';
       }
     })
     .catch(function (err) {

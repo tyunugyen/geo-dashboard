@@ -1,9 +1,11 @@
 {
   "meta": {
-    "label": "Monthly",
+    "label": "Baseline",
     "period": "June 2026",
     "run_id": "2026-06-RUN-1",
-    "sources": "Benchmark CSV",
+    "sources": "Claude benchmark (GoDaddy GEO Agent)",
+    "models": "Claude 3.5 Sonnet",
+    "prompt_count": 70,
     "prompt_bank_version": "2.6"
   },
   "kpis": {
@@ -13,9 +15,9 @@
       "color": "#fc8181"
     },
     "aided_sov": {
-      "value": "0%",
-      "fill": 0,
-      "color": "#fc8181"
+      "value": "100%",
+      "fill": 100,
+      "color": "#68d391"
     },
     "helcim_gap": {
       "value": "25pts",
@@ -152,5 +154,11 @@
       "label": "No aggregator label \u274c",
       "godaddy": true
     }
-  ]
+  ],
+  "model_sov": {
+    "claude": {
+      "value": "0%",
+      "color": "#fc8181"
+    }
+  }
 }

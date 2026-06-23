@@ -10,11 +10,11 @@ import os, sys, csv, json, re, datetime
 from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "claude-3-5-sonnet-20241022"  # Claude 3.5 Sonnet via GoCaaS proxy
+MODEL        = "anthropic.claude-sonnet-4-5"  # Claude Sonnet 4.5 via GoCode prod proxy
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls
-PROXY_URL    = "https://caas.open-webui.godaddy.com/api/v1"
+PROXY_URL    = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. Answer the user's question directly and concisely."
@@ -163,7 +163,23 @@ def run(api_key):
     rows     = []
 
     print(f"\nRun ID: {run_id} | {len(PROMPTS)} prompts | model: {MODEL}")
+    print(f"Proxy:  {PROXY_URL}")
     print("=" * 60)
+
+    # Quick connectivity test before running all 70 prompts
+    print("  Testing connection...", end=" ", flush=True)
+    try:
+        test = client.chat.completions.create(
+            model=MODEL, max_tokens=20, temperature=0,
+            messages=[{"role":"user","content":"Say OK"}]
+        )
+        test_resp = test.choices[0].message.content if test.choices else ""
+        print(f"✅ Connected — response: {repr(test_resp[:30])}")
+    except Exception as e:
+        print(f"\n❌ Connection FAILED: {e}")
+        print(f"   URL: {PROXY_URL}")
+        print(f"   Model: {MODEL}")
+        sys.exit(1)
 
     for i, (pid, ptype, pcat, ptgt, ptext) in enumerate(PROMPTS, 1):
         print(f"  [{i:2}/{len(PROMPTS)}] {pid}: {ptext[:55]}...", end=" ", flush=True)

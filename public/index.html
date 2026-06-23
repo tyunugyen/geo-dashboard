@@ -482,7 +482,8 @@
       }
       var compRows = document.getElementById('comp-rows');
       if (compRows && d.competitors) {
-        compRows.innerHTML = d.competitors.map(function (c) {
+        var sortedForDisplay = d.competitors.slice().sort(function(a,b){return (b.sov||0)-(a.sov||0)});
+        compRows.innerHTML = sortedForDisplay.map(function (c) {
           var nameStyle='color:'+c.color+';'+(c.godaddy?'font-weight:900;':'');
           var fillStyle='width:'+c.sov+'%;background:'+c.bar+';'+(c.godaddy?'min-width:8px;':'');
           var barText=c.godaddy?'':(c.sov+'%');

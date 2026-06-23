@@ -108,22 +108,6 @@
       "label": "\"Best POS hardware\" \u2014 primary F&B + retail rival"
     },
     {
-      "name": "Helcim",
-      "sov": 25,
-      "display": "~25%",
-      "color": "#68d391",
-      "bar": "#276749",
-      "label": "\"Volume discounts\" \u2014 services only (not F&B)"
-    },
-    {
-      "name": "Toast",
-      "sov": 20,
-      "display": "~20%",
-      "color": "#f6e05e",
-      "bar": "#975a16",
-      "label": "\"Best for full-service restaurants\" \u2014 avoid head-to-head"
-    },
-    {
       "name": "Stripe",
       "sov": 35,
       "display": "~35%",
@@ -132,12 +116,28 @@
       "label": "\"Best for online\" \u2014 not current priority"
     },
     {
+      "name": "Helcim",
+      "sov": 25,
+      "display": "~25%",
+      "color": "#68d391",
+      "bar": "#276749",
+      "label": "\"Volume discounts\" \u2014 services only (not F&B)"
+    },
+    {
       "name": "PayPal",
       "sov": 25,
       "display": "~25%",
       "color": "#b794f4",
       "bar": "#553c9a",
       "label": "\"Best for mobile sales\""
+    },
+    {
+      "name": "Toast",
+      "sov": 20,
+      "display": "~20%",
+      "color": "#f6e05e",
+      "bar": "#975a16",
+      "label": "\"Best for full-service restaurants\" \u2014 avoid head-to-head"
     },
     {
       "name": "Finix",

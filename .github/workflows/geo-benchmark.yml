@@ -33,20 +33,20 @@ jobs:
       # Check the secret is set before running — gives a clear error if missing
       - name: Check API key is configured
         run: |
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "ERROR: ANTHROPIC_API_KEY secret is not set."
+          if [ -z "$CAAS_API_KEY" ]; then
+            echo "ERROR: CAAS_API_KEY secret is not set."
             echo "Go to: github.com/tyunugyen/geo-dashboard → Settings → Secrets and variables → Actions → New repository secret"
-            echo "Name: ANTHROPIC_API_KEY"
-            echo "Value: your sk-ant-... key from console.anthropic.com"
+            echo "Name: CAAS_API_KEY"
+            echo "Value: your GoCaaS API key from caas.open-webui.godaddy.com"
             exit 1
           fi
-          echo "API key is configured (length: ${#ANTHROPIC_API_KEY})"
+          echo "API key is configured (length: ${#CAAS_API_KEY})"
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
 
       - name: Run GEO benchmark
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: python geo_benchmark_runner.py
 
       - name: Commit and push results

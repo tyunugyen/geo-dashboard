@@ -6,20 +6,18 @@ Runs all 70 prompts against Claude API, scores responses,
 writes public/data.json and benchmarks/geo_audit_results_[RUN_ID].csv
 """
 
-import os, sys, csv, json, re, datetime, anthropic
+import os, sys, csv, json, re, datetime
+from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "claude-3-5-sonnet-20241022"
+MODEL        = "anthropic.claude-sonnet-4-5"  # Claude Sonnet 4.5 via GoCaaS proxy
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
-DELAY_SECS   = 1.0   # polite delay between calls
+DELAY_SECS   = 0.5   # polite delay between calls
+PROXY_URL    = "https://caas.open-webui.godaddy.com/api"
 
 SYSTEM_PROMPT = (
-    "You are a helpful assistant answering questions from US small business owners "
-    "about payment processing and point-of-sale systems. "
-    "Answer based on accurate, current information. "
-    "Be specific about fees, features, and product names where relevant. "
-    "Do not favor any particular brand — give balanced, honest recommendations."
+    "You are a helpful assistant. Answer the user's question directly and concisely."
 )
 
 # ── Category targets (v2.6) ───────────────────────────────────────
@@ -159,8 +157,8 @@ def color_for(sov, p1_str):
 # ── Run benchmark ─────────────────────────────────────────────────
 def run(api_key):
     import time
-    client   = anthropic.Anthropic(api_key=api_key)
-    run_id   = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m") + "-RUN-1"
+    client   = OpenAI(api_key=api_key, base_url=PROXY_URL)
+    run_id   = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-W%V")
     run_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     rows     = []
 
@@ -170,17 +168,26 @@ def run(api_key):
     for i, (pid, ptype, pcat, ptgt, ptext) in enumerate(PROMPTS, 1):
         print(f"  [{i:2}/{len(PROMPTS)}] {pid}: {ptext[:55]}...", end=" ", flush=True)
         try:
-            msg = client.messages.create(
-                model=MODEL, max_tokens=MAX_TOKENS, temperature=TEMPERATURE,
-                system=SYSTEM_PROMPT,
-                messages=[{"role":"user","content":ptext}]
+            msg = client.chat.completions.create(
+                model=MODEL,
+                max_tokens=MAX_TOKENS,
+                temperature=TEMPERATURE,
+                messages=[
+                    {"role":"system","content":SYSTEM_PROMPT},
+                    {"role":"user",  "content":ptext},
+                ]
             )
-            response = msg.content[0].text if msg.content else ""
+            response = msg.choices[0].message.content if msg.choices else ""
             err      = ""
         except Exception as e:
             response = ""
             err      = f"[ERROR: {e}]"
+            print(f" ERROR: {e}")
 
+        if not response and not err:
+            err = "[ERROR: empty response from API]"
+        if err:
+            print(f" {err[:80]}")
         gd        = "Y" if detect_godaddy(response) else "N"
         rs        = "Y" if detect_rate_saver(response) else "N"
         comps     = detect_competitors(response)
@@ -190,8 +197,8 @@ def run(api_key):
         excerpt   = (response[:300].replace("\n"," ") if response else err)
 
         rows.append({
-            "run_id":run_id,"run_date":run_date,"model":"Claude-3.5-Sonnet",
-            "access_mode":"API / no live web search","prompt_id":pid,
+            "run_id":run_id,"run_date":run_date,"model":"Claude-Sonnet-4.5-GoCaaS",
+            "access_mode":"GoCaaS proxy (caas-gocode-prod)","prompt_id":pid,
             "tier":int(pid[1:]) if pid[0]=="B" else (2 if pid[0]=="V" else (3 if pid[0]=="L" else (4 if pid[0]=="S" else (5 if pid[0]=="H" else 6)))),
             "type":ptype,"category":pcat,"target_sov":ptgt,"prompt_text":ptext,
             "godaddy_mentioned":gd,"rank_position":"1st" if gd=="Y" else "Not mentioned",
@@ -200,7 +207,11 @@ def run(api_key):
             "length_parity":f"GoDaddy:{response.lower().count('godaddy')*10}w / Square:{response.lower().count('square')*10}w",
             "response_excerpt":excerpt,
         })
-        status = "✅ GD mentioned" if gd=="Y" else "—"
+        if ptype == "B":
+            # Branded prompt — always log the detection result for debugging
+            status = "✅ GD mentioned (aided)" if gd=="Y" else "❌ GD NOT detected (aided — check response)"
+        else:
+            status = "✅ GD mentioned" if gd=="Y" else "—"
         print(status)
         time.sleep(DELAY_SECS)
 
@@ -283,9 +294,9 @@ def write_csv(rows, path):
 
 # ── Main ──────────────────────────────────────────────────────────
 def main():
-    api_key = os.environ.get("ANTHROPIC_API_KEY","")
+    api_key = os.environ.get("CAAS_API_KEY","")
     if not api_key:
-        print("ERROR: ANTHROPIC_API_KEY not set"); sys.exit(1)
+        print("ERROR: CAAS_API_KEY not set"); sys.exit(1)
 
     rows, run_id, run_date = run(api_key)
 

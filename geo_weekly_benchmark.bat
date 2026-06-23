@@ -1,12 +1,9 @@
 @echo off
 :: ================================================================
 :: GEO Weekly Benchmark — every Monday (Claude only, ~3 min)
+:: Auto-extracts latest geo-dashboard.zip from Downloads first
 :: ================================================================
-:: TROUBLESHOOTING: If this exits immediately:
-:: 1. Make sure CAAS_API_KEY is set: run `setx CAAS_API_KEY "sk-..."` then restart
-:: 2. Make sure you are on VPN
 
-:: Set PATH to include Python and Git
 set PATH=%PATH%;C:\Python313;C:\Python313\Scripts;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python313;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python313\Scripts
 
 echo.
@@ -21,6 +18,20 @@ if errorlevel 1 (
     echo ERROR: Could not find geo-dashboard folder.
     pause
     exit /b 1
+)
+
+:: Auto-extract latest zip from Downloads if it exists
+if exist "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip" (
+    echo Updating files from latest geo-dashboard.zip...
+    powershell -Command "Expand-Archive -Path 'C:\Users\%USERNAME%\Downloads\geo-dashboard.zip' -DestinationPath 'C:\Users\tyunguyen\geo-dashboard' -Force"
+    if errorlevel 1 (
+        echo WARNING: Could not extract zip. Continuing with existing files.
+    ) else (
+        echo Files updated from zip.
+        del "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip"
+        echo Zip deleted from Downloads.
+    )
+    echo.
 )
 
 if "%CAAS_API_KEY%"=="" (

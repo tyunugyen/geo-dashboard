@@ -1,80 +1,64 @@
 @echo off
 :: ================================================================
 :: GEO Monthly Benchmark — runs 1st of each month
-:: Auto-extracts latest geo-dashboard.zip from Downloads first
+:: Runs Claude + GPT-4o + Gemini via GoCode proxy
 :: ================================================================
 
-:: Set PATH to include Python and Git
 set PATH=%PATH%;C:\Python313;C:\Python313\Scripts;C:\Program Files\Git\bin;C:\Program Files\Git\cmd;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python313;C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python313\Scripts
 
 echo.
 echo ============================================================
-echo   GEO Monthly Benchmark
+echo   GEO Monthly Benchmark (Claude + GPT-4o + Gemini)
 echo   %DATE% %TIME%
 echo ============================================================
 echo.
 
-:: Navigate to repo
 cd /d C:\Users\tyunguyen\geo-dashboard
 if errorlevel 1 (
     echo ERROR: Could not find geo-dashboard folder.
-    pause
-    exit /b 1
+    pause & exit /b 1
 )
 
 :: Auto-extract latest zip from Downloads if it exists
 if exist "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip" (
     echo Updating files from latest geo-dashboard.zip...
     powershell -Command "Expand-Archive -Path 'C:\Users\%USERNAME%\Downloads\geo-dashboard.zip' -DestinationPath 'C:\Users\tyunguyen\geo-dashboard' -Force"
-    if errorlevel 1 (
-        echo WARNING: Could not extract zip. Continuing with existing files.
-    ) else (
-        echo Files updated from zip.
-        del "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip"
-        echo Zip deleted from Downloads.
-    )
+    del "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip" 2>nul
+    echo Files updated.
     echo.
 )
 
-:: Check API key
 if "%CAAS_API_KEY%"=="" (
     echo ERROR: CAAS_API_KEY is not set.
-    echo Run: setx CAAS_API_KEY "sk-your-key-here"
-    pause
-    exit /b 1
+    echo Run: setx CAAS_API_KEY "sk-your-key"
+    pause & exit /b 1
 )
 
-:: Check Python
 python --version >nul 2>&1
 if errorlevel 1 (
     echo ERROR: Python not found in PATH.
-    pause
-    exit /b 1
+    pause & exit /b 1
 )
 
-echo Running benchmark: ALL models (Claude + GPT + Gemini + o3)...
-echo This takes ~30-40 minutes. You can minimize this window.
-python geo_benchmark_multi_model.py --models all --quiet
+echo Running benchmark: Claude + GPT-4o + Gemini (3 models, ~15 min)...
+python geo_benchmark_multi_model.py --models claude openai gemini --quiet
 if errorlevel 1 (
-    echo Retrying with core 3 models...
-    python geo_benchmark_multi_model.py --models claude openai gemini --quiet
+    echo Retrying with Claude only...
+    python geo_benchmark_runner.py
     if errorlevel 1 (
         echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
-        pause
-        exit /b 1
+        pause & exit /b 1
     )
 )
 
 echo Benchmark complete. Updating dashboard...
 python update_dashboard.py
 if errorlevel 1 (
-    echo Pulling latest from GitHub first...
     git pull --rebase origin main
     python update_dashboard.py
     if errorlevel 1 (
-        echo ERROR: Dashboard update failed. Run manually: python update_dashboard.py
-        pause
-        exit /b 1
+        echo ERROR: Dashboard update failed.
+        pause & exit /b 1
     )
 )
 

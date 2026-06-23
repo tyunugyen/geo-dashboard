@@ -281,29 +281,80 @@
   <div class="grid-2" style="margin-top:24px;">
     <div class="card">
       <h3>✅ What We Track</h3>
-      <div style="background:#1a0a0a;border:1px solid #744210;border-radius:6px;padding:10px 12px;margin-bottom:12px;font-size:12px;">
+      <div style="background:#1a0a0a;border:1px solid #744210;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:12px;">
         <strong style="color:#f6ad55;">⚠️ June 2026 Anomalies:</strong>
-        <span style="color:#cbd5e0;"> GPT-5: aided SOV 0% (branded prompts not detected — detection issue, not a real signal).
-        o3 + o3-mini: aided SOV 57–86% (reasoning models respond differently to branded queries).
-        Gemini 3.1 Pro Preview: aided 28.6% (preview model, inconsistent responses).</span>
+        <span style="color:#cbd5e0;"> GPT-5: aided SOV 0% (detection issue — responses exist but format differs, not a real signal).
+        o3 + o3-mini: aided SOV 57–86% (reasoning models behave differently on branded queries — pulse check only).
+        Gemini 3.1 Pro Preview: aided 28.6% (preview model — dropped from regular rotation).</span>
       </div>
-      <table class="model-table">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Unaided SOV</th>
-            <th>Aided SOV</th>
-            <th>Rate Saver</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+
+      <div style="font-size:11px;color:#718096;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+        Primary Models — Official SOV Benchmark
+      </div>
+      <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">These models calculate the official monthly SOV score.</p>
+      <table class="model-table" style="margin-bottom:18px;">
+        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Why Primary</th></tr></thead>
         <tbody id="model-sov-rows">
-          <!-- Populated by data-binding script from data.json -->
-          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+          <tr>
+            <td><strong>GPT-4o</strong></td>
+            <td><span class="model-tag tag-red">0%</span></td>
+            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
+            <td style="color:#718096;">Most widely used consumer AI — highest merchant exposure</td>
+          </tr>
+          <tr>
+            <td><strong>Claude Sonnet 4.6</strong></td>
+            <td><span class="model-tag tag-red">0%</span></td>
+            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
+            <td style="color:#718096;">Strong citation behavior — frequently used for research queries</td>
+          </tr>
+          <tr>
+            <td><strong>Gemini 2.5 Pro</strong></td>
+            <td><span class="model-tag tag-red">0%</span></td>
+            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
+            <td style="color:#718096;">Google ecosystem — directly influences AI Overviews</td>
+          </tr>
+          <tr>
+            <td><strong>GPT-5</strong></td>
+            <td><span class="model-tag tag-red">0%</span></td>
+            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">0% ⚠️</span></td>
+            <td style="color:#718096;">Latest OpenAI flagship — anomaly being resolved</td>
+          </tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;">9-model benchmark via GoCode proxy (June 2026 W26). 70 prompts × 9 models = 630 data points. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
-    </div>
+
+      <div style="font-size:11px;color:#718096;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+        Pulse Check Models — Directional Signal Only
+      </div>
+      <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">Not included in official SOV. Monitored for emerging behavior and future promotion.</p>
+      <table class="model-table">
+        <thead><tr><th>Model</th><th>Signal</th><th>Why We Watch It</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>o3</strong></td>
+            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">57% aided</span></td>
+            <td style="color:#718096;">Reasoning model — behaves differently on branded queries</td>
+          </tr>
+          <tr>
+            <td><strong>o3-mini</strong></td>
+            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">86% aided</span></td>
+            <td style="color:#718096;">Same reasoning pattern as o3 — lower cost variant</td>
+          </tr>
+          <tr>
+            <td><strong>Perplexity</strong></td>
+            <td><span class="model-tag" style="background:#1a2744;color:#90cdf4;">Web search</span></td>
+            <td style="color:#718096;">Used in GoCaaS — real merchant exposure via product integration</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top:12px;padding:10px 12px;background:#0d1117;border:1px solid #2d3748;border-radius:6px;font-size:12px;color:#a0aec0;">
+        💡 <strong style="color:#cbd5e0;">Primary models drive the SOV number we report.</strong>
+        Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow.
+      </div>
+
+      <p style="font-size:11px;color:#4a5568;margin-top:10px;">
+        Automated via <code>geo_monthly_benchmark.bat</code> · 70 prompts × 3 primary models = 210 official data points/run
+      </p></div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;">Source of truth: <strong>Profound</strong> (blended SOV). AUDIT 6-model run for source-path diagnostics. Perplexity as leading indicator (cites inline).</p>

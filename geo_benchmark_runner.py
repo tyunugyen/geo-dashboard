@@ -10,11 +10,11 @@ import os, sys, csv, json, re, datetime
 from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "anthropic.claude-sonnet-4-5"  # Claude Sonnet 4.5 via GoCaaS proxy
+MODEL        = "claude-3-5-sonnet-20241022"  # Claude 3.5 Sonnet via GoCaaS proxy
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls
-PROXY_URL    = "https://caas.open-webui.godaddy.com/api"
+PROXY_URL    = "https://caas.open-webui.godaddy.com/api/v1"
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. Answer the user's question directly and concisely."
@@ -157,7 +157,7 @@ def color_for(sov, p1_str):
 # ── Run benchmark ─────────────────────────────────────────────────
 def run(api_key):
     import time
-    client   = OpenAI(api_key=api_key, base_url=PROXY_URL)
+    client   = OpenAI(api_key=api_key, base_url=PROXY_URL, timeout=60.0)
     run_id   = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-W%V")
     run_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     rows     = []

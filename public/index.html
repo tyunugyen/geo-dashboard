@@ -193,7 +193,7 @@
     <p id="meta-line">Baseline · June 2026 · Run ID: 2026-06-RUN-1 · Source: Claude (verified) + Citation + Community</p>
   </div>
   <div class="header-right">
-    <span class="badge">Claude verified · Prompt Bank v2.6</span>
+    <span class="badge">3 models · 70 prompts · Prompt Bank v2.6</span>
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
     <label class="upload-btn" title="Upload benchmark CSV to update dashboard">
       📂 Upload CSV
@@ -264,14 +264,36 @@
     <div class="card">
       <h3>✅ What We Track</h3>
       <table class="model-table">
-        <thead><tr><th>Source</th><th>Status</th><th>Coverage</th></tr></thead>
+        <thead><tr><th>Source</th><th>Unaided SOV</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td><strong>Claude</strong> (AI model)</td><td><span class="model-tag tag-red">0% unaided</span></td><td style="color:#68d391;">✅ Verified this run</td></tr>
-          <tr><td><strong>Citation tracking</strong></td><td><span class="model-tag tag-red">Absent 5/7</span></td><td style="color:#90cdf4;">✅ Tracked (CITE)</td></tr>
-          <tr><td><strong>Community signals</strong></td><td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">5 drafts</span></td><td style="color:#90cdf4;">✅ Tracked (AMPLIFY)</td></tr>
+          <tr>
+            <td><strong>Claude 3.5 Sonnet</strong></td>
+            <td><span class="model-tag tag-red" id="sov-claude">~0%</span></td>
+            <td style="color:#68d391;">✅ Running (API)</td>
+          </tr>
+          <tr>
+            <td><strong>ChatGPT GPT-4o</strong></td>
+            <td><span class="model-tag tag-red" id="sov-chatgpt">~0%</span></td>
+            <td style="color:#68d391;">✅ Running (API)</td>
+          </tr>
+          <tr>
+            <td><strong>Perplexity Sonar</strong></td>
+            <td><span class="model-tag tag-red" id="sov-perplexity">~0%</span></td>
+            <td style="color:#f6e05e;">⚡ Live web search (cites NerdWallet/Forbes)</td>
+          </tr>
+          <tr>
+            <td><strong>Citation tracking</strong></td>
+            <td><span class="model-tag tag-red">Absent 7/8</span></td>
+            <td style="color:#90cdf4;">✅ Tracked (CITE)</td>
+          </tr>
+          <tr>
+            <td><strong>Community signals</strong></td>
+            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">5 drafted</span></td>
+            <td style="color:#90cdf4;">✅ Tracked (AMPLIFY)</td>
+          </tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;">Other AI models (ChatGPT, Gemini, Perplexity, Copilot) are <strong>not shown</strong> — not yet run this cycle. Run <code>geo_audit_benchmark.py</code> to add them. We only display what we actually track.</p>
+      <p style="font-size:11px;color:#718096;margin-top:10px;">Gemini and Copilot are <strong>not in this benchmark</strong> — no stable API. Run <code>geo_audit_benchmark.py</code> to update all three model rows above. 70 prompts × 3 models = 210 data points per run.</p>
     </div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
@@ -391,6 +413,20 @@
                  '<div class="comp-bar-wrap"><div class="comp-bar-fill" style="'+fillStyle+'">'+barText+'</div></div>'+
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
+      }
+      // Per-model SOV rows
+      if (d.model_sov) {
+        var mc = document.getElementById('sov-claude');
+        if (mc && d.model_sov.claude) { mc.textContent = d.model_sov.claude.value; mc.style.color = d.model_sov.claude.color; }
+        var mg = document.getElementById('sov-chatgpt');
+        if (mg && d.model_sov.chatgpt) { mg.textContent = d.model_sov.chatgpt.value; mg.style.color = d.model_sov.chatgpt.color; }
+        var mp = document.getElementById('sov-perplexity');
+        if (mp && d.model_sov.perplexity) { mp.textContent = d.model_sov.perplexity.value; mp.style.color = d.model_sov.perplexity.color; }
+      }
+      // Update header badge with run metadata
+      if (d.meta && d.meta.models) {
+        var badge = document.querySelector('.badge:first-child');
+        if (badge) badge.textContent = '3 models · ' + (d.meta.prompt_count || 70) + ' prompts · Prompt Bank v2.6';
       }
     })
     .catch(function (err) {

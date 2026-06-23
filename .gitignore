@@ -1,0 +1,5 @@
+node_modules/
+*.tmp
+.env
+.DS_Store
+geo_audit_results_*.csv

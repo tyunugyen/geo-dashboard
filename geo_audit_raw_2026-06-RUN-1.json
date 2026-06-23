@@ -1,0 +1,1691 @@
+{
+  "run_id": "2026-06-RUN-1",
+  "run_date": "2026-06-23 00:23 UTC",
+  "models": [
+    "GPT-4o",
+    "Claude-3.5-Sonnet",
+    "Perplexity-Sonar-Large"
+  ],
+  "responses": [
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B1",
+      "prompt": "What is the cheapest payment processor for a small business?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B2",
+      "prompt": "What payment processor has the lowest in-person fees?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B3",
+      "prompt": "What payment processors charge no per-transaction fixed fee?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B4",
+      "prompt": "Which payment processors charge less than 3% per transaction?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B5",
+      "prompt": "What are the best payment processors for in-person sales?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B6",
+      "prompt": "What payment processor has no monthly fee and no per-transaction fee?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B7",
+      "prompt": "What is the most transparent payment processor with no hidden fees?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B8",
+      "prompt": "What is the cheapest payment processor for under $10,000 a month?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B9",
+      "prompt": "How can I reduce my credit card processing fees?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B10",
+      "prompt": "What are the hidden fees in credit card processing to watch out for?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B11",
+      "prompt": "Can I pass credit card fees to my customers legally?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B12",
+      "prompt": "How do I get 0% credit card processing for my business?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B13",
+      "prompt": "Can I charge customers a fee for paying with a credit card?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B14",
+      "prompt": "What is the best surcharging or cash discount program for small business?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B15",
+      "prompt": "What are the best alternatives to Square for small businesses?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B16",
+      "prompt": "What is the best POS system for a small business?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B17",
+      "prompt": "What is the cheapest POS system with no contract?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "B18",
+      "prompt": "Where can I get free POS hardware or a free credit card reader?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V1",
+      "prompt": "What is the best POS system for a coffee shop?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V2",
+      "prompt": "What is the best POS for a food truck?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V3",
+      "prompt": "What is the best POS for a small counter-service restaurant?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V4",
+      "prompt": "What is the best POS for a bakery?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V5",
+      "prompt": "What POS supports online ordering for a cafe or counter service restaurant?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V6",
+      "prompt": "What is the cheapest POS system for a coffee shop or cafe?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V7",
+      "prompt": "What is the best POS system for a retail store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V8",
+      "prompt": "What is the cheapest POS system for a retail store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V9",
+      "prompt": "How do I lower credit card processing fees for my retail store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V10",
+      "prompt": "What is the best POS for a retail store with no contract?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V11",
+      "prompt": "I process about $10,000 a month in cards, should I switch from Square?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V12",
+      "prompt": "What is the best POS for a small clothing or apparel store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V13",
+      "prompt": "What is the best POS for a boutique clothing store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V14",
+      "prompt": "What POS system is best for a gift shop or specialty store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V15",
+      "prompt": "What is the best POS system with inventory management for retail?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V16",
+      "prompt": "What is the best affordable POS for a small retail shop?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V17",
+      "prompt": "What POS works for a retail store with both in-person and online sales?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V18",
+      "prompt": "What POS systems support buy online pick up in store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V19",
+      "prompt": "Is Clover or Square cheaper for a retail store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V20",
+      "prompt": "What is the best POS for a retail store with multiple locations?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V21",
+      "prompt": "How much does a retail POS system cost per month?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V22",
+      "prompt": "What is the best payment processor for service businesses with no hardware?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V23",
+      "prompt": "What is the best way to send professional invoices and accept payments?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V24",
+      "prompt": "What is the best POS system for a hair salon?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V25",
+      "prompt": "What payment processors accept HSA and FSA cards?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V26",
+      "prompt": "What payment system works for an auto repair shop?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V27",
+      "prompt": "What is the best way for a small service business to accept credit cards?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V28",
+      "prompt": "What is the best payment processor for a chiropractic practice?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "V29",
+      "prompt": "What payment system works for a medical office or clinic?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L1",
+      "prompt": "What payment processor lets me send invoices from my own business email?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L2",
+      "prompt": "How do contractors and home service businesses accept credit card payments?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L3",
+      "prompt": "How much can I save by switching from Square to a lower-fee processor?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L4",
+      "prompt": "How do I switch payment processors without disrupting my business?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L5",
+      "prompt": "What payment processor offers free onboarding and migration support?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "L6",
+      "prompt": "What is the best merchant cash advance for small businesses?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "S1",
+      "prompt": "Which payment processors offer 24/7 phone support?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "S2",
+      "prompt": "What POS systems offer live human customer support?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "S3",
+      "prompt": "How do I switch from Square without losing data?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "S4",
+      "prompt": "What payment processor helps you migrate for free?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "S5",
+      "prompt": "What POS system has the best customer support?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "H1",
+      "prompt": "What is GoDaddy Payments?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "H2",
+      "prompt": "GoDaddy Payments vs Square",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "H3",
+      "prompt": "GoDaddy Payments vs Helcim",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "H4",
+      "prompt": "GoDaddy Payments vs Clover",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "H5",
+      "prompt": "What is Rate Saver GoDaddy Payments?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P1",
+      "prompt": "What payment processor should I switch to from Toast?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P2",
+      "prompt": "What is the best payment processor for WooCommerce?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P3",
+      "prompt": "What payment processor integrates natively with WordPress?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P4",
+      "prompt": "What is the best payment processor for a WordPress website with a physical store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P5",
+      "prompt": "GoDaddy Payments vs Toast",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P6",
+      "prompt": "GoDaddy Payments vs Shopify Payments",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "GPT-4o",
+      "prompt_id": "P7",
+      "prompt": "What is the best POS for a convenience or liquor store?",
+      "response": "[ERROR: No module named 'openai']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B1",
+      "prompt": "What is the cheapest payment processor for a small business?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B2",
+      "prompt": "What payment processor has the lowest in-person fees?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B3",
+      "prompt": "What payment processors charge no per-transaction fixed fee?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B4",
+      "prompt": "Which payment processors charge less than 3% per transaction?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B5",
+      "prompt": "What are the best payment processors for in-person sales?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B6",
+      "prompt": "What payment processor has no monthly fee and no per-transaction fee?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B7",
+      "prompt": "What is the most transparent payment processor with no hidden fees?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B8",
+      "prompt": "What is the cheapest payment processor for under $10,000 a month?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B9",
+      "prompt": "How can I reduce my credit card processing fees?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B10",
+      "prompt": "What are the hidden fees in credit card processing to watch out for?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B11",
+      "prompt": "Can I pass credit card fees to my customers legally?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B12",
+      "prompt": "How do I get 0% credit card processing for my business?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B13",
+      "prompt": "Can I charge customers a fee for paying with a credit card?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B14",
+      "prompt": "What is the best surcharging or cash discount program for small business?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B15",
+      "prompt": "What are the best alternatives to Square for small businesses?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B16",
+      "prompt": "What is the best POS system for a small business?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B17",
+      "prompt": "What is the cheapest POS system with no contract?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "B18",
+      "prompt": "Where can I get free POS hardware or a free credit card reader?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V1",
+      "prompt": "What is the best POS system for a coffee shop?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V2",
+      "prompt": "What is the best POS for a food truck?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V3",
+      "prompt": "What is the best POS for a small counter-service restaurant?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V4",
+      "prompt": "What is the best POS for a bakery?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V5",
+      "prompt": "What POS supports online ordering for a cafe or counter service restaurant?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V6",
+      "prompt": "What is the cheapest POS system for a coffee shop or cafe?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V7",
+      "prompt": "What is the best POS system for a retail store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V8",
+      "prompt": "What is the cheapest POS system for a retail store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V9",
+      "prompt": "How do I lower credit card processing fees for my retail store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V10",
+      "prompt": "What is the best POS for a retail store with no contract?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V11",
+      "prompt": "I process about $10,000 a month in cards, should I switch from Square?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V12",
+      "prompt": "What is the best POS for a small clothing or apparel store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V13",
+      "prompt": "What is the best POS for a boutique clothing store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V14",
+      "prompt": "What POS system is best for a gift shop or specialty store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V15",
+      "prompt": "What is the best POS system with inventory management for retail?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V16",
+      "prompt": "What is the best affordable POS for a small retail shop?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V17",
+      "prompt": "What POS works for a retail store with both in-person and online sales?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V18",
+      "prompt": "What POS systems support buy online pick up in store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V19",
+      "prompt": "Is Clover or Square cheaper for a retail store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V20",
+      "prompt": "What is the best POS for a retail store with multiple locations?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V21",
+      "prompt": "How much does a retail POS system cost per month?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V22",
+      "prompt": "What is the best payment processor for service businesses with no hardware?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V23",
+      "prompt": "What is the best way to send professional invoices and accept payments?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V24",
+      "prompt": "What is the best POS system for a hair salon?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V25",
+      "prompt": "What payment processors accept HSA and FSA cards?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V26",
+      "prompt": "What payment system works for an auto repair shop?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V27",
+      "prompt": "What is the best way for a small service business to accept credit cards?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V28",
+      "prompt": "What is the best payment processor for a chiropractic practice?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "V29",
+      "prompt": "What payment system works for a medical office or clinic?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L1",
+      "prompt": "What payment processor lets me send invoices from my own business email?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L2",
+      "prompt": "How do contractors and home service businesses accept credit card payments?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L3",
+      "prompt": "How much can I save by switching from Square to a lower-fee processor?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L4",
+      "prompt": "How do I switch payment processors without disrupting my business?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L5",
+      "prompt": "What payment processor offers free onboarding and migration support?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "L6",
+      "prompt": "What is the best merchant cash advance for small businesses?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "S1",
+      "prompt": "Which payment processors offer 24/7 phone support?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "S2",
+      "prompt": "What POS systems offer live human customer support?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "S3",
+      "prompt": "How do I switch from Square without losing data?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "S4",
+      "prompt": "What payment processor helps you migrate for free?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "S5",
+      "prompt": "What POS system has the best customer support?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "H1",
+      "prompt": "What is GoDaddy Payments?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "H2",
+      "prompt": "GoDaddy Payments vs Square",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "H3",
+      "prompt": "GoDaddy Payments vs Helcim",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "H4",
+      "prompt": "GoDaddy Payments vs Clover",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "H5",
+      "prompt": "What is Rate Saver GoDaddy Payments?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P1",
+      "prompt": "What payment processor should I switch to from Toast?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P2",
+      "prompt": "What is the best payment processor for WooCommerce?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P3",
+      "prompt": "What payment processor integrates natively with WordPress?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P4",
+      "prompt": "What is the best payment processor for a WordPress website with a physical store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P5",
+      "prompt": "GoDaddy Payments vs Toast",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P6",
+      "prompt": "GoDaddy Payments vs Shopify Payments",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Claude-3.5-Sonnet",
+      "prompt_id": "P7",
+      "prompt": "What is the best POS for a convenience or liquor store?",
+      "response": "[ERROR: No module named 'anthropic']",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B1",
+      "prompt": "What is the cheapest payment processor for a small business?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B2",
+      "prompt": "What payment processor has the lowest in-person fees?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B3",
+      "prompt": "What payment processors charge no per-transaction fixed fee?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B4",
+      "prompt": "Which payment processors charge less than 3% per transaction?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B5",
+      "prompt": "What are the best payment processors for in-person sales?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B6",
+      "prompt": "What payment processor has no monthly fee and no per-transaction fee?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B7",
+      "prompt": "What is the most transparent payment processor with no hidden fees?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B8",
+      "prompt": "What is the cheapest payment processor for under $10,000 a month?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B9",
+      "prompt": "How can I reduce my credit card processing fees?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B10",
+      "prompt": "What are the hidden fees in credit card processing to watch out for?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B11",
+      "prompt": "Can I pass credit card fees to my customers legally?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B12",
+      "prompt": "How do I get 0% credit card processing for my business?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B13",
+      "prompt": "Can I charge customers a fee for paying with a credit card?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B14",
+      "prompt": "What is the best surcharging or cash discount program for small business?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B15",
+      "prompt": "What are the best alternatives to Square for small businesses?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B16",
+      "prompt": "What is the best POS system for a small business?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B17",
+      "prompt": "What is the cheapest POS system with no contract?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "B18",
+      "prompt": "Where can I get free POS hardware or a free credit card reader?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V1",
+      "prompt": "What is the best POS system for a coffee shop?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V2",
+      "prompt": "What is the best POS for a food truck?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V3",
+      "prompt": "What is the best POS for a small counter-service restaurant?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V4",
+      "prompt": "What is the best POS for a bakery?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V5",
+      "prompt": "What POS supports online ordering for a cafe or counter service restaurant?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V6",
+      "prompt": "What is the cheapest POS system for a coffee shop or cafe?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V7",
+      "prompt": "What is the best POS system for a retail store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V8",
+      "prompt": "What is the cheapest POS system for a retail store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V9",
+      "prompt": "How do I lower credit card processing fees for my retail store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V10",
+      "prompt": "What is the best POS for a retail store with no contract?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V11",
+      "prompt": "I process about $10,000 a month in cards, should I switch from Square?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V12",
+      "prompt": "What is the best POS for a small clothing or apparel store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V13",
+      "prompt": "What is the best POS for a boutique clothing store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V14",
+      "prompt": "What POS system is best for a gift shop or specialty store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V15",
+      "prompt": "What is the best POS system with inventory management for retail?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V16",
+      "prompt": "What is the best affordable POS for a small retail shop?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V17",
+      "prompt": "What POS works for a retail store with both in-person and online sales?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V18",
+      "prompt": "What POS systems support buy online pick up in store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V19",
+      "prompt": "Is Clover or Square cheaper for a retail store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V20",
+      "prompt": "What is the best POS for a retail store with multiple locations?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V21",
+      "prompt": "How much does a retail POS system cost per month?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V22",
+      "prompt": "What is the best payment processor for service businesses with no hardware?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V23",
+      "prompt": "What is the best way to send professional invoices and accept payments?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V24",
+      "prompt": "What is the best POS system for a hair salon?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V25",
+      "prompt": "What payment processors accept HSA and FSA cards?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V26",
+      "prompt": "What payment system works for an auto repair shop?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V27",
+      "prompt": "What is the best way for a small service business to accept credit cards?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V28",
+      "prompt": "What is the best payment processor for a chiropractic practice?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "V29",
+      "prompt": "What payment system works for a medical office or clinic?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L1",
+      "prompt": "What payment processor lets me send invoices from my own business email?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L2",
+      "prompt": "How do contractors and home service businesses accept credit card payments?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L3",
+      "prompt": "How much can I save by switching from Square to a lower-fee processor?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L4",
+      "prompt": "How do I switch payment processors without disrupting my business?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L5",
+      "prompt": "What payment processor offers free onboarding and migration support?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "L6",
+      "prompt": "What is the best merchant cash advance for small businesses?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "S1",
+      "prompt": "Which payment processors offer 24/7 phone support?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "S2",
+      "prompt": "What POS systems offer live human customer support?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "S3",
+      "prompt": "How do I switch from Square without losing data?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "S4",
+      "prompt": "What payment processor helps you migrate for free?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "S5",
+      "prompt": "What POS system has the best customer support?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "H1",
+      "prompt": "What is GoDaddy Payments?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "H2",
+      "prompt": "GoDaddy Payments vs Square",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "H3",
+      "prompt": "GoDaddy Payments vs Helcim",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "H4",
+      "prompt": "GoDaddy Payments vs Clover",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "H5",
+      "prompt": "What is Rate Saver GoDaddy Payments?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P1",
+      "prompt": "What payment processor should I switch to from Toast?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P2",
+      "prompt": "What is the best payment processor for WooCommerce?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P3",
+      "prompt": "What payment processor integrates natively with WordPress?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P4",
+      "prompt": "What is the best payment processor for a WordPress website with a physical store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P5",
+      "prompt": "GoDaddy Payments vs Toast",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P6",
+      "prompt": "GoDaddy Payments vs Shopify Payments",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    },
+    {
+      "run_id": "2026-06-RUN-1",
+      "model": "Perplexity-Sonar-Large",
+      "prompt_id": "P7",
+      "prompt": "What is the best POS for a convenience or liquor store?",
+      "response": "[ERROR: 401 Client Error: Unauthorized for url: https://api.perplexity.ai/chat/completions]",
+      "cited_urls": ""
+    }
+  ]
+}

@@ -169,11 +169,30 @@ function scoreCSV(rows) {
   const uC=colorFor(uSOV,'40%').color;
   const aC=aSOV>=90?'#68d391':aSOV>=70?'#f6e05e':'#fc8181';
   const rC=colorFor(rSOV,'25%').color;
-  return{runId,period:periodFromRunId(runId),uSOV,aSOV,rSOV,categories,uC,aC,rC};
+  // Per-model SOV breakdown
+  const modelSOV={};
+  const modelsArr=[...new Set(rows.map(r=>r.model||'').filter(Boolean))];
+  modelsArr.forEach(m=>{
+    const mRows=u.filter(r=>r.model===m);
+    if(!mRows.length) return;
+    const mSOV=pct(mRows.filter(hit).length,mRows.length);
+    const mCol=colorFor(mSOV,'40%').color;
+    const key=m.toLowerCase().includes('claude')?'claude'
+      :(m.toLowerCase().includes('gpt')||m.toLowerCase().includes('openai'))?'chatgpt'
+      :m.toLowerCase().includes('perplexity')?'perplexity'
+      :m.toLowerCase().replace(/[^a-z]/g,'_');
+    modelSOV[key]={value:fmt(mSOV),color:mCol};
+  });
+  const models=modelsArr.join(', ')||'Claude, GPT-4o, Perplexity';
+  const promptCount=new Set(rows.map(r=>r.prompt_id||'')).size||70;
+  return{runId,period:periodFromRunId(runId),uSOV,aSOV,rSOV,
+         categories,uC,aC,rC,modelSOV,models,promptCount};
 }
 function buildNewData(s, existing) {
   return {
     meta:{label:'Monthly',period:s.period,run_id:s.runId,sources:'Benchmark CSV upload',
+          models:s.models||'Claude, GPT-4o, Perplexity',
+          prompt_count:s.promptCount||70,
           prompt_bank_version:(existing.meta||{}).prompt_bank_version||'2.6'},
     kpis:{
       unaided_sov:{value:fmt(s.uSOV),fill:Math.round(s.uSOV),color:s.uC},
@@ -181,8 +200,9 @@ function buildNewData(s, existing) {
       helcim_gap: (existing.kpis||{}).helcim_gap||{value:'25pts',fill:0,color:'#f6e05e'},
       tech_health:{value:fmt(s.rSOV),fill:Math.round(s.rSOV),color:s.rC},
     },
-    categories: s.categories,
-    competitors:(existing.competitors||[]),
+    categories:  s.categories,
+    competitors: (existing.competitors||[]),
+    model_sov:   s.modelSOV||{},
   };
 }
 

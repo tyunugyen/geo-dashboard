@@ -4,6 +4,7 @@
   "description": "GoDaddy Payments GEO Visibility Dashboard",
   "main": "server.js",
   "scripts": {
+    "build": "echo build",
     "start": "node server.js"
   },
   "engines": {

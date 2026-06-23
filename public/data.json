@@ -4,7 +4,9 @@
     "period": "June 2026",
     "run_id": "2026-06-RUN-1",
     "sources": "Claude (verified) + Citation + Community",
-    "prompt_bank_version": "2.6"
+    "prompt_bank_version": "2.6",
+    "models": "Claude 3.5 Sonnet, GPT-4o, Perplexity Sonar",
+    "prompt_count": 70
   },
   "kpis": {
     "unaided_sov": {
@@ -152,5 +154,19 @@
       "label": "No aggregator label \u274c",
       "godaddy": true
     }
-  ]
+  ],
+  "model_sov": {
+    "claude": {
+      "value": "~0%",
+      "color": "#fc8181"
+    },
+    "chatgpt": {
+      "value": "~0%",
+      "color": "#fc8181"
+    },
+    "perplexity": {
+      "value": "~0%",
+      "color": "#fc8181"
+    }
+  }
 }

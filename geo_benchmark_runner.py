@@ -10,7 +10,7 @@ import os, sys, csv, json, re, datetime
 from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "anthropic.claude-sonnet-4-5"  # Claude Sonnet 4.5 via GoCode prod proxy
+MODEL        = "claude-3-7-sonnet-20250219"  # Confirmed in Confluence: GoCode - Pathway to LLM(s)
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls

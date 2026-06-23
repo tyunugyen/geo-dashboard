@@ -201,14 +201,14 @@
 <div class="header">
   <div class="header-left">
     <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p id="meta-line">Baseline · June 2026 · Run ID: 2026-06-RUN-1 · Source: Claude · GPT-4o · Gemini 2.5 Pro</p>
+    <p id="meta-line">Loading...</p>
   </div>
   <div class="header-right">
     <span class="badge">Prompt Bank v2.6 · 9 models · June 2026</span>
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
     <!-- CSV upload removed — dashboard updates automatically via geo_monthly_benchmark.bat -->
   </div>
-</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 50 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
+</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
 <div class="last-updated-bar">
   <span>Last updated: <strong id="lu-date">—</strong>
     &nbsp;·&nbsp; Run: <span class="lu-run" id="lu-run">—</span>
@@ -355,7 +355,7 @@
       <div class="action-row">
         <div class="action-rank">3</div>
         <div class="action-body">
-          <div class="action-title">Post 5 reviewed community replies (fee, surcharge, WooCommerce, support, switching)</div>
+          <div class="action-title">Post 5 reviewed community replies (fee, surcharge, support, switching)</div>
           <div class="action-meta">Owner: Social/Community + Legal · Root cause: Citation gap (community)</div>
           <div class="action-window">⏱ Ongoing → 3-4 months to AI index</div>
           <div style="margin-top:6px;"><a class="link-pill" href="action-amplify.html">→ AMPLIFY reply drafts + live threads</a></div>
@@ -365,7 +365,7 @@
       <div class="action-row">
         <div class="action-rank">4</div>
         <div class="action-body">
-          <div class="action-title">Build WooCommerce + coffee shop vertical pages</div>
+          <div class="action-title">Build coffee shop + retail store vertical pages</div>
           <div class="action-meta">Owner: Content/SEO · Root cause: Content gap</div>
           <div class="action-window">⏱ 1-2 months → next AUDIT</div>
           <div style="margin-top:6px;"><a class="link-pill" href="action-build.html">→ BUILD drafts</a></div>
@@ -444,11 +444,11 @@
     .then(function (r) { if (!r.ok) throw new Error('data.json HTTP ' + r.status); return r.json(); })
     .then(function (d) {
       var meta = document.getElementById('meta-line');
-      if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Last updated: ' + d.meta.run_date : '') + ' \u00b7 ' + (d.meta.sources||'');
+      if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 9 models';
       // Last Updated bar
       if (d.meta) {
         var luDate = document.getElementById('lu-date');
-        if (luDate) luDate.textContent = (d.meta.run_date || d.meta.period || '—');
+        if (luDate) luDate.textContent = (d.meta.run_date || '—') + (d.meta.run_time ? ' ' + d.meta.run_time : '');
         var luRun = document.getElementById('lu-run');
         if (luRun) luRun.textContent = d.meta.run_id || '—';
         var luMod = document.getElementById('lu-models');
@@ -513,7 +513,7 @@
       // Update header badge
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.6') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
       }
     })
     .catch(function (err) {
@@ -623,7 +623,8 @@
     }
     var compRows=document.getElementById('comp-rows');
     if(compRows&&d.competitors){
-      compRows.innerHTML=d.competitors.map(function(c){
+      var sortedComps=d.competitors.slice().sort(function(a,b){return (b.sov||0)-(a.sov||0)});
+      compRows.innerHTML=sortedComps.map(function(c){
         var ns='color:'+c.color+';'+(c.godaddy?'font-weight:900;':'');
         var fs='width:'+c.sov+'%;background:'+c.bar+';'+(c.godaddy?'min-width:8px;':'');
         var bt=c.godaddy?'':(c.sov+'%');

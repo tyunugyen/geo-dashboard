@@ -1,8 +1,8 @@
 {
   "meta": {
     "label": "Monthly",
-    "period": "Unknown",
-    "run_id": "2026-06-W26",
+    "period": "June 2026",
+    "run_id": "2026-06-RUN-1",
     "sources": "Benchmark CSV",
     "prompt_bank_version": "2.6"
   },
@@ -13,9 +13,9 @@
       "color": "#fc8181"
     },
     "aided_sov": {
-      "value": "100%",
-      "fill": 100,
-      "color": "#68d391"
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
     },
     "helcim_gap": {
       "value": "25pts",
@@ -23,9 +23,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "12.7%",
-      "fill": 13,
-      "color": "#f6e05e"
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
     }
   },
   "categories": [

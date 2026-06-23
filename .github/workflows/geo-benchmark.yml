@@ -1,0 +1,52 @@
+name: GEO Benchmark
+
+on:
+  # Run every Monday at 9am UTC
+  schedule:
+    - cron: '0 9 * * 1'
+
+  # Also allow manual trigger from GitHub UI
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Why are you running this manually?'
+        required: false
+        default: 'Manual benchmark run'
+
+jobs:
+  benchmark:
+    name: Run GEO Benchmark
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # needed to push data.json + CSV back to repo
+
+    steps:
+      # 1. Check out the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Install Anthropic SDK (only dependency)
+      - name: Install dependencies
+        run: pip install anthropic
+
+      # 4. Run the benchmark
+      - name: Run GEO benchmark
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python geo_benchmark_runner.py
+
+      # 5. Commit and push results
+      - name: Commit and push results
+        run: |
+          git config user.name  "GEO Benchmark Bot"
+          git config user.email "geo-benchmark@godaddy.com"
+          git add public/data.json benchmarks/
+          git diff --staged --quiet || git commit -m "GEO benchmark auto-update: $(date -u +%Y-%m-%d)"
+          git push

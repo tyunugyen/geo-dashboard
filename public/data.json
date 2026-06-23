@@ -1,11 +1,9 @@
 {
   "meta": {
-    "label": "Baseline",
-    "period": "June 2026",
-    "run_id": "2026-06-RUN-1",
-    "sources": "Claude benchmark (GoDaddy GEO Agent)",
-    "models": "Claude 3.5 Sonnet",
-    "prompt_count": 70,
+    "label": "Monthly",
+    "period": "Unknown",
+    "run_id": "2026-06-W26",
+    "sources": "Benchmark CSV",
     "prompt_bank_version": "2.6"
   },
   "kpis": {
@@ -25,9 +23,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "0%",
-      "fill": 0,
-      "color": "#fc8181"
+      "value": "12.7%",
+      "fill": 13,
+      "color": "#f6e05e"
     }
   },
   "categories": [
@@ -154,11 +152,5 @@
       "label": "No aggregator label \u274c",
       "godaddy": true
     }
-  ],
-  "model_sov": {
-    "claude": {
-      "value": "0%",
-      "color": "#fc8181"
-    }
-  }
+  ]
 }

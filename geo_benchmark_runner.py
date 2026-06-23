@@ -10,7 +10,7 @@ import os, sys, csv, json, re, datetime
 from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "claude-3-7-sonnet-20250219"  # Confirmed in Confluence: GoCode - Pathway to LLM(s)
+MODEL        = "claude-sonnet-4-6"  # Latest Claude Sonnet available in proxy
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls
@@ -174,9 +174,9 @@ def run(api_key):
             messages=[{"role":"user","content":"Say OK"}]
         )
         test_resp = test.choices[0].message.content if test.choices else ""
-        print(f"✅ Connected — response: {repr(test_resp[:30])}")
+        print(f"[OK] Connected — response: {repr(test_resp[:30])}")
     except Exception as e:
-        print(f"\n❌ Connection FAILED: {e}")
+        print(f"\n[FAIL] Connection FAILED: {e}")
         print(f"   URL: {PROXY_URL}")
         print(f"   Model: {MODEL}")
         sys.exit(1)
@@ -225,9 +225,9 @@ def run(api_key):
         })
         if ptype == "B":
             # Branded prompt — always log the detection result for debugging
-            status = "✅ GD mentioned (aided)" if gd=="Y" else "❌ GD NOT detected (aided — check response)"
+            status = "[OK] GD mentioned (aided)" if gd=="Y" else "[FAIL] GD NOT detected (aided — check response)"
         else:
-            status = "✅ GD mentioned" if gd=="Y" else "—"
+            status = "[OK] GD mentioned" if gd=="Y" else "—"
         print(status)
         time.sleep(DELAY_SECS)
 

@@ -292,7 +292,15 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200,{'Content-Type':'text/html'});res.end(d2);
       });return;
     }
-    res.writeHead(200,{'Content-Type':MIME[path.extname(fp)]||'application/octet-stream'});
+    const ctype = MIME[path.extname(fp)] || 'application/octet-stream';
+    const noCache = fp.endsWith('.html') || fp.endsWith('.json');
+    const headers = {'Content-Type': ctype};
+    if (noCache) {
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+      headers['Pragma'] = 'no-cache';
+      headers['Expires'] = '0';
+    }
+    res.writeHead(200, headers);
     res.end(data);
   });
 });

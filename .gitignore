@@ -2,4 +2,10 @@ node_modules/
 *.tmp
 .env
 .DS_Store
+
+# Raw benchmark output at root — do NOT commit these
 /geo_audit_results_*.csv
+/geo_audit_raw_*.json
+
+# benchmarks/ folder is intentionally tracked in git
+# (this is where update_dashboard.py copies CSVs for audit trail)

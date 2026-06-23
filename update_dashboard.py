@@ -212,8 +212,10 @@ def main():
     print(f"  Copied CSV to: benchmarks/{os.path.basename(args.csv_path)}")
 
     steps = [
-        (["add", "public/data.json", f"benchmarks/{os.path.basename(args.csv_path)}"],
-         "Staging data.json + CSV"),
+        (["add", "public/data.json"],
+         "Staging data.json"),
+        (["add", "-f", f"benchmarks/{os.path.basename(args.csv_path)}"],
+         "Staging CSV"),
         (["commit", "-m", commit_msg],     "Committing"),
         (["push"],                          "Pushing to GitHub → PaaS will redeploy"),
     ]

@@ -293,5 +293,21 @@ def main():
     print(f"  Dashboard: https://host.beta.godaddy.com/paas/projects/kz6jwep09q")
     print(f"{'='*60}\n")
 
+    # Print ready-to-paste Claude session brief
+    print("─"*60)
+    print("  COPY THIS → paste into Claude to start your GEO session:")
+    print("─"*60)
+    print(f"""
+Run monthly GEO session.
+
+Run ID: {scored['run_id']}
+Period: {scored['period']}
+Unaided SOV: {fmt(scored['u_sov'])}  ({scored['u_count']} unaided prompts)
+Aided SOV:   {fmt(scored['a_sov'])}  ({scored['a_count']} aided prompts)
+Rate Saver:  {fmt(scored['r_sov'])}
+CSV: benchmarks/{os.path.basename(args.csv_path)}
+""")
+    print("─"*60)
+
 if __name__ == "__main__":
     main()

@@ -553,19 +553,21 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Model SOV table — render all models from data.json
+      // Model SOV table — render PRIMARY models only from data.json
       var modelRows = document.getElementById('model-sov-rows');
-      if (modelRows && d.model_sov) {
-        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
-        var rows = Object.values(d.model_sov).map(function(m) {
-          var icon = STATUS_ICON[m.status] || '—';
-          var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
+      if (modelRows && d.primary_models) {
+        var rows = d.primary_models.map(function(m) {
+          var aidedColor = m.a_color || '#68d391';
+          var whyPrimary = '';
+          if (m.name.includes('GPT-4o')) whyPrimary = 'Most widely used consumer AI — highest merchant exposure';
+          else if (m.name.includes('Claude')) whyPrimary = 'Leading reasoning model — high quality responses';
+          else if (m.name.includes('Gemini')) whyPrimary = 'Google\'s flagship — growing market share';
+
           return '<tr>' +
             '<td><strong>' + (m.name||'') + '</strong></td>' +
             '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-            '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#fc8181') + ';">' + (m.aided||'—') + '</span></td>' +
-            '<td style="color:#718096;">' + (m.rs||'—') + '</td>' +
-            '<td>' + icon + note + '</td>' +
+            '<td><span class="model-tag" style="background:#1a2e1a;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
+            '<td style="color:#718096;">' + whyPrimary + '</td>' +
             '</tr>';
         }).join('');
         modelRows.innerHTML = rows;
@@ -573,7 +575,9 @@
       // Update header badge
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
+        var primaryCount = (d.primary_models||[]).length;
+        var totalCount = (d.primary_models||[]).length + (d.pulse_check_models||[]).length;
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + primaryCount + ' primary + ' + (d.pulse_check_models||[]).length + ' pulse · ' + (d.meta.period || 'June 2026');
       }
     })
     .catch(function (err) {

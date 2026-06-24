@@ -3,10 +3,9 @@
     "label": "Monthly",
     "period": "June 2026",
     "run_id": "2026-06-W26",
-    "sources": "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, GPT-5, o3, o3-mini, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Gemini 2.5 Flash, Kimi K2.5, Qwen 3 235B (GoCode proxy)",
-    "prompt_bank_version": "2.8",
-    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, GPT-5, o3, o3-mini, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Gemini 2.5 Flash, Kimi K2.5, Qwen 3 235B",
-    "prompt_count": 70
+    "sources": "Claude-Sonnet-4.5-GoCaaS (GoCode proxy)",
+    "prompt_bank_version": "2.6",
+    "models": "Claude-Sonnet-4.5-GoCaaS"
   },
   "kpis": {
     "unaided_sov": {
@@ -156,189 +155,11 @@
     }
   ],
   "model_sov": {
-    "claude_sonnet_4_6": {
-      "name": "Claude Sonnet 4.6",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "claude_haiku_4_5_20251001": {
-      "name": "Claude Haiku 4.5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gpt_4o": {
-      "name": "GPT-4o",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gpt_5": {
-      "name": "GPT-5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "20.6%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "o3": {
-      "name": "o3",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    },
-    "o3_mini": {
-      "name": "o3-mini",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "4.8%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gemini_2_5_pro": {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "3.2%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gemini_3_1_pro_preview": {
-      "name": "Gemini 3.1 Pro Preview",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    },
-    "gemini_2_5_flash": {
-      "name": "Gemini 2.5 Flash",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
+    "claude": {
+      "value": "0%",
+      "color": "#fc8181"
     }
   },
-  "primary_models": [
-    {
-      "name": "Claude Sonnet 4.6",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "Claude Haiku 4.5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "GPT-4o",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "GPT-5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "20.6%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "3.2%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "Gemini 2.5 Flash",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    }
-  ],
-  "pulse_check_models": [
-    {
-      "name": "o3",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "6.3%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    },
-    {
-      "name": "o3-mini",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "4.8%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "Gemini 3.1 Pro Preview",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    }
-  ]
+  "primary_models": [],
+  "pulse_check_models": []
 }

@@ -68,8 +68,9 @@ def score_comparison(rows):
 
     # Define primary models (used for official SOV calculation)
     # Pulse check models (for trend monitoring only): o3, o3-mini, Gemini 3.1 Pro Preview
-    # All other models are primary
+    # Excluded models (not tracked): Kimi, Qwen
     PULSE_CHECK_MODELS = ["o3", "o3-mini", "gemini-3.1-pro-preview"]
+    EXCLUDED_MODELS = ["kimi-k2.5", "qwen3-235b-a22b-2507"]
 
     model_sov = {}
     primary_models = []
@@ -87,7 +88,13 @@ def score_comparison(rows):
         r_sov = parse_pct(success_models[0].get("rate_saver_sov","0"))
 
     for r in rows:
-        mid   = r.get("model_id", r.get("model_name","")).lower().replace("-","_").replace(".","_").replace(" ","_")
+        model_id_clean = r.get("model_id","").lower()
+
+        # Skip excluded models (Kimi, Qwen)
+        if model_id_clean in EXCLUDED_MODELS:
+            continue
+
+        mid   = model_id_clean.replace("-","_").replace(".","_").replace(" ","_")
         mname = r.get("model_name", mid)
         aided = parse_pct(r.get("aided_sov","0"))
         a_color = "#68d391" if aided >= 90 else "#f6e05e" if aided >= 60 else "#fc8181"
@@ -109,7 +116,6 @@ def score_comparison(rows):
         # Categorize as primary or pulse check
         # Pulse check: o3, o3-mini, Gemini 3.1 Pro Preview only
         # Everything else is primary
-        model_id_clean = r.get("model_id","").lower()
         if model_id_clean in PULSE_CHECK_MODELS:
             pulse_check_models.append(model_entry)
         else:

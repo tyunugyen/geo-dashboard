@@ -67,15 +67,9 @@ def score_comparison(rows):
     STATUS_COLOR = {"success": "#68d391", "partial": "#f6e05e", "anomaly": "#fc8181", "error": "#fc8181"}
 
     # Define primary models (used for official SOV calculation)
-    # These are the models run by geo_monthly_benchmark.bat that we consider primary
-    PRIMARY_MODELS = [
-        "claude-sonnet-4-6",
-        "claude-haiku-4-5-20251001",
-        "gpt-4o",
-        "gpt-5",
-        "gemini-2.5-pro",
-        "gemini-2.5-flash"
-    ]
+    # Pulse check models (for trend monitoring only): o3, o3-mini, Gemini 3.1 Pro Preview
+    # All other models are primary
+    PULSE_CHECK_MODELS = ["o3", "o3-mini", "gemini-3.1-pro-preview"]
 
     model_sov = {}
     primary_models = []
@@ -113,11 +107,13 @@ def score_comparison(rows):
         model_sov[mid] = model_entry
 
         # Categorize as primary or pulse check
+        # Pulse check: o3, o3-mini, Gemini 3.1 Pro Preview only
+        # Everything else is primary
         model_id_clean = r.get("model_id","").lower()
-        if any(pm in model_id_clean for pm in PRIMARY_MODELS):
-            primary_models.append(model_entry)
-        else:
+        if model_id_clean in PULSE_CHECK_MODELS:
             pulse_check_models.append(model_entry)
+        else:
+            primary_models.append(model_entry)
 
     models_str = ", ".join(r.get("model_name","") for r in rows if r.get("model_name"))
 

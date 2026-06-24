@@ -327,6 +327,26 @@
       "note": "",
       "u_color": "#fc8181",
       "a_color": "#68d391"
+    },
+    {
+      "name": "Kimi K2.5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "9.5%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Qwen 3 235B",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
     }
   ],
   "pulse_check_models": [
@@ -359,26 +379,6 @@
       "note": "",
       "u_color": "#fc8181",
       "a_color": "#fc8181"
-    },
-    {
-      "name": "Kimi K2.5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "9.5%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    {
-      "name": "Qwen 3 235B",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
     }
   ]
 }

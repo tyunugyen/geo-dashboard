@@ -279,7 +279,7 @@
       "a_color": "#68d391"
     },
     {
-      "name": "GPT-4o",
+      "name": "Claude Haiku 4.5",
       "unaided": "0.0%",
       "aided": "100.0%",
       "rs": "6.3%",
@@ -289,19 +289,7 @@
       "a_color": "#68d391"
     },
     {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "3.2%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    }
-  ],
-  "pulse_check_models": [
-    {
-      "name": "Claude Haiku 4.5",
+      "name": "GPT-4o",
       "unaided": "0.0%",
       "aided": "100.0%",
       "rs": "6.3%",
@@ -320,6 +308,28 @@
       "u_color": "#fc8181",
       "a_color": "#68d391"
     },
+    {
+      "name": "Gemini 2.5 Pro",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "3.2%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Gemini 2.5 Flash",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    }
+  ],
+  "pulse_check_models": [
     {
       "name": "o3",
       "unaided": "0.0%",
@@ -349,16 +359,6 @@
       "note": "",
       "u_color": "#fc8181",
       "a_color": "#fc8181"
-    },
-    {
-      "name": "Gemini 2.5 Flash",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "11.1%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
     },
     {
       "name": "Kimi K2.5",

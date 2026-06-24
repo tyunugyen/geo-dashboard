@@ -67,7 +67,15 @@ def score_comparison(rows):
     STATUS_COLOR = {"success": "#68d391", "partial": "#f6e05e", "anomaly": "#fc8181", "error": "#fc8181"}
 
     # Define primary models (used for official SOV calculation)
-    PRIMARY_MODELS = ["gpt-4o", "claude-sonnet-4-6", "gemini-2.5-pro"]
+    # These are the models run by geo_monthly_benchmark.bat that we consider primary
+    PRIMARY_MODELS = [
+        "claude-sonnet-4-6",
+        "claude-haiku-4-5-20251001",
+        "gpt-4o",
+        "gpt-5",
+        "gemini-2.5-pro",
+        "gemini-2.5-flash"
+    ]
 
     model_sov = {}
     primary_models = []

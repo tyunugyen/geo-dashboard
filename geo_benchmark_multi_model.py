@@ -241,7 +241,8 @@ def run_model_benchmark(model_info, api_key, verbose=True):
 
         # Detect GoDaddy mentions and other metrics
         gd = "Y" if detect_godaddy(response) else "N"
-        rs = "Y" if detect_rate_saver(response) else "N"
+        # Rate Saver only counts for UNAIDED prompts (type="U"), not branded queries
+        rs = "Y" if (ptype=="U" and detect_rate_saver(response)) else "N"
         comps = detect_competitors(response)
         rate_acc = "Y" if (gd=="Y" and detect_rate_accurate(response)) else ("N" if gd=="Y" else "N/A")
         excerpt = (response[:300].replace("\n"," ") if response else err)

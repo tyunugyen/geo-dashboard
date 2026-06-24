@@ -3,12 +3,10 @@
     "label": "Monthly",
     "period": "June 2026",
     "run_id": "2026-06-W26",
-    "sources": "9-model benchmark via GoCode proxy",
-    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, GPT-5, o3, o3-mini, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Gemini 2.5 Flash",
-    "prompt_count": 67,
+    "sources": "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, GPT-5, o3, o3-mini, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Gemini 2.5 Flash, Kimi K2.5, Qwen 3 235B (GoCode proxy)",
     "prompt_bank_version": "2.8",
-    "run_date": "2026-06-23",
-    "run_time": "16:56 UTC"
+    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, GPT-5, o3, o3-mini, Gemini 2.5 Pro, Gemini 3.1 Pro Preview, Gemini 2.5 Flash, Kimi K2.5, Qwen 3 235B",
+    "prompt_count": 70
   },
   "kpis": {
     "unaided_sov": {
@@ -27,9 +25,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "0%",
-      "fill": 0,
-      "color": "#fc8181"
+      "value": "11.1%",
+      "fill": 11,
+      "color": "#f6e05e"
     }
   },
   "categories": [
@@ -162,7 +160,7 @@
       "name": "Claude Sonnet 4.6",
       "unaided": "0.0%",
       "aided": "100.0%",
-      "rs": "12.7%",
+      "rs": "11.1%",
       "status": "success",
       "note": "",
       "u_color": "#fc8181",
@@ -191,38 +189,38 @@
     "gpt_5": {
       "name": "GPT-5",
       "unaided": "0.0%",
-      "aided": "0.0%",
-      "rs": "0.0%",
-      "status": "anomaly",
-      "note": "Branded prompts not detected",
+      "aided": "100.0%",
+      "rs": "20.6%",
+      "status": "success",
+      "note": "",
       "u_color": "#fc8181",
-      "a_color": "#fc8181"
+      "a_color": "#68d391"
     },
     "o3": {
       "name": "o3",
       "unaided": "0.0%",
-      "aided": "57.1%",
-      "rs": "4.8%",
-      "status": "partial",
-      "note": "4/7 branded prompts only",
+      "aided": "28.6%",
+      "rs": "6.3%",
+      "status": "success",
+      "note": "",
       "u_color": "#fc8181",
       "a_color": "#fc8181"
     },
     "o3_mini": {
       "name": "o3-mini",
       "unaided": "0.0%",
-      "aided": "85.7%",
-      "rs": "6.3%",
-      "status": "partial",
-      "note": "6/7 branded prompts",
+      "aided": "100.0%",
+      "rs": "4.8%",
+      "status": "success",
+      "note": "",
       "u_color": "#fc8181",
-      "a_color": "#f6e05e"
+      "a_color": "#68d391"
     },
     "gemini_2_5_pro": {
       "name": "Gemini 2.5 Pro",
       "unaided": "0.0%",
       "aided": "100.0%",
-      "rs": "4.8%",
+      "rs": "3.2%",
       "status": "success",
       "note": "",
       "u_color": "#fc8181",
@@ -232,9 +230,9 @@
       "name": "Gemini 3.1 Pro Preview",
       "unaided": "0.0%",
       "aided": "28.6%",
-      "rs": "1.6%",
-      "status": "partial",
-      "note": "2/7 branded prompts",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
       "u_color": "#fc8181",
       "a_color": "#fc8181"
     },
@@ -247,6 +245,140 @@
       "note": "",
       "u_color": "#fc8181",
       "a_color": "#68d391"
+    },
+    "kimi_k2_5": {
+      "name": "Kimi K2.5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "9.5%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "qwen3_235b_a22b_2507": {
+      "name": "Qwen 3 235B",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
     }
-  }
+  },
+  "primary_models": [
+    {
+      "name": "Claude Sonnet 4.6",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "GPT-4o",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "6.3%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Gemini 2.5 Pro",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "3.2%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    }
+  ],
+  "pulse_check_models": [
+    {
+      "name": "Claude Haiku 4.5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "6.3%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "GPT-5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "20.6%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "o3",
+      "unaided": "0.0%",
+      "aided": "28.6%",
+      "rs": "6.3%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#fc8181"
+    },
+    {
+      "name": "o3-mini",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "4.8%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Gemini 3.1 Pro Preview",
+      "unaided": "0.0%",
+      "aided": "28.6%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#fc8181"
+    },
+    {
+      "name": "Gemini 2.5 Flash",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Kimi K2.5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "9.5%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    {
+      "name": "Qwen 3 235B",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "11.1%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    }
+  ]
 }

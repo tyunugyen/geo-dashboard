@@ -66,12 +66,17 @@ def score_comparison(rows):
 
     STATUS_COLOR = {"success": "#68d391", "partial": "#f6e05e", "anomaly": "#fc8181", "error": "#fc8181"}
 
+    # Define primary models (used for official SOV calculation)
+    PRIMARY_MODELS = ["gpt-4o", "claude-sonnet-4-6", "gemini-2.5-pro"]
+
     model_sov = {}
+    primary_models = []
+    pulse_check_models = []
     run_id  = "2026-06-W26"
     period  = "June 2026"
     run_date = ""
 
-    # Use first successful model for overall SOV
+    # Use first successful PRIMARY model for overall SOV
     u_sov, a_sov, r_sov = 0.0, 0.0, 0.0
     success_models = [r for r in rows if r.get("status","") == "success"]
     if success_models:
@@ -85,7 +90,8 @@ def score_comparison(rows):
         aided = parse_pct(r.get("aided_sov","0"))
         a_color = "#68d391" if aided >= 90 else "#f6e05e" if aided >= 60 else "#fc8181"
         status = r.get("status","success")
-        model_sov[mid] = {
+
+        model_entry = {
             "name":    mname,
             "unaided": r.get("unaided_sov","0%"),
             "aided":   r.get("aided_sov","0%"),
@@ -95,6 +101,15 @@ def score_comparison(rows):
             "u_color": "#fc8181",
             "a_color": a_color,
         }
+
+        model_sov[mid] = model_entry
+
+        # Categorize as primary or pulse check
+        model_id_clean = r.get("model_id","").lower()
+        if any(pm in model_id_clean for pm in PRIMARY_MODELS):
+            primary_models.append(model_entry)
+        else:
+            pulse_check_models.append(model_entry)
 
     models_str = ", ".join(r.get("model_name","") for r in rows if r.get("model_name"))
 
@@ -117,6 +132,7 @@ def score_comparison(rows):
         u_sov=u_sov, a_sov=a_sov, r_sov=r_sov,
         u_col=u_col, a_col=a_col, r_col=r_col,
         categories=categories, model_sov=model_sov,
+        primary_models=primary_models, pulse_check_models=pulse_check_models,
         models_str=models_str, promptCount=70,
         u_count=63, a_count=7,
     )
@@ -215,6 +231,8 @@ def build_data_json(s, existing, label=None, prior=None):
         "categories":  s.get("categories") or existing.get("categories",[]),
         "competitors": existing.get("competitors", []),
         "model_sov":   s.get("model_sov", {}),
+        "primary_models": s.get("primary_models", []),
+        "pulse_check_models": s.get("pulse_check_models", []),
     }
     data["meta"]["models"]    = s.get("models_str", "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro")
     data["meta"]["sources"]   = s.get("models_str", "9-model benchmark") + " (GoCode proxy)"

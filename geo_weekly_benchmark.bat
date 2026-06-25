@@ -62,11 +62,21 @@ if errorlevel 1 (
     exit /b 1
 )
 
+echo Committing and pushing to GitHub...
+git add benchmarks/*.csv public/data/session.json data.json
+git commit -m "GEO benchmark: W%date:~-4%-%date:~4,2% | Unaided SOV 0%% | Weekly pulse check"
+git push origin main
+if errorlevel 1 (
+    echo WARNING: git push failed. Check network connection or authentication.
+    pause
+)
+
 echo.
 echo ============================================================
-echo   Done. Dashboard updated.
+echo   Done. Dashboard updated and pushed to GitHub.
 echo   Weekly pulse check complete (Claude only).
+echo   GitHub Action will now fill intelligence layer automatically.
 echo   For full 9-model run: use geo_monthly_benchmark.bat
-echo   View dashboard: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
+echo   View dashboard: https://geo-dashboard.paas.godaddy.com
 echo ============================================================
 echo.

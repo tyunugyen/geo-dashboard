@@ -1,0 +1,94 @@
+# .github/workflows/geo-session.yml
+# Runs automatically when BAT pushes session.json skeleton
+# Calls Claude API to fill intelligence arrays
+# Commits completed session.json back to repo
+
+name: GEO Session — Fill Intelligence Layer
+
+on:
+  push:
+    paths:
+      - 'public/data/session.json'   # triggers only when this file changes
+    branches:
+      - main
+
+  # Also allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      run_type:
+        description: 'Run type override (weekly or monthly)'
+        required: false
+        default: 'auto'
+
+jobs:
+  fill-session:
+    runs-on: ubuntu-latest
+
+    # Skip if the commit was made by the bot itself (prevents infinite loop)
+    if: "!contains(github.event.head_commit.message, '[geo-bot]')"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Show session.json run type
+        run: |
+          echo "Session info:"
+          python -c "
+          import json
+          with open('public/data/session.json') as f:
+              s = json.load(f)
+          m = s.get('meta', {})
+          print(f\"  run_type : {m.get('run_type', 'unknown')}\")
+          print(f\"  run_id   : {m.get('run_id', 'unknown')}\")
+          print(f\"  updated  : {m.get('last_updated', 'unknown')}\")
+          print(f\"  build_pages: {len(s.get('build_pages', []))}\")
+          print(f\"  amplify  : {len(s.get('amplify_threads', []))}\")
+          "
+
+      - name: Fill session.json via Claude API
+        env:
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+        run: python fill_session.py
+
+      - name: Validate output
+        run: |
+          python -c "
+          import json, sys
+          with open('public/data/session.json') as f:
+              s = json.load(f)
+          errors = []
+          if not s.get('build_pages') and not isinstance(s.get('build_pages'), list):
+              errors.append('build_pages missing')
+          if not s.get('competitive_intel'):
+              errors.append('competitive_intel empty')
+          if not s.get('report_summary', {}).get('binding_constraint'):
+              errors.append('report_summary.binding_constraint missing')
+          if errors:
+              print('VALIDATION ERRORS:', errors)
+              sys.exit(1)
+          print('Validation passed')
+          print(f\"  build_pages:   {len(s.get('build_pages', []))}\")
+          print(f\"  amplify:       {len(s.get('amplify_threads', []))}\")
+          print(f\"  cite_pipeline: {len(s.get('cite_pipeline', []))}\")
+          print(f\"  perplexity:    {len(s.get('perplexity_simulation', []))}\")
+          "
+
+      - name: Commit completed session.json
+        run: |
+          git config user.name  "GEO Bot"
+          git config user.email "geo-bot@users.noreply.github.com"
+          git add public/data/session.json
+          # Only commit if there are actual changes
+          git diff --staged --quiet || git commit -m "[geo-bot] GEO session complete — $(python -c \"import json; s=json.load(open('public/data/session.json')); print(s['meta']['run_id'])\")"
+          git push

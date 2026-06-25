@@ -1,18 +1,11 @@
-# .github/workflows/geo-session.yml
-# Runs automatically when BAT pushes session.json skeleton
-# Calls Claude API to fill intelligence arrays
-# Commits completed session.json back to repo
-
 name: GEO Session — Fill Intelligence Layer
 
 on:
   push:
     paths:
-      - 'public/data/session.json'   # triggers only when this file changes
+      - 'public/data/session.json'
     branches:
       - main
-
-  # Also allow manual trigger from GitHub Actions UI
   workflow_dispatch:
     inputs:
       run_type:
@@ -23,8 +16,6 @@ on:
 jobs:
   fill-session:
     runs-on: ubuntu-latest
-
-    # Skip if the commit was made by the bot itself (prevents infinite loop)
     if: "!contains(github.event.head_commit.message, '[geo-bot]')"
 
     steps:
@@ -39,22 +30,22 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-  	run: pip install openai
+        run: pip install openai
 
       - name: Show session.json run type
         run: |
-          echo "Session info:"
-          python -c "
+          python - <<'EOF'
           import json
           with open('public/data/session.json') as f:
               s = json.load(f)
           m = s.get('meta', {})
-          print(f\"  run_type : {m.get('run_type', 'unknown')}\")
-          print(f\"  run_id   : {m.get('run_id', 'unknown')}\")
-          print(f\"  updated  : {m.get('last_updated', 'unknown')}\")
-          print(f\"  build_pages: {len(s.get('build_pages', []))}\")
-          print(f\"  amplify  : {len(s.get('amplify_threads', []))}\")
-          "
+          print('Session info:')
+          print('  run_type :', m.get('run_type', 'unknown'))
+          print('  run_id   :', m.get('run_id', 'unknown'))
+          print('  updated  :', m.get('last_updated', 'unknown'))
+          print('  build_pages:', len(s.get('build_pages', [])))
+          print('  amplify  :', len(s.get('amplify_threads', [])))
+          EOF
 
       - name: Fill session.json via Claude API
         env:
@@ -63,12 +54,12 @@ jobs:
 
       - name: Validate output
         run: |
-          python -c "
+          python - <<'EOF'
           import json, sys
           with open('public/data/session.json') as f:
               s = json.load(f)
           errors = []
-          if not s.get('build_pages') and not isinstance(s.get('build_pages'), list):
+          if not isinstance(s.get('build_pages'), list):
               errors.append('build_pages missing')
           if not s.get('competitive_intel'):
               errors.append('competitive_intel empty')
@@ -78,17 +69,29 @@ jobs:
               print('VALIDATION ERRORS:', errors)
               sys.exit(1)
           print('Validation passed')
-          print(f\"  build_pages:   {len(s.get('build_pages', []))}\")
-          print(f\"  amplify:       {len(s.get('amplify_threads', []))}\")
-          print(f\"  cite_pipeline: {len(s.get('cite_pipeline', []))}\")
-          print(f\"  perplexity:    {len(s.get('perplexity_simulation', []))}\")
-          "
+          print('  build_pages:  ', len(s.get('build_pages', [])))
+          print('  amplify:      ', len(s.get('amplify_threads', [])))
+          print('  cite_pipeline:', len(s.get('cite_pipeline', [])))
+          print('  perplexity:   ', len(s.get('perplexity_simulation', [])))
+          EOF
 
       - name: Commit completed session.json
         run: |
           git config user.name  "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"
           git add public/data/session.json
-          # Only commit if there are actual changes
-          git diff --staged --quiet || git commit -m "[geo-bot] GEO session complete — $(python -c \"import json; s=json.load(open('public/data/session.json')); print(s['meta']['run_id'])\")"
+          python - <<'EOF'
+          import json
+          with open('public/data/session.json') as f:
+              s = json.load(f)
+          print(s['meta']['run_id'])
+          EOF
+          RUN_ID=$(python - <<'EOF'
+          import json
+          with open('public/data/session.json') as f:
+              s = json.load(f)
+          print(s['meta']['run_id'])
+          EOF
+          )
+          git diff --staged --quiet || git commit -m "[geo-bot] GEO session complete — ${RUN_ID}"
           git push

@@ -2,7 +2,7 @@ name: GEO Benchmark
 
 on:
   schedule:
-    - cron: '0 9 * * 1'   # Every Monday 9am UTC
+    - cron: '0 9 * * 1'
   workflow_dispatch:
     inputs:
       reason:
@@ -30,8 +30,10 @@ jobs:
       - name: Install dependencies
         run: pip install openai
 
-      # Check the secret is set before running — gives a clear error if missing
       - name: Check API key is configured
+        env:
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+          CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
           if [ -z "$CAAS_API_KEY" ]; then
             echo "ERROR: CAAS_API_KEY secret is not set."
@@ -41,10 +43,6 @@ jobs:
             exit 1
           fi
           echo "API key is configured (length: ${#CAAS_API_KEY})"
-        env:
-          env:
-            CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-            CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
 
       - name: Run GEO benchmark
         env:

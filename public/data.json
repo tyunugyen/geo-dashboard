@@ -132,6 +132,14 @@
       "label": "\"Best for mobile sales\""
     },
     {
+      "name": "Shopify",
+      "sov": 30,
+      "display": "~30%",
+      "color": "#9f7aea",
+      "bar": "#6b46c1",
+      "label": "\"Best for ecommerce\" \u2014 online+POS bundle"
+    },
+    {
       "name": "Toast",
       "sov": 20,
       "display": "~20%",
@@ -195,10 +203,9 @@
         "name": "GPT-5",
         "why": "Latest OpenAI flagship — tracking as primary",
         "unaided": "0%",
-        "aided": "0%",
-        "a_color": "#fc8181",
-        "status": "anomaly",
-        "note": "Anomaly being resolved"
+        "aided": "100%",
+        "a_color": "#68d391",
+        "status": "success"
       }
     },
     "pulse": {

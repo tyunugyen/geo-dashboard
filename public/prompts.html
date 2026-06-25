@@ -200,9 +200,13 @@
 <body><div class="header">
   <div class="header-left"><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
   <p id="meta-line">63 active + 7 pulse-check prompts · Prompt Bank v2.6 · Claude benchmark</p></div>
-  <div class="header-right"><span class="badge">Claude verified · Prompt Bank v2.6</span>
-  <span class="badge badge-warn">Unaided SOV ~0%</span></div>
-</div><div class="nav">
+  <div class="header-right">
+    <span class="badge" data-run-type>Weekly pulse</span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>2026-06-23 16:30</span></span>
+    <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
+  </div>
+</div>
+<div class="nav">
   <a href="index.html">📊 Overview</a>
   <a href="prompts.html" class="active">📝 Prompts</a>
   <a href="aggregators.html">🏷️ Aggregators</a>
@@ -212,6 +216,13 @@
   <a href="action-cite.html">🏆 CITE</a>
   <a href="report.html">📋 Report</a>
   <a href="maintenance.html">🔧 Maintenance</a>
+</div>
+<div class="last-updated-bar">
+  <span>Last updated: <strong data-lu-date>2026-06-23 16:30</strong>
+    &nbsp;·&nbsp; Run: <span class="lu-run" data-lu-run>2026-06-W26</span>
+    &nbsp;·&nbsp; <span data-lu-details>Claude · 70 prompts</span>
+    <span data-last-benchmark style="display:none;"></span>
+  </span>
 </div>
 <div class="container">
   <div class="alert" style="background:#0a1a2d;border-color:#2d4a8a;border-left-color:#3182ce;color:#90cdf4;">
@@ -294,5 +305,6 @@
       <p style="font-size:12px;color:#cbd5e0;"><strong style="color:#90cdf4;">² Free Smart Terminal:</strong> Offered to merchants with confirmed in-person credit card transactions &gt;$100K annually (avg $8.3K/mo) as shown in previous month's processing statement. Eligible devices up to $399 value: Card Reader, Smart Terminal Flex, or Smart Terminal Duo. Pro not included; larger merchants receive custom pricing.</p>
     </div>
 </div>
+<script src="./js/session-loader.js"></script>
 </body>
 </html>

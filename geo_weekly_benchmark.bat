@@ -58,21 +58,29 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Updating dashboard...
+echo Updating dashboard data.json (old format)...
 python update_dashboard.py
 if errorlevel 1 (
     git pull --rebase origin main
     python update_dashboard.py
     if errorlevel 1 (
-        echo ERROR: Dashboard update failed. Run manually: python update_dashboard.py
-        pause
-        exit /b 1
+        echo WARNING: Dashboard update_dashboard.py failed. Continuing with session.json...
     )
+)
+
+echo Generating session.json (new dynamic dashboard)...
+python generate_session_json.py --weekly
+if errorlevel 1 (
+    echo ERROR: session.json generation failed.
+    pause
+    exit /b 1
 )
 
 echo.
 echo ============================================================
 echo   Done. Dashboard updated.
-echo   For full primary model run (+ GPT/Gemini): use geo_monthly_benchmark.bat
+echo   Weekly pulse check complete (Claude only).
+echo   For full 9-model run: use geo_monthly_benchmark.bat
+echo   View dashboard: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
 echo ============================================================
 echo.

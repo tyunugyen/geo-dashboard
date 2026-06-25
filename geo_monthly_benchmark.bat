@@ -66,23 +66,31 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Benchmark complete. Updating dashboard...
+echo Benchmark complete. Updating dashboard data.json (old format)...
 python update_dashboard.py
 if errorlevel 1 (
     echo Pulling latest from GitHub first...
     git pull --rebase origin main
     python update_dashboard.py
     if errorlevel 1 (
-        echo ERROR: Dashboard update failed. Run manually: python update_dashboard.py
-        pause
-        exit /b 1
+        echo WARNING: Dashboard update_dashboard.py failed. Continuing with session.json...
     )
+)
+
+echo Generating session.json (new dynamic dashboard)...
+python generate_session_json.py --monthly
+if errorlevel 1 (
+    echo ERROR: session.json generation failed.
+    pause
+    exit /b 1
 )
 
 echo.
 echo ============================================================
 echo   DONE.
+echo   Full 9-model monthly benchmark complete.
 echo   Dashboard: https://host.beta.godaddy.com/paas/projects/kz6jwep09q
+echo   Local view: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
 echo   Next: open Claude and say "Run monthly GEO session."
 echo ============================================================
 echo.

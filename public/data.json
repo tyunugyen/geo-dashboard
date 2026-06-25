@@ -3,9 +3,9 @@
     "label": "Monthly",
     "period": "June 2026",
     "run_id": "2026-06-W26",
-    "sources": "Gemini 2.5 Pro (GoCode proxy)",
+    "sources": "Claude Opus 4.8 (GoCode proxy)",
     "prompt_bank_version": "2.8",
-    "models": "Gemini 2.5 Pro"
+    "models": "Claude Opus 4.8"
   },
   "kpis": {
     "unaided_sov": {
@@ -163,7 +163,7 @@
     }
   ],
   "model_sov": {
-    "gemini": {
+    "claude": {
       "value": "0%",
       "color": "#fc8181"
     }

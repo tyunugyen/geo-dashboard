@@ -435,7 +435,7 @@ def main():
     print(f"  Run ID     : {session['meta']['run_id']}")
     print(f"  Updated    : {session['meta']['last_updated']}")
     print(f"  Categories : {len(session['categories'])} populated")
-    print(f"  Competitors: {len(session['competitors'])} (Square rate: $0.15 ✅)")
+    print(f"  Competitors: {len(session['competitors'])} (Square rate: $0.15 verified)")
     print(f"\nNext: drop session.json in Claude and say 'run {run_type} GEO session'")
     print(f"      Claude fills: perplexity_simulation, strategy_actions, build_pages,")
     print(f"                    amplify_threads, cite_pipeline, report_summary")

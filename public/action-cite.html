@@ -77,6 +77,9 @@
 
   /* Section headers */
   .section-header { font-size: 16px; font-weight: 700; color: #90cdf4; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #2d3748; }
+
+  /* Grid layout for targets */
+  .targets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 </style>
 </head>
 <body>
@@ -154,6 +157,7 @@
 
   <h2 class="section-header" id="priority-1">🎯 Priority Outreach Targets</h2>
 
+  <div class="targets-grid">
   <div class="card">
     <div class="target-header">
       <div class="target-title">
@@ -239,8 +243,9 @@
       <span class="status-warn">⏳ PR approval required</span>
     </div>
   </div>
+  </div>
 
-  <h2 class="section-header">📊 Coverage Gap Summary</h2>
+  <h2 class="section-header">📊 Coverage Gap Summary <span style="font-size:11px;color:#4a5568;font-weight:400;">— <a href="aggregators.html" class="ext-link">view full aggregator analysis</a></span></h2>
 
   <div class="card">
     <h3>Aggregator Presence Overview</h3>

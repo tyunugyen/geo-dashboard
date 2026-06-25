@@ -69,7 +69,7 @@
   .prio-content h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
   .prio-content .pm { font-size:12px; color:#718096; display:flex; gap:12px; flex-wrap:wrap; }
   .pm .owner { color:#63b3ed; }
-  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .two-col { display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
   .method-block { background:#0d1117; border:1px solid #2d3748; border-radius:10px; padding:16px; font-size:12px; }
   .method-block li { color:#718096; margin-bottom:5px; list-style:none; padding-left:0; }
   .method-block li strong { color:#cbd5e0; }
@@ -140,8 +140,27 @@
 </div>
 <div class="alert-blue" style="font-size:12px;">🔑 <strong>Two different problems:</strong> Unaided SOV = cold merchant AI discovery (currently 0%). Aided SOV = merchants who already know GoDaddy (currently ~100%). The entire program is about moving Unaided SOV.</div>
 
+<!-- S1.5: AI Platform Insights -->
+<div class="section-title" style="margin-top:28px;" id="ai-platform-insights">1.5 · AI Platform Breakdown — SOV by Model</div>
+<div class="card" style="padding:0;overflow:hidden;">
+<table>
+  <thead><tr><th>AI Platform</th><th>Type</th><th>Unaided SOV</th><th>Aided SOV</th><th>Status</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Claude Sonnet 4.6</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
+    <tr><td><strong>GPT-4o</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
+    <tr><td><strong>GPT-5</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="red">0%</span></td><td>⚠️ Anomaly</td><td>Detection format issue</td></tr>
+    <tr><td><strong>Gemini 2.5 Pro</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
+    <tr><td><strong>o3</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="muted">—</span></td><td>📊 Tracking</td><td>Directional signal only</td></tr>
+    <tr><td><strong>o3-mini</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="muted">—</span></td><td>📊 Tracking</td><td>Directional signal only</td></tr>
+    <tr><td><strong>Gemini 2.5 Flash</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="muted">—</span></td><td>📊 Tracking</td><td>Directional signal only</td></tr>
+    <tr><td><strong>Gemini 3.1 Preview</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="muted">—</span></td><td>📊 Tracking</td><td>Directional signal only</td></tr>
+  </tbody>
+</table>
+</div>
+<div style="font-size:11px;color:#4a5568;margin-top:8px;">Universal 0% unaided SOV confirms citation gap is the binding constraint across all AI systems. No model-specific optimizations needed — single root cause applies to all.</div>
+
 <!-- S2: Category Traffic Lights -->
-<div class="section-title" style="margin-top:28px;">2 · Category Traffic Lights</div>
+<div class="section-title" style="margin-top:28px;">2 · Category Traffic Lights <span style="font-size:11px;color:#4a5568;font-weight:400;">— Legend: <span class="pill pill-blue">U</span> = Unaided, <span class="pill pill-purple">B</span> = Brand/Aided</span></div>
 <div class="card" style="padding:0;overflow:hidden;">
 <table>
   <thead><tr><th>Category</th><th>Type</th><th>This Month</th><th>Phase 1 Target</th><th>Final Target</th><th>Status</th></tr></thead>
@@ -161,14 +180,14 @@
 <div style="font-size:11px;color:#4a5568;margin-top:8px;">🟢 On track · 🟡 Needs attention · 🔴 Critical gap. All unaided categories at baseline — expected for month 1.</div>
 
 <!-- S3: Leading Indicators -->
-<div class="section-title" style="margin-top:28px;">3 · 6 Leading Indicators</div>
+<div class="section-title" style="margin-top:28px;">3 · Leading Indicators</div>
 <div class="ind-grid">
-  <div class="ind"><div><div class="ind-label">Crawler 200-rate</div><div class="ind-sub">GPTBot, ClaudeBot, PerplexityBot · server logs</div></div><div class="ind-val green">✅ Confirmed</div></div>
-  <div class="ind"><div><div class="ind-label">Priority URLs indexed</div><div class="ind-sub">Verified via Search Console</div></div><div class="ind-val yellow">⚠️ Partial</div></div>
-  <div class="ind"><div><div class="ind-label">Schema pass rate</div><div class="ind-sub">CRAWL Phase 2 · 20-point standard</div></div><div class="ind-val yellow">⚠️ Pending</div></div>
   <div class="ind"><div><div class="ind-label">Third-party inclusions</div><div class="ind-sub">NerdWallet, Forbes, Wise, Business.com</div></div><div class="ind-val red">❌ 1 / 7</div></div>
-  <div class="ind"><div><div class="ind-label">Rate accuracy in AI answers</div><div class="ind-sub">2.3% + $0 cited correctly</div></div><div class="ind-val yellow">⚠️ N/A — not yet mentioned</div></div>
+  <div class="ind"><div><div class="ind-label">Rate accuracy in AI answers (U)</div><div class="ind-sub">2.3% + $0 cited correctly when unaided</div></div><div class="ind-val yellow">⚠️ N/A — not yet mentioned</div></div>
+  <div class="ind"><div><div class="ind-label">Rate Saver aided accuracy (B)</div><div class="ind-sub">0% credit cited correctly on brand queries</div></div><div class="ind-val green">✅ Good when cited</div></div>
   <div class="ind"><div><div class="ind-label">Entity framing</div><div class="ind-sub">Commerce/Payments vs Domains/Hosting</div></div><div class="ind-val red">❌ Mostly domains</div></div>
+  <div class="ind"><div><div class="ind-label">Crawler 200-rate</div><div class="ind-sub">GPTBot, ClaudeBot, PerplexityBot · server logs</div></div><div class="ind-val green">✅ Confirmed</div></div>
+  <div class="ind"><div><div class="ind-label">Community visibility</div><div class="ind-sub">Reddit/Quora replies indexed</div></div><div class="ind-val yellow">⚠️ 0 posted</div></div>
 </div>
 
 <!-- S4: Rate Saver -->
@@ -201,20 +220,8 @@
 </table>
 </div>
 
-<!-- S6: Technical Health -->
-<div class="section-title" style="margin-top:28px;">6 · Technical Health (CRAWL)</div>
-<div class="ind-grid">
-  <div class="ind"><div><div class="ind-label">AI Crawler HTTP 200</div><div class="ind-sub">GPTBot, ClaudeBot, PerplexityBot</div></div><div class="ind-val green">✅ Confirmed</div></div>
-  <div class="ind"><div><div class="ind-label">robots.txt — No P0 blockers</div><div class="ind-sub">Parent-path disallow audit passed</div></div><div class="ind-val green">✅ Cleared</div></div>
-  <div class="ind"><div><div class="ind-label">noIndex removed</div><div class="ind-sub">Monthly check needed</div></div><div class="ind-val yellow">⚠️ Check monthly</div></div>
-  <div class="ind"><div><div class="ind-label">Canonical URLs set</div><div class="ind-sub">New pages only</div></div><div class="ind-val yellow">⚠️ Pending new pages</div></div>
-  <div class="ind"><div><div class="ind-label">Pages in XML sitemap</div><div class="ind-sub">Search Console submission</div></div><div class="ind-val yellow">⚠️ Pending new pages</div></div>
-  <div class="ind"><div><div class="ind-label">Schema pass rate (20-pt)</div><div class="ind-sub">CRAWL Phase 2 validation</div></div><div class="ind-val yellow">⚠️ Run CRAWL Phase 2</div></div>
-</div>
-<div class="alert-green" style="font-size:12px;">✅ <strong>No P0 crawler blockers outstanding.</strong> Server logs confirm all AI bots return 200. Do not re-litigate — focus entirely on citation gap and content.</div>
-
-<!-- S7: Data Confidence -->
-<div class="section-title" style="margin-top:28px;">7 · Data Confidence &amp; Methodology</div>
+<!-- S6: Data Confidence -->
+<div class="section-title" style="margin-top:28px;">6 · Data Confidence &amp; Methodology</div>
 <div class="two-col">
   <div>
     <div class="conf-card"><span class="conf-level conf-high">HIGH CONFIDENCE</span><div style="font-weight:600;margin-bottom:4px;">Unaided SOV = 0%</div><div style="font-size:12px;color:#718096">Confirmed across 9 models, 63 unaided prompts each. Claude, GPT-4o, GPT-5, Gemini 2.5 Pro/Flash, o3, o3-mini, Gemini 3.1 Preview all return 0%.</div></div>
@@ -235,39 +242,26 @@
   </div>
 </div>
 
-<!-- S8: Wins -->
-<div class="section-title" style="margin-top:28px;">8 · Top Wins This Month</div>
-<div class="win-row"><div class="row-title">✅ Crawler access confirmed — all AI bots return HTTP 200</div><div class="row-meta"><span>Agent: CRAWL</span><span>Impact: Blocker removed — content and citations can now flow to AI systems</span></div><div class="row-action">GPTBot, ClaudeBot, PerplexityBot verified via server logs. Focus shifts entirely to citation gap.</div></div>
-<div class="win-row"><div class="row-title">✅ 9-model benchmark infrastructure live + automated via .bat</div><div class="row-meta"><span>Agent: AUDIT</span><span>Impact: Monthly measurement is now a single command</span></div><div class="row-action">geo_monthly_benchmark.bat runs 70-prompt × 3 primary model benchmark and auto-deploys dashboard. Baseline established.</div></div>
-<div class="win-row"><div class="row-title">✅ Business.com 9.2/10 review confirmed — live CITE leverage point</div><div class="row-meta"><span>Agent: CITE</span><span>Impact: Existing social proof to convert into CC processing guide inclusion</span></div><div class="row-action">Perplexity cites Business.com on brand search. Request guide inclusion using review as anchor — no new content needed.</div></div>
-
-<!-- S9: Gaps -->
-<div class="section-title" style="margin-top:28px;">9 · Top Gaps This Month</div>
-<div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Unaided SOV = 0% — absent cold from all 9 AI models</div><div class="row-meta"><span>Current: 0%</span><span>Target: 40%+</span><span>Behind: 40pts</span><span>Root cause: Citation gap (universal)</span><span style="color:#63b3ed">Owner: PR/Partnerships + CITE</span></div><div class="row-action">NerdWallet + Forbes inclusion is the single action. Expected measurement: 2–3 months post-placement.</div></div>
-<div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Rate Saver cited 0% — only 0% product on market, page needed</div><div class="row-meta"><span>Current: 0%</span><span>Target: 50% fee queries</span><span>Root cause: Content gap</span><span style="color:#63b3ed">Owner: Content + Legal + PM</span></div><div class="row-action">BUILD Rate Saver GEO page → CRAWL Phase 2 → publish. 3-week build. Visible in 1–2 AUDIT runs.</div></div>
-<div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ Entity framing — AI describes GoDaddy as domains company, not payments</div><div class="row-meta"><span>Root cause: Entity framing gap</span><span style="color:#63b3ed">Owner: BUILD + AMPLIFY</span></div><div class="row-action">Commerce/payments content + community replies both contribute. Expected: 3–6 months to shift.</div></div>
-<div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ 5 AMPLIFY community reply drafts ready — not yet posted</div><div class="row-meta"><span>5 drafts reviewed and approved</span><span style="color:#63b3ed">Owner: Social/Community + Legal</span></div><div class="row-action">Post fee, surcharge, support, switching replies. Clock starts at post date — 3–4 months to AI index.</div></div>
-
-<!-- S10: Activity -->
-<div class="section-title" style="margin-top:28px;">10 · Agent Activity Summary</div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>Agent</th><th>Actions Completed</th><th>Output / Status</th></tr></thead>
-  <tbody>
-    <tr><td><strong>INTEL</strong></td><td>Prompt bank v2.6 finalized — 50 prompts, 5-source validated</td><td><span class="green">✅ Complete</span> — Note 7db9a2e8 updated</td></tr>
-    <tr><td><strong>AUDIT</strong></td><td>9-model benchmark run — 630 data points (70×9)</td><td><span class="green">✅ Complete</span> — Unaided 0% / Aided ~100%</td></tr>
-    <tr><td><strong>CRAWL</strong></td><td>Phase 1 diagnostic — AI crawler access verified</td><td><span class="green">✅ P0 cleared</span></td></tr>
-    <tr><td><strong>STRATEGY</strong></td><td>3 BUILD briefs + 2 CITE briefs issued, root causes classified</td><td><span class="green">✅ Complete</span></td></tr>
-    <tr><td><strong>BUILD</strong></td><td>Rate Saver page draft in progress, vertical pages queued</td><td><span class="yellow">⚠️ In progress</span> — Awaiting legal/PM</td></tr>
-    <tr><td><strong>AMPLIFY</strong></td><td>5 community reply drafts produced (fee, surcharge, support, switching)</td><td><span class="yellow">⚠️ Awaiting posting</span></td></tr>
-    <tr><td><strong>CITE</strong></td><td>Aggregator gap report + NerdWallet/Forbes outreach briefs drafted</td><td><span class="yellow">⚠️ Outreach not sent</span> — Awaiting PR</td></tr>
-    <tr><td><strong>REPORT</strong></td><td>This document</td><td><span class="green">✅ Published</span></td></tr>
-  </tbody>
-</table>
+<!-- S7: Wins and Gaps -->
+<div class="section-title" style="margin-top:28px;">7 · Top Wins & Gaps This Month</div>
+<div class="two-col">
+  <div>
+    <h3 style="font-size:14px;font-weight:700;color:#68d391;margin-bottom:12px;">✅ Top Wins</h3>
+    <div class="win-row"><div class="row-title">✅ Crawler access confirmed — all AI bots return HTTP 200</div><div class="row-meta"><span>Agent: CRAWL</span><span>Impact: Blocker removed</span></div><div class="row-action">GPTBot, ClaudeBot, PerplexityBot verified via server logs. Focus shifts entirely to citation gap.</div></div>
+    <div class="win-row"><div class="row-title">✅ 9-model benchmark infrastructure live + automated via .bat</div><div class="row-meta"><span>Agent: AUDIT</span><span>Impact: Monthly measurement is now a single command</span></div><div class="row-action">geo_monthly_benchmark.bat runs 70-prompt benchmark. Baseline established.</div></div>
+    <div class="win-row"><div class="row-title">✅ Business.com 9.2/10 review confirmed</div><div class="row-meta"><span>Agent: CITE</span><span>Impact: Live CITE leverage point</span></div><div class="row-action">Perplexity cites Business.com on brand search. Request guide inclusion using review as anchor.</div></div>
+  </div>
+  <div>
+    <h3 style="font-size:14px;font-weight:700;color:#fc8181;margin-bottom:12px;">❌ Top Gaps</h3>
+    <div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Unaided SOV = 0% across all 9 AI models</div><div class="row-meta"><span>Current: 0%</span><span>Target: 40%+</span><span>Root cause: Citation gap</span></div><div class="row-action">NerdWallet + Forbes inclusion. Expected: 2–3 months post-placement.</div></div>
+    <div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Rate Saver cited 0%</div><div class="row-meta"><span>Target: 50% fee queries</span><span>Root cause: Content gap</span></div><div class="row-action">BUILD Rate Saver GEO page. 3-week build. Visible in 1–2 AUDIT runs.</div></div>
+    <div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ Entity framing — domains vs payments</div><div class="row-meta"><span>Root cause: Entity framing gap</span></div><div class="row-action">Commerce content + community replies. Expected: 3–6 months to shift.</div></div>
+    <div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ 5 AMPLIFY replies ready, not posted</div><div class="row-meta"><span>5 drafts reviewed and approved</span></div><div class="row-action">Post replies. 3–4 months to AI index.</div></div>
+  </div>
 </div>
 
-<!-- S11: Leadership Decisions -->
-<div class="section-title" style="margin-top:28px;">11 · Leadership Decisions Required</div>
+<!-- S8: Leadership Decisions -->
+<div class="section-title" style="margin-top:28px;">8 · Leadership Decisions Required</div>
 <div class="alert">⚠️ <strong>Actions blocked waiting for leadership decisions.</strong> Delay = direct impact on 9-month SOV target.</div>
 <div class="card" style="padding:0;overflow:hidden;">
 <table>
@@ -281,8 +275,8 @@
 </div>
 <div style="font-size:12px;color:#4a5568;margin-top:8px;">Prior-month carryover: N/A — Baseline month. No prior decisions outstanding.</div>
 
-<!-- S12: Next Month Priorities -->
-<div class="section-title" style="margin-top:28px;">12 · Next Month Priority Brief → STRATEGY</div>
+<!-- S9: Next Month Priorities -->
+<div class="section-title" style="margin-top:28px;">9 · Next Month Priority Brief → STRATEGY</div>
 <div class="alert-blue" style="font-size:13px;">🎯 <strong>Single highest-leverage action:</strong> Get NerdWallet to include GoDaddy in their payment processor list. Perplexity cites NerdWallet on every fee query. One placement = first unaided SOV signal expected within 2–3 months.</div>
 <div class="prio-row"><div class="prio-num p0">P0</div><div class="prio-content"><h4>Send NerdWallet + Forbes CITE outreach briefs</h4><div class="pm"><span>Agent: CITE</span><span class="owner">Owner: PR/Partnerships</span><span>Root cause: Citation gap</span><span>SOV impact: +15–25pts unaided</span><span>Window: 2–3 months post-placement</span></div></div></div>
 <div class="prio-row"><div class="prio-num p0">P0</div><div class="prio-content"><h4>Publish Rate Saver GEO page (post legal approval)</h4><div class="pm"><span>Agent: BUILD → CRAWL Phase 2</span><span class="owner">Owner: Content + Legal</span><span>Root cause: Content gap</span><span>SOV impact: +5–10pts (B11–B14)</span><span>Window: 1–2 months post-index</span></div></div></div>

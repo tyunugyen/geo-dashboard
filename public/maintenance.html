@@ -139,14 +139,17 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div>
-    <h2>Your automation stack is already built — this is what's left for humans</h2>
-    <p>The .bat files handle the monthly benchmark run automatically. You have Claude tasks for weekly and monthly sessions. This page tells you exactly what to click, when, and what Claude will do automatically vs. what needs a human decision.</p>
+  <div style="flex:1;">
+    <h2>Your automation stack is ready — here's what needs humans</h2>
+    <p>Monthly benchmark runs automatically via .bat file. Claude tasks handle weekly monitoring and monthly analysis. This page shows exactly what to click, when, and what's automated vs. manual.</p>
   </div>
-  <div style="text-align:right;flex-shrink:0;">
-    <div style="font-size:12px;color:#718096;margin-bottom:8px;">Estimated human time</div>
-    <div style="font-size:20px;font-weight:800;color:#68d391;">~30 min/week</div>
-    <div style="font-size:12px;color:#4a5568;margin-top:4px;">+ ~2 hrs/month for full report</div>
+  <div style="flex-shrink:0;padding-left:24px;border-left:1px solid #2d3748;">
+    <div style="display:grid;grid-template-columns:auto auto;gap:16px 24px;align-items:center;">
+      <div style="font-size:11px;color:#718096;text-align:right;">Weekly time:</div>
+      <div style="font-size:18px;font-weight:800;color:#68d391;">~30 min</div>
+      <div style="font-size:11px;color:#718096;text-align:right;">Monthly time:</div>
+      <div style="font-size:18px;font-weight:800;color:#90cdf4;">~2 hours</div>
+    </div>
   </div>
 </div>
 
@@ -376,6 +379,25 @@
 <!-- TAB 3: QUICK REFERENCE -->
 <!-- ══════════════════════════════════════════ -->
 <div id="tab-quickref" class="tab-content">
+
+  <div class="section-title">Agent Activity Summary — This Month</div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:28px;">
+  <table>
+    <thead><tr><th>Agent</th><th>Actions Completed</th><th>Output / Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>INTEL</strong></td><td>Prompt bank v2.6 finalized — 50 prompts, 5-source validated</td><td><span class="pill pill-green">✅ Complete</span> — Note 7db9a2e8 updated</td></tr>
+      <tr><td><strong>AUDIT</strong></td><td>9-model benchmark run — 630 data points (70×9)</td><td><span class="pill pill-green">✅ Complete</span> — Unaided 0% / Aided ~100%</td></tr>
+      <tr><td><strong>CRAWL</strong></td><td>Phase 1 diagnostic — AI crawler access verified</td><td><span class="pill pill-green">✅ P0 cleared</span></td></tr>
+      <tr><td><strong>STRATEGY</strong></td><td>3 BUILD briefs + 2 CITE briefs issued, root causes classified</td><td><span class="pill pill-green">✅ Complete</span></td></tr>
+      <tr><td><strong>BUILD</strong></td><td>Rate Saver page draft in progress, vertical pages queued</td><td><span class="pill pill-yellow">⚠️ In progress</span> — Awaiting legal/PM</td></tr>
+      <tr><td><strong>AMPLIFY</strong></td><td>5 community reply drafts produced (fee, surcharge, support, switching)</td><td><span class="pill pill-yellow">⚠️ Awaiting posting</span></td></tr>
+      <tr><td><strong>CITE</strong></td><td>Aggregator gap report + NerdWallet/Forbes outreach briefs drafted</td><td><span class="pill pill-yellow">⚠️ Outreach not sent</span> — Awaiting PR</td></tr>
+      <tr><td><strong>REPORT</strong></td><td>Monthly executive report published</td><td><span class="pill pill-green">✅ Published</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- Quick Reference starts here -->
 
   <div class="section-title">Claude Prompts — Copy &amp; Paste</div>
   <div class="card" style="margin-bottom:20px;">

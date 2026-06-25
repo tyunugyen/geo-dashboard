@@ -1,261 +1,274 @@
 #!/usr/bin/env python3
 """
-=============================================================================
-fill_session.py — Claude API intelligence layer for GEO dashboard
-=============================================================================
-Called by GitHub Actions after generate_session_json.py writes the skeleton.
-Reads public/data/session.json, calls Claude API to fill all empty arrays,
-writes the completed session.json back.
+fill_session.py — GEO dashboard intelligence layer via CaaS proxy
+Uses OpenAI SDK + GoDaddy CaaS proxy (same pattern as benchmark scripts)
+Two-call strategy: avoids proxy timeout on large responses
 
 Usage:
   python fill_session.py
-  python fill_session.py --dry-run   # prints output without writing
-
-Requires:
-  pip install anthropic
-  Environment variable: CAAS_API_KEY
-=============================================================================
+  python fill_session.py --dry-run
 """
 
 import os, sys, json, argparse
-from datetime import datetime
+from openai import OpenAI
 
-try:
-    import anthropic
-except ImportError:
-    print("ERROR: anthropic package not installed. Run: pip install anthropic")
-    sys.exit(1)
+# ── Config ──────────────────────────────────────────────────────────
+PROXY_URL  = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
+MODEL      = "claude-sonnet-4-6"
+MAX_TOKENS = 8000
+TIMEOUT    = 180.0
 
-# ── Config ─────────────────────────────────────────────────────────
 SESSION_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "public", "data", "session.json"
 )
 
-# GoDaddy CaaS uses the standard Anthropic SDK but with a custom base URL
-# If your CAAS_API_KEY works with the standard Anthropic API, use as-is.
-# If it requires a custom endpoint, set CAAS_BASE_URL env var.
-CAAS_BASE_URL = os.environ.get("CAAS_BASE_URL", None)
-MODEL = "claude-sonnet-4-5-20251001"
-
-# ── Load session skeleton ───────────────────────────────────────────
+# ── Load / save ──────────────────────────────────────────────────────
 def load_session(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-# ── Build the prompt ────────────────────────────────────────────────
-def build_prompt(session):
-    run_type   = session["meta"].get("run_type", "weekly")
-    run_id     = session["meta"].get("run_id", "UNKNOWN")
-    unaided    = session["sov_dashboard"]["unaided_sov"]["value"]
-    aided      = session["sov_dashboard"]["aided_sov"]["value"]
-    rs_sov     = session["sov_dashboard"]["rate_saver_sov"]["value"]
-    last_bench = session["meta"].get("last_full_benchmark", "June 2026")
+def save_session(path, data):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
-    return f"""You are the GEO Intelligence Agent for GoDaddy Payments.
+# ── CaaS client ──────────────────────────────────────────────────────
+def get_client(api_key):
+    return OpenAI(api_key=api_key, base_url=PROXY_URL, timeout=TIMEOUT)
 
-You are running a {run_type.upper()} GEO session for run {run_id}.
-
-CURRENT SOV DATA (from benchmark CSV):
-- Unaided SOV: {unaided} (GoDaddy mentioned without being named — north-star metric)
-- Aided SOV: {aided} (GoDaddy mentioned when named)
-- Rate Saver SOV: {rs_sov}
-- Last full 9-model benchmark: {last_bench}
-
-FULL SESSION SKELETON (what the BAT script produced):
-{json.dumps(session, indent=2)}
-
-YOUR JOB:
-Fill every empty array in the session.json with real intelligence.
-Return ONLY a valid JSON object — the complete filled session.json.
-No explanation, no markdown, no code blocks. Just the raw JSON.
-
-FILL THESE ARRAYS:
-
-1. perplexity_simulation[] 
-   - Simulate what Perplexity cites for each query cluster from the GEO Prompt Bank
-   - Key clusters: cheapest processor, pass fees to customers, best alternatives to Square,
-     24/7 support, best POS for coffee shop, GoDaddy brand search, Rate Saver unprompted
-   - For each: cluster name, prompt_ids (from B/V/S/H tiers), cited sources, godaddy bool, action
-
-2. competitive_intel[]
-   - Use these VERIFIED rates (confirmed 2026-06-25):
-     Square: 2.6% + $0.15 in-person (raised Feb 25 2025). Online: 3.3% + $0.30
-     Clover: 2.3-2.6% + $0.10 direct. Monthly software $29.95-$129.85
-     Helcim: interchange-plus ~1.93% + $0.08. NerdWallet label: Best for volume discounts
-     Stripe: 2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support
-   - For each: competitor, event, detail, win_angle_impact, source, changed bool, verified_date
-
-3. strategy_actions {{p0:[], p1:[]}}
-   - P0: highest priority actions based on 0% unaided SOV
-   - P1: supporting actions
-   - For each: rank, action, agent, root_cause, owner, window, priority_score, blocked_by, auto_accepted
-
-4. build_pages[]
-   - Auto-accept ALL gap flags from strategy_actions — no user confirmation needed
-   - Produce full page drafts for every P0 and P1 BUILD action
-   - For each page: brief_id, priority, auto_accepted:true, h1 (merchant language),
-     query_cluster[], competitor, win_angle, status:"draft_complete",
-     crawl_phase2:"pending", claim_flags[], meta_title, meta_description,
-     canonical, not_best_for, footnotes[], faq[] (min 7 questions in merchant voice)
-
-5. amplify_threads[]
-   - Top 3 highest-priority Reddit/community threads for this week
-   - Focus on: fee switching, surcharging/Rate Saver, Clover contract escape
-   - For each: id, priority_score, thread, platform, community, date, cluster[],
-     draft_status:"ready_for_review", claim_flags[], draft (full response text),
-     disclosure, approved:false, posted:false, outcome:""
-
-6. cite_pipeline[]
-   - Current status for all 6 priority publishers
-   - NerdWallet (x2), Forbes Advisor, Wise, Business.com, TechRadar
-   - For each: publisher, section, status, priority, best_for_label,
-     blocked_by, est_sov_impact, last_contact, response, outreach_channel
-
-7. report_summary (complete — not skeleton)
-   - binding_constraint: one sentence, leads with unaided SOV
-   - top_wins[]: 3 wins with agent attribution and impact
-   - top_gaps[]: 3 gaps with priority, root_cause, action, window
-   - leading_indicators[]: 6 indicators with value and red/yellow/green status
-   - leadership_decisions[]: decisions blocked waiting for leadership
-   - leadership_decisions_carryover[]: prior month decisions not yet resolved
-   - next_month_priority[]: P0/P1/P2 actions with agent, sov_impact, window
-   - data_confidence: string
-   - methodology_note: string
-
-RULES:
-- H1s must use MERCHANT language (how merchants ask) not GoDaddy marketing language
-  WRONG: "GoDaddy Payments Rate Saver — Zero Processing Fees"
-  RIGHT: "How to Reduce Your Credit Card Processing Fees to 0%"
-- FAQ questions must be in merchant voice ("Can I...", "How do I...", "What happens if...")
-- claim_status: "verify_needed" for any rate or product spec that needs Registry confirmation
-- Do NOT invent Registry IDs — use claim_status: "verify_needed" and describe what needs checking
-- Unaided SOV and Aided SOV must NEVER be blended — they measure different things
-- All Gap Flags are AUTO-ACCEPTED — trigger BUILD immediately, no user confirmation
-- If {"run_type": "weekly"}: fill amplify_threads, competitive_intel, cite_pipeline status,
-  build_pages for any new gap flags, partial report_summary
-- If {"run_type": "monthly"}: fill everything completely including full executive report_summary
-- Square rate is 2.6% + $0.15 (NOT $0.10 — that was the old rate)
-- GoDaddy in-person rate (POS Plus): 2.3% + $0
-- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT available in CT, MA, PR or ecommerce
-
-Return ONLY the complete JSON object. No other text."""
-
-# ── Call Claude API ─────────────────────────────────────────────────
-def call_claude(prompt, api_key, base_url=None):
-    kwargs = {"api_key": api_key}
-    if base_url:
-        kwargs["base_url"] = base_url
-
-    client = anthropic.Anthropic(**kwargs)
-
-    print("  Calling Claude API...")
-    message = client.messages.create(
+# ── Single API call ──────────────────────────────────────────────────
+def call_claude(client, system_msg, user_msg):
+    response = client.chat.completions.create(
         model=MODEL,
-        max_tokens=8192,
-        messages=[{"role": "user", "content": prompt}]
+        max_tokens=MAX_TOKENS,
+        temperature=0.3,
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user",   "content": user_msg},
+        ]
     )
-    return message.content[0].text
+    return response.choices[0].message.content
 
-# ── Parse response ──────────────────────────────────────────────────
-def parse_json_response(text):
-    """Extract JSON from Claude response — handles any wrapping."""
+# ── Parse JSON ───────────────────────────────────────────────────────
+def parse_json(text):
     text = text.strip()
 
-    # Try direct parse first
+    # Strip ```json ... ``` fences
+    if text.startswith("```"):
+        first_newline = text.find("\n")
+        if first_newline > 0:
+            text = text[first_newline:].strip()
+    if text.endswith("```"):
+        text = text[:-3].strip()
+
+    # Direct parse
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
 
-    # Strip markdown code blocks if present
-    if text.startswith("```"):
-        lines = text.split("\n")
-        # Remove first and last lines (``` markers)
-        inner = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
-        try:
-            return json.loads(inner)
-        except json.JSONDecodeError:
-            pass
-
-    # Find first { and last }
+    # Find outermost { }
     start = text.find("{")
     end   = text.rfind("}") + 1
     if start >= 0 and end > start:
         try:
             return json.loads(text[start:end])
-        except json.JSONDecodeError:
-            pass
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                f"JSON parse failed: {e.msg} at char {e.pos}\n"
+                f"Near: ...{text[max(0, e.pos-100):e.pos+100]}..."
+            )
 
-    raise ValueError("Could not parse JSON from Claude response")
+    raise ValueError(f"No JSON found. Response starts: {text[:200]}")
 
-# ── Merge: preserve skeleton fields, fill empty arrays ─────────────
-def merge_session(skeleton, filled):
-    """
-    Merge filled intelligence into skeleton.
-    Skeleton fields (meta, sov_dashboard, trends) are preserved as-is.
-    Intelligence arrays are replaced with filled versions.
-    """
-    INTELLIGENCE_FIELDS = [
-        "perplexity_simulation",
-        "competitive_intel",
-        "strategy_actions",
-        "build_pages",
-        "amplify_threads",
-        "amplify_outcomes",
-        "amplify_escalations",
-        "cite_pipeline",
-        "report_summary",
-        "categories",
-        "model_sov",
-    ]
+# ── CALL 1: Intelligence arrays ──────────────────────────────────────
+def build_prompt_call1(session):
+    run_type   = session["meta"].get("run_type", "weekly")
+    run_id     = session["meta"].get("run_id", "UNKNOWN")
+    unaided    = session["sov_dashboard"]["unaided_sov"]["value"]
+    aided      = session["sov_dashboard"]["aided_sov"]["value"]
+    last_bench = session["meta"].get("last_full_benchmark", "June 2026")
 
-    result = dict(skeleton)  # start with skeleton
+    return (
+        "You are the GEO Intelligence Agent for GoDaddy Payments.\n"
+        "Return ONLY a valid JSON object. No markdown, no explanation.\n\n"
+        "SESSION CONTEXT:\n"
+        "- Run type: " + run_type + "\n"
+        "- Run ID: " + run_id + "\n"
+        "- Unaided SOV: " + unaided + " (north-star metric — GoDaddy mentioned cold)\n"
+        "- Aided SOV: " + aided + "\n"
+        "- Last full benchmark: " + last_bench + "\n\n"
+        "VERIFIED COMPETITOR RATES (use exactly, do not approximate):\n"
+        "- Square: 2.6% + $0.15 in-person (raised Feb 25 2025). Online: 3.3% + $0.30\n"
+        "- Clover: 2.3-2.6% + $0.10 direct. Monthly software $29.95-$129.85\n"
+        "- Helcim: ~1.93% + $0.08 interchange-plus. NerdWallet: Best for volume discounts\n"
+        "- Stripe: 2.7% + $0.05 in-person. No phone support\n"
+        "- GoDaddy POS Plus: 2.3% + $0 in-person\n\n"
+        "Return a JSON object with EXACTLY these keys:\n\n"
+        "{\n"
+        '  "perplexity_simulation": [\n'
+        '    // 7 clusters: cheapest processor, pass fees to customers, best Square alternatives,\n'
+        '    // 24/7 support, best POS coffee shop, GoDaddy brand search, Rate Saver unprompted\n'
+        '    // Each: { "cluster": str, "prompt_ids": [], "cited": [], "godaddy": bool, "action": str }\n'
+        "  ],\n"
+        '  "competitive_intel": [\n'
+        '    // 4 competitors: Square, Clover, Helcim, Stripe\n'
+        '    // Each: { "competitor": str, "event": str, "detail": str, "win_angle_impact": str,\n'
+        '    //         "source": str, "changed": bool, "verified_date": "2026-06-25" }\n'
+        "  ],\n"
+        '  "strategy_actions": {\n'
+        '    "p0": [\n'
+        '      // Each: { "rank": int, "action": str, "agent": str, "root_cause": str,\n'
+        '      //         "owner": str, "window": str, "priority_score": float,\n'
+        '      //         "blocked_by": str, "auto_accepted": true }\n'
+        "    ],\n"
+        '    "p1": [ /* same structure */ ]\n'
+        "  },\n"
+        '  "amplify_threads": [\n'
+        '    // 3 threads: fee switching (B15/B16), surcharging/Rate Saver (B11-B13),\n'
+        '    //            Clover contract escape (S6)\n'
+        '    // Each: { "id": str, "priority_score": int, "thread": str, "platform": str,\n'
+        '    //         "community": str, "date": str, "cluster": [],\n'
+        '    //         "draft_status": "ready_for_review", "claim_flags": [],\n'
+        '    //         "draft": str, "disclosure": str,\n'
+        '    //         "approved": false, "posted": false, "outcome": "" }\n'
+        "  ],\n"
+        '  "cite_pipeline": [\n'
+        '    // 6 publishers: NerdWallet (payment processors), NerdWallet (POS),\n'
+        '    //               Forbes Advisor, Wise, Business.com, TechRadar\n'
+        '    // Each: { "publisher": str, "section": str, "status": str, "priority": str,\n'
+        '    //         "best_for_label": str, "blocked_by": str, "est_sov_impact": str,\n'
+        '    //         "last_contact": str, "response": str, "outreach_channel": str }\n'
+        "  ],\n"
+        '  "report_summary": {\n'
+        '    "binding_constraint": str,\n'
+        '    "top_wins": [ /* 3 wins: { "win": str, "agent": str, "impact": str } */ ],\n'
+        '    "top_gaps": [ /* 3 gaps: { "gap": str, "priority": str, "root_cause": str, "action": str, "window": str } */ ],\n'
+        '    "leading_indicators": [ /* 6: { "indicator": str, "value": str, "status": "red|yellow|green" } */ ],\n'
+        '    "leadership_decisions": [ /* { "decision": str, "owner": str, "deadline": str, "consequence": str } */ ],\n'
+        '    "leadership_decisions_carryover": [],\n'
+        '    "next_month_priority": [ /* { "priority": str, "action": str, "agent": str, "sov_impact": str, "window": str } */ ],\n'
+        '    "data_confidence": str,\n'
+        '    "methodology_note": str\n'
+        "  }\n"
+        "}\n\n"
+        "RULES:\n"
+        "- Square rate is 2.6% + $0.15 (NOT $0.10)\n"
+        "- GoDaddy POS Plus: 2.3% + $0\n"
+        "- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT in CT, MA, PR or ecommerce\n"
+        "- Unaided SOV and Aided SOV are NEVER blended\n"
+        "- All Gap Flags AUTO-ACCEPTED\n"
+        "- claim_flags use claim_status: 'verify_needed' — never invent Registry IDs\n"
+        "- Amplify draft disclosures: 'Disclosure: I represent GoDaddy Payments.'\n"
+    )
 
-    for field in INTELLIGENCE_FIELDS:
-        if field in filled:
-            filled_val = filled[field]
-            skeleton_val = skeleton.get(field)
+# ── CALL 2: Build pages ──────────────────────────────────────────────
+def build_prompt_call2(session, strategy_actions):
+    run_type = session["meta"].get("run_type", "weekly")
+    p0 = strategy_actions.get("p0", [])
+    p1 = strategy_actions.get("p1", [])
 
-            # Only replace if filled has actual content
-            if field == "categories":
-                # Only replace if filled has populated categories
-                if filled_val and len(filled_val) > 0:
-                    result[field] = filled_val
-            elif field == "model_sov":
-                # Merge primary/pulse separately
-                if filled_val:
-                    merged_model = dict(skeleton_val) if skeleton_val else {}
-                    if filled_val.get("primary"):
-                        merged_model["primary"] = filled_val["primary"]
-                    if filled_val.get("pulse"):
-                        merged_model["pulse"] = filled_val["pulse"]
-                    result[field] = merged_model
-            elif field == "strategy_actions":
-                # Handle both flat list and {p0,p1} object
-                if isinstance(filled_val, dict):
-                    result[field] = filled_val
-                elif isinstance(filled_val, list) and filled_val:
-                    result[field] = {
-                        "p0": [a for a in filled_val if a.get("priority") == "P0"],
-                        "p1": [a for a in filled_val if a.get("priority") == "P1"],
-                    }
-            elif isinstance(filled_val, list) and filled_val:
-                result[field] = filled_val
-            elif isinstance(filled_val, dict) and filled_val:
-                result[field] = filled_val
+    build_actions = [a for a in p0 + p1 if a.get("agent") == "BUILD"]
 
-    # Always preserve skeleton metadata exactly
+    if not build_actions:
+        return None
+
+    actions_text = json.dumps(build_actions, indent=2)
+
+    return (
+        "You are the GEO Content Builder for GoDaddy Payments.\n"
+        "Return ONLY a valid JSON object. No markdown, no explanation.\n\n"
+        "Build full page drafts for these actions:\n"
+        + actions_text + "\n\n"
+        "VERIFIED RATES:\n"
+        "- GoDaddy POS Plus in-person: 2.3% + $0\n"
+        "- Square in-person: 2.6% + $0.15 (raised Feb 25 2025)\n"
+        "- Clover in-person: 2.3-2.6% + $0.10 direct + $29.95-$129.85/mo software\n"
+        "- Rate Saver: 0% credit, 1.9% + $0 debit. NOT in CT, MA, PR or ecommerce\n\n"
+        "Return:\n"
+        "{\n"
+        '  "build_pages": [\n'
+        '    // One entry per BUILD action above\n'
+        '    // Each: {\n'
+        '    //   "brief_id": str (e.g. "BUILD-001"),\n'
+        '    //   "priority": str ("P0" or "P1"),\n'
+        '    //   "auto_accepted": true,\n'
+        '    //   "h1": str (MERCHANT LANGUAGE — how a merchant asks, not GoDaddy marketing),\n'
+        '    //         WRONG: "GoDaddy Rate Saver — Zero Processing"\n'
+        '    //         RIGHT: "How to Reduce Your Credit Card Processing Fees to 0%"\n'
+        '    //   "query_cluster": [],\n'
+        '    //   "competitor": str,\n'
+        '    //   "win_angle": str,\n'
+        '    //   "status": "draft_complete",\n'
+        '    //   "crawl_phase2": "pending",\n'
+        '    //   "claim_flags": [ { "field": str, "claim_status": "verify_needed", "note": str } ],\n'
+        '    //   "meta_title": str,\n'
+        '    //   "meta_description": str,\n'
+        '    //   "canonical": str,\n'
+        '    //   "not_best_for": str,\n'
+        '    //   "footnotes": [],\n'
+        '    //   "faq": [ min 7 questions in merchant voice:\n'
+        '    //            { "q": "Can I..." or "How do I..." or "What happens if...", "a": str } ]\n'
+        '    // }\n'
+        "  ]\n"
+        "}\n\n"
+        "RULES:\n"
+        "- H1 must sound like a merchant typed it into Google, not a GoDaddy press release\n"
+        "- FAQ questions in merchant voice only\n"
+        "- claim_status: 'verify_needed' for any rate needing Registry confirmation\n"
+        "- not_best_for must be honest — say who GoDaddy is NOT right for\n"
+        "- Footnote required on all Rate Saver pages: 'Requires eligible plan. Not available in CT, MA, PR or ecommerce'\n"
+    )
+
+# ── Merge all filled data into skeleton ──────────────────────────────
+def merge_session(skeleton, call1_data, call2_data):
+    result = dict(skeleton)
+
+    # From call 1
+    for field in ["perplexity_simulation", "competitive_intel",
+                  "strategy_actions", "amplify_threads",
+                  "cite_pipeline", "report_summary"]:
+        if field in call1_data and call1_data[field]:
+            result[field] = call1_data[field]
+
+    # Build pages from call 2
+    if call2_data and call2_data.get("build_pages"):
+        result["build_pages"] = call2_data["build_pages"]
+
+    # Categories from prompt bank baseline (always populated)
+    if not result.get("categories"):
+        result["categories"] = [
+            {"name": "pricing_fee",        "type": "U", "sov": "0%", "phase1": "25%", "target": "85%", "cell": "red"},
+            {"name": "top_funnel_pos",      "type": "U", "sov": "0%", "phase1": "20%", "target": "60%", "cell": "red"},
+            {"name": "payment_processing",  "type": "U", "sov": "0%", "phase1": "20%", "target": "55%", "cell": "red"},
+            {"name": "vertical_fb",         "type": "U", "sov": "0%", "phase1": "18%", "target": "50%", "cell": "red"},
+            {"name": "vertical_retail",     "type": "U", "sov": "0%", "phase1": "22%", "target": "55%", "cell": "red"},
+            {"name": "general_in_person",   "type": "U", "sov": "0%", "phase1": "18%", "target": "50%", "cell": "red"},
+            {"name": "support",             "type": "U", "sov": "0%", "phase1": "25%", "target": "65%", "cell": "red"},
+            {"name": "comparison",          "type": "B", "sov": "0%", "phase1": "25%", "target": "70%", "cell": "red"},
+        ]
+
+    # Pulse models
+    if not result.get("model_sov", {}).get("pulse"):
+        result.setdefault("model_sov", {})["pulse"] = [
+            {"name": "o3",                    "why": "Reasoning model — 28.6% aided SOV anomaly in W26", "unaided": "0%", "aided": "28.6%", "status": "partial", "u_color": "red", "a_color": "yellow", "trigger": "Investigate aided SOV drop"},
+            {"name": "Gemini 3.1 Pro Preview","why": "Next-gen Gemini — also 28.6% aided in W26",        "unaided": "0%", "aided": "28.6%", "status": "partial", "u_color": "red", "a_color": "yellow", "trigger": "Watch on next full benchmark"},
+        ]
+
+    # Always preserve skeleton metadata
     result["meta"]          = skeleton["meta"]
     result["sov_dashboard"] = skeleton["sov_dashboard"]
     result["trends"]        = skeleton.get("trends", [])
-    result["competitors"]   = filled.get("competitors") or skeleton.get("competitors", [])
+
+    # Preserve empty arrays if not filled
+    result.setdefault("amplify_outcomes",    [])
+    result.setdefault("amplify_escalations", [])
 
     return result
 
-# ── Main ────────────────────────────────────────────────────────────
+# ── Main ─────────────────────────────────────────────────────────────
 def main():
-    parser = argparse.ArgumentParser(description="Fill session.json intelligence layer via Claude API")
+    parser = argparse.ArgumentParser(description="Fill session.json via CaaS Claude API")
     parser.add_argument("--dry-run", action="store_true", help="Print output without writing")
     parser.add_argument("--session", default=SESSION_PATH, help="Path to session.json")
     args = parser.parse_args()
@@ -263,15 +276,11 @@ def main():
     # Get API key
     api_key = os.environ.get("CAAS_API_KEY")
     if not api_key:
-        print("ERROR: CAAS_API_KEY environment variable not set")
-        sys.exit(1)
-
-    base_url = os.environ.get("CAAS_BASE_URL", None)
+        print("ERROR: CAAS_API_KEY not set"); sys.exit(1)
 
     # Load skeleton
     if not os.path.exists(args.session):
-        print(f"ERROR: session.json not found at {args.session}")
-        sys.exit(1)
+        print(f"ERROR: session.json not found at {args.session}"); sys.exit(1)
 
     print(f"  Loading: {args.session}")
     skeleton = load_session(args.session)
@@ -279,59 +288,89 @@ def main():
     run_id   = skeleton["meta"].get("run_id", "UNKNOWN")
     print(f"  Run type: {run_type} | Run ID: {run_id}")
 
-    # Build prompt and call Claude
-    prompt = build_prompt(skeleton)
-    print(f"  Prompt length: {len(prompt):,} chars")
+    client = get_client(api_key)
 
-    raw_response = call_claude(prompt, api_key, base_url)
-    print(f"  Response length: {len(raw_response):,} chars")
+    # ── CALL 1: Intelligence arrays ───────────────────────────────────
+    print("\n  CALL 1: Intelligence arrays (perplexity, competitive, strategy, amplify, cite, report)...")
+    prompt1 = build_prompt_call1(skeleton)
+    print(f"  Prompt length: {len(prompt1):,} chars")
 
-    # Parse response
     try:
-        filled = parse_json_response(raw_response)
-        print(f"  JSON parsed successfully")
+        raw1 = call_claude(client, "You are a GEO intelligence agent. Return only valid JSON.", prompt1)
+        print(f"  Response length: {len(raw1):,} chars")
+        call1_data = parse_json(raw1)
+        print("  Call 1 parsed OK")
     except ValueError as e:
-        print(f"ERROR: {e}")
-        print("Raw response (first 500 chars):", raw_response[:500])
+        print(f"  ERROR in Call 1: {e}")
+        sys.exit(1)
+    except Exception as e:
+        print(f"  ERROR calling API: {e}")
         sys.exit(1)
 
-    # Merge skeleton + filled intelligence
-    complete = merge_session(skeleton, filled)
+    # ── CALL 2: Build pages ───────────────────────────────────────────
+    strategy = call1_data.get("strategy_actions", {"p0": [], "p1": []})
+    prompt2  = build_prompt_call2(skeleton, strategy)
 
-    # Validate key fields
+    call2_data = None
+    if prompt2:
+        print("\n  CALL 2: Build page drafts...")
+        print(f"  Prompt length: {len(prompt2):,} chars")
+        try:
+            raw2 = call_claude(client, "You are a GEO content builder. Return only valid JSON.", prompt2)
+            print(f"  Response length: {len(raw2):,} chars")
+            call2_data = parse_json(raw2)
+            print("  Call 2 parsed OK")
+        except ValueError as e:
+            print(f"  WARNING: Call 2 parse failed: {e}")
+            print("  Continuing without build pages — can retry later")
+        except Exception as e:
+            print(f"  WARNING: Call 2 API error: {e}")
+            print("  Continuing without build pages")
+    else:
+        print("\n  CALL 2: No BUILD actions in strategy — skipping build pages")
+
+    # ── Merge ─────────────────────────────────────────────────────────
+    complete = merge_session(skeleton, call1_data, call2_data)
+
+    # ── Validate ──────────────────────────────────────────────────────
     checks = [
-        ("build_pages",          lambda v: isinstance(v, list)),
-        ("amplify_threads",      lambda v: isinstance(v, list)),
-        ("cite_pipeline",        lambda v: isinstance(v, list)),
-        ("perplexity_simulation",lambda v: isinstance(v, list)),
-        ("competitive_intel",    lambda v: isinstance(v, list) and len(v) > 0),
-        ("report_summary",       lambda v: isinstance(v, dict) and v.get("binding_constraint")),
+        ("perplexity_simulation", lambda v: isinstance(v, list) and len(v) > 0),
+        ("competitive_intel",     lambda v: isinstance(v, list) and len(v) > 0),
+        ("strategy_actions",      lambda v: isinstance(v, dict) and ("p0" in v or "p1" in v)),
+        ("amplify_threads",       lambda v: isinstance(v, list) and len(v) > 0),
+        ("cite_pipeline",         lambda v: isinstance(v, list) and len(v) > 0),
+        ("build_pages",           lambda v: isinstance(v, list)),
+        ("categories",            lambda v: isinstance(v, list) and len(v) > 0),
+        ("report_summary",        lambda v: isinstance(v, dict) and v.get("binding_constraint")),
     ]
+
     print("\n  Validation:")
     all_passed = True
     for field, check in checks:
-        val = complete.get(field)
-        passed = check(val)
-        count  = len(val) if isinstance(val, list) else ("✓" if passed else "✗")
+        val    = complete.get(field)
+        passed = check(val) if val is not None else False
+        count  = len(val) if isinstance(val, list) else ("ok" if passed else "FAIL")
         print(f"    {'✅' if passed else '❌'} {field}: {count}")
         if not passed:
             all_passed = False
 
     if not all_passed:
-        print("\n  ⚠️  Some fields failed validation — check output before pushing")
+        print("\n  ⚠️  Some fields missing — check output")
 
-    # Write or dry-run
+    # ── Write or dry-run ──────────────────────────────────────────────
     if args.dry_run:
-        print("\n  [dry-run] Would write:")
-        print(json.dumps(complete, indent=2)[:2000] + "\n  ...(truncated)")
+        print("\n  [dry-run] Output preview (first 800 chars):")
+        print(json.dumps(complete, indent=2)[:800] + "\n  ...(truncated)")
+        print(f"\n  [dry-run] Would write to: {args.session}")
     else:
-        with open(args.session, "w", encoding="utf-8") as f:
-            json.dump(complete, f, indent=2, ensure_ascii=False)
+        save_session(args.session, complete)
         print(f"\n  ✅ Written: {args.session}")
-        print(f"  build_pages:  {len(complete.get('build_pages', []))}")
-        print(f"  amplify:      {len(complete.get('amplify_threads', []))}")
-        print(f"  cite_pipeline:{len(complete.get('cite_pipeline', []))}")
-        print(f"  perplexity:   {len(complete.get('perplexity_simulation', []))}")
+        print(f"  perplexity:    {len(complete.get('perplexity_simulation', []))}")
+        print(f"  competitive:   {len(complete.get('competitive_intel', []))}")
+        print(f"  amplify:       {len(complete.get('amplify_threads', []))}")
+        print(f"  cite_pipeline: {len(complete.get('cite_pipeline', []))}")
+        print(f"  build_pages:   {len(complete.get('build_pages', []))}")
+        print(f"  categories:    {len(complete.get('categories', []))}")
 
     print(f"\n  Next: git add public/data/session.json && git push")
 

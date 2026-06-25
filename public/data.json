@@ -24,9 +24,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "12.7%",
-      "fill": 13,
-      "color": "#f6e05e"
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
     }
   },
   "categories": [

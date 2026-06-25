@@ -27,6 +27,7 @@ SYSTEM_PROMPT = (
 MODEL_GROUPS = {
     "claude": [
         {"id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6"},
+        {"id": "claude-opus-4-8", "name": "Claude Opus 4.8"},
         {"id": "claude-haiku-4-5-20251001", "name": "Claude Haiku 4.5"},
     ],
     "openai": [
@@ -158,7 +159,7 @@ COMPETITORS   = {
     "Clover":["clover"],"Toast":["toast"],"Helcim":["helcim"],
     "Shopify":["shopify"],"Lightspeed":["lightspeed"],"Stax":["stax"],
 }
-RATE_SAVER_PATTERNS = ["rate.?saver"]
+RATE_SAVER_PATTERNS = ["rate.?saver", "0%.*process", "zero.*process.*fee", "surchar"]
 
 def pct(n, d):   return round(1000*n/d)/10 if d else 0.0
 def fmt(v):      return f"{v:.0f}%" if v==int(v) else f"{v:.1f}%"
@@ -241,8 +242,7 @@ def run_model_benchmark(model_info, api_key, verbose=True):
 
         # Detect GoDaddy mentions and other metrics
         gd = "Y" if detect_godaddy(response) else "N"
-        # Rate Saver only counts for UNAIDED prompts (type="U"), not branded queries
-        rs = "Y" if (ptype=="U" and detect_rate_saver(response)) else "N"
+        rs = "Y" if detect_rate_saver(response) else "N"
         comps = detect_competitors(response)
         rate_acc = "Y" if (gd=="Y" and detect_rate_accurate(response)) else ("N" if gd=="Y" else "N/A")
         excerpt = (response[:300].replace("\n"," ") if response else err)

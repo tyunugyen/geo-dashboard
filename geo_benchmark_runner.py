@@ -125,7 +125,7 @@ COMPETITORS   = {
     "Clover":["clover"],"Toast":["toast"],"Helcim":["helcim"],
     "Shopify":["shopify"],"Lightspeed":["lightspeed"],"Stax":["stax"],
 }
-RATE_SAVER_PATTERNS = ["rate.?saver"]
+RATE_SAVER_PATTERNS = ["rate.?saver", "0%.*process", "zero.*process.*fee", "surchar"]
 
 def pct(n, d):   return round(1000*n/d)/10 if d else 0.0
 def fmt(v):      return f"{v:.0f}%" if v==int(v) else f"{v:.1f}%"
@@ -205,8 +205,7 @@ def run(api_key):
         if err:
             print(f" {err[:80]}")
         gd        = "Y" if detect_godaddy(response) else "N"
-        # Rate Saver only counts for UNAIDED prompts (type="U"), not branded queries
-        rs        = "Y" if (ptype=="U" and detect_rate_saver(response)) else "N"
+        rs        = "Y" if detect_rate_saver(response) else "N"
         comps     = detect_competitors(response)
         rate_acc  = "Y" if (gd=="Y" and detect_rate_accurate(response)) else ("N" if gd=="Y" else "N/A")
         framing   = "Commerce/Payments" if gd=="Y" else "N/A — not mentioned"

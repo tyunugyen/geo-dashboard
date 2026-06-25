@@ -8,7 +8,7 @@ set PATH=%PATH%;C:\Python313;C:\Python313\Scripts;C:\Program Files\Git\bin;C:\Pr
 
 echo.
 echo ============================================================
-echo   GEO Monthly Benchmark (9 models: 6 primary + 3 pulse)
+echo   GEO Monthly Benchmark (Claude + GPT-4o + Gemini)
 echo   %DATE% %TIME%
 echo ============================================================
 echo.
@@ -40,11 +40,9 @@ if errorlevel 1 (
     pause & exit /b 1
 )
 
-echo Running benchmark: Claude + GPT-4o + Gemini (9 models, ~15 min)...
-echo.
-python geo_benchmark_multi_model.py --models claude openai gemini
+echo Running benchmark: Claude + GPT-4o + Gemini (3 models, ~15 min)...
+python geo_benchmark_multi_model.py --models claude openai gemini --quiet
 if errorlevel 1 (
-    echo.
     echo Retrying with Claude only...
     python geo_benchmark_runner.py
     if errorlevel 1 (

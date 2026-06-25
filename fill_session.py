@@ -35,7 +35,13 @@ def save_session(path, data):
 
 # ── CaaS client ──────────────────────────────────────────────────────
 def get_client(api_key):
-    return OpenAI(api_key=api_key, base_url=PROXY_URL, timeout=TIMEOUT)
+    from openai import Timeout
+    return OpenAI(
+        api_key=api_key,
+        base_url=PROXY_URL,
+        timeout=Timeout(connect=60.0, read=TIMEOUT, write=60.0, pool=10.0),
+        max_retries=0  # We handle retries ourselves
+    )
 
 # ── Single API call with retry ──────────────────────────────────────
 def call_claude(client, system_msg, user_msg):
@@ -311,10 +317,14 @@ def main():
         call1_data = parse_json(raw1)
         print("  Call 1 parsed OK")
     except ValueError as e:
-        print(f"  ERROR in Call 1: {e}")
+        print(f"  ERROR in Call 1 parsing: {e}")
         sys.exit(1)
     except Exception as e:
+        import traceback
         print(f"  ERROR calling API: {e}")
+        print(f"  Error type: {type(e).__name__}")
+        print(f"  Full traceback:")
+        traceback.print_exc()
         sys.exit(1)
 
     # ── CALL 2: Build pages ───────────────────────────────────────────

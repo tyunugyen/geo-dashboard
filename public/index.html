@@ -293,31 +293,10 @@
       </div>
       <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">These models calculate the official monthly SOV score.</p>
       <table class="model-table" style="margin-bottom:18px;">
-        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Why Primary</th></tr></thead>
+        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Rate Saver</th></tr></thead>
         <tbody id="model-sov-rows">
           <tr>
-            <td><strong>GPT-4o</strong></td>
-            <td><span class="model-tag tag-red">0%</span></td>
-            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
-            <td style="color:#718096;">Most widely used consumer AI — highest merchant exposure</td>
-          </tr>
-          <tr>
-            <td><strong>Claude Sonnet 4.6</strong></td>
-            <td><span class="model-tag tag-red">0%</span></td>
-            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
-            <td style="color:#718096;">Strong citation behavior — frequently used for research queries</td>
-          </tr>
-          <tr>
-            <td><strong>Gemini 2.5 Pro</strong></td>
-            <td><span class="model-tag tag-red">0%</span></td>
-            <td><span class="model-tag" style="background:#1a2e1a;color:#68d391;">100%</span></td>
-            <td style="color:#718096;">Google ecosystem — directly influences AI Overviews</td>
-          </tr>
-          <tr>
-            <td><strong>GPT-5</strong></td>
-            <td><span class="model-tag tag-red">0%</span></td>
-            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">0% ⚠️</span></td>
-            <td style="color:#718096;">Latest OpenAI flagship — anomaly being resolved</td>
+            <td colspan="4" style="color:#718096;text-align:center;padding:20px;">Loading...</td>
           </tr>
         </tbody>
       </table>
@@ -327,22 +306,10 @@
       </div>
       <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">Not included in official SOV. Monitored for emerging behavior and future promotion.</p>
       <table class="model-table">
-        <thead><tr><th>Model</th><th>Signal</th><th>Why We Watch It</th></tr></thead>
-        <tbody>
+        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Rate Saver</th></tr></thead>
+        <tbody id="model-pulse-rows">
           <tr>
-            <td><strong>o3</strong></td>
-            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">57% aided</span></td>
-            <td style="color:#718096;">Reasoning model — behaves differently on branded queries</td>
-          </tr>
-          <tr>
-            <td><strong>o3-mini</strong></td>
-            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">86% aided</span></td>
-            <td style="color:#718096;">Same reasoning pattern as o3 — lower cost variant</td>
-          </tr>
-          <tr>
-            <td><strong>Perplexity</strong></td>
-            <td><span class="model-tag" style="background:#1a2744;color:#90cdf4;">Web search</span></td>
-            <td style="color:#718096;">Used in GoCaaS — real merchant exposure via product integration</td>
+            <td colspan="4" style="color:#718096;text-align:center;padding:20px;">Loading...</td>
           </tr>
         </tbody>
       </table>
@@ -548,22 +515,23 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Model SOV table — render all models from data.json
+      // Model SOV tables — render primary and pulse separately
       var modelRows = document.getElementById('model-sov-rows');
-      if (modelRows && d.model_sov) {
-        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
-        var rows = Object.values(d.model_sov).map(function(m) {
-          var icon = STATUS_ICON[m.status] || '—';
-          var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
-          return '<tr>' +
+      var pulseRows = document.getElementById('model-pulse-rows');
+      if (d.model_sov) {
+        var primary = [], pulse = [];
+        Object.values(d.model_sov).forEach(function(m) {
+          var row = '<tr>' +
             '<td><strong>' + (m.name||'') + '</strong></td>' +
             '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
             '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#fc8181') + ';">' + (m.aided||'—') + '</span></td>' +
             '<td style="color:#718096;">' + (m.rs||'—') + '</td>' +
-            '<td>' + icon + note + '</td>' +
             '</tr>';
-        }).join('');
-        modelRows.innerHTML = rows;
+          if (m.tier === 'primary') primary.push(row);
+          else pulse.push(row);
+        });
+        if (modelRows) modelRows.innerHTML = primary.join('') || '<tr><td colspan="4" style="color:#718096;text-align:center;padding:20px;">No primary models</td></tr>';
+        if (pulseRows) pulseRows.innerHTML = pulse.join('') || '<tr><td colspan="4" style="color:#718096;text-align:center;padding:20px;">No pulse models</td></tr>';
       }
       // Update header badge
       if (d.meta) {

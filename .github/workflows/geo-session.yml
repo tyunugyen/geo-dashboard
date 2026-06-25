@@ -36,8 +36,15 @@ jobs:
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
-          echo "Generating session.json skeleton from benchmark..."
-          python generate_session_json.py
+          # Determine run type: default to weekly, or use workflow input
+          RUN_TYPE="${{ github.event.inputs.run_type }}"
+          if [ "$RUN_TYPE" = "monthly" ]; then
+            echo "Generating MONTHLY session.json skeleton..."
+            python generate_session_json.py --monthly
+          else
+            echo "Generating WEEKLY session.json skeleton..."
+            python generate_session_json.py --weekly
+          fi
           echo ""
           echo "Skeleton generated. Preview:"
           python - <<'EOF'

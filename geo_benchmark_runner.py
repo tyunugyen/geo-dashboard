@@ -125,7 +125,11 @@ COMPETITORS   = {
     "Clover":["clover"],"Toast":["toast"],"Helcim":["helcim"],
     "Shopify":["shopify"],"Lightspeed":["lightspeed"],"Stax":["stax"],
 }
-RATE_SAVER_PATTERNS = ["rate.?saver", "0%.*process", "zero.*process.*fee", "surchar"]
+RATE_SAVER_PATTERNS = [
+    "rate.?saver",              # Direct Rate Saver mention
+    "godaddy.*0%",              # GoDaddy + 0% mention
+    "0%.*godaddy",              # 0% + GoDaddy mention
+]
 
 def pct(n, d):   return round(1000*n/d)/10 if d else 0.0
 def fmt(v):      return f"{v:.0f}%" if v==int(v) else f"{v:.1f}%"
@@ -136,6 +140,9 @@ def detect_godaddy(text):
     return any(term in t for term in GODADDY_TERMS)
 
 def detect_rate_saver(text):
+    """Detect GoDaddy Rate Saver product mentions specifically.
+    Only counts if Rate Saver is explicitly named or GoDaddy + 0% are both present.
+    Generic surcharge/fee discussions without GoDaddy don't count."""
     t = norm(text)
     return any(re.search(p, t) for p in RATE_SAVER_PATTERNS)
 

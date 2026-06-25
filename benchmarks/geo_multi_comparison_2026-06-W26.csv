@@ -1,12 +1,2 @@
 model_id,model_name,unaided_sov,aided_sov,rate_saver_sov,unaided_hits,unaided_prompts,aided_hits,aided_prompts,status
-claude-sonnet-4-6,Claude Sonnet 4.6,0.0%,100.0%,11.1%,0,63,7,7,success
-claude-haiku-4-5-20251001,Claude Haiku 4.5,0.0%,100.0%,6.3%,0,63,7,7,success
-gpt-4o,GPT-4o,0.0%,100.0%,6.3%,0,63,7,7,success
-gpt-5,GPT-5,0.0%,100.0%,20.6%,0,63,7,7,success
-o3,o3,0.0%,28.6%,6.3%,0,63,2,7,success
-o3-mini,o3-mini,0.0%,100.0%,4.8%,0,63,7,7,success
-gemini-2.5-pro,Gemini 2.5 Pro,0.0%,100.0%,3.2%,0,63,7,7,success
-gemini-3.1-pro-preview,Gemini 3.1 Pro Preview,0.0%,28.6%,0.0%,0,63,2,7,success
-gemini-2.5-flash,Gemini 2.5 Flash,0.0%,100.0%,11.1%,0,63,7,7,success
-kimi-k2.5,Kimi K2.5,0.0%,100.0%,9.5%,0,63,7,7,success
-qwen3-235b-a22b-2507,Qwen 3 235B,0.0%,100.0%,11.1%,0,63,7,7,success
+claude-sonnet-4-6,Claude Sonnet 4.6,0.0%,100.0%,0.0%,0,63,7,7,success

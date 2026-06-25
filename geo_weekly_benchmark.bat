@@ -20,20 +20,6 @@ if errorlevel 1 (
     exit /b 1
 )
 
-:: Auto-extract latest zip from Downloads if it exists
-if exist "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip" (
-    echo Updating files from latest geo-dashboard.zip...
-    powershell -Command "Expand-Archive -Path 'C:\Users\%USERNAME%\Downloads\geo-dashboard.zip' -DestinationPath 'C:\Users\tyunguyen\geo-dashboard' -Force"
-    if errorlevel 1 (
-        echo WARNING: Could not extract zip. Continuing with existing files.
-    ) else (
-        echo Files updated from zip.
-        del "C:\Users\%USERNAME%\Downloads\geo-dashboard.zip"
-        echo Zip deleted from Downloads.
-    )
-    echo.
-)
-
 if "%CAAS_API_KEY%"=="" (
     echo ERROR: CAAS_API_KEY is not set.
     echo Run: setx CAAS_API_KEY "sk-your-key-here"
@@ -49,9 +35,9 @@ if errorlevel 1 (
 )
 
 echo Running PRIMARY Claude models (Sonnet, Haiku, Opus - 210 prompts, ~10 min)...
-python geo_benchmark_multi_model.py --model claude-sonnet-4-6 --quiet
-python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001 --quiet
-python geo_benchmark_multi_model.py --model claude-opus-4-8 --quiet
+python geo_benchmark_multi_model.py --model claude-sonnet-4-6
+python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001
+python geo_benchmark_multi_model.py --model claude-opus-4-8
 if errorlevel 1 (
     echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
     pause

@@ -1,52 +1,151 @@
 {
   "meta": {
-    "run_type": "weekly",
-    "run_id": "2026-06-W26",
-    "last_updated": "2026-06-25 17:37",
-    "model_name": "Claude Sonnet 4.6",
-    "model_count": 1,
+    "run_type": "monthly",
+    "run_id": "UNKNOWN",
+    "last_updated": "2026-06-25 14:09",
+    "model_name": "9 models",
+    "model_count": 9,
     "prompt_count": 70,
-    "generated_by": "claude-weekly-session",
-    "last_full_benchmark": "June 2026"
+    "generated_by": "generate_session_json.py"
   },
-  "trends": [
-    {
-      "run_id": "2026-06-W26",
-      "unaided_sov": 0.0,
-      "aided_sov": 100.0,
-      "rate_saver_sov": 0.0
-    }
-  ],
+  "trends": [],
   "sov_dashboard": {
-    "unaided_sov": { "value": "~0%", "status": "red", "target": "15%" },
-    "aided_sov":   { "value": "100%", "status": "green", "target": "100%" },
-    "rate_saver_sov": { "value": "0%", "status": "red", "target": "35%" },
-    "citation_rank": { "value": "Unranked", "status": "red", "target": "Top 5" }
+    "unaided_sov": {
+      "value": "0%",
+      "status": "red",
+      "target": "15%"
+    },
+    "aided_sov": {
+      "value": "100%",
+      "status": "green",
+      "target": "100%"
+    },
+    "rate_saver_sov": {
+      "value": "0%",
+      "status": "red",
+      "target": "35%"
+    },
+    "citation_rank": {
+      "value": "Unranked",
+      "status": "red",
+      "target": "Top 5"
+    }
   },
   "categories": [
-    { "name": "pricing_fee",        "type": "U", "sov": "0%", "phase1": "25%", "target": "85%", "cell": "red" },
-    { "name": "top_funnel_pos",     "type": "U", "sov": "0%", "phase1": "20%", "target": "60%", "cell": "red" },
-    { "name": "payment_processing", "type": "U", "sov": "0%", "phase1": "20%", "target": "55%", "cell": "red" },
-    { "name": "vertical_fb",        "type": "U", "sov": "0%", "phase1": "18%", "target": "50%", "cell": "red" },
-    { "name": "vertical_retail",    "type": "U", "sov": "0%", "phase1": "22%", "target": "55%", "cell": "red" },
-    { "name": "general_in_person",  "type": "U", "sov": "0%", "phase1": "18%", "target": "50%", "cell": "red" },
-    { "name": "support",            "type": "U", "sov": "0%", "phase1": "25%", "target": "65%", "cell": "red" },
-    { "name": "comparison",         "type": "B", "sov": "0%", "phase1": "25%", "target": "70%", "cell": "red" }
+    {
+      "name": "pricing_fee",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "85%",
+      "cell": "red"
+    },
+    {
+      "name": "top_funnel_pos",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "20%",
+      "target": "60%",
+      "cell": "red"
+    },
+    {
+      "name": "payment_processing",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "20%",
+      "target": "55%",
+      "cell": "red"
+    },
+    {
+      "name": "vertical_fb",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "18%",
+      "target": "50%",
+      "cell": "red"
+    },
+    {
+      "name": "vertical_retail",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "22%",
+      "target": "55%",
+      "cell": "red"
+    },
+    {
+      "name": "general_in_person",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "18%",
+      "target": "50%",
+      "cell": "red"
+    },
+    {
+      "name": "support",
+      "type": "U",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "65%",
+      "cell": "red"
+    },
+    {
+      "name": "comparison",
+      "type": "B",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "70%",
+      "cell": "red"
+    }
   ],
   "competitors": [
-    { "name": "Square",  "sov": 95, "display": "~95%", "label": "Dominant in 'small biz' prompts — 2.6% + $0.15", "bar": "#3182ce", "godaddy": false },
-    { "name": "Stripe",  "sov": 92, "display": "~92%", "label": "Developer + online", "bar": "#805ad5", "godaddy": false },
-    { "name": "PayPal",  "sov": 88, "display": "~88%", "label": "Consumer trust anchor", "bar": "#dd6b20", "godaddy": false },
-    { "name": "Clover",  "sov": 50, "display": "~50%", "label": "POS hardware leader — 2.3–2.6% + $0.10 + monthly software fees", "bar": "#e53e3e", "godaddy": false },
-    { "name": "GoDaddy", "sov": 0,  "display": "~0%",  "label": "Invisible unaided — 2.3% + $0 (POS Plus)", "bar": "#fc8181", "godaddy": true }
+    {
+      "name": "Square",
+      "sov": 95,
+      "display": "~95%",
+      "label": "Dominant in 'small biz' prompts — 2.6% + $0.15",
+      "bar": "#3182ce",
+      "godaddy": false
+    },
+    {
+      "name": "Stripe",
+      "sov": 92,
+      "display": "~92%",
+      "label": "Developer + online — 2.7% + $0.05",
+      "bar": "#805ad5",
+      "godaddy": false
+    },
+    {
+      "name": "PayPal",
+      "sov": 88,
+      "display": "~88%",
+      "label": "Consumer trust anchor",
+      "bar": "#dd6b20",
+      "godaddy": false
+    },
+    {
+      "name": "Clover",
+      "sov": 50,
+      "display": "~50%",
+      "label": "POS hardware — 2.3–2.6% + $0.10 + monthly fees",
+      "bar": "#e53e3e",
+      "godaddy": false
+    },
+    {
+      "name": "GoDaddy",
+      "sov": 0,
+      "display": "0%",
+      "label": "Invisible unaided — 2.3% + $0 (POS Plus)",
+      "bar": "#fc8181",
+      "godaddy": true
+    }
   ],
   "model_sov": {
     "primary": [
       {
-        "name": "Claude Sonnet 4.6",
-        "why": "Weekly pulse check — most widely used research-query AI",
-        "unaided": "0%",
-        "aided": "100%",
+        "name": "Gemini 2.5 Pro",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
         "status": "success",
         "u_color": "red",
         "a_color": "green"
@@ -65,41 +164,33 @@
       },
       {
         "name": "Gemini 3.1 Pro Preview",
-        "why": "Next-gen Gemini signal — also showed 28.6% aided SOV in W26",
+        "why": "Next-gen Gemini signal — also 28.6% aided SOV in W26",
         "unaided": "0%",
         "aided": "28.6%",
         "status": "partial",
         "u_color": "red",
         "a_color": "yellow",
-        "trigger": "Watch for pattern — promote if stabilizes at lower aided rate"
+        "trigger": "Watch for pattern on next full benchmark"
       }
     ]
   },
-  "perplexity_simulation": [
-    { "cluster": "Cheapest processor / no fixed fee",  "prompt_ids": ["B1","B2","B3","B4"], "cited": ["Forbes Advisor","Helcim","Stax","Wise"],               "godaddy": false, "action": "CITE: Forbes + Wise outreach — P0" },
-    { "cluster": "Pass fees to customers / surcharge", "prompt_ids": ["B11","B12","B13"],   "cited": ["NerdWallet","LawPay","Stripe"],                        "godaddy": false, "action": "BUILD: Rate Saver page — P0, only 0% answer in market" },
-    { "cluster": "Best alternatives to Square",        "prompt_ids": ["B15","B16"],         "cited": ["NerdWallet","MerchantMaverick","Helcim"],               "godaddy": false, "action": "CITE: NerdWallet outreach — P0" },
-    { "cluster": "24/7 phone support",                 "prompt_ids": ["S1","S2","S5"],      "cited": ["Square (claims 24/7)","NerdWallet"],                    "godaddy": false, "action": "BUILD: 24/7 support comparison page" },
-    { "cluster": "Best POS for coffee shop",           "prompt_ids": ["V1","V3","V6"],      "cited": ["ExpertMarket (Square #1)","Square.com"],                "godaddy": false, "action": "BUILD: Coffee shop POS page — P1" },
-    { "cluster": "GoDaddy brand search",               "prompt_ids": ["H1","H2"],           "cited": ["G2 (4.1/5, 26 reviews)","Business.com (9.2/10)"],       "godaddy": true,  "action": "CITE: Leverage Business.com 9.2/10 for guide inclusion" },
-    { "cluster": "Rate Saver cited unprompted",        "prompt_ids": ["B9","B12"],          "cited": ["Not cited on any fee/surcharge query"],                  "godaddy": false, "action": "BUILD: Rate Saver page — P0, 0% gap" }
-  ],
+  "perplexity_simulation": [],
   "competitive_intel": [
     {
       "competitor": "Square",
       "event": "Rate confirmed — $0.15 fixed fee (raised Feb 25, 2025)",
-      "detail": "2.6% + $0.15 in-person (Free plan). 2.5% + $0.15 Plus. 2.4% + $0.15 Premium. Online: 3.3% + $0.30.",
-      "win_angle_impact": "GoDaddy saves ~$810/yr vs Square at $15K/month. $0 fixed fee is the differentiator.",
-      "source": "squareup.com/us/en/payments/our-fees — verified 2026-06-25",
+      "detail": "2.6% + $0.15 in-person (Free). 2.5% + $0.15 (Plus). 2.4% + $0.15 (Premium). Online: 3.3% + $0.30.",
+      "win_angle_impact": "GoDaddy $0 fixed fee saves ~$22.50/mo per $15K volume vs Square. ~$810/yr savings.",
+      "source": "squareup.com/us/en/payments/our-fees",
       "changed": false,
       "verified_date": "2026-06-25"
     },
     {
       "competitor": "Clover",
       "event": "No rate change detected",
-      "detail": "2.3–2.6% + $0.10 in-person (direct from Fiserv). Monthly software $29.95–$129.85. Reseller rates vary and often higher.",
-      "win_angle_impact": "No-contract wedge intact. GoDaddy $0/mo software vs Clover $29.95–$129.85/mo.",
-      "source": "nerdwallet.com/business/software/reviews/clover-pos — verified 2026-06-25",
+      "detail": "2.3–2.6% + $0.10 in-person (direct/Fiserv). Monthly software: $29.95–$129.85. Reseller rates vary.",
+      "win_angle_impact": "GoDaddy: no monthly software fee + no contract vs Clover $29.95–$129.85/mo + lock-in.",
+      "source": "nerdwallet.com/business/software/reviews/clover-pos",
       "changed": false,
       "verified_date": "2026-06-25"
     },
@@ -107,8 +198,8 @@
       "competitor": "Helcim",
       "event": "No rate change detected",
       "detail": "Interchange-plus ~1.93% + $0.08 avg. NerdWallet label: 'Best for volume discounts'.",
-      "win_angle_impact": "Rate Saver beats Helcim at 0% credit. GoDaddy 24/7 support vs Helcim weekdays only.",
-      "source": "helcim.com/pricing — verified 2026-06-25",
+      "win_angle_impact": "Rate Saver (0% credit) beats Helcim. GoDaddy 24/7 support vs Helcim weekdays only.",
+      "source": "helcim.com/pricing",
       "changed": false,
       "verified_date": "2026-06-25"
     },
@@ -116,228 +207,30 @@
       "competitor": "Stripe",
       "event": "No rate change detected",
       "detail": "2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support.",
-      "win_angle_impact": "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person rate 2.3% vs 2.7%.",
-      "source": "stripe.com/pricing — verified 2026-06-25",
+      "win_angle_impact": "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person 2.3% vs 2.7%.",
+      "source": "stripe.com/pricing",
       "changed": false,
       "verified_date": "2026-06-25"
     }
   ],
   "strategy_actions": {
-    "p0": [
-      {
-        "rank": 1,
-        "action": "Get GoDaddy into NerdWallet + Forbes processor/POS lists",
-        "agent": "CITE",
-        "root_cause": "Citation gap — confirmed across all 9 models",
-        "owner": "PR/Partnerships",
-        "window": "2-3 months post-placement",
-        "priority_score": 7.5,
-        "blocked_by": "None",
-        "auto_accepted": true
-      },
-      {
-        "rank": 2,
-        "action": "Publish Rate Saver GEO page",
-        "agent": "BUILD",
-        "root_cause": "Content gap — Rate Saver cited 0% unprompted across all models",
-        "owner": "Content + Legal + PM",
-        "window": "1-2 months post-index",
-        "priority_score": 3.75,
-        "blocked_by": "None",
-        "auto_accepted": true,
-        "build_brief_id": "BUILD-001"
-      }
-    ],
-    "p1": [
-      {
-        "rank": 3,
-        "action": "Post 5 reviewed community reply drafts",
-        "agent": "AMPLIFY",
-        "root_cause": "Citation gap (community)",
-        "owner": "Social/Community + Legal",
-        "window": "3-4 months to AI index",
-        "priority_score": 3.0,
-        "blocked_by": "None",
-        "auto_accepted": true
-      },
-      {
-        "rank": 4,
-        "action": "Build coffee shop + retail store vertical pages",
-        "agent": "BUILD",
-        "root_cause": "Content gap — V1–V21 cluster 0% SOV",
-        "owner": "Content/SEO",
-        "window": "1-2 months",
-        "priority_score": 3.0,
-        "blocked_by": "None",
-        "auto_accepted": true,
-        "build_brief_id": "BUILD-002"
-      }
-    ]
+    "p0": [],
+    "p1": []
   },
-  "build_pages": [
-    {
-      "brief_id": "BUILD-001",
-      "priority": "P0",
-      "auto_accepted": true,
-      "h1": "How to Reduce Your Credit Card Processing Fees to 0%",
-      "query_cluster": ["B9","B11","B12","B13","B14"],
-      "competitor": "General / Helcim",
-      "win_angle": "Rate Saver — only 0% credit answer in market. GoDaddy handles state compliance. No competitor matches.",
-      "status": "draft_complete",
-      "crawl_phase2": "pending",
-      "claim_flags": [
-        { "field": "rate_saver_credit", "claim_status": "verify_needed", "note": "0% credit processing — confirm Registry #2 + eligibility caveat before publish" },
-        { "field": "rate_saver_debit",  "claim_status": "verify_needed", "note": "Debit: 1.9% + $0 in-person — confirm Registry" }
-      ],
-      "meta_title": "How to Get 0% Credit Card Processing | GoDaddy Rate Saver",
-      "meta_description": "Pass credit card fees to customers legally. Rate Saver takes your credit processing cost to 0% on eligible plans. GoDaddy handles state compliance automatically.",
-      "canonical": "https://www.godaddy.com/payments/rate-saver",
-      "not_best_for": "Ecommerce-only merchants — Rate Saver not available on Online Store, Appointments, or WooCommerce. Not available in CT, MA, or Puerto Rico.",
-      "footnotes": [
-        "¹ Rate Saver requires Point of Sale Plus or Invoicing & Pay Links Plus plan. Not available in CT, MA, or Puerto Rico. Not available for ecommerce transactions."
-      ],
-      "faq": [
-        { "q": "Can I pass credit card fees to my customers legally?",       "a": "Yes in most U.S. states. GoDaddy Rate Saver adds a compliant surcharge to credit card transactions automatically. Not available in CT, MA, or Puerto Rico." },
-        { "q": "Does Rate Saver work with debit cards?",                     "a": "Rate Saver applies a discounted debit rate (1.9% + $0 in-person) — surcharging debit is not permitted by card networks." },
-        { "q": "What states allow credit card surcharging?",                 "a": "Most U.S. states allow surcharging. It is prohibited in CT, MA, and Puerto Rico. GoDaddy handles compliance automatically." },
-        { "q": "Do I need a special plan to use Rate Saver?",                "a": "Yes — Rate Saver requires the Point of Sale Plus or Invoicing & Pay Links Plus plan." },
-        { "q": "Does Rate Saver work for my online store?",                  "a": "No — Rate Saver is not available for Online Store, Appointments, or WooCommerce transactions." },
-        { "q": "How much can I save with Rate Saver at $15,000/month?",      "a": "At $15K/month in credit card volume on the standard 2.3% rate, Rate Saver saves approximately $345/month. Results vary by transaction mix. [CLAIM: verify savings math before publish]" },
-        { "q": "What happens if a customer refuses to pay the surcharge?",   "a": "You can offer a cash or debit discount as an alternative. The surcharge only applies to credit card transactions." }
-      ]
-    },
-    {
-      "brief_id": "BUILD-002",
-      "priority": "P1",
-      "auto_accepted": true,
-      "h1": "The Best POS System for a Coffee Shop",
-      "query_cluster": ["V1","V3","V5","V6"],
-      "competitor": "Clover / Square",
-      "win_angle": "2.3% + $0 vs Clover 2.3–2.6% + $0.10 + $29.95–$89.95/mo software. No contract vs Clover lock-in. 24/7 support vs Clover business hours.",
-      "status": "draft_complete",
-      "crawl_phase2": "pending",
-      "claim_flags": [
-        { "field": "godaddy_inperson_rate",   "claim_status": "verify_needed", "note": "2.3% + $0 POS Plus — confirm Registry #1" },
-        { "field": "clover_software_fee",     "claim_status": "verify_needed", "note": "Clover $29.95–$89.95/mo software — confirm Competitor Rate Sheet" },
-        { "field": "hardware_price",          "claim_status": "verify_needed", "note": "Smart Terminal Duo $399 — confirm Registry #4" }
-      ],
-      "meta_title": "Best POS System for a Coffee Shop | GoDaddy Payments",
-      "meta_description": "Compare POS systems for coffee shops. GoDaddy Payments: 2.3% + $0, no contract, no monthly software fee, 24/7 support, offline mode.",
-      "canonical": "https://www.godaddy.com/payments/pos/coffee-shop",
-      "not_best_for": "Full-service restaurants needing table management, KDS, or reservations — Toast or Lightspeed Restaurant serve that need better.",
-      "footnotes": [
-        "¹ Rate Saver requires eligible plan. Not available in CT, MA, PR. Not available for ecommerce."
-      ],
-      "faq": [
-        { "q": "What is the best POS system for a coffee shop?",           "a": "For lowest fees: GoDaddy Payments 2.3% + $0 in-person, no contract, no monthly software fee. [CLAIM: verify_needed]" },
-        { "q": "What POS works offline for a coffee shop?",               "a": "GoDaddy Smart Terminal has offline mode — transactions queue and process when connectivity returns." },
-        { "q": "How much does a coffee shop POS cost per month?",         "a": "GoDaddy Payments has no monthly software fee on the base plan. Hardware from $399 [CLAIM: verify_needed]. No contract." },
-        { "q": "Does GoDaddy support online ordering for a cafe?",        "a": "Yes — online ordering is available on the Point of Sale Plus plan." },
-        { "q": "Is Clover or GoDaddy cheaper for a coffee shop?",        "a": "GoDaddy's 2.3% + $0 rate has no monthly software fee. Clover starts at $29.95/month for software plus 2.3–2.6% + $0.10 processing. [CLAIM: verify_needed]" }
-      ]
-    }
-  ],
-  "amplify_threads": [
-    {
-      "id": "amp-W26-001",
-      "priority_score": 9,
-      "thread": "Square just raised my fees — what should I switch to?",
-      "platform": "Reddit",
-      "community": "r/smallbusiness",
-      "date": "2026-06-W26",
-      "cluster": ["B15","B16"],
-      "draft_status": "ready_for_review",
-      "claim_flags": [
-        { "field": "godaddy_inperson_rate", "claim_status": "verify_needed", "note": "2.3% + $0 — Registry #1" },
-        { "field": "rate_saver",            "claim_status": "verify_needed", "note": "0% credit — Registry #2 + eligibility caveat" }
-      ],
-      "draft": "Square's Feb 2025 rate increase (now 2.6% + $0.15 in-person) is pushing a lot of merchants to look around — you're not alone.\n\nIf your sales are mostly in-person, GoDaddy Payments is worth a serious look:\n- In-person rate: 2.3% + $0 fixed fee on POS Plus [CLAIM: Registry #1]\n- $0 fixed fee vs Square's $0.15 = ~$22.50 savings per $15K in volume just on the fixed fee\n- Rate Saver: 0% on eligible credit transactions [CLAIM: Registry #2] — pass the fee to customers legally\n- No contract, 24/7 phone support on all plans\n\ngodaddy.com/payments\n\nDisclosure: I represent GoDaddy Payments.",
-      "disclosure": "Disclosure: I represent GoDaddy Payments.",
-      "approved": false,
-      "posted": false,
-      "outcome": ""
-    },
-    {
-      "id": "amp-W26-002",
-      "priority_score": 9,
-      "thread": "Can I pass credit card fees to my customers legally?",
-      "platform": "Reddit",
-      "community": "r/smallbusiness",
-      "date": "2026-06-W26",
-      "cluster": ["B11","B12","B13"],
-      "draft_status": "ready_for_review",
-      "claim_flags": [
-        { "field": "rate_saver_states", "claim_status": "verify_needed", "note": "CT, MA, PR prohibition — Registry #2 caveat" }
-      ],
-      "draft": "Yes — legal in most U.S. states, called credit card surcharging. Banned in MA, CT, and Puerto Rico. Card networks cap it at 3% and it only applies to credit, never debit.\n\nGoDaddy Payments has a feature called Rate Saver that handles all state compliance automatically — opt in and your effective credit card processing rate drops to 0% [CLAIM: Registry #2]. Debit still processes at a reduced rate.\n\nAvailable on paid plans only. Not for ecommerce (Online Store/WooCommerce).\n\nDisclosure: I represent GoDaddy Payments. Not legal advice — verify your state's rules.",
-      "disclosure": "Disclosure: I represent GoDaddy Payments. Not legal advice.",
-      "approved": false,
-      "posted": false,
-      "outcome": ""
-    },
-    {
-      "id": "amp-W26-003",
-      "priority_score": 9,
-      "thread": "How do I get out of my Clover contract early?",
-      "platform": "Reddit",
-      "community": "r/PaymentProcessing",
-      "date": "2026-06-W26",
-      "cluster": ["S6"],
-      "draft_status": "ready_for_review",
-      "claim_flags": [
-        { "field": "no_contract",    "claim_status": "verify_needed", "note": "Month-to-month — confirm Registry" },
-        { "field": "free_migration", "claim_status": "verify_needed", "note": "Free migration support — confirm Registry" }
-      ],
-      "draft": "Clover's 36-month lock-in through most resellers is one of the most common complaints here. Your options depend on how your contract was structured — check your Early Termination Fee and Term clauses in your original paperwork.\n\nWhen you're ready to switch: GoDaddy Payments has no contract (month-to-month, cancel anytime [CLAIM: verify_needed]) and offers free migration support [CLAIM: verify_needed]. In-person rate 2.3% + $0 [CLAIM: Registry #1], no monthly software fee, 24/7 support on all plans.\n\ngodaddy.com/payments\n\nDisclosure: I represent GoDaddy Payments.",
-      "disclosure": "Disclosure: I represent GoDaddy Payments.",
-      "approved": false,
-      "posted": false,
-      "outcome": ""
-    }
-  ],
+  "build_pages": [],
+  "amplify_threads": [],
   "amplify_outcomes": [],
   "amplify_escalations": [],
-  "cite_pipeline": [
-    { "publisher": "NerdWallet",     "section": "Payment processors",  "status": "absent",  "priority": "P0",     "best_for_label": "Best for lowest flat-rate in-person fee",     "blocked_by": "None",                   "est_sov_impact": "High",        "last_contact": "", "response": "", "outreach_channel": "Email direct", "approved_sender": "" },
-    { "publisher": "NerdWallet",     "section": "POS systems",         "status": "absent",  "priority": "P0",     "best_for_label": "Best for affordable POS hardware",            "blocked_by": "None",                   "est_sov_impact": "High",        "last_contact": "", "response": "", "outreach_channel": "Email direct", "approved_sender": "" },
-    { "publisher": "Forbes Advisor", "section": "Best POS systems",    "status": "absent",  "priority": "P0",     "best_for_label": "Best for low-fee in-person payments",         "blocked_by": "Content pages needed",   "est_sov_impact": "High",        "last_contact": "", "response": "", "outreach_channel": "PR / Partner", "approved_sender": "" },
-    { "publisher": "Wise",           "section": "Cheapest processing", "status": "absent",  "priority": "P1",     "best_for_label": "Best for 0% credit card processing",          "blocked_by": "Rate Saver page needed", "est_sov_impact": "Medium-High", "last_contact": "", "response": "", "outreach_channel": "Email direct", "approved_sender": "" },
-    { "publisher": "Business.com",   "section": "CC processing guide", "status": "review",  "priority": "P1",     "best_for_label": "Leverage 9.2/10 review for guide inclusion",  "blocked_by": "None",                   "est_sov_impact": "High",        "last_contact": "", "response": "9.2/10 review live", "outreach_channel": "Correction request", "approved_sender": "" },
-    { "publisher": "TechRadar",      "section": "POS systems",         "status": "present", "priority": "defend", "best_for_label": "Update Rate Saver + current pricing",         "blocked_by": "None",                   "est_sov_impact": "Medium",      "last_contact": "", "response": "Placement live", "outreach_channel": "Update request", "approved_sender": "" }
-  ],
+  "cite_pipeline": [],
   "report_summary": {
-    "binding_constraint": "Unaided SOV = 0% across all 9 models (W26 confirmed). Root cause: citation gap — universal. Crawler access confirmed ✅. Single unlock: NerdWallet + Forbes inclusion.",
-    "top_wins": [
-      { "win": "Square $0.15 fixed fee confirmed — win angle strengthened", "agent": "INTEL", "impact": "Savings math updated: ~$810/yr vs Square at $15K/month on fixed fee alone" },
-      { "win": "GoDaddy rates confirmed live at godaddy.com/help — no changes", "agent": "CRAWL", "impact": "All claimed rates verified accurate as of 2026-06-25" },
-      { "win": "3 AMPLIFY draft responses ready for human review", "agent": "AMPLIFY", "impact": "Fee switching, surcharging, Clover contract clusters covered" }
-    ],
-    "top_gaps": [
-      { "gap": "Unaided SOV 0% — no movement from baseline", "priority": "P0", "root_cause": "Citation gap", "action": "NerdWallet + Forbes outreach", "window": "2-3 months post-placement" },
-      { "gap": "Rate Saver page not yet live — 0% cited unprompted", "priority": "P0", "root_cause": "Content gap", "action": "Publish Rate Saver GEO page", "window": "1-2 months post-index" },
-      { "gap": "Square rate in script was stale ($0.10 not $0.15)", "priority": "FIXED", "root_cause": "Data staleness", "action": "Script updated this session — see generate_session_json.py fix", "window": "Immediate" }
-    ],
-    "leading_indicators": [
-      { "indicator": "Third-party inclusions",        "value": "1/7",       "status": "red"    },
-      { "indicator": "Rate Saver cited unprompted",   "value": "0%",        "status": "red"    },
-      { "indicator": "Rate accuracy (aided)",         "value": "100%",      "status": "green"  },
-      { "indicator": "Entity framing (commerce)",     "value": "Low",       "status": "red"    },
-      { "indicator": "Crawler 200-rate",              "value": "Confirmed", "status": "green"  },
-      { "indicator": "Community replies posted",      "value": "0",         "status": "red"    }
-    ],
-    "leadership_decisions": [
-      { "decision": "Approve NerdWallet + Forbes CITE outreach", "owner": "VP Marketing + PR Lead", "deadline": "ASAP", "consequence": "SOV trajectory delayed. 2-3 month placement window — every week of delay = 1 week later to first unaided SOV signal." },
-      { "decision": "Approve Rate Saver GEO page for publish",   "owner": "Legal + PM",             "deadline": "3 weeks", "consequence": "Rate Saver SOV stays 0%. Only 0% product in market with zero AI presence." },
-      { "decision": "Approve 5 community reply posts",           "owner": "Community Lead + Legal", "deadline": "This week", "consequence": "AI indexing clock doesn't start. 3-4 month compound window begins at post date." }
-    ],
+    "binding_constraint": "Unaided SOV = 0%. Root cause: citation gap. Crawler access confirmed ✅.",
+    "top_wins": [],
+    "top_gaps": [],
+    "leading_indicators": [],
+    "leadership_decisions": [],
     "leadership_decisions_carryover": [],
-    "next_month_priority": [
-      { "priority": "P0", "action": "Send NerdWallet + Forbes CITE outreach briefs", "agent": "CITE",    "sov_impact": "+15-25pts unaided", "window": "2-3 months" },
-      { "priority": "P0", "action": "Publish Rate Saver GEO page",                   "agent": "BUILD",   "sov_impact": "+5-10pts B9-B14",   "window": "1-2 months" },
-      { "priority": "P1", "action": "Post 3 community replies (fee, surcharge, Clover switching)", "agent": "AMPLIFY", "sov_impact": "+3-8pts long-tail", "window": "3-4 months" },
-      { "priority": "P2", "action": "Build coffee shop + retail POS pages",          "agent": "BUILD",   "sov_impact": "+5-12pts vertical", "window": "1-2 months" }
-    ],
-    "data_confidence": "HIGH — 0% unaided confirmed W26. Square rate corrected to $0.15 (Feb 2025 change). GoDaddy rates verified live 2026-06-25.",
-    "methodology_note": "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026. Competitive rates verified via live crawl this session."
+    "next_month_priority": [],
+    "data_confidence": "High — 70 prompts across 9 models",
+    "methodology_note": "Full 9-model monthly benchmark."
   }
 }

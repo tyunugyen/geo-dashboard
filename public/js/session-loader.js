@@ -159,17 +159,33 @@ function renderCompetitiveIntel(s, containerId) {
 function renderStrategyActions(s) {
   const actionsEl = document.getElementById('strategy-actions');
   if (!actionsEl) return;
-  const actions = s.strategy_actions || [];
-  actionsEl.innerHTML = actions.map((a, i) => `
-    <div class="action-row">
-      <div class="action-rank">${i + 1}</div>
+
+  const actions = s.strategy_actions || {};
+  const p0 = Array.isArray(actions) ? actions.filter(a => a.priority === 'P0') : (actions.p0 || []);
+  const p1 = Array.isArray(actions) ? actions.filter(a => a.priority === 'P1') : (actions.p1 || []);
+
+  const renderActions = (items, tier) => items.map((a, i) => `
+    <div class="action-card action-${tier.toLowerCase()}">
+      <div class="action-rank">${a.rank || i + 1}</div>
       <div class="action-body">
         <div class="action-title">${a.action}</div>
         <div class="action-meta">Root cause: ${a.root_cause} · Owner: ${a.owner}</div>
         <div class="action-window">⏱ ${a.window}</div>
+        ${a.blocked_by && a.blocked_by !== 'None'
+          ? `<div class="action-blocked">Blocked by: ${a.blocked_by}</div>` : ''}
       </div>
-      <span class="priority-badge ${a.priority.toLowerCase()}">${a.priority}</span>
+      <span class="badge-${tier.toLowerCase()}">${tier}</span>
     </div>`).join('');
+
+  actionsEl.innerHTML = `
+    <div class="p0-section">
+      <h4>🔥 P0 — Citations &amp; Content</h4>
+      ${renderActions(p0, 'P0') || '<p>No P0 actions this session.</p>'}
+    </div>
+    <div class="p1-section">
+      <h4>🔶 P1 — Community &amp; Vertical Content</h4>
+      ${renderActions(p1, 'P1') || '<p>No P1 actions this session.</p>'}
+    </div>`;
 }
 
 // ── BUILD pages (BUILD tab) ───────────────────────────────────────

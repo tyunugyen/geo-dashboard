@@ -17,15 +17,28 @@ if errorlevel 1 (
 echo ✓ Weekly session.json generated
 echo.
 
+echo Starting local server...
+echo Dashboard will open at: http://localhost:8000
+echo.
+start /B python -m http.server 8000 -d public >nul 2>&1
+
+:: Wait 2 seconds for server to start
+timeout /t 2 /nobreak >nul
+
 echo Opening dashboard in browser...
-start "" "file:///C:/Users/tyunguyen/geo-dashboard/public/index.html"
+start "" "http://localhost:8000"
 
 echo.
 echo ============================================================
-echo   Test complete! Check the dashboard in your browser.
+echo   Test complete! Check the dashboard at http://localhost:8000
 echo   - Header should show "Weekly pulse"
 echo   - Last updated bar should show current timestamp
 echo   - Should show "Last full benchmark: June 2026"
+echo.
+echo   Press Ctrl+C to stop the server when done, or just close
+echo   this window.
 echo ============================================================
 echo.
-pause
+
+:: Keep server running
+python -m http.server 8000 -d public

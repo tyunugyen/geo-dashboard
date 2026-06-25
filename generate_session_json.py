@@ -59,8 +59,51 @@ def score_csv(rows):
         "aided_count": len(aided),
     }
 
+# ── Update trends history ──────────────────────────────────────────
+def update_trends_history(run_id, scored, repo_path):
+    """Append current week's data to trends.json for historical tracking."""
+    trends_path = os.path.join(repo_path, "public", "data", "trends.json")
+
+    # Load existing trends or create new
+    if os.path.exists(trends_path):
+        with open(trends_path, "r", encoding="utf-8") as f:
+            trends = json.load(f)
+    else:
+        trends = {"weekly": []}
+
+    # Parse SOV values to floats
+    def parse_sov(s):
+        try:
+            return float(s.replace("~", "").replace("%", ""))
+        except:
+            return 0.0
+
+    # Create new data point
+    new_point = {
+        "run_id": run_id,
+        "unaided_sov": parse_sov(scored["unaided_sov"]),
+        "aided_sov": parse_sov(scored["aided_sov"]),
+        "rate_saver_sov": parse_sov(scored["rate_saver_sov"])
+    }
+
+    # Check if this run_id already exists (update instead of append)
+    existing_idx = next((i for i, p in enumerate(trends["weekly"]) if p["run_id"] == run_id), None)
+    if existing_idx is not None:
+        trends["weekly"][existing_idx] = new_point
+    else:
+        trends["weekly"].append(new_point)
+
+    # Keep only last 12 weeks
+    trends["weekly"] = trends["weekly"][-12:]
+
+    # Write back
+    with open(trends_path, "w", encoding="utf-8") as f:
+        json.dump(trends, f, indent=2, ensure_ascii=False)
+
+    return trends["weekly"]
+
 # ── Build session.json structure ───────────────────────────────────
-def build_session_json(run_type, csv_path, scored):
+def build_session_json(run_type, csv_path, scored, trends_data):
     """Build full session.json structure."""
     rows = load_csv(csv_path)
 
@@ -106,6 +149,7 @@ def build_session_json(run_type, csv_path, scored):
     # Build full session structure
     session = {
         "meta": meta,
+        "trends": trends_data,
         "sov_dashboard": {
             "unaided_sov": {
                 "value": scored["unaided_sov"],
@@ -204,8 +248,18 @@ def main():
     print(f"  Aided SOV:   {scored['aided_sov']}")
     print(f"  Prompts:     {scored['prompt_count']}")
 
+    # Extract run_id for trends
+    run_id = rows[0].get("run_id", "UNKNOWN") if rows else "UNKNOWN"
+
+    # Update trends history (only for weekly runs)
+    if run_type == "weekly":
+        trends_data = update_trends_history(run_id, scored, repo_path)
+        print(f"  + Trends history updated ({len(trends_data)} weeks tracked)")
+    else:
+        trends_data = []
+
     # Build session.json
-    session = build_session_json(run_type, csv_path, scored)
+    session = build_session_json(run_type, csv_path, scored, trends_data)
 
     # Write output
     output_path = os.path.join(repo_path, args.output)
@@ -214,7 +268,7 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(session, f, indent=2, ensure_ascii=False)
 
-    print(f"  ✓ Written:   {output_path}")
+    print(f"  + Written:   {output_path}")
     print(f"\nDashboard will show:")
     print(f"  Badge: {'Weekly pulse' if run_type == 'weekly' else 'Full benchmark'}")
     print(f"  Run ID: {session['meta']['run_id']}")

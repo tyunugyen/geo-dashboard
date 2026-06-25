@@ -347,6 +347,112 @@ function renderReport(s) {
   set('report-methodology', r.methodology_note || '—');
 }
 
+// ── Trends Chart ──────────────────────────────────────────────────────
+function renderTrendsChart(trends) {
+  const canvas = document.getElementById('trendsChart');
+  const note = document.getElementById('trends-note');
+
+  if (!canvas) return;
+
+  if (!trends || trends.length === 0) {
+    if (note) note.textContent = 'No historical data yet. Trends will appear after multiple weekly runs.';
+    return;
+  }
+
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+
+  // Clear canvas
+  ctx.clearRect(0, 0, width, height);
+
+  // Chart dimensions
+  const padding = { top: 20, right: 40, bottom: 30, left: 50 };
+  const chartWidth = width - padding.left - padding.right;
+  const chartHeight = height - padding.top - padding.bottom;
+
+  // Find max value for Y-axis (at least 10 for visibility)
+  const maxSov = Math.max(10,
+    ...trends.map(t => Math.max(t.unaided_sov || 0, t.aided_sov || 0, t.rate_saver_sov || 0))
+  );
+
+  // Draw grid lines
+  ctx.strokeStyle = '#2d3748';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padding.top + (chartHeight / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(padding.left + chartWidth, y);
+    ctx.stroke();
+
+    // Y-axis labels
+    const value = Math.round(maxSov * (1 - i / 4));
+    ctx.fillStyle = '#718096';
+    ctx.font = '10px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(value + '%', padding.left - 10, y + 4);
+  }
+
+  // Draw lines
+  const drawLine = (data, color) => {
+    if (data.length === 0) return;
+
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+
+    data.forEach((point, i) => {
+      const x = padding.left + (chartWidth / (trends.length - 1)) * i;
+      const y = padding.top + chartHeight - (point.value / maxSov * chartHeight);
+
+      if (i === 0) {
+        ctx.moveTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+
+    ctx.stroke();
+
+    // Draw points
+    ctx.fillStyle = color;
+    data.forEach((point, i) => {
+      const x = padding.left + (chartWidth / (trends.length - 1)) * i;
+      const y = padding.top + chartHeight - (point.value / maxSov * chartHeight);
+
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+  };
+
+  // Prepare data series
+  const unaidedData = trends.map(t => ({ value: t.unaided_sov || 0 }));
+  const aidedData = trends.map(t => ({ value: t.aided_sov || 0 }));
+  const rateSaverData = trends.map(t => ({ value: t.rate_saver_sov || 0 }));
+
+  // Draw lines (order matters for layering)
+  drawLine(aidedData, '#68d391');      // Green - Aided
+  drawLine(rateSaverData, '#90cdf4'); // Blue - Rate Saver
+  drawLine(unaidedData, '#fc8181');   // Red - Unaided (on top)
+
+  // X-axis labels
+  ctx.fillStyle = '#718096';
+  ctx.font = '10px -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  trends.forEach((t, i) => {
+    const x = padding.left + (chartWidth / (trends.length - 1)) * i;
+    const label = t.run_id.replace('2026-06-', 'W');
+    ctx.fillText(label, x, height - 10);
+  });
+
+  // Update note
+  if (note) {
+    note.textContent = `Tracking ${trends.length} week${trends.length > 1 ? 's' : ''} of data`;
+  }
+}
+
 // ── Helpers ───────────────────────────────────────────────────────
 function set(id, val) {
   const el = document.getElementById(id);
@@ -369,6 +475,10 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSession().then(session => {
     if (session) {
       renderHeader(session);
+      // Render trends chart if on index page
+      if (document.getElementById('trendsChart')) {
+        renderTrendsChart(session.trends || []);
+      }
       // Each page calls its own render functions after this
       if (typeof renderPage === 'function') {
         renderPage(session);

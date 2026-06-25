@@ -2,13 +2,21 @@
   "meta": {
     "run_type": "weekly",
     "run_id": "2026-06-W26",
-    "last_updated": "2026-06-23 16:30",
+    "last_updated": "2026-06-25 00:00",
     "model_name": "Claude Sonnet 4.6",
     "model_count": 1,
     "prompt_count": 70,
-    "last_full_benchmark": "June 2026",
-    "generated_by": "geo_automation_v1.0"
+    "generated_by": "generate_session_json.py",
+    "last_full_benchmark": "June 2026"
   },
+  "trends": [
+    {
+      "run_id": "2026-06-W26",
+      "unaided_sov": 0.0,
+      "aided_sov": 100.0,
+      "rate_saver_sov": 0.0
+    }
+  ],
   "sov_dashboard": {
     "unaided_sov": {
       "value": "~0%",
@@ -16,7 +24,7 @@
       "target": "15%"
     },
     "aided_sov": {
-      "value": "~100%",
+      "value": "100.0%",
       "status": "green",
       "target": "100%"
     },
@@ -31,50 +39,7 @@
       "target": "Top 5"
     }
   },
-  "categories": [
-    {
-      "name": "Pricing / Fees",
-      "sov": "~0%",
-      "target": "85%",
-      "status": "red",
-      "color": "red"
-    },
-    {
-      "name": "Speed / Payout",
-      "sov": "~0%",
-      "target": "75%",
-      "status": "red",
-      "color": "red"
-    },
-    {
-      "name": "Features / Integration",
-      "sov": "~0%",
-      "target": "65%",
-      "status": "red",
-      "color": "red"
-    },
-    {
-      "name": "Support / Reliability",
-      "sov": "~0%",
-      "target": "70%",
-      "status": "red",
-      "color": "red"
-    },
-    {
-      "name": "Best For X",
-      "sov": "~0%",
-      "target": "60%",
-      "status": "red",
-      "color": "red"
-    },
-    {
-      "name": "Rate Saver Eligibility",
-      "sov": "0%",
-      "target": "35%",
-      "status": "red",
-      "color": "red"
-    }
-  ],
+  "categories": [],
   "competitors": [
     {
       "name": "Square",
@@ -114,8 +79,8 @@
       {
         "name": "Claude Sonnet 4.6",
         "why": "Weekly pulse check",
-        "unaided": "0%",
-        "aided": "100%",
+        "unaided": "~0%",
+        "aided": "100.0%",
         "status": "success",
         "u_color": "red",
         "a_color": "green"
@@ -123,62 +88,34 @@
     ],
     "pulse": []
   },
-  "perplexity_simulation": [
-    {
-      "cluster": "Pricing / Fees",
-      "cited": ["Square", "Stripe", "PayPal", "Helcim"],
-      "godaddy": false,
-      "action": "BUILD: Price comparison page"
-    },
-    {
-      "cluster": "Best for small business",
-      "cited": ["Square", "Stripe", "PayPal"],
-      "godaddy": false,
-      "action": "CITE: NerdWallet + Forbes outreach"
-    }
-  ],
+  "perplexity_simulation": [],
   "competitive_intel": [
     {
       "competitor": "Square",
-      "event": "Rate change",
+      "event": "Rate check",
       "detail": "2.6% + $0.10 (no change)",
       "changed": false
     },
     {
       "competitor": "Stripe",
-      "event": "New feature",
-      "detail": "Launched Stripe Tax",
-      "changed": true
+      "event": "Feature check",
+      "detail": "No changes detected",
+      "changed": false
     }
   ],
-  "strategy_actions": [
-    {
-      "priority": "P0",
-      "action": "NerdWallet + Forbes aggregator outreach",
-      "root_cause": "Citation gap",
-      "owner": "Partnerships",
-      "window": "Q3 2026"
-    },
-    {
-      "priority": "P0",
-      "action": "Publish Rate Saver eligibility page",
-      "root_cause": "Content gap",
-      "owner": "Content",
-      "window": "2 weeks"
-    }
-  ],
+  "strategy_actions": [],
   "build_pages": [],
   "amplify_threads": [],
   "amplify_outcomes": [],
   "cite_pipeline": [],
   "report_summary": {
-    "binding_constraint": "Unaided SOV = 0% across all 9 models. Root cause: citation gap. Crawler access confirmed ✅ — not the issue.",
+    "binding_constraint": "Unaided SOV = ~0%. Root cause: citation gap. Crawler access confirmed ✅.",
     "top_wins": [],
     "top_gaps": [],
     "leading_indicators": [],
     "leadership_decisions": [],
     "next_month_priority": [],
     "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026."
+    "methodology_note": "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026"
   }
 }

@@ -42,11 +42,14 @@ jobs:
           fi
           echo "API key is configured (length: ${#CAAS_API_KEY})"
         env:
-          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+          env:
+            CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+            CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
 
       - name: Run GEO benchmark
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+          CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: python geo_benchmark_runner.py
 
       - name: Commit and push results

@@ -71,12 +71,21 @@ if errorlevel 1 (
     exit /b 1
 )
 
+echo Committing and pushing to GitHub...
+git add benchmarks/*.csv public/data/session.json data.json
+git commit -m "GEO benchmark: %date:~-4%-%date:~4,2% | Full 9-model monthly benchmark"
+git push origin main
+if errorlevel 1 (
+    echo WARNING: git push failed. Check network connection or authentication.
+    pause
+)
+
 echo.
 echo ============================================================
-echo   DONE.
+echo   DONE. Dashboard updated and pushed to GitHub.
 echo   Full 9-model monthly benchmark complete.
-echo   Dashboard: https://host.beta.godaddy.com/paas/projects/kz6jwep09q
+echo   GitHub Action will now fill intelligence layer automatically.
+echo   Dashboard: https://geo-dashboard.paas.godaddy.com
 echo   Local view: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
-echo   Next: open Claude and say "Run monthly GEO session."
 echo ============================================================
 echo.

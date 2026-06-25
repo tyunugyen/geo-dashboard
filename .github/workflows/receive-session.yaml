@@ -7,6 +7,8 @@ on:
 jobs:
   update-session:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -14,6 +16,7 @@ jobs:
 
       - name: Update session.json
         run: |
+          mkdir -p public/data
           echo '${{ github.event.client_payload.content }}' > public/data/session.json
 
       - name: Commit and push
@@ -21,7 +24,5 @@ jobs:
           git config user.name "GoCaaS Intelligence Bot"
           git config user.email "gocaas-bot@godaddy.com"
           git add public/data/session.json
-          git commit -m "Weekly GEO session - W${{ github.event.client_payload.week }} - automated push"
+          git commit -m "Weekly GEO session - W${{ github.event.client_payload.week }} - automated push" || echo "No changes to commit"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -3,12 +3,9 @@
     "label": "Monthly",
     "period": "June 2026",
     "run_id": "2026-06-W26",
-    "run_date": "2026-06-23",
-    "run_time": "16:30",
-    "sources": "9 models via GoCode proxy",
+    "sources": "Gemini 2.5 Pro (GoCode proxy)",
     "prompt_bank_version": "2.8",
-    "models": "5 primary + 4 pulse",
-    "prompt_count": 70
+    "models": "Gemini 2.5 Pro"
   },
   "kpis": {
     "unaided_sov": {
@@ -166,85 +163,9 @@
     }
   ],
   "model_sov": {
-    "primary": {
-      "gpt4o": {
-        "name": "GPT-4o",
-        "why": "Most widely used consumer AI — highest merchant exposure",
-        "unaided": "0%",
-        "aided": "~100%",
-        "a_color": "#68d391",
-        "status": "success"
-      },
-      "claude_sonnet": {
-        "name": "Claude Sonnet",
-        "why": "Strong citation behavior — frequently used for research queries",
-        "unaided": "0%",
-        "aided": "~100%",
-        "a_color": "#68d391",
-        "status": "success"
-      },
-      "claude_haiku": {
-        "name": "Claude Haiku",
-        "why": "Fast, cost-effective model — high usage in production applications",
-        "unaided": "0%",
-        "aided": "~100%",
-        "a_color": "#68d391",
-        "status": "success"
-      },
-      "gemini": {
-        "name": "Gemini",
-        "why": "Google ecosystem — directly influences AI Overviews",
-        "unaided": "0%",
-        "aided": "~100%",
-        "a_color": "#68d391",
-        "status": "success"
-      },
-      "gpt5": {
-        "name": "GPT-5",
-        "why": "Latest OpenAI flagship — tracking as primary",
-        "unaided": "0%",
-        "aided": "100%",
-        "a_color": "#68d391",
-        "status": "success"
-      }
-    },
-    "pulse": {
-      "o3": {
-        "name": "o3",
-        "why": "Reasoning model — behaves differently on branded queries (57–86% aided SOV vs ~100% on standard models)",
-        "unaided": "0%",
-        "aided": "57–86%",
-        "a_color": "#f6ad55",
-        "status": "partial",
-        "trigger": "Usage pattern stabilizes"
-      },
-      "o3_mini": {
-        "name": "o3-mini",
-        "why": "Same reasoning pattern as o3 — lower cost variant",
-        "unaided": "0%",
-        "aided": "57–86%",
-        "a_color": "#f6ad55",
-        "status": "partial",
-        "trigger": "Usage pattern stabilizes"
-      },
-      "gpt4o_preview": {
-        "name": "GPT-4o Preview / Experimental",
-        "why": "Early signal on OpenAI model direction",
-        "unaided": "0%",
-        "aided": "—",
-        "a_color": "#718096",
-        "status": "partial",
-        "trigger": "Promoted to stable release"
-      },
-      "perplexity": {
-        "name": "Perplexity",
-        "why": "Used in GoCaaS web browsing feature — real merchant exposure via product integration",
-        "unaided": "0%",
-        "aided": "—",
-        "a_color": "#718096",
-        "status": "partial",
-        "trigger": "If usage grows, promote with documented rationale"
-      }
+    "gemini": {
+      "value": "0%",
+      "color": "#fc8181"
     }
   }
 }

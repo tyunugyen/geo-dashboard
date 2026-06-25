@@ -48,8 +48,10 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Running Claude benchmark (70 prompts, ~3 min)...
-python geo_benchmark_runner.py
+echo Running PRIMARY Claude models (Sonnet, Haiku, Opus - 210 prompts, ~10 min)...
+python geo_benchmark_multi_model.py --model claude-sonnet-4-6 --quiet
+python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001 --quiet
+python geo_benchmark_multi_model.py --model claude-opus-4-8 --quiet
 if errorlevel 1 (
     echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
     pause
@@ -71,6 +73,6 @@ if errorlevel 1 (
 echo.
 echo ============================================================
 echo   Done. Dashboard updated.
-echo   For full 9-model run: use geo_monthly_benchmark.bat
+echo   For full primary model run (+ GPT/Gemini): use geo_monthly_benchmark.bat
 echo ============================================================
 echo.

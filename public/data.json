@@ -3,9 +3,11 @@
     "label": "Monthly",
     "period": "June 2026",
     "run_id": "2026-06-W26",
-    "sources": "Claude Sonnet 4.6, GPT-4o, GPT-5, Gemini 2.5 Pro, Claude Haiku 4.5, o3, o3-mini, Gemini 3.1 Pro Preview, Gemini 2.5 Flash (GoCode proxy)",
+    "run_date": "2026-06-23",
+    "run_time": "16:30",
+    "sources": "9 models via GoCode proxy",
     "prompt_bank_version": "2.8",
-    "models": "Claude Sonnet 4.6, GPT-4o, GPT-5, Gemini 2.5 Pro, Claude Haiku 4.5, o3, o3-mini, Gemini 3.1 Pro Preview, Gemini 2.5 Flash",
+    "models": "5 primary + 4 pulse",
     "prompt_count": 70
   },
   "kpis": {
@@ -25,9 +27,9 @@
       "color": "#f6e05e"
     },
     "tech_health": {
-      "value": "0%",
-      "fill": 0,
-      "color": "#fc8181"
+      "value": "11.1%",
+      "fill": 11,
+      "color": "#f6e05e"
     }
   },
   "categories": [
@@ -156,104 +158,86 @@
     }
   ],
   "model_sov": {
-    "claude_sonnet_4_6": {
-      "name": "Claude Sonnet 4.6",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "primary",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
+    "primary": {
+      "gpt4o": {
+        "name": "GPT-4o",
+        "why": "Most widely used consumer AI — highest merchant exposure",
+        "unaided": "0%",
+        "aided": "~100%",
+        "a_color": "#68d391",
+        "status": "success"
+      },
+      "claude_sonnet": {
+        "name": "Claude Sonnet",
+        "why": "Strong citation behavior — frequently used for research queries",
+        "unaided": "0%",
+        "aided": "~100%",
+        "a_color": "#68d391",
+        "status": "success"
+      },
+      "claude_haiku": {
+        "name": "Claude Haiku",
+        "why": "Fast, cost-effective model — high usage in production applications",
+        "unaided": "0%",
+        "aided": "~100%",
+        "a_color": "#68d391",
+        "status": "success"
+      },
+      "gemini": {
+        "name": "Gemini",
+        "why": "Google ecosystem — directly influences AI Overviews",
+        "unaided": "0%",
+        "aided": "~100%",
+        "a_color": "#68d391",
+        "status": "success"
+      },
+      "gpt5": {
+        "name": "GPT-5",
+        "why": "Latest OpenAI flagship — tracking as primary",
+        "unaided": "0%",
+        "aided": "0%",
+        "a_color": "#fc8181",
+        "status": "anomaly",
+        "note": "Anomaly being resolved"
+      }
     },
-    "gpt_4o": {
-      "name": "GPT-4o",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "primary",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gpt_5": {
-      "name": "GPT-5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "primary",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gemini_2_5_pro": {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "primary",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "claude_haiku_4_5_20251001": {
-      "name": "Claude Haiku 4.5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "pulse",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "o3": {
-      "name": "o3",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "pulse",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    },
-    "o3_mini": {
-      "name": "o3-mini",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "pulse",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gemini_3_1_pro_preview": {
-      "name": "Gemini 3.1 Pro Preview",
-      "unaided": "0.0%",
-      "aided": "28.6%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "pulse",
-      "u_color": "#fc8181",
-      "a_color": "#fc8181"
-    },
-    "gemini_2_5_flash": {
-      "name": "Gemini 2.5 Flash",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "tier": "pulse",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
+    "pulse": {
+      "o3": {
+        "name": "o3",
+        "why": "Reasoning model — behaves differently on branded queries (57–86% aided SOV vs ~100% on standard models)",
+        "unaided": "0%",
+        "aided": "57–86%",
+        "a_color": "#f6ad55",
+        "status": "partial",
+        "trigger": "Usage pattern stabilizes"
+      },
+      "o3_mini": {
+        "name": "o3-mini",
+        "why": "Same reasoning pattern as o3 — lower cost variant",
+        "unaided": "0%",
+        "aided": "57–86%",
+        "a_color": "#f6ad55",
+        "status": "partial",
+        "trigger": "Usage pattern stabilizes"
+      },
+      "gpt4o_preview": {
+        "name": "GPT-4o Preview / Experimental",
+        "why": "Early signal on OpenAI model direction",
+        "unaided": "0%",
+        "aided": "—",
+        "a_color": "#718096",
+        "status": "partial",
+        "trigger": "Promoted to stable release"
+      },
+      "perplexity": {
+        "name": "Perplexity",
+        "why": "Used in GoCaaS web browsing feature — real merchant exposure via product integration",
+        "unaided": "0%",
+        "aided": "—",
+        "a_color": "#718096",
+        "status": "partial",
+        "trigger": "If usage grows, promote with documented rationale"
+      }
     }
   }
 }

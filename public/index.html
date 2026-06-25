@@ -211,7 +211,7 @@
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
     <!-- CSV upload removed — dashboard updates automatically via geo_monthly_benchmark.bat -->
   </div>
-</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a><a href="report.html" class="">📊 REPORT</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
+</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
 <div class="last-updated-bar">
   <span>Last updated: <strong id="lu-date">—</strong>
     &nbsp;·&nbsp; Run: <span class="lu-run" id="lu-run">—</span>
@@ -281,47 +281,47 @@
   <div class="grid-2" style="margin-top:24px;">
     <div class="card">
       <h3>✅ What We Track</h3>
-      <div style="background:#1a0a0a;border:1px solid #744210;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:12px;">
-        <strong style="color:#f6ad55;">⚠️ June 2026 Anomalies:</strong>
-        <span style="color:#cbd5e0;"> GPT-5: aided SOV 0% (detection issue — responses exist but format differs, not a real signal).
-        o3 + o3-mini: aided SOV 57–86% (reasoning models behave differently on branded queries — pulse check only).
-        Gemini 3.1 Pro Preview: aided 28.6% (preview model — dropped from regular rotation).</span>
+      <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#90cdf4;">
+        <strong>One sentence:</strong> "Primary models drive the SOV number we report. Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow."
       </div>
 
-      <div style="font-size:11px;color:#718096;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
-        Primary Models — Official SOV Benchmark
-      </div>
-      <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">These models calculate the official monthly SOV score.</p>
-      <table class="model-table" style="margin-bottom:18px;">
-        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Rate Saver</th></tr></thead>
-        <tbody id="model-sov-rows">
+      <!-- Primary Models Section -->
+      <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — Official SOV Benchmark</div>
+      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models are used to calculate the official monthly SOV score.</p>
+      <table class="model-table" style="margin-bottom:20px;">
+        <thead>
           <tr>
-            <td colspan="4" style="color:#718096;text-align:center;padding:20px;">Loading...</td>
+            <th>Model</th>
+            <th>Why It's Primary</th>
+            <th>Unaided SOV</th>
+            <th>Aided SOV</th>
+            <th>Status</th>
           </tr>
+        </thead>
+        <tbody id="primary-model-rows">
+          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
 
-      <div style="font-size:11px;color:#718096;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
-        Pulse Check Models — Directional Signal Only
-      </div>
-      <p style="font-size:11px;color:#4a5568;margin-bottom:10px;">Not included in official SOV. Monitored for emerging behavior and future promotion.</p>
+      <!-- Pulse Check Models Section -->
+      <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — Directional Signal Only</div>
+      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Not included in official SOV calculation. Monitored for emerging behavior and future benchmark consideration.</p>
       <table class="model-table">
-        <thead><tr><th>Model</th><th>Unaided SOV</th><th>Aided SOV</th><th>Rate Saver</th></tr></thead>
-        <tbody id="model-pulse-rows">
+        <thead>
           <tr>
-            <td colspan="4" style="color:#718096;text-align:center;padding:20px;">Loading...</td>
+            <th>Model</th>
+            <th>Why We Watch It</th>
+            <th>Unaided SOV</th>
+            <th>Aided SOV</th>
+            <th>Promote-Back Trigger</th>
           </tr>
+        </thead>
+        <tbody id="pulse-model-rows">
+          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
-
-      <div style="margin-top:12px;padding:10px 12px;background:#0d1117;border:1px solid #2d3748;border-radius:6px;font-size:12px;color:#a0aec0;">
-        💡 <strong style="color:#cbd5e0;">Primary models drive the SOV number we report.</strong>
-        Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow.
-      </div>
-
-      <p style="font-size:11px;color:#4a5568;margin-top:10px;">
-        Automated via <code>geo_monthly_benchmark.bat</code> · 70 prompts × 3 primary models = 210 official data points/run
-      </p></div>
+      <p style="font-size:11px;color:#718096;margin-top:10px;">9-model benchmark via GoCode proxy (June 2026 W26). 70 prompts × 9 models = 630 data points. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
+    </div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;">Source of truth: <strong>Profound</strong> (blended SOV). AUDIT 6-model run for source-path diagnostics. Perplexity as leading indicator (cites inline).</p>
@@ -515,28 +515,52 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Model SOV tables — render primary and pulse separately
-      var modelRows = document.getElementById('model-sov-rows');
-      var pulseRows = document.getElementById('model-pulse-rows');
+      // Model SOV table — render primary and pulse check models separately
+      var primaryRows = document.getElementById('primary-model-rows');
+      var pulseRows = document.getElementById('pulse-model-rows');
       if (d.model_sov) {
-        var primary = [], pulse = [];
-        Object.values(d.model_sov).forEach(function(m) {
-          var row = '<tr>' +
-            '<td><strong>' + (m.name||'') + '</strong></td>' +
-            '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-            '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#fc8181') + ';">' + (m.aided||'—') + '</span></td>' +
-            '<td style="color:#718096;">' + (m.rs||'—') + '</td>' +
-            '</tr>';
-          if (m.tier === 'primary') primary.push(row);
-          else pulse.push(row);
-        });
-        if (modelRows) modelRows.innerHTML = primary.join('') || '<tr><td colspan="4" style="color:#718096;text-align:center;padding:20px;">No primary models</td></tr>';
-        if (pulseRows) pulseRows.innerHTML = pulse.join('') || '<tr><td colspan="4" style="color:#718096;text-align:center;padding:20px;">No pulse models</td></tr>';
+        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
+
+        // Render primary models
+        if (primaryRows && d.model_sov.primary) {
+          var pRows = Object.values(d.model_sov.primary).map(function(m) {
+            var icon = STATUS_ICON[m.status] || '✅';
+            var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
+            return '<tr>' +
+              '<td><strong>' + (m.name||'') + '</strong></td>' +
+              '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
+              '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#68d391') + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td>' + icon + note + '</td>' +
+              '</tr>';
+          }).join('');
+          primaryRows.innerHTML = pRows;
+        }
+
+        // Render pulse check models
+        if (pulseRows && d.model_sov.pulse) {
+          var pulRows = Object.values(d.model_sov.pulse).map(function(m) {
+            var icon = STATUS_ICON[m.status] || '⚠️';
+            return '<tr>' +
+              '<td><strong>' + (m.name||'') + '</strong></td>' +
+              '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
+              '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#f6ad55') + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td style="color:#718096;font-size:11px;">' + (m.trigger||'—') + '</td>' +
+              '</tr>';
+          }).join('');
+          pulseRows.innerHTML = pulRows;
+        }
       }
       // Update header badge
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
+        var modelCount = 0;
+        if (d.model_sov) {
+          if (d.model_sov.primary) modelCount += Object.keys(d.model_sov.primary).length;
+          if (d.model_sov.pulse) modelCount += Object.keys(d.model_sov.pulse).length;
+        }
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (modelCount || 8) + ' models · ' + (d.meta.period || 'June 2026');
       }
     })
     .catch(function (err) {

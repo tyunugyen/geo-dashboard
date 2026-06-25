@@ -79,20 +79,12 @@ def score_comparison(rows):
         a_sov = parse_pct(success_models[0].get("aided_sov","0"))
         r_sov = parse_pct(success_models[0].get("rate_saver_sov","0"))
 
-    # Primary models: Claude Sonnet, GPT-4o, GPT-5, Gemini 2.5 Pro
-    PRIMARY_MODELS = ["claude-sonnet-4-6", "gpt-4o", "gpt-5", "gemini-2.5-pro"]
-
     for r in rows:
         mid   = r.get("model_id", r.get("model_name","")).lower().replace("-","_").replace(".","_").replace(" ","_")
-        mid_orig = r.get("model_id", "")
         mname = r.get("model_name", mid)
         aided = parse_pct(r.get("aided_sov","0"))
         a_color = "#68d391" if aided >= 90 else "#f6e05e" if aided >= 60 else "#fc8181"
         status = r.get("status","success")
-
-        # Determine if primary or pulse
-        tier = "primary" if mid_orig in PRIMARY_MODELS else "pulse"
-
         model_sov[mid] = {
             "name":    mname,
             "unaided": r.get("unaided_sov","0%"),
@@ -100,7 +92,6 @@ def score_comparison(rows):
             "rs":      r.get("rate_saver_sov","0%"),
             "status":  status,
             "note":    "",
-            "tier":    tier,
             "u_color": "#fc8181",
             "a_color": a_color,
         }
@@ -195,7 +186,7 @@ def score(rows):
         model_sov[key] = {"value": fmt(m_sov), "color": m_col}
 
     # Models string for meta
-    models_str = ", ".join(models_seen) if models_seen else "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro"
+    models_str = ", ".join(models_seen) if models_seen else "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, Gemini 2.5 Pro"
 
     return dict(
         run_id=run_id, period=period,
@@ -225,7 +216,7 @@ def build_data_json(s, existing, label=None, prior=None):
         "competitors": existing.get("competitors", []),
         "model_sov":   s.get("model_sov", {}),
     }
-    data["meta"]["models"]    = s.get("models_str", "Claude Sonnet 4.6, GPT-4o, Gemini 2.5 Pro")
+    data["meta"]["models"]    = s.get("models_str", "Claude Sonnet 4.6, Claude Haiku 4.5, GPT-4o, Gemini 2.5 Pro")
     data["meta"]["sources"]   = s.get("models_str", "9-model benchmark") + " (GoCode proxy)"
     if s.get("run_date"): data["meta"]["run_date"] = s["run_date"]
     if s.get("promptCount"): data["meta"]["prompt_count"] = s["promptCount"]
@@ -366,17 +357,17 @@ def main():
         (["add", "-f", f"benchmarks/{os.path.basename(args.csv_path)}"],
          "Staging CSV"),
         (["commit", "-m", commit_msg],     "Committing"),
-        (["push"],                          "Pushing to GitHub -> PaaS will redeploy"),
+        (["push"],                          "Pushing to GitHub → PaaS will redeploy"),
     ]
     for git_args, label in steps:
         print(f"  {label}...", end=" ", flush=True)
         ok = run_git(git_args, cwd=repo, dry_run=args.dry_run)
-        print("[OK]" if ok else "[FAILED]")
+        print("✅" if ok else "❌")
         if not ok:
             print("\n  Push failed. Check git is set up: git remote -v")
             sys.exit(1)
 
-    print(f"\n  [OK] Done. PaaS will redeploy in ~30 seconds.")
+    print(f"\n  ✅ Done. PaaS will redeploy in ~30 seconds.")
     print(f"  Dashboard: https://host.beta.godaddy.com/paas/projects/kz6jwep09q")
     print(f"{'='*60}\n")
 

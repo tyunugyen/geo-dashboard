@@ -32,19 +32,22 @@ jobs:
       - name: Install dependencies
         run: pip install openai
 
-      - name: Show session.json run type
+      - name: Generate session.json skeleton
+        env:
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
+          echo "Generating session.json skeleton from benchmark..."
+          python generate_session_json.py
+          echo ""
+          echo "Skeleton generated. Preview:"
           python - <<'EOF'
           import json
           with open('public/data/session.json') as f:
               s = json.load(f)
           m = s.get('meta', {})
-          print('Session info:')
-          print('  run_type :', m.get('run_type', 'unknown'))
-          print('  run_id   :', m.get('run_id', 'unknown'))
-          print('  updated  :', m.get('last_updated', 'unknown'))
-          print('  build_pages:', len(s.get('build_pages', [])))
-          print('  amplify  :', len(s.get('amplify_threads', [])))
+          print(f"  run_type: {m.get('run_type')}")
+          print(f"  run_id: {m.get('run_id')}")
+          print(f"  unaided_sov: {s.get('sov_dashboard', {}).get('unaided_sov', {}).get('value')}")
           EOF
 
       - name: Fill session.json via Claude API

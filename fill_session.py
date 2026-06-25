@@ -16,7 +16,8 @@ from openai import OpenAI
 PROXY_URL  = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
 MODEL      = "claude-sonnet-4-6"
 MAX_TOKENS = 8000
-TIMEOUT    = 180.0
+TIMEOUT    = 600.0  # 10 minutes for large intelligence responses
+MAX_RETRIES = 3
 
 SESSION_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -36,18 +37,27 @@ def save_session(path, data):
 def get_client(api_key):
     return OpenAI(api_key=api_key, base_url=PROXY_URL, timeout=TIMEOUT)
 
-# ── Single API call ──────────────────────────────────────────────────
+# ── Single API call with retry ──────────────────────────────────────
 def call_claude(client, system_msg, user_msg):
-    response = client.chat.completions.create(
-        model=MODEL,
-        max_tokens=MAX_TOKENS,
-        temperature=0.3,
-        messages=[
-            {"role": "system", "content": system_msg},
-            {"role": "user",   "content": user_msg},
-        ]
-    )
-    return response.choices[0].message.content
+    import time
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            response = client.chat.completions.create(
+                model=MODEL,
+                max_tokens=MAX_TOKENS,
+                temperature=0.3,
+                messages=[
+                    {"role": "system", "content": system_msg},
+                    {"role": "user",   "content": user_msg},
+                ]
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if attempt == MAX_RETRIES:
+                raise  # Last attempt, re-raise the exception
+            print(f"  Attempt {attempt} failed: {e}")
+            print(f"  Retrying in {5 * attempt} seconds...")
+            time.sleep(5 * attempt)  # Exponential backoff: 5s, 10s, 15s
 
 # ── Parse JSON ───────────────────────────────────────────────────────
 def parse_json(text):

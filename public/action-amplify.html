@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GEO Action — AMPLIFY Replies</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GEO Action — AMPLIFY · Weekly Monitoring</title>
 <style>
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
 
@@ -129,69 +130,133 @@
 
   /* Footer */
   .footer { text-align: center; padding: 24px; font-size: 11px; color: #4a5568; border-top: 1px solid #2d3748; margin-top: 8px; }
-</style>
 
-<style>
-  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
-  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; }
-  .nav a:hover { color:#cbd5e0; }
-  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
-  .ext-link { color:#90cdf4; text-decoration:none; border-bottom:1px dotted #3182ce; }
-  .ext-link:hover { color:#bee3f8; }
-  .link-pill { display:inline-block; background:#1a2744; border:1px solid #2d4a8a; color:#90cdf4; font-size:11px; font-weight:600; padding:3px 9px; border-radius:14px; text-decoration:none; margin:2px 4px 2px 0; }
-  .link-pill:hover { background:#22345c; }
-  .link-pill.broken { background:#2d1a1a; border-color:#742a2a; color:#fc8181; }
-  /* Profound-style metric strip */
-  .pf-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:14px; }
-  .pf-card { background:linear-gradient(135deg,#161b28,#0f1117); border:1px solid #2d3748; border-radius:12px; padding:18px 20px; position:relative; }
-  .pf-metric { font-size:11px; color:#718096; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
-  .pf-big { font-size:32px; font-weight:800; margin:6px 0 2px; }
-  .pf-delta { font-size:12px; font-weight:600; }
-  .pf-spark { height:36px; margin-top:10px; display:flex; align-items:flex-end; gap:3px; }
-  .pf-bar { flex:1; background:#2d3748; border-radius:2px 2px 0 0; min-height:3px; }
-  .pf-bar.now { background:#3182ce; }
-  .pf-foot { font-size:10px; color:#4a5568; margin-top:6px; }
-  /* trend chart frame */
-  .trend-card { background:#161b28; border:1px solid #2d3748; border-radius:12px; padding:20px; margin-bottom:24px; }
-  .trend-plot { height:180px; border-left:1px solid #2d3748; border-bottom:1px solid #2d3748; position:relative; margin:16px 0 8px; }
-  .trend-line { position:absolute; left:0; right:0; border-top:1px dashed #22543d; }
-  .trend-target { position:absolute; border-top:1px dashed #744210; left:0; right:0; }
-  .trend-pt { position:absolute; width:10px; height:10px; border-radius:50%; background:#3182ce; border:2px solid #90cdf4; transform:translate(-50%,50%); }
-  .trend-axis { display:flex; justify-content:space-between; font-size:10px; color:#4a5568; }
-  .clickable { cursor:pointer; transition:transform .1s; text-decoration:none; display:block; color:inherit; }
-  .clickable:hover { transform:translateY(-2px); border-color:#3182ce !important; }
-  /* tier + table + flow (child pages) */
-  .tier-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:14px; }
-  .t1{background:#1a2744;color:#90cdf4;} .t2{background:#1a2e1a;color:#68d391;}
-  .t3{background:#2d1f00;color:#f6ad55;} .t4{background:#2a1a2e;color:#d6bcfa;} .t5{background:#2d3748;color:#a0aec0;}
-  .prompt-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .prompt-table th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #2d3748; }
-  .prompt-table td { padding:7px 8px; border-bottom:1px solid #1a1f2e; color:#cbd5e0; vertical-align:top; }
-  .prompt-id { font-weight:700; color:#90cdf4; white-space:nowrap; }
-  .draft-box { background:#0d1420; border:1px solid #2d3748; border-radius:8px; padding:16px; margin:10px 0; font-size:13px; line-height:1.6; color:#cbd5e0; }
-  .draft-box code { background:#1a1f2e; padding:2px 6px; border-radius:4px; color:#90cdf4; font-size:12px; }
-  .meta-block { background:#0a0f1a; border:1px solid #22543d; border-radius:6px; padding:12px; font-family:monospace; font-size:11px; color:#68d391; white-space:pre-wrap; overflow-x:auto; }
-  .step { display:flex; gap:12px; margin-bottom:14px; }
-  .step-num { width:26px; height:26px; border-radius:50%; background:#1a2744; color:#90cdf4; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  /* ── WEEKLY WORKFLOW additions ── */
+  .week-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+  .week-col h3 { font-size:13px; font-weight:700; color:#a0aec0; text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .week-col h3::after { content:''; flex:1; height:1px; background:#2d3748; }
+  .checklist { list-style:none; }
+  .checklist li { padding:8px 0; border-bottom:1px solid #1e2436; font-size:13px; color:#cbd5e0; display:flex; gap:10px; align-items:flex-start; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li .chk { width:16px; height:16px; border:1px solid #4a5568; border-radius:3px; flex-shrink:0; margin-top:2px; cursor:pointer; }
+  .checklist li .step { flex:1; }
+  .checklist li .step .note { font-size:11px; color:#718096; margin-top:2px; }
+  .checklist li .step .auto { font-size:10px; font-weight:700; background:#0a1a2a; border:1px solid #2c4a8a; color:#63b3ed; padding:1px 6px; border-radius:8px; }
+  .checklist li .step .manual { font-size:10px; font-weight:700; background:#1a1000; border:1px solid #744210; color:#f6ad55; padding:1px 6px; border-radius:8px; }
+  .outcome-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .outcome-table th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:7px 10px; border-bottom:1px solid #2d3748; }
+  .outcome-table td { padding:9px 10px; border-bottom:1px solid #1e2436; vertical-align:top; }
+  .outcome-table tr:last-child td { border-bottom:none; }
+  .esc-table { width:100%; border-collapse:collapse; font-size:12px; margin-top:12px; }
+  .esc-table th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:7px 10px; border-bottom:1px solid #2d3748; }
+  .esc-table td { padding:9px 10px; border-bottom:1px solid #1e2436; }
+  .esc-table tr:last-child td { border-bottom:none; }
+  .freq-badge { display:inline-block; font-size:10px; font-weight:700; padding:1px 7px; border-radius:8px; }
+  .freq-weekly { background:rgba(144,205,244,.1); color:#90cdf4; border:1px solid #2c4a8a; }
+  .freq-monthly { background:rgba(183,148,244,.1); color:#d6bcfa; border:1px solid #553c9a; }
+  @media(max-width:800px){ .week-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="header-left">
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p id="meta-line">AMPLIFY: community reply drafts · threads verified live · human review required before posting</p>
+    <h1>📣 AMPLIFY — Weekly Community Monitoring</h1>
+    <p>5 reply drafts · threads verified live · human review required before posting</p>
   </div>
   <div class="header-right">
-    <span class="badge">Claude verified</span>
+    <span class="badge">Updated weekly</span>
     <span class="badge badge-warn">Unaided SOV ~0%</span>
   </div>
-</div><div class="nav"><a href="index.html" class="">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregators</a><a href="roadmap.html" class="">🗺️ Root Cause</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="active">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
+</div>
+<div class="nav"><a href="index.html" class="">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="active">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a><a href="report.html" class="">📊 REPORT</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
+<div class="last-updated-bar">
+  <span>Last updated: <strong id="lu-date">—</strong> &nbsp;·&nbsp; Run: <span id="lu-run">—</span> &nbsp;·&nbsp; <span id="lu-models">—</span></span>
+</div>
+
 <div class="container">
-  <div class="alert badge-warn" style="background:#1a0a00;border-color:#744210;border-left:4px solid #ed8936;color:#f6ad55;">
-    📣 <strong>All replies require human review before posting.</strong> Thread links filtered to posts from the <strong>last 6 months only</strong>. Affiliation disclosure included in every draft. Factual claims flagged (CLAIM NEEDED) — confirm against Claim Registry. Do not post in competitor-owned communities. Escalate any complaint/legal thread to Support/Legal.
+
+<div class="alert">
+  📣 <strong>All replies require human review before posting.</strong> Thread links filtered to posts from the <strong>last 6 months only</strong>. Affiliation disclosure included in every draft. Factual claims flagged (CLAIM NEEDED) — confirm against Claim Registry. Do not post in competitor-owned communities. Escalate any complaint/legal thread to Support/Legal.
+</div>
+
+<!-- ══ WEEKLY WORKFLOW ══ -->
+<div class="section-title" style="font-size:14px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+  Weekly AMPLIFY Workflow
+  <span class="freq-badge freq-weekly">Every Monday</span>
+  <span style="flex:1;height:1px;background:#2d3748;display:block;"></span>
+</div>
+
+<div class="card" style="margin-bottom:24px;">
+  <div class="week-grid">
+    <div class="week-col">
+      <h3>🔍 Step 1 — Monitor &amp; Score</h3>
+      <ul class="checklist">
+        <li><div class="chk"></div><div class="step">Search Reddit r/smallbusiness for active threads (last 7 days): <code style="font-size:11px;background:#1a1f2e;padding:1px 5px;border-radius:3px;">site:reddit.com payment processor 2025</code><div class="note">Search terms: "cheapest processor", "switch from Square", "surcharge customers", "0% credit card fees", "best POS coffee shop", "best POS retail"</div></div></li>
+        <li><div class="chk"></div><div class="step">Search Quora for payment/POS questions posted this week<div class="note">Topics: payment processing, point of sale systems, small business payments</div></div></li>
+        <li><div class="chk"></div><div class="step">Score each thread (1–10 rubric): merchant intent + GoDaddy fit + AI index potential + recency<div class="note">Only respond to threads scoring 7+. Low-score = monitor only.</div></div></li>
+        <li><div class="chk"></div><div class="step">Check for hostile/legal/complaint threads — <strong style="color:#fc8181">do not engage</strong><div class="note"><span class="manual">MANUAL</span> Escalate to Support/Legal if found</div></div></li>
+      </ul>
+    </div>
+    <div class="week-col">
+      <h3>✍️ Step 2 — Draft &amp; Review</h3>
+      <ul class="checklist">
+        <li><div class="chk"></div><div class="step">Open Claude → say: <em style="color:#90cdf4">"Run weekly AMPLIFY session — here are this week's top 3 threads: [paste URLs]"</em><div class="note"><span class="auto">AUTO</span> Claude pulls AMPLIFY skill + Claim Registry note automatically</div></div></li>
+        <li><div class="chk"></div><div class="step">Review Claude's draft replies — check all 5 community safety rules:<div class="note">✓ Affiliation disclosed · ✓ No fake persona · ✓ Claim Registry IDs cited · ✓ No legal advice · ✓ Not competitor-owned community</div></div></li>
+        <li><div class="chk"></div><div class="step">Update Claim Registry IDs for any (CLAIM NEEDED) placeholders<div class="note"><span class="manual">MANUAL</span> Verify rates against godaddy.com/help/charges-and-fees</div></div></li>
+        <li><div class="chk"></div><div class="step">Get Legal/Community sign-off for any new reply (especially surcharging/rate claims)<div class="note"><span class="manual">MANUAL</span> Required before posting</div></div></li>
+      </ul>
+    </div>
   </div>
-  
-  <div class="card">
+  <div class="week-grid" style="margin-top:16px;padding-top:16px;border-top:1px solid #2d3748;">
+    <div class="week-col">
+      <h3>📤 Step 3 — Post &amp; Log</h3>
+      <ul class="checklist">
+        <li><div class="chk"></div><div class="step">Confirm thread is still active, non-hostile, allows brand replies<div class="note"><span class="manual">MANUAL</span> Check subreddit rules sidebar</div></div></li>
+        <li><div class="chk"></div><div class="step">Post reply with exact affiliation disclosure wording<div class="note">"Disclosure: I work at GoDaddy Payments."</div></div></li>
+        <li><div class="chk"></div><div class="step">Log post in Outcome Tracking table below (date, URL, platform, result)<div class="note"><span class="manual">MANUAL</span> Update Claude note or Confluence page</div></div></li>
+        <li><div class="chk"></div><div class="step">Never post same reply to multiple threads simultaneously<div class="note">One thread at a time. Space posts across days if possible.</div></div></li>
+      </ul>
+    </div>
+    <div class="week-col">
+      <h3>📊 Step 4 — Measure &amp; Signal</h3>
+      <ul class="checklist">
+        <li><div class="chk"></div><div class="step">Check prior posts for upvotes, replies, moderation flags after 48h<div class="note">Log outcome: Posted / Removed by mod / Downvoted / Cited by AI / No engagement</div></div></li>
+        <li><div class="chk"></div><div class="step">Note any new merchant language patterns from threads this week<div class="note">Feed to INTEL — new phrasing = prompt bank candidate</div></div></li>
+        <li><div class="chk"></div><div class="step">Note competitor mentions (new pricing, new product, complaints)<div class="note">Feed to Competitive Intel section of dashboard</div></div></li>
+        <li><div class="chk"></div><div class="step">Monthly: run Perplexity check — ask "What is the best POS for a coffee shop?" and check if any community posts surface in citations<div class="note"><span class="freq-badge freq-monthly">Monthly</span></div></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MONITORING TARGETS ══ -->
+<div class="section-title" style="font-size:14px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+  Weekly Monitoring Targets
+  <span style="flex:1;height:1px;background:#2d3748;display:block;"></span>
+</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
+<table class="outcome-table">
+  <thead><tr><th>Platform</th><th>Search Query</th><th>Min. Score to Engage</th><th>Excluded Communities</th><th>Freq.</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Reddit r/smallbusiness</strong></td><td>cheapest payment processor, switch from Square, surcharge customers, 0% credit card fees</td><td>7/10</td><td>None known</td><td><span class="freq-badge freq-weekly">Weekly</span></td></tr>
+    <tr><td><strong>Reddit r/coffeeshopowners</strong></td><td>best POS, payment processor</td><td>7/10</td><td>None known</td><td><span class="freq-badge freq-weekly">Weekly</span></td></tr>
+    <tr><td><strong>Reddit r/retailer</strong></td><td>POS system, payment processor, Square alternative</td><td>7/10</td><td>None known</td><td><span class="freq-badge freq-weekly">Weekly</span></td></tr>
+    <tr><td><strong>Reddit r/PaymentProcessing</strong></td><td>cheapest rates, no transaction fee, surcharging</td><td>7/10</td><td>None known</td><td><span class="freq-badge freq-weekly">Weekly</span></td></tr>
+    <tr><td><strong>Quora</strong></td><td>payment processing small business, POS systems</td><td>7/10</td><td>None known</td><td><span class="freq-badge freq-weekly">Weekly</span></td></tr>
+    <tr><td><strong>LinkedIn</strong></td><td>payment processing, POS, fintech SMB</td><td>8/10 (stricter)</td><td>Square, Clover, Toast communities</td><td><span class="freq-badge freq-monthly">Monthly</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══ REPLY DRAFTS ══ -->
+<div class="section-title" style="font-size:14px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+  Reply Drafts — Ready for Human Review
+  <span class="freq-badge freq-weekly" style="margin-left:4px;">Refresh threads weekly</span>
+  <span style="flex:1;height:1px;background:#2d3748;display:block;"></span>
+</div>
+
+<div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <h3 style="margin:0;">Reply 1 — Low fees / cheaper than Square</h3>
       <a class="link-pill" href="https://www.reddit.com/r/smallbusiness/search/?q=cheapest+payment+processor&sort=new&t=year" target="_blank">r/smallbusiness — fee queries (last 6mo) ↗</a>
@@ -239,10 +304,58 @@
     <div style="font-size:11px;color:#a0aec0;margin-bottom:6px;">Link to in reply: <a class="link-pill" href="https://www.godaddy.com/payments/point-of-sale" target="_blank">GoDaddy POS ↗</a> <a class="link-pill" href="https://www.godaddy.com/payments" target="_blank">GoDaddy Payments ↗</a></div>
     <div style="font-size:11px;color:#68d391;">✅ Disclosure included · ✅ leads with merchant problem · ✅ acknowledges competitors · ✅ no legal advice claim · ⏳ requires human review before posting</div>
   </div>
-  <p style="font-size:11px;color:#718096;">Thread links use Reddit search filtered to <strong>last 6 months</strong> (<code>t=year&sort=new</code>). Click each link, find the most recent active thread, paste the specific URL before posting. Confirm each is still active, non-hostile, and allows brand replies before posting. Full AMPLIFY note: <a href="https://caas.open-webui.godaddy.com/notes/778c4fbb-6e4f-4928-b95a-d98c7b9ae603" class="ext-link" target="_blank">open in Notes ↗</a></p>
+  
+
+<p style="font-size:11px;color:#718096;">Thread links use Reddit search filtered to <strong>last 6 months</strong> (<code>t=year&sort=new</code>). Click each link, find the most recent active thread, paste the specific URL before posting. Confirm each is still active, non-hostile, and allows brand replies before posting. Full AMPLIFY note: <a href="https://caas.open-webui.godaddy.com/notes/778c4fbb-6e4f-4928-b95a-d98c7b9ae603" class="ext-link" target="_blank">open in Notes ↗</a></p>
   <div class="card" style="border-color:#744210;background:#1a0a00;margin-top:8px;">
     <p style="font-size:12px;color:#cbd5e0;"><strong style="color:#f6ad55;">¹ Rate Saver:</strong> Requires eligible plan. Not available in CT, MA, PR. Not available for ecommerce. Confirm current eligibility before posting. Square rate confirmed at 2.6% + $0.15 (raised Feb 2025).</p>
   </div>
+
+<!-- ══ OUTCOME TRACKING ══ -->
+<div class="section-title" style="font-size:14px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin:24px 0 14px;display:flex;align-items:center;gap:8px;">
+  Outcome Tracking — Prior Posted Replies
+  <span style="flex:1;height:1px;background:#2d3748;display:block;"></span>
 </div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
+<table class="outcome-table">
+  <thead><tr><th>Post Date</th><th>Thread / Topic</th><th>Platform</th><th>Reply Used</th><th>Outcome</th><th>AI Cited?</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td colspan="7" style="text-align:center;color:#4a5568;padding:20px;font-size:13px;">No posts recorded yet — fill in after first posts go live. Log date, thread URL, which reply draft was used, and check Perplexity monthly to see if any posts surface as citations.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══ ESCALATION LOG ══ -->
+<div class="section-title" style="font-size:14px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+  Escalation Log
+  <span style="flex:1;height:1px;background:#2d3748;display:block;"></span>
+</div>
+<div class="card" style="padding:0;overflow:hidden;">
+<table class="esc-table">
+  <thead><tr><th>Date Found</th><th>Thread / Topic</th><th>Platform</th><th>Escalation Reason</th><th>Escalated To</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td colspan="6" style="text-align:center;color:#4a5568;padding:20px;font-size:13px;">No escalations recorded. Log any complaint, chargeback dispute, fraud allegation, regulatory claim, or legal threat here. Do NOT reply — escalate to GoDaddy Support + Legal.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+fetch('/data.json').then(r=>r.json()).then(d=>{
+  const meta = d.meta||{};
+  const period = meta.period||'June 2026';
+  const runId = meta.run_id||'—';
+  const models = meta.models||'3 models';
+  const prompts = meta.prompt_count||70;
+  const luDate = document.getElementById('lu-date');
+  const luRun = document.getElementById('lu-run');
+  const luModels = document.getElementById('lu-models');
+  if(luDate) luDate.textContent = period;
+  if(luRun) luRun.textContent = runId;
+  if(luModels) luModels.textContent = models + ' · ' + prompts + ' prompts';
+}).catch(()=>{});
+</script>
+
 </body>
 </html>

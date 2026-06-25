@@ -211,7 +211,7 @@
     <span class="badge badge-warn" id="unaided-badge">Unaided SOV ~0%</span>
     <!-- CSV upload removed — dashboard updates automatically via geo_monthly_benchmark.bat -->
   </div>
-</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a></div>
+</div><div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a><a href="report.html" class="">📊 REPORT</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
 <div class="last-updated-bar">
   <span>Last updated: <strong id="lu-date">—</strong>
     &nbsp;·&nbsp; Run: <span class="lu-run" id="lu-run">—</span>
@@ -338,11 +338,6 @@
             <td><strong>o3-mini</strong></td>
             <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">86% aided</span></td>
             <td style="color:#718096;">Same reasoning pattern as o3 — lower cost variant</td>
-          </tr>
-          <tr>
-            <td><strong>Gemini 3.1 Pro Preview</strong></td>
-            <td><span class="model-tag" style="background:#2d1f00;color:#f6ad55;">29% aided</span></td>
-            <td style="color:#718096;">Inconsistent preview model — excluded from official SOV</td>
           </tr>
           <tr>
             <td><strong>Perplexity</strong></td>
@@ -553,21 +548,19 @@
                  '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
         }).join('');
       }
-      // Model SOV table — render PRIMARY models only from data.json
+      // Model SOV table — render all models from data.json
       var modelRows = document.getElementById('model-sov-rows');
-      if (modelRows && d.primary_models) {
-        var rows = d.primary_models.map(function(m) {
-          var aidedColor = m.a_color || '#68d391';
-          var whyPrimary = '';
-          if (m.name.includes('GPT-4o')) whyPrimary = 'Most widely used consumer AI — highest merchant exposure';
-          else if (m.name.includes('Claude')) whyPrimary = 'Leading reasoning model — high quality responses';
-          else if (m.name.includes('Gemini')) whyPrimary = 'Google\'s flagship — growing market share';
-
+      if (modelRows && d.model_sov) {
+        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
+        var rows = Object.values(d.model_sov).map(function(m) {
+          var icon = STATUS_ICON[m.status] || '—';
+          var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
           return '<tr>' +
             '<td><strong>' + (m.name||'') + '</strong></td>' +
             '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-            '<td><span class="model-tag" style="background:#1a2e1a;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
-            '<td style="color:#718096;">' + whyPrimary + '</td>' +
+            '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#fc8181') + ';">' + (m.aided||'—') + '</span></td>' +
+            '<td style="color:#718096;">' + (m.rs||'—') + '</td>' +
+            '<td>' + icon + note + '</td>' +
             '</tr>';
         }).join('');
         modelRows.innerHTML = rows;
@@ -575,9 +568,7 @@
       // Update header badge
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        var primaryCount = (d.primary_models||[]).length;
-        var totalCount = (d.primary_models||[]).length + (d.pulse_check_models||[]).length;
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + primaryCount + ' primary + ' + (d.pulse_check_models||[]).length + ' pulse · ' + (d.meta.period || 'June 2026');
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (Object.keys(d.model_sov||{}).length || 9) + ' models · ' + (d.meta.period || 'June 2026');
       }
     })
     .catch(function (err) {

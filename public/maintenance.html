@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GEO Maintenance Guide — Weekly &amp; Monthly Actions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .header-left p { font-size: 13px; color: #718096; margin-top: 4px; }
+  .header-right { display: flex; gap: 12px; align-items: center; }
+  .badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+  .badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
+  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
+  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; }
+  .nav a:hover { color:#cbd5e0; }
+  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
+  .last-updated-bar { background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568; }
+  .last-updated-bar strong { color:#718096; }
+  .container { padding: 24px 32px; max-width: 1300px; margin: 0 auto; }
+  .section-title { font-size: 14px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
+  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
+  .alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #f6ad55; }
+  .alert strong { color: #fbd38d; }
+  .alert-green { background:#0a1a0a; border:1px solid #276749; border-left:4px solid #48bb78; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#9ae6b4; }
+  .alert-blue { background:#0a0f1a; border:1px solid #2c4a8a; border-left:4px solid #3182ce; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#90cdf4; }
+  .red { color: #fc8181; } .green { color: #68d391; } .yellow { color: #f6e05e; } .blue { color: #90cdf4; } .muted { color: #718096; }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:8px 12px; border-bottom:1px solid #2d3748; }
+  td { padding:10px 12px; border-bottom:1px solid #1e2535; font-size:13px; vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:rgba(255,255,255,.015); }
+  .pill { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700; }
+  .pill-red { background:rgba(252,129,129,.15); color:#fc8181; }
+  .pill-yellow { background:rgba(246,224,94,.1); color:#f6e05e; }
+  .pill-green { background:rgba(104,211,145,.15); color:#68d391; }
+  .pill-blue { background:rgba(144,205,244,.1); color:#90cdf4; }
+  .pill-purple { background:rgba(183,148,244,.1); color:#d6bcfa; }
+
+  .hero { background:linear-gradient(135deg,#1a1f2e,#0f1117); border:1px solid #2d3748; border-radius:12px; padding:24px 28px; margin-bottom:28px; display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+  .hero h2 { font-size:18px; font-weight:700; color:#fff; margin-bottom:8px; }
+  .hero p { font-size:13px; color:#718096; line-height:1.6; max-width:600px; }
+  .tabs { display:flex; gap:4px; margin-bottom:24px; }
+  .tab { padding:9px 18px; border-radius:8px 8px 0 0; font-size:13px; font-weight:600; cursor:pointer; border:1px solid #2d3748; border-bottom:none; color:#718096; background:#1a1f2e; transition:all .2s; }
+  .tab.active { color:#90cdf4; background:#141821; border-color:#3182ce; }
+  .tab-content { display:none; } .tab-content.active { display:block; }
+  .freq-section { margin-bottom:32px; }
+  .freq-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; padding:12px 16px; border-radius:10px; }
+  .freq-header.weekly { background:rgba(144,205,244,.07); border:1px solid #2c4a8a; }
+  .freq-header.monthly { background:rgba(183,148,244,.07); border:1px solid #553c9a; }
+  .freq-header h3 { font-size:15px; font-weight:700; color:#fff; margin:0; }
+  .freq-header .fmeta { font-size:12px; color:#718096; margin-top:2px; }
+  .freq-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:10px; }
+  .fw { background:rgba(144,205,244,.15); color:#90cdf4; border:1px solid #2c4a8a; }
+  .fm { background:rgba(183,148,244,.15); color:#d6bcfa; border:1px solid #553c9a; }
+  .fa { background:rgba(104,211,145,.15); color:#68d391; border:1px solid #276749; }
+
+  /* Step cards */
+  .step-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
+  .step-card { background:#1a1f2e; border:1px solid #2d3748; border-radius:10px; padding:16px; position:relative; }
+  .step-card .step-num { position:absolute; top:-10px; left:16px; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; }
+  .step-card .step-num.blue { background:#1a2744; color:#90cdf4; border:1px solid #3182ce; }
+  .step-card .step-num.purple { background:#2a1a3e; color:#d6bcfa; border:1px solid #553c9a; }
+  .step-card h4 { font-size:13px; font-weight:700; color:#cbd5e0; margin-top:6px; margin-bottom:8px; }
+  .step-card ul { list-style:none; }
+  .step-card ul li { font-size:12px; color:#a0aec0; padding:4px 0; border-bottom:1px solid #1e2436; display:flex; gap:8px; }
+  .step-card ul li:last-child { border-bottom:none; }
+  .step-card ul li::before { content:'→'; color:#4a5568; flex-shrink:0; }
+  .tag { display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:6px; margin-left:4px; }
+  .tag-auto { background:#0a1a2a; color:#63b3ed; border:1px solid #2c4a8a; }
+  .tag-manual { background:#1a1000; color:#f6ad55; border:1px solid #744210; }
+  .tag-claude { background:#0a1a2a; color:#90cdf4; border:1px solid #3182ce; }
+  .tag-5min { background:#0a2d1a; color:#68d391; border:1px solid #22543d; }
+
+  /* Command block */
+  .cmd { background:#0d1117; border:1px solid #2d3748; border-radius:8px; padding:14px; margin:10px 0; font-family:monospace; font-size:12px; color:#68d391; position:relative; }
+  .cmd .cmd-label { font-size:10px; font-weight:700; color:#4a5568; margin-bottom:6px; font-family:sans-serif; text-transform:uppercase; letter-spacing:.5px; }
+
+  /* Timeline -->
+  .timeline { position:relative; padding-left:32px; }
+  .timeline::before { content:''; position:absolute; left:10px; top:8px; bottom:8px; width:1px; background:linear-gradient(to bottom,#3182ce,#553c9a); }
+  .tl-item { position:relative; margin-bottom:24px; }
+  .tl-dot { position:absolute; left:-27px; top:3px; width:14px; height:14px; border-radius:50%; border:2px solid #3182ce; background:#0f1117; }
+  .tl-dot.purple { border-color:#553c9a; }
+  .tl-time { font-size:11px; font-weight:700; color:#90cdf4; margin-bottom:4px; }
+  .tl-time.purple { color:#d6bcfa; }
+  .tl-title { font-size:14px; font-weight:700; color:#fff; margin-bottom:4px; }
+  .tl-desc { font-size:12px; color:#718096; line-height:1.5; }
+  .tl-actions { margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; }
+
+  /* Checklist */
+  .chk-list { list-style:none; }
+  .chk-list li { display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid #1e2436; font-size:13px; color:#cbd5e0; }
+  .chk-list li:last-child { border-bottom:none; }
+  .chk-box { width:16px; height:16px; border:1px solid #4a5568; border-radius:3px; flex-shrink:0; margin-top:2px; cursor:pointer; }
+  .chk-text { flex:1; }
+  .chk-text .note { font-size:11px; color:#718096; margin-top:2px; }
+
+  /* Stat row -->
+  .stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+  .stat { background:#1a1f2e; border:1px solid #2d3748; border-radius:8px; padding:14px; text-align:center; }
+  .stat-val { font-size:22px; font-weight:800; color:#90cdf4; margin-bottom:4px; }
+  .stat-label { font-size:11px; color:#718096; }
+
+  /* Quick ref table */
+  .qr-table { width:100%; border-collapse:collapse; margin-top:0; }
+  .qr-table th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:8px 12px; border-bottom:1px solid #2d3748; }
+  .qr-table td { padding:9px 12px; border-bottom:1px solid #1e2436; font-size:12px; }
+  .qr-table tr:last-child td { border-bottom:none; }
+
+  @media(max-width:800px){ .step-grid,.stat-row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left"><h1>🔧 Maintenance Guide — Weekly &amp; Monthly Actions</h1><p>GeDaddy Payments GEO Program · Keep the engine running</p></div>
+  <div class="header-right"><span class="badge">Prompt Bank v2.6 · 9 models · June 2026</span><span class="badge badge-warn">BAT automated · Claude tasks built</span></div>
+</div>
+<div class="nav"><a href="index.html" class="">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregator Labels</a><a href="roadmap.html" class="">🗺️ Root Cause → Action</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a><a href="report.html" class="">📊 REPORT</a><a href="maintenance.html" class="active">🔧 Maintenance</a></div>
+<div class="last-updated-bar">
+  <span>Last updated: <strong id="lu-date">—</strong> &nbsp;·&nbsp; Run: <span id="lu-run">—</span> &nbsp;·&nbsp; <span id="lu-models">—</span></span>
+</div>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h2>Your automation stack is already built — this is what's left for humans</h2>
+    <p>The .bat files handle the monthly benchmark run automatically. You have Claude tasks for weekly and monthly sessions. This page tells you exactly what to click, when, and what Claude will do automatically vs. what needs a human decision.</p>
+  </div>
+  <div style="text-align:right;flex-shrink:0;">
+    <div style="font-size:12px;color:#718096;margin-bottom:8px;">Estimated human time</div>
+    <div style="font-size:20px;font-weight:800;color:#68d391;">~30 min/week</div>
+    <div style="font-size:12px;color:#4a5568;margin-top:4px;">+ ~2 hrs/month for full report</div>
+  </div>
+</div>
+
+<!-- STAT ROW -->
+<div class="stat-row" style="margin-bottom:28px;">
+  <div class="stat"><div class="stat-val">🤖</div><div class="stat-label">Monthly benchmark<br>fully automated (.bat)</div></div>
+  <div class="stat"><div class="stat-val">🔁</div><div class="stat-label">Weekly monitoring<br>Claude task built</div></div>
+  <div class="stat"><div class="stat-val">📊</div><div class="stat-label">Monthly GEO session<br>Claude task built</div></div>
+  <div class="stat"><div class="stat-val">👤</div><div class="stat-label">Leadership decisions<br>only human item</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('weekly')">⚡ Weekly Actions (~30 min)</div>
+  <div class="tab" onclick="showTab('monthly')">📅 Monthly Actions (~2 hrs)</div>
+  <div class="tab" onclick="showTab('quickref')">📋 Quick Reference</div>
+  <div class="tab" onclick="showTab('files')">📁 File Locations</div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 1: WEEKLY -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-weekly" class="tab-content active">
+
+  <div class="freq-section">
+    <div class="freq-header weekly">
+      <span class="freq-badge fw">Every Monday</span>
+      <div><h3>Weekly GEO Actions</h3><div class="fmeta">~30 minutes total · most steps automated via Claude task</div></div>
+    </div>
+
+    <div class="step-grid">
+      <div class="step-card">
+        <div class="step-num blue">1</div>
+        <h4>Run Weekly GEO Claude Task</h4>
+        <ul>
+          <li>Open Claude → run your "Weekly GEO" task <span class="tag tag-claude">Claude task</span></li>
+          <li>Claude auto-pulls AMPLIFY skill + Claim Registry</li>
+          <li>Paste 2–3 Reddit/Quora thread URLs when prompted</li>
+          <li>Review reply drafts Claude generates</li>
+          <li>Estimated time: 15 min <span class="tag tag-5min">15 min</span></li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-num blue">2</div>
+        <h4>Community Monitoring (AMPLIFY)</h4>
+        <ul>
+          <li>Search: <code style="font-size:10px;background:#1a1f2e;padding:1px 4px;border-radius:3px">reddit.com r/smallbusiness payment processor</code></li>
+          <li>Search: <code style="font-size:10px;background:#1a1f2e;padding:1px 4px;border-radius:3px">reddit.com r/coffeeshopowners best POS</code></li>
+          <li>Score threads (7+ = respond, &lt;7 = monitor only)</li>
+          <li>Flag hostile/legal threads for escalation <span class="tag tag-manual">Manual</span></li>
+          <li>Estimated time: 10 min <span class="tag tag-5min">10 min</span></li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-num blue">3</div>
+        <h4>Post Approved Replies</h4>
+        <ul>
+          <li>Confirm thread still active + not hostile</li>
+          <li>Check subreddit rules allow brand replies</li>
+          <li>Post with disclosure: <em style="color:#f6e05e">"I work at GoDaddy Payments"</em></li>
+          <li>Log post in Outcome Tracking table (AMPLIFY page)</li>
+          <li>Max 1–2 posts per week <span class="tag tag-manual">Manual</span></li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-num blue">4</div>
+        <h4>Check Competitive Intel</h4>
+        <ul>
+          <li>Scan for Square / Helcim / Toast pricing news</li>
+          <li>Note any new competitor claims in threads</li>
+          <li>Update Competitive Intel section in dashboard if needed</li>
+          <li>Feed new merchant language signals to INTEL note</li>
+          <li>Estimated time: 5 min <span class="tag tag-5min">5 min</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert-green">
+      ✅ <strong>Already automated:</strong> The monthly benchmark (.bat), dashboard update, and git push are fully automated. Weekly actions are community monitoring + reply posting — these need a human because they require judgment and legal compliance.
+    </div>
+
+    <div class="freq-header weekly" style="margin-top:20px;margin-bottom:12px;">
+      <span class="freq-badge fw">Weekly Checklist</span>
+      <div><h3>Copy into Notion / Tasks each Monday</h3></div>
+    </div>
+    <div class="card" style="padding:16px;">
+      <ul class="chk-list">
+        <li><div class="chk-box"></div><div class="chk-text">Run Weekly GEO Claude task → review reply drafts<div class="note">Claude task → paste thread URLs → review output</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Search Reddit r/smallbusiness, r/coffeeshopowners for active threads (last 7 days)<div class="note">Search terms: "cheapest processor", "switch from Square", "surcharge", "best POS"</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Score threads (7+ = respond) — flag any hostile/legal for escalation<div class="note">Escalate to Support/Legal if complaint/legal thread found</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Post 1–2 approved replies with disclosure — log in Outcome Tracking<div class="note">Log: date, thread URL, reply used, initial reaction</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Check prior posts (48h+ old) for moderation flags or replies<div class="note">Update Outcome Tracking: Posted/Removed/Downvoted/Cited by AI/No engagement</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Note new merchant language or competitor events → feed to INTEL<div class="note">Flag for next monthly INTEL prompt bank refresh if significant</div></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 2: MONTHLY -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-monthly" class="tab-content">
+
+  <div class="freq-section">
+    <div class="freq-header monthly">
+      <span class="freq-badge fm">First week of month</span>
+      <div><h3>Monthly GEO Actions</h3><div class="fmeta">~2 hours total · automated parts run automatically · Claude task handles analysis</div></div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">Day 1 — Benchmark Run (Automated)</div>
+        <div class="tl-title">geo_monthly_benchmark.bat runs automatically</div>
+        <div class="tl-desc">Runs 70 prompts × 3 primary models, scores CSV, updates data.json, commits + pushes to GitHub, dashboard redeploys. Zero human action needed.</div>
+        <div class="tl-actions">
+          <span class="tag tag-auto">Fully automated</span>
+          <span class="tag tag-5min">0 min human time</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">Day 1 — Verify Dashboard Updated</div>
+        <div class="tl-title">Confirm https://kz6jwep09q.c24.airoapp.ai/ shows new run</div>
+        <div class="tl-desc">Check that the Run ID and period updated. If dashboard shows old data, check git push logs or manually run: <code style="background:#1a1f2e;padding:1px 4px;border-radius:3px;font-size:11px">python update_dashboard.py</code></div>
+        <div class="tl-actions">
+          <span class="tag tag-manual">2 min manual check</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">Day 2–3 — Monthly GEO Claude Session</div>
+        <div class="tl-title">Open Claude → say: "Run monthly GEO session."</div>
+        <div class="tl-desc">Claude auto-pulls GEO Prompt Bank note, ICP snapshot, and all agent skills. Runs through AUDIT → STRATEGY → BUILD/CITE/AMPLIFY briefs for the month.</div>
+        <div class="cmd"><div class="cmd-label">Claude prompt to start monthly session</div>"Run monthly GEO session. The benchmark has run and data.json is updated. Pull the GEO Prompt Bank note and the ICP snapshot note and run the full AUDIT → STRATEGY → BUILD/CITE/AMPLIFY workflow."</div>
+        <div class="tl-actions">
+          <span class="tag tag-claude">Claude task</span>
+          <span class="tag tag-5min">~45 min</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-time purple">Day 3–4 — CRAWL Phase 1 Check</div>
+        <div class="tl-title">Ask Claude to run CRAWL Phase 1 diagnostic on priority URLs</div>
+        <div class="tl-desc">Verify no new robots.txt blockers introduced. Confirm crawler access still clean. Run if any infrastructure change happened (CDN update, deploy, robots.txt edit).</div>
+        <div class="cmd"><div class="cmd-label">Claude prompt</div>"Run CRAWL Phase 1 for the GoDaddy Payments priority URLs. Check robots.txt, noIndex, sitemap, and AI crawler access."</div>
+        <div class="tl-actions">
+          <span class="tag tag-claude">Claude task</span>
+          <span class="tag tag-5min">~15 min if clean</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-time purple">Day 4–5 — CRAWL Phase 2 for New Pages</div>
+        <div class="tl-title">Run CRAWL Phase 2 on any BUILD draft before it goes live</div>
+        <div class="tl-desc">Every BUILD output needs Phase 2 PASS or CONDITIONAL before publish. No exceptions. If Rate Saver page or vertical page was drafted, it needs this check before legal/PM see it.</div>
+        <div class="cmd"><div class="cmd-label">Claude prompt</div>"Run CRAWL Phase 2 on this BUILD draft: [paste HTML or URL]"</div>
+        <div class="tl-actions">
+          <span class="tag tag-claude">Claude task</span>
+          <span class="tag tag-manual">Only if new page exists</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-time purple">Day 5 — CITE Pipeline Update</div>
+        <div class="tl-title">Update citation outreach status — sent / responded / placed</div>
+        <div class="tl-desc">Log any outreach responses in the CITE page. Update aggregator tracker in Confluence. If new placement confirmed, trigger a spot-check benchmark run.</div>
+        <div class="cmd"><div class="cmd-label">Claude prompt</div>"Update the CITE pipeline. Here are this month's outreach outcomes: [paste updates]"</div>
+        <div class="tl-actions">
+          <span class="tag tag-manual">Manual update</span>
+          <span class="tag tag-5min">~10 min</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-time purple">Day 5–7 — Produce Monthly Report</div>
+        <div class="tl-title">Generate and distribute GEO Monthly Executive Report</div>
+        <div class="tl-desc">Dashboard Report page (report.html) auto-populates from data.json. Review Sections 11 (Leadership Decisions) and 12 (Next Month Priorities). Send link to leadership.</div>
+        <div class="tl-actions">
+          <span class="tag tag-5min">~15 min review</span>
+          <span class="tag tag-manual">Send to leadership</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-time purple">Quarterly — INTEL Prompt Bank Refresh</div>
+        <div class="tl-title">Run INTEL agent — refresh the 50-prompt benchmark bank</div>
+        <div class="tl-desc">September 2026 is next scheduled refresh. Also trigger if competitor raises rates, new AI platform launches, or AMPLIFY surfaces new merchant language patterns.</div>
+        <div class="cmd"><div class="cmd-label">Claude prompt</div>"Run INTEL quarterly refresh. Trigger: [quarterly / competitor rate change / new language signal]. Pull current prompt bank from note 7db9a2e8."</div>
+        <div class="tl-actions">
+          <span class="tag tag-claude">Claude task</span>
+          <span class="tag tag-5min">~30 min</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly checklist -->
+    <div class="freq-header monthly" style="margin-top:20px;margin-bottom:12px;">
+      <span class="freq-badge fm">Monthly Checklist</span>
+      <div><h3>Copy into Notion / Tasks each month</h3></div>
+    </div>
+    <div class="card" style="padding:16px;">
+      <ul class="chk-list">
+        <li><div class="chk-box"></div><div class="chk-text">Confirm geo_monthly_benchmark.bat ran + dashboard updated<div class="note">Check dashboard Run ID matches current month. If stale, run manually.</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Open Claude → "Run monthly GEO session" → review AUDIT → STRATEGY → BUILD/CITE briefs<div class="note">~45 min. Claude pulls notes automatically.</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Run CRAWL Phase 1 on priority URLs (especially after any infrastructure change)<div class="note">Ask Claude: "Run CRAWL Phase 1 for GoDaddy Payments priority URLs"</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Run CRAWL Phase 2 on any new BUILD page drafts before submitting for legal/PM review<div class="note">Must have PASS or CONDITIONAL before any page can be published</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Update CITE pipeline — log outreach outcomes, new placements, corrections<div class="note">If new aggregator placement confirmed → schedule spot-check benchmark run</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Review Report page (report.html) → fill in any "Pending" leading indicators with real data<div class="note">Leading indicators need manual data: indexed URL count, schema pass rate</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Send report link to leadership — present Section 11 Leadership Decisions Required<div class="note">These decisions are the only human blocker — surface them explicitly</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Run Perplexity simulation — check which aggregators are cited for key queries<div class="note">Run 5 priority prompts manually in Perplexity. Note citation sources. Update aggregators.html if changed.</div></div></li>
+        <li><div class="chk-box"></div><div class="chk-text">Check GEO Prompt Bank note (7db9a2e8) is still current — prompt bank version matches dashboard<div class="note">Quarterly: trigger INTEL refresh if 3+ months since last update</div></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 3: QUICK REFERENCE -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-quickref" class="tab-content">
+
+  <div class="section-title">Claude Prompts — Copy &amp; Paste</div>
+  <div class="card" style="margin-bottom:20px;">
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Monthly GEO Session (start of month)</div>
+      <div class="cmd">"Run monthly GEO session. The benchmark has run and data.json is updated. Pull the GEO Prompt Bank note and ICP snapshot note, then run the full AUDIT → STRATEGY → BUILD/CITE/AMPLIFY workflow for the month."</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Weekly AMPLIFY (every Monday)</div>
+      <div class="cmd">"Run weekly AMPLIFY session. Here are this week's top Reddit threads: [paste 2–3 URLs]. Draft replies for threads scoring 7+, check against the Claim Registry, and flag any escalation-required threads."</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">CRAWL Phase 1 (monthly / after infra changes)</div>
+      <div class="cmd">"Run CRAWL Phase 1 for the GoDaddy Payments priority URLs. Check robots.txt parent-path audit, noIndex, canonicals, sitemap, and AI crawler access. Paste current robots.txt: [paste]"</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">CRAWL Phase 2 (before any page publish)</div>
+      <div class="cmd">"Run CRAWL Phase 2 on this BUILD draft before publish: [paste HTML draft or URL]"</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">CITE Pipeline Update</div>
+      <div class="cmd">"Update the GEO CITE pipeline. This month's outreach outcomes: [paste results]. Check do-not-contact flags and produce updated outreach briefs for [publisher]."</div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">INTEL Quarterly Refresh (Sept 2026)</div>
+      <div class="cmd">"Run INTEL quarterly prompt bank refresh. Pull current prompt bank from note 7db9a2e8. Trigger: quarterly review. Run all 5 research sources and produce updated 50-prompt bank."</div>
+    </div>
+  </div>
+
+  <div class="section-title">SOV Targets — 9-Month Trajectory</div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="qr-table">
+    <thead><tr><th>Category</th><th>Current</th><th>Phase 1 (Month 3)</th><th>Final (Month 9)</th><th>Primary Actions</th></tr></thead>
+    <tbody>
+      <tr><td>pricing_fee</td><td class="red">0%</td><td>25%</td><td class="green">85%</td><td>NerdWallet CITE + Rate Saver page</td></tr>
+      <tr><td>comparison</td><td class="green">100% (aided)</td><td>25% unaided</td><td class="green">70%</td><td>Maintain aided · grow unaided via citations</td></tr>
+      <tr><td>support</td><td class="red">0%</td><td>25%</td><td>65%</td><td>24/7 support page + S1–S5 community replies</td></tr>
+      <tr><td>top_funnel_pos</td><td class="red">0%</td><td>20%</td><td>60%</td><td>Forbes Advisor CITE + general POS page</td></tr>
+      <tr><td>payment_processing</td><td class="red">0%</td><td>20%</td><td>55%</td><td>Aggregator citations + fee pages</td></tr>
+      <tr><td>vertical_retail</td><td class="red">0%</td><td>22%</td><td>55%</td><td>Retail vertical page BUILD</td></tr>
+      <tr><td>vertical_fb</td><td class="red">0%</td><td>18%</td><td>50%</td><td>Coffee shop + food truck BUILD + community</td></tr>
+      <tr><td>general_in_person</td><td class="red">0%</td><td>18%</td><td>50%</td><td>Service business + HSA/FSA pages</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="section-title">Event Triggers — Run These Outside Normal Cadence</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+  <table class="qr-table">
+    <thead><tr><th>Trigger</th><th>Action</th><th>Claude Prompt</th></tr></thead>
+    <tbody>
+      <tr><td>⚡ Competitor raises rates</td><td>Update CITE briefs + competitive intel section. Trigger INTEL check on affected prompts.</td><td>"Square raised rates to X%. Update GEO competitive intel and refresh CITE outreach briefs."</td></tr>
+      <tr><td>📰 New aggregator placement confirmed</td><td>Run spot-check benchmark immediately. Update CITE tracker.</td><td>"NerdWallet just added GoDaddy. Run spot-check on pricing_fee and comparison categories."</td></tr>
+      <tr><td>🚀 New page published</td><td>Run CRAWL Phase 2 before publish. Submit to sitemap. Check indexing in 1–2 weeks.</td><td>"Run CRAWL Phase 2 on this new [page type] page before we publish."</td></tr>
+      <tr><td>🔧 Infrastructure change (CDN, robots.txt)</td><td>Run CRAWL Phase 1 immediately on all priority URLs.</td><td>"Infrastructure change deployed. Run CRAWL Phase 1 — check for any new P0 blockers."</td></tr>
+      <tr><td>📣 New AI platform launches (e.g. Grok)</td><td>Trigger INTEL event refresh. Add model to benchmark.</td><td>"New AI platform launched: [name]. Run INTEL event trigger — add to pulse check prompts."</td></tr>
+      <tr><td>🏆 Rate Saver promotion changes</td><td>Update Claim Registry immediately. Refresh CITE briefs and AMPLIFY drafts.</td><td>"Rate Saver terms changed. Update Claim Registry + refresh AMPLIFY drafts + CITE briefs."</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- TAB 4: FILE LOCATIONS -->
+<!-- ══════════════════════════════════════════ -->
+<div id="tab-files" class="tab-content">
+
+  <div class="section-title">File Map — Where Everything Lives</div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="qr-table">
+    <thead><tr><th>File</th><th>Location</th><th>Purpose</th><th>Update Frequency</th></tr></thead>
+    <tbody>
+      <tr><td><strong>geo_monthly_benchmark.bat</strong></td><td>~/geo-dashboard/</td><td>Runs 70-prompt × 3-model benchmark, updates data.json, pushes to GitHub</td><td><span class="tag tag-auto">Automated monthly</span></td></tr>
+      <tr><td><strong>geo_weekly_benchmark.bat</strong></td><td>~/geo-dashboard/</td><td>Lightweight weekly pulse check (optional — use for spot checks)</td><td><span class="tag tag-manual">On-demand</span></td></tr>
+      <tr><td><strong>update_dashboard.py</strong></td><td>~/geo-dashboard/</td><td>Manual: score CSV + update data.json + git push</td><td><span class="tag tag-manual">If auto fails</span></td></tr>
+      <tr><td><strong>public/data.json</strong></td><td>~/geo-dashboard/public/</td><td>Dashboard data source — auto-updated by .bat</td><td><span class="tag tag-auto">Monthly automated</span></td></tr>
+      <tr><td><strong>public/report.html</strong></td><td>~/geo-dashboard/public/</td><td>Monthly executive report — reads from data.json automatically</td><td><span class="tag tag-5min">Auto from data.json</span></td></tr>
+      <tr><td><strong>public/action-amplify.html</strong></td><td>~/geo-dashboard/public/</td><td>Weekly community reply drafts + outcome tracking</td><td><span class="tag tag-manual">Weekly (threads)</span></td></tr>
+      <tr><td><strong>public/maintenance.html</strong></td><td>~/geo-dashboard/public/</td><td>This page — workflow guide</td><td><span class="tag tag-manual">As needed</span></td></tr>
+      <tr><td><strong>GEO Prompt Bank note</strong></td><td>Claude Notes (ID: 7db9a2e8)</td><td>50-prompt benchmark set — all agents read from here</td><td><span class="tag tag-manual">Quarterly (INTEL)</span></td></tr>
+      <tr><td><strong>GoDaddy Payments ICP Snapshot note</strong></td><td>Claude Notes</td><td>Product + ICP reference — all agent sessions start here</td><td><span class="tag tag-manual">If product/pricing changes</span></td></tr>
+      <tr><td><strong>benchmarks/geo_audit_results_*.csv</strong></td><td>~/geo-dashboard/benchmarks/</td><td>Raw benchmark results — audit trail</td><td><span class="tag tag-auto">Monthly automated</span></td></tr>
+      <tr><td><strong>GEO Claim Registry</strong></td><td>Confluence</td><td>Approved claims for BUILD + AMPLIFY + CITE</td><td><span class="tag tag-manual">When claims change</span></td></tr>
+      <tr><td><strong>GEO Aggregator Tracker</strong></td><td>Confluence</td><td>Publisher status, outreach history, do-not-contact</td><td><span class="tag tag-manual">After outreach actions</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="section-title">Dashboard Pages — What Each Does</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+  <table class="qr-table">
+    <thead><tr><th>Page</th><th>URL</th><th>Primary Audience</th><th>Update Cadence</th></tr></thead>
+    <tbody>
+      <tr><td><a href="index.html" style="color:#90cdf4">📊 Overview</a></td><td>/index.html</td><td>Daily check — SOV trajectory + anomalies</td><td>Auto (monthly benchmark)</td></tr>
+      <tr><td><a href="prompts.html" style="color:#90cdf4">📝 Prompts</a></td><td>/prompts.html</td><td>All 70 prompts by tier + reply drafts</td><td>Quarterly (INTEL refresh)</td></tr>
+      <tr><td><a href="aggregators.html" style="color:#90cdf4">🏷️ Aggregator Labels</a></td><td>/aggregators.html</td><td>Who cites what — Perplexity citation map</td><td>Monthly (Perplexity sim)</td></tr>
+      <tr><td><a href="roadmap.html" style="color:#90cdf4">🗺️ Root Cause → Action</a></td><td>/roadmap.html</td><td>STRATEGY decision — why gaps exist, what to do</td><td>Monthly (after AUDIT)</td></tr>
+      <tr><td><a href="action-build.html" style="color:#90cdf4">🔨 BUILD</a></td><td>/action-build.html</td><td>Content briefs for new GEO pages</td><td>Monthly (new briefs)</td></tr>
+      <tr><td><a href="action-amplify.html" style="color:#90cdf4">📣 AMPLIFY</a></td><td>/action-amplify.html</td><td>Community reply drafts + weekly monitoring workflow</td><td>Weekly (threads + outcomes)</td></tr>
+      <tr><td><a href="action-cite.html" style="color:#90cdf4">🏆 CITE</a></td><td>/action-cite.html</td><td>Aggregator outreach briefs + pipeline status</td><td>Monthly (after outreach)</td></tr>
+      <tr><td><a href="report.html" style="color:#90cdf4">📊 REPORT</a></td><td>/report.html</td><td>Leadership executive summary — decisions + priorities</td><td>Auto (monthly benchmark)</td></tr>
+      <tr><td><strong>🔧 Maintenance</strong></td><td>/maintenance.html</td><td>This page — workflow guide for program operators</td><td>As needed</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+
+fetch('/data.json').then(r=>r.json()).then(d=>{
+  const meta = d.meta||{};
+  const period = meta.period||'June 2026';
+  const runId = meta.run_id||'—';
+  const models = meta.models||'3 models';
+  const prompts = meta.prompt_count||70;
+  const luDate = document.getElementById('lu-date');
+  const luRun = document.getElementById('lu-run');
+  const luModels = document.getElementById('lu-models');
+  if(luDate) luDate.textContent = period;
+  if(luRun) luRun.textContent = runId;
+  if(luModels) luModels.textContent = models + ' · ' + prompts + ' prompts';
+}).catch(()=>{});
+
+
+</script>
+</body>
+</html>

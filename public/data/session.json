@@ -1,28 +1,14 @@
 {
   "meta": {
-    "run_type": "weekly",
+    "run_type": "monthly",
     "run_id": "UNKNOWN",
-    "last_updated": "2026-06-26 15:07",
-    "model_name": "GPT-5",
-    "model_count": 1,
+    "last_updated": "2026-06-26 15:18",
+    "model_name": "9 models",
+    "model_count": 9,
     "prompt_count": 70,
-    "generated_by": "generate_session_json.py",
-    "last_full_benchmark": "June 2026"
+    "generated_by": "generate_session_json.py"
   },
-  "trends": [
-    {
-      "run_id": "2026-06-W26",
-      "unaided_sov": 0.0,
-      "aided_sov": 100.0,
-      "rate_saver_sov": 0.0
-    },
-    {
-      "run_id": "UNKNOWN",
-      "unaided_sov": 0.0,
-      "aided_sov": 0.0,
-      "rate_saver_sov": 0.0
-    }
-  ],
+  "trends": [],
   "sov_dashboard": {
     "unaided_sov": {
       "value": "0%",
@@ -30,8 +16,8 @@
       "target": "15%"
     },
     "aided_sov": {
-      "value": "0%",
-      "status": "yellow",
+      "value": "100%",
+      "status": "green",
       "target": "100%"
     },
     "rate_saver_sov": {
@@ -180,13 +166,58 @@
   "model_sov": {
     "primary": [
       {
+        "name": "Claude Sonnet 4.6",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
+        "name": "Claude Haiku 4.5",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
+        "name": "Claude Opus 4.8",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
+        "name": "GPT-4o",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
         "name": "GPT-5",
-        "why": "Weekly pulse check",
-        "unaided": "0%",
-        "aided": "0%",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "0.0%",
         "status": "success",
         "u_color": "red",
         "a_color": "yellow"
+      },
+      {
+        "name": "Gemini 2.5 Pro",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
       }
     ],
     "pulse": []
@@ -247,7 +278,7 @@
     "leadership_decisions": [],
     "leadership_decisions_carryover": [],
     "next_month_priority": [],
-    "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using GPT-5. Full 9-model benchmark last run: June 2026"
+    "data_confidence": "High — 70 prompts across 9 models",
+    "methodology_note": "Full 9-model monthly benchmark."
   }
 }

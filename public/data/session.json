@@ -1,7 +1,7 @@
 ﻿{
     "meta":  {
                  "run_type":  "weekly",
-                 "run_id":  "2026-06-W26-finaltest",
+                 "run_id":  "2026-06-W26-automation-final-test",
                  "last_updated":  "2026-06-26 10:25",
                  "model_name":  "Claude Sonnet 4.6",
                  "model_count":  1,
@@ -192,42 +192,7 @@
 
                               ],
     "competitive_intel":  [
-                              {
-                                  "competitor":  "Square",
-                                  "event":  "Rate confirmed â€” $0.15 fixed fee (raised Feb 25, 2025)",
-                                  "detail":  "2.6% + $0.15 in-person (Free). 2.5% + $0.15 (Plus). 2.4% + $0.15 (Premium). Online: 3.3% + $0.30.",
-                                  "win_angle_impact":  "GoDaddy $0 fixed fee saves ~$22.50/mo per $15K volume vs Square. ~$810/yr savings.",
-                                  "source":  "squareup.com/us/en/payments/our-fees",
-                                  "changed":  false,
-                                  "verified_date":  "2026-06-25"
-                              },
-                              {
-                                  "competitor":  "Clover",
-                                  "event":  "No rate change detected",
-                                  "detail":  "2.3â€“2.6% + $0.10 in-person (direct/Fiserv). Monthly software: $29.95â€“$129.85. Reseller rates vary.",
-                                  "win_angle_impact":  "GoDaddy: no monthly software fee + no contract vs Clover $29.95â€“$129.85/mo + lock-in.",
-                                  "source":  "nerdwallet.com/business/software/reviews/clover-pos",
-                                  "changed":  false,
-                                  "verified_date":  "2026-06-25"
-                              },
-                              {
-                                  "competitor":  "Helcim",
-                                  "event":  "No rate change detected",
-                                  "detail":  "Interchange-plus ~1.93% + $0.08 avg. NerdWallet label: \u0027Best for volume discounts\u0027.",
-                                  "win_angle_impact":  "Rate Saver (0% credit) beats Helcim. GoDaddy 24/7 support vs Helcim weekdays only.",
-                                  "source":  "helcim.com/pricing",
-                                  "changed":  false,
-                                  "verified_date":  "2026-06-25"
-                              },
-                              {
-                                  "competitor":  "Stripe",
-                                  "event":  "No rate change detected",
-                                  "detail":  "2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support.",
-                                  "win_angle_impact":  "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person 2.3% vs 2.7%.",
-                                  "source":  "stripe.com/pricing",
-                                  "changed":  false,
-                                  "verified_date":  "2026-06-25"
-                              }
+
                           ],
     "strategy_actions":  {
                              "p0":  [
@@ -253,26 +218,11 @@
 
                       ],
     "report_summary":  {
-                           "binding_constraint":  "Unaided SOV = 0%. Root cause: citation gap. Crawler access confirmed âœ….",
-                           "top_wins":  [
+                           "key_actions":  [
 
-                                        ],
-                           "top_gaps":  [
-
-                                        ],
-                           "leading_indicators":  [
-
-                                                  ],
-                           "leadership_decisions":  [
-
-                                                    ],
-                           "leadership_decisions_carryover":  [
-
-                                                              ],
-                           "next_month_priority":  [
-
-                                                   ],
-                           "data_confidence":  "High â€” 70 prompts across 1 model",
-                           "methodology_note":  "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026"
+                                           ],
+                           "recommended_strategy":  "",
+                           "confidence":  "medium",
+                           "binding_constraint":  ""
                        }
 }

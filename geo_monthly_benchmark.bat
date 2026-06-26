@@ -72,7 +72,7 @@ if errorlevel 1 (
 )
 
 echo Committing and pushing to GitHub...
-git add benchmarks/*.csv public/data/session.json data.json
+git add benchmarks/*.csv public/data/session.json public/data.json
 git commit -m "GEO benchmark: %date:~-4%-%date:~4,2% | Full 9-model monthly benchmark"
 git push origin main
 if errorlevel 1 (

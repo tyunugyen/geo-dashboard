@@ -27,13 +27,22 @@ jobs:
       - name: Verify Python
         shell: powershell
         run: |
-          # Use py launcher (more reliable on Windows)
+          $ErrorActionPreference = "Stop"
+          Write-Host "Testing py launcher..."
           py --version
+          if ($LASTEXITCODE -ne 0) { throw "py command failed" }
+          Write-Host "Testing pip..."
           py -m pip --version
+          if ($LASTEXITCODE -ne 0) { throw "pip command failed" }
+          Write-Host "Python verification successful!"
 
       - name: Install dependencies
         shell: powershell
-        run: py -m pip install openai
+        run: |
+          $ErrorActionPreference = "Stop"
+          Write-Host "Installing openai package..."
+          py -m pip install openai
+          if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
 
       - name: Generate session.json skeleton
         shell: powershell

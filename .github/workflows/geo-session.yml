@@ -74,16 +74,36 @@ jobs:
       - name: Commit completed session.json
         shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
         run: |
+          Write-Host "=== Commit Step Debug ==="
+          Write-Host "Working directory: $(Get-Location)"
+          Write-Host "File exists: $(Test-Path 'public/data/session.json')"
+          Write-Host "File size: $((Get-Item 'public/data/session.json').Length) bytes"
+
           git config user.name "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"
+
+          Write-Host "`nGit status before add:"
+          git status --short public/data/session.json
+
           git add public/data/session.json
+
+          Write-Host "`nGit staged files:"
+          git diff --staged --name-only
+
+          Write-Host "`nGit diff stat:"
+          git diff --staged --shortstat
+
           $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
           $runId = $s.meta.run_id
+          Write-Host "`nRun ID: $runId"
+
           $diff = git diff --staged --name-only
           if ($diff) {
+            Write-Host "`nCreating commit..."
             git commit -m "[geo-bot] GEO session complete — $runId"
+            Write-Host "Pushing to origin..."
             git push
             Write-Host "✅ Committed and pushed"
           } else {
-            Write-Host "No changes to commit — session.json unchanged"
+            Write-Host "`n⚠️  No staged changes - session.json was not modified by fill step"
           }

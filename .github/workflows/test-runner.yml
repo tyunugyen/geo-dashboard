@@ -1,0 +1,26 @@
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Python
+        shell: pwsh
+        run: |
+          Write-Host "Testing Python..."
+          py --version
+          Write-Host "Python location:"
+          py -c "import sys; print(sys.executable)"
+          Write-Host "Pip version:"
+          py -m pip --version
+          Write-Host "Current directory:"
+          Get-Location
+          Write-Host "Files in current directory:"
+          Get-ChildItem | Select-Object Name

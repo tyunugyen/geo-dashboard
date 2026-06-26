@@ -38,13 +38,12 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Running benchmark: PRIMARY models (Claude Sonnet/Haiku/Opus + GPT-4o/5 + Gemini)...
+echo Running benchmark: PRIMARY models (Claude Sonnet/Haiku/Opus + GPT-4o + Gemini)...
 echo This takes ~15-20 minutes. You can minimize this window.
 python geo_benchmark_multi_model.py --model claude-sonnet-4-6
 python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001
 python geo_benchmark_multi_model.py --model claude-opus-4-8
 python geo_benchmark_multi_model.py --model gpt-4o
-python geo_benchmark_multi_model.py --model gpt-5
 python geo_benchmark_multi_model.py --model gemini-2.5-pro
 if errorlevel 1 (
     echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
@@ -73,7 +72,7 @@ if errorlevel 1 (
 
 echo Committing and pushing to GitHub...
 git add benchmarks/*.csv public/data/session.json public/data.json
-git commit -m "GEO benchmark: %date:~-4%-%date:~4,2% | Full 9-model monthly benchmark"
+git commit -m "GEO benchmark: %date:~-4%-%date:~4,2% | Full 5-model monthly benchmark"
 git push origin main
 if errorlevel 1 (
     echo WARNING: git push failed. Check network connection or authentication.
@@ -83,9 +82,9 @@ if errorlevel 1 (
 echo.
 echo ============================================================
 echo   DONE. Dashboard updated and pushed to GitHub.
-echo   Full 9-model monthly benchmark complete.
+echo   Full 5-model monthly benchmark complete.
 echo   GitHub Action will now fill intelligence layer automatically.
-echo   Dashboard: https://geo-dashboard.paas.godaddy.com
+echo   Dashboard: https://kz6jwep09q.c24.airoapp.ai/
 echo   Local view: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
 echo ============================================================
 echo.

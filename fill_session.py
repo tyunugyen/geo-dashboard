@@ -370,12 +370,13 @@ def main():
         val    = complete.get(field)
         passed = check(val) if val is not None else False
         count  = len(val) if isinstance(val, list) else ("ok" if passed else "FAIL")
-        print(f"    {'✅' if passed else '❌'} {field}: {count}")
+        icon = "[OK]" if passed else "[FAIL]"
+        print(f"    {icon} {field}: {count}")
         if not passed:
             all_passed = False
 
     if not all_passed:
-        print("\n  ⚠️  Some fields missing — check output")
+        print("\n  [WARNING] Some fields missing - check output")
 
     # ── Write or dry-run ──────────────────────────────────────────────
     if args.dry_run:
@@ -384,7 +385,7 @@ def main():
         print(f"\n  [dry-run] Would write to: {args.session}")
     else:
         save_session(args.session, complete)
-        print(f"\n  ✅ Written: {args.session}")
+        print(f"\n  [SUCCESS] Written: {args.session}")
         print(f"  perplexity:    {len(complete.get('perplexity_simulation', []))}")
         print(f"  competitive:   {len(complete.get('competitive_intel', []))}")
         print(f"  amplify:       {len(complete.get('amplify_threads', []))}")

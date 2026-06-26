@@ -1,8 +1,8 @@
-{
+﻿{
     "meta":  {
-                 "run_type":  "webhook-test",
-                 "run_id":  "TEST-2026-06-26-084047",
-                 "last_updated":  "2026-06-26 08:40:47",
+                 "run_type":  "weekly",
+                 "run_id":  "2026-06-W26-test",
+                 "last_updated":  "2026-06-26 08:44:24",
                  "test":  true
              },
     "test_data":  "This is a webhook test from PowerShell"

@@ -308,7 +308,7 @@
 
       <!-- Pulse Check Models Section -->
       <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — Directional Signal Only</div>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Not included in official SOV calculation. Monitored for emerging behavior and future benchmark consideration.</p>
+      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Not included in official SOV calculation. Monitored for emerging behavior. Pulse models remain separate from primary benchmark.</p>
       <table class="model-table">
         <thead>
           <tr>
@@ -316,7 +316,7 @@
             <th>Why We Watch It</th>
             <th>Unaided SOV</th>
             <th>Aided SOV</th>
-            <th>Promote-Back Trigger</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody id="pulse-model-rows">
@@ -556,7 +556,7 @@
               '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
               '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
               '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#f6ad55') + ';">' + (m.aided||'—') + '</span></td>' +
-              '<td style="color:#718096;font-size:11px;">' + (m.trigger||'—') + '</td>' +
+              '<td>' + icon + '</td>' +
               '</tr>';
           }).join('');
           pulseRows.innerHTML = pulRows;

@@ -77,7 +77,22 @@ git push origin main
 if errorlevel 1 (
     echo WARNING: git push failed. Check network connection or authentication.
     pause
+    goto :skip_deploy
 )
+
+echo.
+echo Triggering GoDaddy PaaS to pull from GitHub...
+curl -X POST "https://api.godaddy.com/v1/hosting/nodejs/kz6jwep09q/actions/pull" ^
+  -H "Authorization: sso-key %GODADDY_API_KEY%:%GODADDY_API_SECRET%" ^
+  -H "Content-Type: application/json" ^
+  --silent --show-error
+if errorlevel 1 (
+    echo WARNING: PaaS redeploy trigger failed. Dashboard may need manual pull.
+) else (
+    echo [OK] PaaS redeploy triggered. Dashboard will update in 30-60 seconds.
+)
+
+:skip_deploy
 
 echo.
 echo ============================================================

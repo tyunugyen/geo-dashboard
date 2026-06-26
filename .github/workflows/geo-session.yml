@@ -146,3 +146,30 @@ jobs:
           } else {
             Write-Host "`n⚠️  No staged changes - session.json was not modified by fill step"
           }
+
+      - name: Trigger GoDaddy PaaS redeploy
+        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
+        env:
+          GODADDY_API_KEY: ${{ secrets.GODADDY_API_KEY }}
+          GODADDY_API_SECRET: ${{ secrets.GODADDY_API_SECRET }}
+        run: |
+          Write-Host "Triggering GoDaddy PaaS to pull from GitHub..."
+          try {
+            $auth = "$env:GODADDY_API_KEY`:$env:GODADDY_API_SECRET"
+            $authBytes = [System.Text.Encoding]::UTF8.GetBytes($auth)
+            $authBase64 = [Convert]::ToBase64String($authBytes)
+
+            $headers = @{
+              "Authorization" = "sso-key $auth"
+              "Content-Type" = "application/json"
+            }
+
+            # Trigger pull from GitHub for the PaaS app
+            $response = Invoke-RestMethod -Uri "https://api.godaddy.com/v1/hosting/nodejs/kz6jwep09q/actions/pull" -Method POST -Headers $headers -TimeoutSec 30
+            Write-Host "✅ PaaS redeploy triggered successfully"
+            Write-Host "Dashboard will update in ~30-60 seconds"
+          } catch {
+            Write-Host "⚠️  PaaS redeploy trigger failed: $_" -ForegroundColor Yellow
+            Write-Host "Dashboard may need manual 'Pull from GitHub' in PaaS UI" -ForegroundColor Yellow
+            # Don't fail the workflow - this is non-critical
+          }

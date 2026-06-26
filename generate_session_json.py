@@ -302,14 +302,23 @@ def build_model_sov(run_type, scored, model_name):
                     if not is_complete:
                         quality_warning = warning
 
+            # Determine status based on aided SOV
+            aided_pct = pp(r.get("aided_sov","0"))
+            if quality_warning:
+                status = "incomplete"
+            elif aided_pct < 50:
+                status = "partial"
+            else:
+                status = r.get("status","success")
+
             entry = {
                 "name": name,
                 "why": quality_warning or "Full benchmark model",
                 "unaided": r.get("unaided_sov","0%"),
                 "aided":   r.get("aided_sov","0%"),
-                "status":  "incomplete" if quality_warning else r.get("status","success"),
+                "status":  status,
                 "u_color": "red",
-                "a_color": "yellow" if quality_warning else ("green" if pp(r.get("aided_sov","0")) >= 90 else "yellow"),
+                "a_color": "yellow" if quality_warning or aided_pct < 90 else "green",
             }
 
             # Skip incomplete pulse models from display (don't show as baseline)

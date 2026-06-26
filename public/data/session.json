@@ -2,7 +2,7 @@
   "meta": {
     "run_type": "monthly",
     "run_id": "2026-06-W26",
-    "last_updated": "2026-06-26 16:31",
+    "last_updated": "2026-06-26 16:33",
     "model_name": "8 models",
     "model_count": 8,
     "prompt_count": 70,
@@ -252,7 +252,7 @@
         "why": "Full benchmark model",
         "unaided": "0.0%",
         "aided": "28.6%",
-        "status": "success",
+        "status": "partial",
         "u_color": "red",
         "a_color": "yellow"
       }

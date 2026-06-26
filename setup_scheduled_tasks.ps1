@@ -6,6 +6,22 @@ $ErrorActionPreference = "Stop"
 Write-Host "=== Setting Up GEO Dashboard Scheduled Tasks ===" -ForegroundColor Cyan
 Write-Host ""
 
+# Check for existing tasks
+$existingTasks = Get-ScheduledTask | Where-Object { $_.TaskName -like "GEO*" }
+if ($existingTasks) {
+    Write-Host "⚠️  Found existing GEO tasks:" -ForegroundColor Yellow
+    $existingTasks | ForEach-Object {
+        Write-Host "  - $($_.TaskName) (Trigger: $($_.Triggers[0].StartBoundary))"
+    }
+    Write-Host ""
+    $response = Read-Host "Overwrite existing tasks? (yes/no)"
+    if ($response -ne "yes") {
+        Write-Host "Cancelled. No changes made." -ForegroundColor Yellow
+        exit
+    }
+    Write-Host ""
+}
+
 # Common settings
 $workingDir = "C:\Users\tyunguyen\geo-dashboard"
 $user = "$env:USERDOMAIN\$env:USERNAME"

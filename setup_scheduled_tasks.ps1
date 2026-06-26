@@ -86,4 +86,4 @@ Write-Host "To test manually:" -ForegroundColor Yellow
 Write-Host "  Start-ScheduledTask -TaskName 'GEO Fill Session (Weekly)'"
 Write-Host ""
 Write-Host "To view tasks:" -ForegroundColor Yellow
-Write-Host "  Get-ScheduledTask | Where-Object {$_.TaskName -like 'GEO*'}"
+Write-Host '  Get-ScheduledTask | Where-Object {$_.TaskName -like "GEO*"}'

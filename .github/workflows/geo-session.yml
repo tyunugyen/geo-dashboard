@@ -62,8 +62,15 @@ jobs:
           $env:CAAS_API_KEY = "${{ secrets.CAAS_API_KEY }}"
           Write-Host "Filling session.json via Claude API..."
           Write-Host "API key set: $($env:CAAS_API_KEY.Length) chars"
-          py fill_session.py
-          if ($LASTEXITCODE -ne 0) { throw "fill_session.py failed" }
+
+          # Capture output and show it
+          $output = py fill_session.py 2>&1
+          $output | ForEach-Object { Write-Host $_ }
+
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: fill_session.py failed with exit code $LASTEXITCODE" -ForegroundColor Red
+            throw "fill_session.py failed"
+          }
           Write-Host "Fill script completed successfully"
 
       - name: Validate output

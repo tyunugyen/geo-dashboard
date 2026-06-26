@@ -93,7 +93,8 @@ echo   Done. Dashboard updated and pushed to GitHub.
 echo   Weekly pulse check complete (Claude Haiku only).
 echo   GitHub Action will now fill intelligence layer automatically.
 echo   For full 5-model run: use geo_monthly_benchmark.bat
-echo   Dashboard: https://kz6jwep09q.c24.airoapp.ai/
+echo   Dashboard: https://geo-dashboard-pi-three.vercel.app/
+echo   Updates in 30 seconds (Vercel auto-deploy)
 echo   Local view: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
 echo ============================================================
 echo.

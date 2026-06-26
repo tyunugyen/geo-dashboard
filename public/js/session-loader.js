@@ -106,7 +106,7 @@ function renderModelTables(s) {
   const primary = s.model_sov?.primary || [];
   const pulse   = s.model_sov?.pulse   || [];
 
-  const primaryEl = document.getElementById('primary-models-table');
+  const primaryEl = document.getElementById('primary-model-rows');
   if (primaryEl) primaryEl.innerHTML = primary.map(m => `
     <tr>
       <td>${m.name}</td>
@@ -116,7 +116,7 @@ function renderModelTables(s) {
       <td>${statusBadge(m.status)}</td>
     </tr>`).join('');
 
-  const pulseEl = document.getElementById('pulse-models-table');
+  const pulseEl = document.getElementById('pulse-model-rows');
   if (pulseEl) pulseEl.innerHTML = pulse.map(m => `
     <tr>
       <td>${m.name}</td>

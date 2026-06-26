@@ -27,53 +27,41 @@ jobs:
       - name: Verify Python
         shell: pwsh
         run: |
-          # Add Python to PATH for this workflow
-          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
-          $env:PATH = "$pythonPath;$env:PATH"
-          python --version
-          pip --version
+          # Use py launcher (more reliable on Windows)
+          py --version
+          py -m pip --version
 
       - name: Install dependencies
         shell: pwsh
-        run: |
-          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
-          $env:PATH = "$pythonPath;$env:PATH"
-          pip install openai
+        run: py -m pip install openai
 
       - name: Generate session.json skeleton
         shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
-          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
-          $env:PATH = "$pythonPath;$env:PATH"
           $RUN_TYPE = "${{ github.event.inputs.run_type }}"
           if ($RUN_TYPE -eq "monthly") {
             Write-Host "Generating MONTHLY session.json skeleton..."
-            python generate_session_json.py --monthly
+            py generate_session_json.py --monthly
           } else {
             Write-Host "Generating WEEKLY session.json skeleton..."
-            python generate_session_json.py --weekly
+            py generate_session_json.py --weekly
           }
           Write-Host ""
           Write-Host "Skeleton generated. Preview:"
-          python -c "import json; s=json.load(open('public/data/session.json')); m=s.get('meta',{}); print(f\"  run_type: {m.get('run_type')}\"); print(f\"  run_id: {m.get('run_id')}\"); print(f\"  unaided_sov: {s.get('sov_dashboard',{}).get('unaided_sov',{}).get('value')}\")"
+          py -c "import json; s=json.load(open('public/data/session.json')); m=s.get('meta',{}); print(f'  run_type: {m.get(''run_type'')}'); print(f'  run_id: {m.get(''run_id'')}'); print(f'  unaided_sov: {s.get(''sov_dashboard'',{}).get(''unaided_sov'',{}).get(''value'')}')"
 
       - name: Fill session.json via Claude API
         shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-        run: |
-          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
-          $env:PATH = "$pythonPath;$env:PATH"
-          python fill_session.py
+        run: py fill_session.py
 
       - name: Validate output
         shell: pwsh
         run: |
-          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
-          $env:PATH = "$pythonPath;$env:PATH"
-          python -c @"
+          py -c @"
           import json, sys
           with open('public/data/session.json') as f:
               s = json.load(f)

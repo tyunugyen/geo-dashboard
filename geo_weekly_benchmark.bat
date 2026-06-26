@@ -34,10 +34,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Running PRIMARY Claude models (Sonnet, Haiku, Opus - 210 prompts, ~10 min)...
-python geo_benchmark_multi_model.py --model claude-sonnet-4-6
+echo Running PRIMARY Claude model (Haiku only - 70 prompts, ~3 min)...
 python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001
-python geo_benchmark_multi_model.py --model claude-opus-4-8
 if errorlevel 1 (
     echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
     pause
@@ -74,9 +72,10 @@ if errorlevel 1 (
 echo.
 echo ============================================================
 echo   Done. Dashboard updated and pushed to GitHub.
-echo   Weekly pulse check complete (Claude only).
+echo   Weekly pulse check complete (Claude Haiku only).
 echo   GitHub Action will now fill intelligence layer automatically.
-echo   For full 9-model run: use geo_monthly_benchmark.bat
-echo   View dashboard: https://geo-dashboard.paas.godaddy.com
+echo   For full 5-model run: use geo_monthly_benchmark.bat
+echo   Dashboard: https://kz6jwep09q.c24.airoapp.ai/
+echo   Local view: file:///C:/Users/tyunguyen/geo-dashboard/public/index.html
 echo ============================================================
 echo.

@@ -71,16 +71,19 @@ if errorlevel 1 (
 )
 
 echo.
-echo Triggering GoDaddy PaaS to pull from GitHub...
-curl -X POST "https://api.godaddy.com/v1/hosting/nodejs/kz6jwep09q/actions/pull" ^
-  -H "Authorization: sso-key %GODADDY_API_KEY%:%GODADDY_API_SECRET%" ^
-  -H "Content-Type: application/json" ^
-  --silent --show-error
-if errorlevel 1 (
-    echo WARNING: PaaS redeploy trigger failed. Dashboard may need manual pull.
-) else (
-    echo [OK] PaaS redeploy triggered. Dashboard will update in 30-60 seconds.
-)
+echo ============================================================
+echo   MANUAL STEP: Trigger PaaS Deploy
+echo ============================================================
+echo.
+echo GitHub updated successfully!
+echo.
+echo To update the live dashboard:
+echo   Option 1: Run trigger_paas_deploy.bat (opens PaaS UI)
+echo   Option 2: Go to https://host.beta.godaddy.com/paas/projects/kz6jwep09q
+echo             Click "Pull from GitHub"
+echo.
+echo Dashboard will update in 30-60 seconds after pulling.
+echo.
 
 :skip_deploy
 

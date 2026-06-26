@@ -1,9 +1,278 @@
 ﻿{
     "meta":  {
                  "run_type":  "weekly",
-                 "run_id":  "2026-06-W26-test",
-                 "last_updated":  "2026-06-26 08:44:24",
-                 "test":  true
+                 "run_id":  "2026-06-W26-finaltest",
+                 "last_updated":  "2026-06-26 10:25",
+                 "model_name":  "Claude Sonnet 4.6",
+                 "model_count":  1,
+                 "prompt_count":  70,
+                 "generated_by":  "generate_session_json.py",
+                 "last_full_benchmark":  "June 2026"
              },
-    "test_data":  "This is a webhook test from PowerShell"
+    "trends":  [
+                   {
+                       "run_id":  "2026-06-W26",
+                       "unaided_sov":  0.0,
+                       "aided_sov":  100.0,
+                       "rate_saver_sov":  0.0
+                   },
+                   {
+                       "run_id":  "UNKNOWN",
+                       "unaided_sov":  0.0,
+                       "aided_sov":  100.0,
+                       "rate_saver_sov":  0.0
+                   }
+               ],
+    "sov_dashboard":  {
+                          "unaided_sov":  {
+                                              "value":  "0%",
+                                              "status":  "red",
+                                              "target":  "15%"
+                                          },
+                          "aided_sov":  {
+                                            "value":  "100%",
+                                            "status":  "green",
+                                            "target":  "100%"
+                                        },
+                          "rate_saver_sov":  {
+                                                 "value":  "0%",
+                                                 "status":  "red",
+                                                 "target":  "35%"
+                                             },
+                          "citation_rank":  {
+                                                "value":  "Unranked",
+                                                "status":  "red",
+                                                "target":  "Top 5"
+                                            }
+                      },
+    "categories":  [
+                       {
+                           "name":  "pricing_fee",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "25%",
+                           "target":  "85%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "top_funnel_pos",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "20%",
+                           "target":  "60%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "payment_processing",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "20%",
+                           "target":  "55%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "vertical_fb",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "18%",
+                           "target":  "50%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "vertical_retail",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "22%",
+                           "target":  "55%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "general_in_person",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "18%",
+                           "target":  "50%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "support",
+                           "type":  "U",
+                           "sov":  "0%",
+                           "phase1":  "25%",
+                           "target":  "65%",
+                           "cell":  "red"
+                       },
+                       {
+                           "name":  "comparison",
+                           "type":  "B",
+                           "sov":  "0%",
+                           "phase1":  "25%",
+                           "target":  "70%",
+                           "cell":  "red"
+                       }
+                   ],
+    "competitors":  [
+                        {
+                            "name":  "Square",
+                            "sov":  95,
+                            "display":  "~95%",
+                            "label":  "Dominant in \u0027small biz\u0027 prompts â€” 2.6% + $0.15",
+                            "bar":  "#3182ce",
+                            "godaddy":  false
+                        },
+                        {
+                            "name":  "Stripe",
+                            "sov":  92,
+                            "display":  "~92%",
+                            "label":  "Developer + online â€” 2.7% + $0.05",
+                            "bar":  "#805ad5",
+                            "godaddy":  false
+                        },
+                        {
+                            "name":  "PayPal",
+                            "sov":  88,
+                            "display":  "~88%",
+                            "label":  "Consumer trust anchor",
+                            "bar":  "#dd6b20",
+                            "godaddy":  false
+                        },
+                        {
+                            "name":  "Clover",
+                            "sov":  50,
+                            "display":  "~50%",
+                            "label":  "POS hardware â€” 2.3â€“2.6% + $0.10 + monthly fees",
+                            "bar":  "#e53e3e",
+                            "godaddy":  false
+                        },
+                        {
+                            "name":  "GoDaddy",
+                            "sov":  0,
+                            "display":  "0%",
+                            "label":  "Invisible unaided â€” 2.3% + $0 (POS Plus)",
+                            "bar":  "#fc8181",
+                            "godaddy":  true
+                        }
+                    ],
+    "model_sov":  {
+                      "primary":  [
+                                      {
+                                          "name":  "Claude Sonnet 4.6",
+                                          "why":  "Weekly pulse check",
+                                          "unaided":  "0%",
+                                          "aided":  "100%",
+                                          "status":  "success",
+                                          "u_color":  "red",
+                                          "a_color":  "green"
+                                      }
+                                  ],
+                      "pulse":  [
+                                    {
+                                        "name":  "o3",
+                                        "why":  "Reasoning model â€” anomalous 28.6% aided SOV in W26 vs 100% on standard models",
+                                        "unaided":  "0%",
+                                        "aided":  "28.6%",
+                                        "status":  "partial",
+                                        "u_color":  "red",
+                                        "a_color":  "yellow",
+                                        "trigger":  "Investigate aided SOV drop â€” detection format issue or model behavior change?"
+                                    },
+                                    {
+                                        "name":  "Gemini 3.1 Pro Preview",
+                                        "why":  "Next-gen Gemini signal â€” also 28.6% aided SOV in W26",
+                                        "unaided":  "0%",
+                                        "aided":  "28.6%",
+                                        "status":  "partial",
+                                        "u_color":  "red",
+                                        "a_color":  "yellow",
+                                        "trigger":  "Watch for pattern on next full benchmark"
+                                    }
+                                ]
+                  },
+    "perplexity_simulation":  [
+
+                              ],
+    "competitive_intel":  [
+                              {
+                                  "competitor":  "Square",
+                                  "event":  "Rate confirmed â€” $0.15 fixed fee (raised Feb 25, 2025)",
+                                  "detail":  "2.6% + $0.15 in-person (Free). 2.5% + $0.15 (Plus). 2.4% + $0.15 (Premium). Online: 3.3% + $0.30.",
+                                  "win_angle_impact":  "GoDaddy $0 fixed fee saves ~$22.50/mo per $15K volume vs Square. ~$810/yr savings.",
+                                  "source":  "squareup.com/us/en/payments/our-fees",
+                                  "changed":  false,
+                                  "verified_date":  "2026-06-25"
+                              },
+                              {
+                                  "competitor":  "Clover",
+                                  "event":  "No rate change detected",
+                                  "detail":  "2.3â€“2.6% + $0.10 in-person (direct/Fiserv). Monthly software: $29.95â€“$129.85. Reseller rates vary.",
+                                  "win_angle_impact":  "GoDaddy: no monthly software fee + no contract vs Clover $29.95â€“$129.85/mo + lock-in.",
+                                  "source":  "nerdwallet.com/business/software/reviews/clover-pos",
+                                  "changed":  false,
+                                  "verified_date":  "2026-06-25"
+                              },
+                              {
+                                  "competitor":  "Helcim",
+                                  "event":  "No rate change detected",
+                                  "detail":  "Interchange-plus ~1.93% + $0.08 avg. NerdWallet label: \u0027Best for volume discounts\u0027.",
+                                  "win_angle_impact":  "Rate Saver (0% credit) beats Helcim. GoDaddy 24/7 support vs Helcim weekdays only.",
+                                  "source":  "helcim.com/pricing",
+                                  "changed":  false,
+                                  "verified_date":  "2026-06-25"
+                              },
+                              {
+                                  "competitor":  "Stripe",
+                                  "event":  "No rate change detected",
+                                  "detail":  "2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support.",
+                                  "win_angle_impact":  "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person 2.3% vs 2.7%.",
+                                  "source":  "stripe.com/pricing",
+                                  "changed":  false,
+                                  "verified_date":  "2026-06-25"
+                              }
+                          ],
+    "strategy_actions":  {
+                             "p0":  [
+
+                                    ],
+                             "p1":  [
+
+                                    ]
+                         },
+    "build_pages":  [
+
+                    ],
+    "amplify_threads":  [
+
+                        ],
+    "amplify_outcomes":  [
+
+                         ],
+    "amplify_escalations":  [
+
+                            ],
+    "cite_pipeline":  [
+
+                      ],
+    "report_summary":  {
+                           "binding_constraint":  "Unaided SOV = 0%. Root cause: citation gap. Crawler access confirmed âœ….",
+                           "top_wins":  [
+
+                                        ],
+                           "top_gaps":  [
+
+                                        ],
+                           "leading_indicators":  [
+
+                                                  ],
+                           "leadership_decisions":  [
+
+                                                    ],
+                           "leadership_decisions_carryover":  [
+
+                                                              ],
+                           "next_month_priority":  [
+
+                                                   ],
+                           "data_confidence":  "High â€” 70 prompts across 1 model",
+                           "methodology_note":  "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026"
+                       }
 }

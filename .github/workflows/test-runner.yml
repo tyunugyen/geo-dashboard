@@ -2,6 +2,8 @@ name: Test Self-Hosted Runner
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   test:
@@ -11,16 +13,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Test Python
-        shell: pwsh
+      - name: Test Python with PowerShell
+        shell: powershell
         run: |
+          $ErrorActionPreference = "Stop"
           Write-Host "Testing Python..."
           py --version
+          if ($LASTEXITCODE -ne 0) { throw "py failed" }
           Write-Host "Python location:"
           py -c "import sys; print(sys.executable)"
+          if ($LASTEXITCODE -ne 0) { throw "py -c failed" }
           Write-Host "Pip version:"
           py -m pip --version
+          if ($LASTEXITCODE -ne 0) { throw "pip failed" }
           Write-Host "Current directory:"
           Get-Location
-          Write-Host "Files in current directory:"
-          Get-ChildItem | Select-Object Name
+          Write-Host "Files in public/data:"
+          if (Test-Path "public/data") { Get-ChildItem public/data | Select-Object Name }
+          Write-Host "TEST PASSED!"

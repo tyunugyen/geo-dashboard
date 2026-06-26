@@ -114,8 +114,8 @@
 
 <div class="last-updated-bar" style="background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568;">
   <span>Last updated: <strong style="color:#718096;" data-lu-date>2026-06-23 16:30</strong>
-    &nbsp;�&nbsp; Run: <span style="color:#4a5568;" data-lu-run>2026-06-W26</span>
-    &nbsp;�&nbsp; <span data-lu-details>Claude � 70 prompts</span>
+    &nbsp;�&nbsp; Run: <span style="color:#4a5568;" data-lu-run>2026-06-W26</span>
+    &nbsp;�&nbsp; <span data-lu-details>Claude � 70 prompts</span>
     <span data-last-benchmark style="display:none;"></span>
   </span>
 </div>
@@ -125,7 +125,7 @@
   <!-- Hero -->
   <div class="hero">
     <h2>Your automation stack is ready</h2>
-    <p>Monthly benchmarks run automatically. Claude tasks handle weekly monitoring and monthly analysis. This page shows exactly what needs human attention and when.</p>
+    <p>Weekly benchmarks (Claude Haiku) and monthly benchmarks (5 primary models) run via batch files. GitHub Actions auto-fill intelligence layer. Vercel auto-deploys on push. This page shows exactly what needs human attention and when.</p>
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="hero-stat-value green">~30 min</div>
@@ -139,7 +139,7 @@
   </div>
 
   <div class="alert-blue">
-    <strong>Automation summary:</strong> Monthly benchmark (.bat) runs automatically → updates data.json → pushes to GitHub → dashboard auto-updates. You handle: community monitoring (weekly), analysis review (monthly), leadership decisions (as needed).
+    <strong>Automation summary:</strong> Run geo_weekly_benchmark.bat (Monday) or geo_monthly_benchmark.bat (1st of month) → generates session.json → pushes to GitHub → GitHub Action fills intelligence layer → Vercel auto-deploys. You handle: community monitoring (weekly), analysis review (monthly), leadership decisions (as needed).
   </div>
 
   <!-- Weekly Actions -->
@@ -205,7 +205,7 @@
           <td><strong>Day 1</strong></td>
           <td>
             <strong>Benchmark runs automatically</strong><br>
-            <span style="font-size:11px;color:#718096;">geo_monthly_benchmark.bat → scores CSV → updates data.json → pushes to GitHub → dashboard auto-updates</span>
+            <span style="font-size:11px;color:#718096;">geo_monthly_benchmark.bat → scores CSV → generates session.json → pushes to GitHub → GitHub Action fills intelligence → Vercel auto-deploys</span>
           </td>
           <td><span class="pill pill-green">Automated</span></td>
           <td class="green">0 min</td>
@@ -259,7 +259,7 @@
           <td><strong>Day 5-7</strong></td>
           <td>
             <strong>Review & send monthly report</strong><br>
-            <span style="font-size:11px;color:#718096;">Report page auto-populates from data.json. Review Leadership Decisions and Next Month Priorities sections. Send link to leadership.</span>
+            <span style="font-size:11px;color:#718096;">Report page auto-populates from session.json. Review Leadership Decisions and Next Month Priorities sections. Send link to leadership.</span>
           </td>
           <td><span class="pill pill-blue">Manual</span></td>
           <td class="blue">15 min</td>
@@ -288,7 +288,7 @@
         </tr>
         <tr>
           <td><strong>AUDIT</strong></td>
-          <td>9-model benchmark run — 630 data points (70×9)</td>
+          <td>8-model benchmark run — 560 data points (70×8): 5 primary + 3 pulse models</td>
           <td><span class="pill pill-green">✅ Complete</span></td>
         </tr>
         <tr>
@@ -336,7 +336,7 @@
 
     <div class="card">
       <h3>Monthly GEO Session (Start of Month)</h3>
-      <div class="cmd-block">"Run monthly GEO session. The benchmark has run and data.json is updated. Pull the GEO Prompt Bank note and ICP snapshot note, then run the full AUDIT → STRATEGY → BUILD/CITE/AMPLIFY workflow for the month."</div>
+      <div class="cmd-block">"Run monthly GEO session. The benchmark has run and session.json is updated. Pull the GEO Prompt Bank note and ICP snapshot note, then run the full AUDIT → STRATEGY → BUILD/CITE/AMPLIFY workflow for the month."</div>
     </div>
 
     <div class="card">
@@ -367,11 +367,11 @@
         <tr>
           <td><strong>geo_monthly_benchmark.bat</strong></td>
           <td>~/geo-dashboard/</td>
-          <td>Runs 70-prompt × 9-model benchmark, updates data.json</td>
+          <td>Runs 70-prompt × 5-model (primary) benchmark, generates session.json</td>
           <td><span class="pill pill-green">Monthly auto</span></td>
         </tr>
         <tr>
-          <td><strong>public/data.json</strong></td>
+          <td><strong>public/data/session.json</strong></td>
           <td>~/geo-dashboard/public/</td>
           <td>Dashboard data source — auto-updated by .bat</td>
           <td><span class="pill pill-green">Monthly auto</span></td>
@@ -379,8 +379,8 @@
         <tr>
           <td><strong>public/report.html</strong></td>
           <td>~/geo-dashboard/public/</td>
-          <td>Monthly executive report — reads from data.json</td>
-          <td><span class="pill pill-green">Auto from data.json</span></td>
+          <td>Monthly executive report — reads from session.json</td>
+          <td><span class="pill pill-green">Auto from session.json</span></td>
         </tr>
         <tr>
           <td><strong>public/action-amplify.html</strong></td>
@@ -407,11 +407,11 @@
 </div>
 
 <script>
-fetch('/data.json').then(r=>r.json()).then(d=>{
+fetch('/data/session.json').then(r=>r.json()).then(d=>{
   const meta = d.meta||{};
   const period = (meta.run_date||'') + (meta.run_time ? ' ' + meta.run_time : '');
   const runId = meta.run_id||'—';
-  const models = meta.models||'9 models';
+  const models = meta.model_count ? meta.model_count + ' models' : (meta.models||'8 models');
   const prompts = meta.prompt_count||70;
   const luDate = document.getElementById('lu-date');
   const luRun = document.getElementById('lu-run');

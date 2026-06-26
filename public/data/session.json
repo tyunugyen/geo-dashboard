@@ -1,9 +1,9 @@
 {
   "meta": {
     "run_type": "weekly",
-    "run_id": "UNKNOWN",
-    "last_updated": "2026-06-26 14:28",
-    "model_name": "Claude Sonnet 4.6",
+    "run_id": "2026-06-W26",
+    "last_updated": "2026-06-26 00:00",
+    "model_name": "Claude Haiku 4.5",
     "model_count": 1,
     "prompt_count": 70,
     "generated_by": "generate_session_json.py",
@@ -137,7 +137,7 @@
       "godaddy": false
     },
     {
-      "name": "Shopify Payments",
+      "name": "Shopify",
       "sov": 70,
       "display": "~70%",
       "label": "E-commerce anchor — 2.6% + $0.30",
@@ -180,7 +180,7 @@
   "model_sov": {
     "primary": [
       {
-        "name": "Claude Sonnet 4.6",
+        "name": "Claude Haiku 4.5",
         "why": "Weekly pulse check",
         "unaided": "0%",
         "aided": "100%",
@@ -269,6 +269,6 @@
     "leadership_decisions_carryover": [],
     "next_month_priority": [],
     "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Sonnet 4.6. Full 9-model benchmark last run: June 2026"
+    "methodology_note": "Weekly pulse check using Claude Haiku 4.5. Full 9-model benchmark last run: June 2026"
   }
 }

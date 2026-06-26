@@ -1,8 +1,8 @@
 {
   "meta": {
     "run_type": "monthly",
-    "run_id": "UNKNOWN",
-    "last_updated": "2026-06-26 16:23",
+    "run_id": "2026-06-W26",
+    "last_updated": "2026-06-26 16:28",
     "model_name": "8 models",
     "model_count": 8,
     "prompt_count": 70,
@@ -12,6 +12,12 @@
     "monthly": [
       {
         "run_id": "UNKNOWN",
+        "unaided_sov": 0.0,
+        "aided_sov": 100.0,
+        "rate_saver_sov": 0.0
+      },
+      {
+        "run_id": "2026-06-W26",
         "unaided_sov": 0.0,
         "aided_sov": 100.0,
         "rate_saver_sov": 0.0

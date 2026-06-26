@@ -477,10 +477,21 @@ def main():
     print(f"  Aided SOV   : {scored['aided_sov']}")
     print(f"  Prompts     : {scored['prompt_count']}")
 
-    # Extract metadata from rows
-    run_id     = rows[0].get("run_id", "UNKNOWN") if rows else "UNKNOWN"
+    # Extract metadata from rows or filename
+    run_id     = rows[0].get("run_id", "") if rows else ""
     run_date_r = rows[0].get("run_date", "") if rows else ""
     model_name = rows[0].get("model_name", "Claude Sonnet 4.6") if rows else "Claude Sonnet 4.6"
+
+    # If run_id not in CSV (e.g., comparison CSV), extract from filename
+    if not run_id or run_id == "UNKNOWN":
+        import re
+        filename = os.path.basename(csv_path)
+        # Match pattern like: geo_multi_comparison_2026-06-W26.csv or geo_audit_results_2026-06-RUN-1.csv
+        match = re.search(r'(\d{4}-\d{2}[-_][A-Z0-9]+)', filename)
+        if match:
+            run_id = match.group(1).replace('_', '-')
+        else:
+            run_id = "UNKNOWN"
 
     try:
         dt = datetime.strptime(run_date_r.split()[0], "%Y-%m-%d")

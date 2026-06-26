@@ -265,7 +265,7 @@
         <span style="color:#90cdf4;">━ Rate Saver</span>
       </div>
     </div>
-    <canvas id="trendsChart" width="1000" height="180" style="width:100%;height:180px;display:block;"></canvas>
+    <canvas id="trendsChart" style="width:100%;height:180px;display:block;"></canvas>
     <div style="margin-top:8px;font-size:10px;color:#4a5568;text-align:center;" id="trends-note">
       Loading trends data...
     </div>
@@ -579,6 +579,11 @@
         var note = document.getElementById('trends-note');
         if (canvas && canvas.getContext) {
           try {
+            // Set canvas internal dimensions to match display size
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = 180;
+
             var ctx = canvas.getContext('2d');
             var weekly = d.trends.weekly || [];
             var monthly = d.trends.monthly || [];

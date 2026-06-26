@@ -49,8 +49,10 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
           Write-Host "Filling session.json via Claude API..."
+          Write-Host "API key available: $($env:CAAS_API_KEY.Length) chars"
           py fill_session.py
           if ($LASTEXITCODE -ne 0) { throw "fill_session.py failed" }
+          Write-Host "Fill script completed successfully"
 
       - name: Validate output
         shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"

@@ -572,9 +572,106 @@
         }
         if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (modelCount || 8) + ' models · ' + (d.meta.period || 'June 2026');
       }
+
+      // Render trends chart
+      if (d.trends) {
+        var canvas = document.getElementById('trendsChart');
+        var note = document.getElementById('trends-note');
+        if (canvas && canvas.getContext) {
+          var ctx = canvas.getContext('2d');
+          var weekly = d.trends.weekly || [];
+          var monthly = d.trends.monthly || [];
+
+          if (weekly.length > 0 || monthly.length > 0) {
+            // Combine and dedupe by run_id
+            var allPoints = {};
+            weekly.forEach(function(p) { allPoints[p.run_id] = p; });
+            monthly.forEach(function(p) { allPoints[p.run_id] = p; });
+            var points = Object.values(allPoints).sort(function(a,b) {
+              return a.run_id.localeCompare(b.run_id);
+            }).slice(-8); // Last 8 weeks
+
+            if (points.length > 0 && points[0].run_id !== 'UNKNOWN') {
+              // Draw chart
+              var w = canvas.width;
+              var h = canvas.height;
+              var padL = 40, padR = 20, padT = 20, padB = 30;
+              var chartW = w - padL - padR;
+              var chartH = h - padT - padB;
+
+              ctx.clearRect(0, 0, w, h);
+
+              // Grid lines
+              ctx.strokeStyle = '#2d3748';
+              ctx.lineWidth = 1;
+              for (var i = 0; i <= 4; i++) {
+                var y = padT + (chartH / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(padL, y);
+                ctx.lineTo(w - padR, y);
+                ctx.stroke();
+              }
+
+              // Y-axis labels
+              ctx.fillStyle = '#718096';
+              ctx.font = '10px sans-serif';
+              ctx.textAlign = 'right';
+              for (var i = 0; i <= 4; i++) {
+                var val = 100 - (i * 25);
+                var y = padT + (chartH / 4) * i;
+                ctx.fillText(val + '%', padL - 8, y + 4);
+              }
+
+              // Draw lines
+              function drawLine(data, color) {
+                if (points.length < 2) return;
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                points.forEach(function(p, i) {
+                  var x = padL + (chartW / (points.length - 1)) * i;
+                  var y = padT + chartH - (chartH * data(p) / 100);
+                  if (i === 0) ctx.moveTo(x, y);
+                  else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+
+                // Draw dots
+                ctx.fillStyle = color;
+                points.forEach(function(p, i) {
+                  var x = padL + (chartW / (points.length - 1)) * i;
+                  var y = padT + chartH - (chartH * data(p) / 100);
+                  ctx.beginPath();
+                  ctx.arc(x, y, 3, 0, Math.PI * 2);
+                  ctx.fill();
+                });
+              }
+
+              drawLine(function(p) { return p.unaided_sov; }, '#fc8181');
+              drawLine(function(p) { return p.aided_sov; }, '#68d391');
+              drawLine(function(p) { return p.rate_saver_sov; }, '#90cdf4');
+
+              // X-axis labels
+              ctx.fillStyle = '#718096';
+              ctx.font = '9px sans-serif';
+              ctx.textAlign = 'center';
+              points.forEach(function(p, i) {
+                var x = padL + (chartW / (points.length - 1)) * i;
+                ctx.fillText(p.run_id, x, h - 10);
+              });
+
+              if (note) note.textContent = points.length + ' data points · Updated ' + (d.meta.last_updated || 'recently');
+            } else {
+              if (note) note.textContent = 'No trend data yet — run additional benchmarks to see trends';
+            }
+          } else {
+            if (note) note.textContent = 'No trend data yet — run additional benchmarks to see trends';
+          }
+        }
+      }
     })
     .catch(function (err) {
-      console.error('GEO Dashboard: data.json load failed -', err.message);
+      console.error('GEO Dashboard: session.json load failed -', err.message);
     });
 })();
 </script>

@@ -25,7 +25,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        run: pip install openai
+        shell: powershell
+        run: py -m pip install openai
 
       - name: Show session.json run type
         shell: powershell
@@ -38,9 +39,10 @@ jobs:
           Write-Host "amplify  : $($s.amplify_threads.Count)"
 
       - name: Fill session.json via Claude API
+        shell: powershell
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-        run: python fill_session.py
+        run: py fill_session.py
 
       - name: Validate output
         shell: powershell

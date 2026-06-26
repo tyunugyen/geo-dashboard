@@ -1,2 +1,6 @@
 model_id,model_name,unaided_sov,aided_sov,rate_saver_sov,unaided_hits,unaided_prompts,aided_hits,aided_prompts,status
-o3-mini,o3-mini,0.0%,85.7%,0.0%,0,63,6,7,success
+claude-sonnet-4-6,Claude Sonnet 4.6,0.0%,100.0%,0.0%,0,63,7,7,success
+claude-haiku-4-5-20251001,Claude Haiku 4.5,0.0%,100.0%,0.0%,0,63,7,7,success
+claude-opus-4-8,Claude Opus 4.8,0.0%,100.0%,0.0%,0,63,7,7,success
+gpt-4o,GPT-4o,0.0%,100.0%,0.0%,0,63,7,7,success
+gemini-2.5-pro,Gemini 2.5 Pro,0.0%,100.0%,0.0%,0,63,7,7,success

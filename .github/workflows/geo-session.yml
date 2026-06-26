@@ -27,18 +27,26 @@ jobs:
       - name: Verify Python
         shell: pwsh
         run: |
+          # Add Python to PATH for this workflow
+          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
+          $env:PATH = "$pythonPath;$env:PATH"
           python --version
           pip --version
 
       - name: Install dependencies
         shell: pwsh
-        run: pip install openai
+        run: |
+          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
+          $env:PATH = "$pythonPath;$env:PATH"
+          pip install openai
 
       - name: Generate session.json skeleton
         shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
+          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
+          $env:PATH = "$pythonPath;$env:PATH"
           $RUN_TYPE = "${{ github.event.inputs.run_type }}"
           if ($RUN_TYPE -eq "monthly") {
             Write-Host "Generating MONTHLY session.json skeleton..."
@@ -55,11 +63,16 @@ jobs:
         shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-        run: python fill_session.py
+        run: |
+          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
+          $env:PATH = "$pythonPath;$env:PATH"
+          python fill_session.py
 
       - name: Validate output
         shell: pwsh
         run: |
+          $pythonPath = "C:\Users\tyunguyen\AppData\Local\Microsoft\WindowsApps"
+          $env:PATH = "$pythonPath;$env:PATH"
           python -c @"
           import json, sys
           with open('public/data/session.json') as f:

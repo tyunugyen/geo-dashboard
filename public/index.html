@@ -575,18 +575,24 @@
 
       // Render trends chart
       if (d.trends) {
-        var canvas = document.getElementById('trendsChart');
-        var note = document.getElementById('trends-note');
-        if (canvas && canvas.getContext) {
-          try {
-            // Set canvas internal dimensions to match display size
-            var rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = 180;
+        setTimeout(function() {
+          var canvas = document.getElementById('trendsChart');
+          var note = document.getElementById('trends-note');
+          if (canvas && canvas.getContext) {
+            try {
+              // Set canvas internal dimensions to match display size
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width;
+              canvas.height = 180;
 
-            var ctx = canvas.getContext('2d');
-            var weekly = d.trends.weekly || [];
-            var monthly = d.trends.monthly || [];
+              var ctx = canvas.getContext('2d');
+
+              // Debug: Draw background to verify canvas works
+              ctx.fillStyle = '#1a1f2e';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+              var weekly = d.trends.weekly || [];
+              var monthly = d.trends.monthly || [];
 
           if (weekly.length > 0 || monthly.length > 0) {
             // Combine and dedupe by run_id
@@ -704,7 +710,8 @@
             console.error('Trends chart error:', err);
             if (note) note.textContent = 'Chart rendering error - check console';
           }
-        }
+          }
+        }, 100); // Small delay to ensure DOM is ready
       }
     })
     .catch(function (err) {

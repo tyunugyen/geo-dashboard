@@ -335,13 +335,19 @@ def build_model_sov(run_type, scored, model_name):
     }
 
 # ── Update trends history ──────────────────────────────────────────
-def update_trends_history(run_id, scored, repo_path):
+def update_trends_history(run_id, scored, repo_path, run_type="weekly"):
     trends_path = os.path.join(repo_path, "public", "data", "trends.json")
     if os.path.exists(trends_path):
         with open(trends_path, "r", encoding="utf-8") as f:
             trends = json.load(f)
     else:
-        trends = {"weekly": []}
+        trends = {"monthly": [], "weekly": []}
+
+    # Ensure both arrays exist
+    if "monthly" not in trends:
+        trends["monthly"] = []
+    if "weekly" not in trends:
+        trends["weekly"] = []
 
     def parse_sov(s):
         try: return float(str(s).replace("~","").replace("%",""))
@@ -353,16 +359,38 @@ def update_trends_history(run_id, scored, repo_path):
         "aided_sov":      parse_sov(scored["aided_sov"]),
         "rate_saver_sov": parse_sov(scored["rate_saver_sov"]),
     }
-    idx = next((i for i, p in enumerate(trends["weekly"]) if p["run_id"] == run_id), None)
-    if idx is not None:
-        trends["weekly"][idx] = new_point
+
+    # Add to appropriate array based on run type
+    if run_type == "monthly":
+        # Add to monthly array
+        idx = next((i for i, p in enumerate(trends["monthly"]) if p["run_id"] == run_id), None)
+        if idx is not None:
+            trends["monthly"][idx] = new_point
+        else:
+            trends["monthly"].append(new_point)
+        trends["monthly"] = trends["monthly"][-12:]  # Keep last 12 months
+
+        # Also add to weekly array (monthly includes all weekly data)
+        idx_w = next((i for i, p in enumerate(trends["weekly"]) if p["run_id"] == run_id), None)
+        if idx_w is not None:
+            trends["weekly"][idx_w] = new_point
+        else:
+            trends["weekly"].append(new_point)
+        trends["weekly"] = trends["weekly"][-52:]  # Keep last 52 weeks (1 year)
     else:
-        trends["weekly"].append(new_point)
-    trends["weekly"] = trends["weekly"][-12:]
+        # Weekly run - only add to weekly array
+        idx = next((i for i, p in enumerate(trends["weekly"]) if p["run_id"] == run_id), None)
+        if idx is not None:
+            trends["weekly"][idx] = new_point
+        else:
+            trends["weekly"].append(new_point)
+        trends["weekly"] = trends["weekly"][-52:]  # Keep last 52 weeks
 
     with open(trends_path, "w", encoding="utf-8") as f:
         json.dump(trends, f, indent=2, ensure_ascii=False)
-    return trends["weekly"]
+
+    # Return monthly + weekly combined for display
+    return {"monthly": trends["monthly"], "weekly": trends["weekly"]}
 
 # ── Build session.json ─────────────────────────────────────────────
 def build_session_json(run_type, csv_path, scored, trends_data, model_name, run_id, run_date, period_month):
@@ -468,8 +496,8 @@ def main():
     except:
         period_month = "June 2026"
 
-    # Update trends (weekly only)
-    trends_data = update_trends_history(run_id, scored, repo_path) if run_type == "weekly" else []
+    # Update trends (both monthly and weekly)
+    trends_data = update_trends_history(run_id, scored, repo_path, run_type)
 
     # Build session
     session = build_session_json(run_type, csv_path, scored, trends_data, model_name, run_id, run_date, period_month)

@@ -623,43 +623,29 @@
               }
 
               if (points.length === 1) {
-                // Single data point - show as bars instead of dots to avoid overlap
+                // Single data point - show as dots
+                var centerX = padL + chartW / 2;
                 var p = points[0];
-                var barWidth = 60;
-                var gap = 10;
-                var startX = padL + (chartW - (barWidth * 3 + gap * 2)) / 2;
 
-                // Draw bars for each metric
-                function drawBar(value, color, label, index) {
-                  var x = startX + (barWidth + gap) * index;
-                  var barH = (chartH * value / 100) || 2; // Min 2px for visibility
-                  var y = padT + chartH - barH;
-
-                  // Bar
+                // Draw dots with slight horizontal offset to avoid overlap
+                function drawDot(value, color, offsetX) {
+                  var x = centerX + offsetX;
+                  var y = padT + chartH - (chartH * value / 100);
                   ctx.fillStyle = color;
-                  ctx.fillRect(x, y, barWidth, barH);
-
-                  // Value label on top of bar
-                  ctx.font = '11px sans-serif';
-                  ctx.fillStyle = '#e2e8f0';
-                  ctx.textAlign = 'center';
-                  ctx.fillText(value.toFixed(0) + '%', x + barWidth/2, y - 6);
-
-                  // Metric label below bar
-                  ctx.font = '10px sans-serif';
-                  ctx.fillStyle = '#718096';
-                  ctx.fillText(label, x + barWidth/2, h - 20);
+                  ctx.beginPath();
+                  ctx.arc(x, y, 4, 0, Math.PI * 2);
+                  ctx.fill();
                 }
 
-                drawBar(p.unaided_sov, '#fc8181', 'Unaided', 0);
-                drawBar(p.aided_sov, '#68d391', 'Aided', 1);
-                drawBar(p.rate_saver_sov, '#90cdf4', 'Rate Saver', 2);
+                drawDot(p.unaided_sov, '#fc8181', -8);      // Unaided - left
+                drawDot(p.aided_sov, '#68d391', 0);         // Aided - center
+                drawDot(p.rate_saver_sov, '#90cdf4', 8);    // Rate Saver - right
 
-                // Run ID label at bottom
-                ctx.fillStyle = '#90cdf4';
-                ctx.font = '11px sans-serif';
+                // X-axis label
+                ctx.fillStyle = '#718096';
+                ctx.font = '10px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(p.run_id, padL + chartW/2, h - 6);
+                ctx.fillText(p.run_id, centerX, h - 10);
 
                 if (note) note.textContent = 'Baseline data point — run weekly/monthly benchmarks to see trend lines';
               } else {

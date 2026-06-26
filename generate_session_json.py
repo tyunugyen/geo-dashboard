@@ -283,14 +283,14 @@ def build_model_sov(run_type, scored, model_name):
     if is_comparison:
         primary = []
         pulse   = []
-        PULSE_IDS = {"o3", "o3-mini", "gemini-3.1-pro-preview", "gemini_3.1_pro_preview"}
+        PULSE_IDS = {"o3", "o3-mini", "gemini-3.1-pro-preview", "gemini_3.1_pro_preview", "gemini-2.5-flash"}
         for r in rows:
             def pp(s):
                 try: return float(str(s).strip("%").strip("~"))
                 except: return 0.0
             name = r.get("model_name", r.get("model_id",""))
             mid  = r.get("model_id","").lower().replace("-","_")
-            is_pulse = any(p in mid for p in ["o3","gemini_3.1","gemini-3.1"])
+            is_pulse = any(p in mid for p in ["o3","gemini_3.1","gemini-3.1","gemini_2.5_flash"])
 
             # Check data quality for pulse models
             quality_warning = None
@@ -400,8 +400,8 @@ def build_session_json(run_type, csv_path, scored, trends_data, model_name, run_
         "run_type":            run_type,
         "run_id":              run_id,
         "last_updated":        run_date,
-        "model_name":          model_name if run_type == "weekly" else "9 models",
-        "model_count":         1 if run_type == "weekly" else 9,
+        "model_name":          model_name if run_type == "weekly" else "8 models",
+        "model_count":         1 if run_type == "weekly" else 8,
         "prompt_count":        scored["prompt_count"],
         "generated_by":        "generate_session_json.py",
     }

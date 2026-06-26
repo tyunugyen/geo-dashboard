@@ -2,9 +2,9 @@
   "meta": {
     "run_type": "monthly",
     "run_id": "UNKNOWN",
-    "last_updated": "2026-06-26 16:10",
-    "model_name": "9 models",
-    "model_count": 9,
+    "last_updated": "2026-06-26 16:23",
+    "model_name": "8 models",
+    "model_count": 8,
     "prompt_count": 70,
     "generated_by": "generate_session_json.py"
   },
@@ -234,7 +234,35 @@
         "a_color": "green"
       }
     ],
-    "pulse": []
+    "pulse": [
+      {
+        "name": "Gemini 2.5 Flash",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
+        "name": "o3-mini",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "100.0%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green"
+      },
+      {
+        "name": "Gemini 3.1 Pro Preview",
+        "why": "Full benchmark model",
+        "unaided": "0.0%",
+        "aided": "28.6%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "yellow"
+      }
+    ]
   },
   "perplexity_simulation": [],
   "competitive_intel": [
@@ -292,7 +320,7 @@
     "leadership_decisions": [],
     "leadership_decisions_carryover": [],
     "next_month_priority": [],
-    "data_confidence": "High — 70 prompts across 9 models",
+    "data_confidence": "High — 70 prompts across 8 models",
     "methodology_note": "Full 9-model monthly benchmark."
   }
 }

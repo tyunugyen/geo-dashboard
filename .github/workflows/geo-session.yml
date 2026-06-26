@@ -26,7 +26,11 @@ jobs:
 
       - name: Install dependencies
         shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
-        run: py -m pip install openai
+        run: |
+          $ErrorActionPreference = "Stop"
+          Write-Host "Installing openai package..."
+          py -m pip install openai
+          if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
 
       - name: Show session.json run type
         shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
@@ -42,7 +46,11 @@ jobs:
         shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-        run: py fill_session.py
+        run: |
+          $ErrorActionPreference = "Stop"
+          Write-Host "Filling session.json via Claude API..."
+          py fill_session.py
+          if ($LASTEXITCODE -ne 0) { throw "fill_session.py failed" }
 
       - name: Validate output
         shell: powershell -ExecutionPolicy Bypass -Command "& {0}"

@@ -623,33 +623,43 @@
               }
 
               if (points.length === 1) {
-                // Single data point - show as dots with labels
-                var x = padL + chartW / 2;
+                // Single data point - show as bars instead of dots to avoid overlap
+                var p = points[0];
+                var barWidth = 60;
+                var gap = 10;
+                var startX = padL + (chartW - (barWidth * 3 + gap * 2)) / 2;
 
-                // Draw dots for each metric
-                function drawDot(data, color, label) {
-                  var y = padT + chartH - (chartH * data(points[0]) / 100);
+                // Draw bars for each metric
+                function drawBar(value, color, label, index) {
+                  var x = startX + (barWidth + gap) * index;
+                  var barH = (chartH * value / 100) || 2; // Min 2px for visibility
+                  var y = padT + chartH - barH;
+
+                  // Bar
                   ctx.fillStyle = color;
-                  ctx.beginPath();
-                  ctx.arc(x, y, 5, 0, Math.PI * 2);
-                  ctx.fill();
+                  ctx.fillRect(x, y, barWidth, barH);
 
-                  // Label
+                  // Value label on top of bar
                   ctx.font = '11px sans-serif';
-                  ctx.fillStyle = color;
-                  ctx.textAlign = 'left';
-                  ctx.fillText(label + ': ' + data(points[0]).toFixed(1) + '%', x + 12, y + 4);
+                  ctx.fillStyle = '#e2e8f0';
+                  ctx.textAlign = 'center';
+                  ctx.fillText(value.toFixed(0) + '%', x + barWidth/2, y - 6);
+
+                  // Metric label below bar
+                  ctx.font = '10px sans-serif';
+                  ctx.fillStyle = '#718096';
+                  ctx.fillText(label, x + barWidth/2, h - 20);
                 }
 
-                drawDot(function(p) { return p.unaided_sov; }, '#fc8181', 'Unaided');
-                drawDot(function(p) { return p.aided_sov; }, '#68d391', 'Aided');
-                drawDot(function(p) { return p.rate_saver_sov; }, '#90cdf4', 'Rate Saver');
+                drawBar(p.unaided_sov, '#fc8181', 'Unaided', 0);
+                drawBar(p.aided_sov, '#68d391', 'Aided', 1);
+                drawBar(p.rate_saver_sov, '#90cdf4', 'Rate Saver', 2);
 
-                // X-axis label
-                ctx.fillStyle = '#718096';
-                ctx.font = '10px sans-serif';
+                // Run ID label at bottom
+                ctx.fillStyle = '#90cdf4';
+                ctx.font = '11px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(points[0].run_id, x, h - 10);
+                ctx.fillText(p.run_id, padL + chartW/2, h - 6);
 
                 if (note) note.textContent = 'Baseline data point — run weekly/monthly benchmarks to see trend lines';
               } else {

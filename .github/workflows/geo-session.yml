@@ -80,25 +80,17 @@ jobs:
           print('  amplify:      ', len(s.get('amplify_threads', [])))
           print('  cite_pipeline:', len(s.get('cite_pipeline', [])))
           print('  perplexity:   ', len(s.get('perplexity_simulation', [])))
-          EOF
+          "@
 
       - name: Commit completed session.json
+        shell: pwsh
         run: |
           git config user.name  "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"
           git add public/data/session.json
-          python - <<'EOF'
-          import json
-          with open('public/data/session.json') as f:
-              s = json.load(f)
-          print(s['meta']['run_id'])
-          EOF
-          RUN_ID=$(python - <<'EOF'
-          import json
-          with open('public/data/session.json') as f:
-              s = json.load(f)
-          print(s['meta']['run_id'])
-          EOF
-          )
-          git diff --staged --quiet || git commit -m "[geo-bot] GEO session complete — ${RUN_ID}"
-          git push
+          $RUN_ID = py -c "import json; s=json.load(open('public/data/session.json')); print(s['meta']['run_id'])"
+          $hasChanges = git diff --staged --quiet; $LASTEXITCODE -ne 0
+          if ($hasChanges) {
+            git commit -m "[geo-bot] GEO session complete — $RUN_ID"
+            git push
+          }

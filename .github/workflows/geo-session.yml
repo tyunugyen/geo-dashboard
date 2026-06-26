@@ -24,82 +24,54 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify Python
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
-        run: |
-          $ErrorActionPreference = "Stop"
-          Write-Host "Testing py launcher..."
-          py --version
-          if ($LASTEXITCODE -ne 0) { throw "py command failed" }
-          Write-Host "Testing pip..."
-          py -m pip --version
-          if ($LASTEXITCODE -ne 0) { throw "pip command failed" }
-          Write-Host "Python verification successful!"
-
       - name: Install dependencies
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
-        run: |
-          $ErrorActionPreference = "Stop"
-          Write-Host "Installing openai package..."
-          py -m pip install openai
-          if ($LASTEXITCODE -ne 0) { throw "pip install failed" }
+        run: pip install openai
 
-      - name: Generate session.json skeleton
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
-        env:
-          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+      - name: Show session.json run type
+        shell: powershell
         run: |
-          $RUN_TYPE = "${{ github.event.inputs.run_type }}"
-          if ($RUN_TYPE -eq "monthly") {
-            Write-Host "Generating MONTHLY session.json skeleton..."
-            py generate_session_json.py --monthly
-          } else {
-            Write-Host "Generating WEEKLY session.json skeleton..."
-            py generate_session_json.py --weekly
-          }
-          Write-Host ""
-          Write-Host "Skeleton generated. Preview:"
-          py -c "import json; s=json.load(open('public/data/session.json')); m=s.get('meta',{}); print(f'  run_type: {m.get(''run_type'')}'); print(f'  run_id: {m.get(''run_id'')}'); print(f'  unaided_sov: {s.get(''sov_dashboard'',{}).get(''unaided_sov'',{}).get(''value'')}')"
+          $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
+          Write-Host "run_type : $($s.meta.run_type)"
+          Write-Host "run_id   : $($s.meta.run_id)"
+          Write-Host "updated  : $($s.meta.last_updated)"
+          Write-Host "build_pages: $($s.build_pages.Count)"
+          Write-Host "amplify  : $($s.amplify_threads.Count)"
 
       - name: Fill session.json via Claude API
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-        run: py fill_session.py
+        run: python fill_session.py
 
       - name: Validate output
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
+        shell: powershell
         run: |
-          py -c @"
-          import json, sys
-          with open('public/data/session.json') as f:
-              s = json.load(f)
-          errors = []
-          if not isinstance(s.get('build_pages'), list):
-              errors.append('build_pages missing')
-          if not s.get('competitive_intel'):
-              errors.append('competitive_intel empty')
-          if not s.get('report_summary', {}).get('binding_constraint'):
-              errors.append('report_summary.binding_constraint missing')
-          if errors:
-              print('VALIDATION ERRORS:', errors)
-              sys.exit(1)
-          print('Validation passed')
-          print('  build_pages:  ', len(s.get('build_pages', [])))
-          print('  amplify:      ', len(s.get('amplify_threads', [])))
-          print('  cite_pipeline:', len(s.get('cite_pipeline', [])))
-          print('  perplexity:   ', len(s.get('perplexity_simulation', [])))
-          "@
+          $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
+          $errors = @()
+          if (-not $s.competitive_intel) { $errors += "competitive_intel empty" }
+          if (-not $s.report_summary.binding_constraint) { $errors += "report_summary.binding_constraint missing" }
+          if ($errors.Count -gt 0) {
+            Write-Host "VALIDATION ERRORS: $errors"
+            exit 1
+          }
+          Write-Host "Validation passed"
+          Write-Host "build_pages:   $($s.build_pages.Count)"
+          Write-Host "amplify:       $($s.amplify_threads.Count)"
+          Write-Host "cite_pipeline: $($s.cite_pipeline.Count)"
+          Write-Host "perplexity:    $($s.perplexity_simulation.Count)"
 
       - name: Commit completed session.json
-        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
+        shell: powershell
         run: |
-          git config user.name  "GEO Bot"
+          git config user.name "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"
           git add public/data/session.json
-          $RUN_ID = py -c "import json; s=json.load(open('public/data/session.json')); print(s['meta']['run_id'])"
-          $hasChanges = git diff --staged --quiet; $LASTEXITCODE -ne 0
-          if ($hasChanges) {
-            git commit -m "[geo-bot] GEO session complete — $RUN_ID"
+          $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
+          $runId = $s.meta.run_id
+          $diff = git diff --staged --name-only
+          if ($diff) {
+            git commit -m "[geo-bot] GEO session complete — $runId"
             git push
+            Write-Host "✅ Committed and pushed"
+          } else {
+            Write-Host "No changes to commit — session.json unchanged"
           }

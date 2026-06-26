@@ -15,7 +15,7 @@ on:
 
 jobs:
   fill-session:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, '[geo-bot]')"
 
     steps:

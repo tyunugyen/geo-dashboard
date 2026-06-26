@@ -48,8 +48,10 @@ jobs:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
           $ErrorActionPreference = "Stop"
+          # Explicitly set env var for Python subprocess
+          $env:CAAS_API_KEY = "${{ secrets.CAAS_API_KEY }}"
           Write-Host "Filling session.json via Claude API..."
-          Write-Host "API key available: $($env:CAAS_API_KEY.Length) chars"
+          Write-Host "API key set: $($env:CAAS_API_KEY.Length) chars"
           py fill_session.py
           if ($LASTEXITCODE -ne 0) { throw "fill_session.py failed" }
           Write-Host "Fill script completed successfully"

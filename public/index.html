@@ -469,8 +469,8 @@
     "payment_processing":"prompts.html#tier3","vertical_fb":"prompts.html#tier2","vertical_retail":"prompts.html#tier2",
     "general_in_person":"prompts.html#tier2","support":"prompts.html#tier4"
   };
-  fetch('data.json?v=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error('data.json HTTP ' + r.status); return r.json(); })
+  fetch('data/session.json?v=' + Date.now())
+    .then(function (r) { if (!r.ok) throw new Error('session.json HTTP ' + r.status); return r.json(); })
     .then(function (d) {
       var meta = document.getElementById('meta-line');
       if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 9 models';

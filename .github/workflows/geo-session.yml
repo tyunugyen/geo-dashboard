@@ -42,6 +42,16 @@ jobs:
           Write-Host "build_pages: $($s.build_pages.Count)"
           Write-Host "amplify  : $($s.amplify_threads.Count)"
 
+      - name: Test environment variable
+        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
+        env:
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+        run: |
+          $env:CAAS_API_KEY = "${{ secrets.CAAS_API_KEY }}"
+          Write-Host "Testing Python environment variable access..."
+          py test_env.py
+          if ($LASTEXITCODE -ne 0) { throw "Environment variable test failed" }
+
       - name: Fill session.json via Claude API
         shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
         env:

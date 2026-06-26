@@ -1,9 +1,9 @@
 {
   "meta": {
     "run_type": "weekly",
-    "run_id": "2026-06-W26",
-    "last_updated": "2026-06-26 00:00",
-    "model_name": "Claude Haiku 4.5",
+    "run_id": "UNKNOWN",
+    "last_updated": "2026-06-26 15:07",
+    "model_name": "GPT-5",
     "model_count": 1,
     "prompt_count": 70,
     "generated_by": "generate_session_json.py",
@@ -19,7 +19,7 @@
     {
       "run_id": "UNKNOWN",
       "unaided_sov": 0.0,
-      "aided_sov": 100.0,
+      "aided_sov": 0.0,
       "rate_saver_sov": 0.0
     }
   ],
@@ -30,8 +30,8 @@
       "target": "15%"
     },
     "aided_sov": {
-      "value": "100%",
-      "status": "green",
+      "value": "0%",
+      "status": "yellow",
       "target": "100%"
     },
     "rate_saver_sov": {
@@ -180,37 +180,16 @@
   "model_sov": {
     "primary": [
       {
-        "name": "Claude Haiku 4.5",
+        "name": "GPT-5",
         "why": "Weekly pulse check",
         "unaided": "0%",
-        "aided": "100%",
+        "aided": "0%",
         "status": "success",
         "u_color": "red",
-        "a_color": "green"
+        "a_color": "yellow"
       }
     ],
-    "pulse": [
-      {
-        "name": "o3",
-        "why": "Reasoning model — anomalous 28.6% aided SOV in W26 vs 100% on standard models",
-        "unaided": "0%",
-        "aided": "28.6%",
-        "status": "partial",
-        "u_color": "red",
-        "a_color": "yellow",
-        "trigger": "Investigate aided SOV drop — detection format issue or model behavior change?"
-      },
-      {
-        "name": "Gemini 3.1 Pro Preview",
-        "why": "Next-gen Gemini signal — also 28.6% aided SOV in W26",
-        "unaided": "0%",
-        "aided": "28.6%",
-        "status": "partial",
-        "u_color": "red",
-        "a_color": "yellow",
-        "trigger": "Watch for pattern on next full benchmark"
-      }
-    ]
+    "pulse": []
   },
   "perplexity_simulation": [],
   "competitive_intel": [
@@ -269,6 +248,6 @@
     "leadership_decisions_carryover": [],
     "next_month_priority": [],
     "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Haiku 4.5. Full 9-model benchmark last run: June 2026"
+    "methodology_note": "Weekly pulse check using GPT-5. Full 9-model benchmark last run: June 2026"
   }
 }

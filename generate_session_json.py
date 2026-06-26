@@ -22,6 +22,7 @@ FIXES (2026-06-25):
 
 import sys, os, json, csv, glob, argparse
 from datetime import datetime
+import pandas as pd
 
 # ── Category config — baseline SOV + targets from Prompt Bank v2.8 ──
 CATEGORIES_BASELINE = [
@@ -87,29 +88,60 @@ COMPETITIVE_INTEL_VERIFIED = [
     },
 ]
 
-# ── Pulse check models — known anomalies from W26 ──────────────────
+# ── Pulse check models — track next-gen reasoning models ─────────────
+# REMOVED: Incomplete data from W26 (5/7 prompts failed with API errors)
+# To re-enable: Run pulse benchmarks with retry logic + longer timeout,
+# then uncomment entries below with actual complete data
 PULSE_MODELS = [
-    {
-        "name": "o3",
-        "why": "Reasoning model — anomalous 28.6% aided SOV in W26 vs 100% on standard models",
-        "unaided": "0%",
-        "aided": "28.6%",
-        "status": "partial",
-        "u_color": "red",
-        "a_color": "yellow",
-        "trigger": "Investigate aided SOV drop — detection format issue or model behavior change?"
-    },
-    {
-        "name": "Gemini 3.1 Pro Preview",
-        "why": "Next-gen Gemini signal — also 28.6% aided SOV in W26",
-        "unaided": "0%",
-        "aided": "28.6%",
-        "status": "partial",
-        "u_color": "red",
-        "a_color": "yellow",
-        "trigger": "Watch for pattern on next full benchmark"
-    },
+    # {
+    #     "name": "o3",
+    #     "why": "OpenAI reasoning model — track next-gen behavior",
+    #     "unaided": "0%",
+    #     "aided": "??%",  # Replace with actual when benchmark succeeds
+    #     "status": "partial",
+    #     "u_color": "red",
+    #     "a_color": "yellow",
+    #     "trigger": "⚠️ Incomplete data — 5/7 API errors. Rerun with timeout=120s, retry=3x"
+    # },
+    # {
+    #     "name": "Gemini 3.1 Pro Preview",
+    #     "why": "Google next-gen reasoning — preview quality signal",
+    #     "unaided": "0%",
+    #     "aided": "??%",  # Replace with actual when benchmark succeeds
+    #     "status": "partial",
+    #     "u_color": "red",
+    #     "a_color": "yellow",
+    #     "trigger": "⚠️ Incomplete data — 5/7 API errors. Rerun with timeout=120s, retry=3x"
+    # },
 ]
+
+# ── Data quality check — detect incomplete benchmarks ─────────────────
+def check_benchmark_quality(csv_path, model_name):
+    """
+    Detect incomplete benchmarks (high error rate) and return warning.
+    Returns: (is_complete: bool, warning_msg: str or None)
+    """
+    if not os.path.exists(csv_path):
+        return False, f"⚠️ Benchmark file not found: {csv_path}"
+
+    try:
+        df = pd.read_csv(csv_path)
+        total_prompts = len(df)
+
+        # Count API errors
+        error_count = df['godaddy_mentioned'].str.contains('ERROR', case=False, na=False).sum()
+        if 'response_excerpt' in df.columns:
+            error_count += df['response_excerpt'].str.contains(r'\[ERROR:', case=False, na=False).sum()
+
+        error_rate = error_count / total_prompts if total_prompts > 0 else 0
+
+        # Threshold: >30% errors = incomplete
+        if error_rate > 0.30:
+            return False, f"⚠️ Incomplete data for {model_name}: {error_count}/{total_prompts} prompts failed ({error_rate:.0%}). Rerun with timeout=120s, retry=3x, rate_limit=10s"
+
+        return True, None
+    except Exception as e:
+        return False, f"⚠️ Could not validate benchmark quality: {str(e)}"
 
 # ── Helpers ────────────────────────────────────────────────────────
 def pct(n, d):
@@ -259,15 +291,31 @@ def build_model_sov(run_type, scored, model_name):
             name = r.get("model_name", r.get("model_id",""))
             mid  = r.get("model_id","").lower().replace("-","_")
             is_pulse = any(p in mid for p in ["o3","gemini_3.1","gemini-3.1"])
+
+            # Check data quality for pulse models
+            quality_warning = None
+            if is_pulse:
+                csv_pattern = f"benchmarks/geo_multi_{mid}*.csv"
+                matching_csvs = glob.glob(csv_pattern)
+                if matching_csvs:
+                    is_complete, warning = check_benchmark_quality(matching_csvs[0], name)
+                    if not is_complete:
+                        quality_warning = warning
+
             entry = {
                 "name": name,
-                "why": "Full benchmark model",
+                "why": quality_warning or "Full benchmark model",
                 "unaided": r.get("unaided_sov","0%"),
                 "aided":   r.get("aided_sov","0%"),
-                "status":  r.get("status","success"),
+                "status":  "incomplete" if quality_warning else r.get("status","success"),
                 "u_color": "red",
-                "a_color": "green" if pp(r.get("aided_sov","0")) >= 90 else "yellow",
+                "a_color": "yellow" if quality_warning else ("green" if pp(r.get("aided_sov","0")) >= 90 else "yellow"),
             }
+
+            # Skip incomplete pulse models from display (don't show as baseline)
+            if is_pulse and quality_warning:
+                continue  # Don't add to pulse list if incomplete
+
             if is_pulse: pulse.append(entry)
             else:        primary.append(entry)
         return { "primary": primary or [{"name": model_name, "why": "Primary", "unaided": scored["unaided_sov"], "aided": scored["aided_sov"], "status": "success", "u_color": "red", "a_color": "green"}], "pulse": pulse or PULSE_MODELS }

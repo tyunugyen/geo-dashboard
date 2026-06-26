@@ -224,9 +224,74 @@ function extractCSV(body, boundary) {
 const json200 = (res,d) => { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end(JSON.stringify(d)); };
 const jsonErr  = (res,c,m) => { res.writeHead(c,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end(JSON.stringify({error:m})); };
 
+// ── Webhook: GitHub push → git pull ───────────────────────────────
+const { execSync } = require('child_process');
+const crypto = require('crypto');
+
+function verifyGitHubSignature(payload, signature, secret) {
+  if (!secret || !signature) return true; // Skip verification if no secret set
+  const hmac = crypto.createHmac('sha256', secret);
+  const digest = 'sha256=' + hmac.update(payload).digest('hex');
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest));
+}
+
 // ── HTTP server ───────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split('?')[0];
+
+  // POST /webhook — GitHub push triggers git pull
+  if (req.method==='POST' && urlPath==='/webhook') {
+    try {
+      const rawBody = await collectBody(req);
+      const bodyStr = rawBody.toString('utf-8');
+      const signature = req.headers['x-hub-signature-256'] || '';
+      const webhookSecret = process.env.WEBHOOK_SECRET || '';
+
+      // Verify GitHub signature
+      if (!verifyGitHubSignature(bodyStr, signature, webhookSecret)) {
+        console.warn('[webhook] Invalid signature');
+        return jsonErr(res, 401, 'Invalid signature');
+      }
+
+      const payload = JSON.parse(bodyStr);
+      const ref = payload.ref || '';
+      const pusher = payload.pusher?.name || 'unknown';
+
+      console.log(`[webhook] Push received from ${pusher} to ${ref}`);
+
+      // Only pull if push is to main/master branch
+      if (ref === 'refs/heads/main' || ref === 'refs/heads/master') {
+        console.log('[webhook] Executing git pull...');
+        try {
+          // Execute git pull
+          const output = execSync('git pull origin main', {
+            cwd: __dirname,
+            encoding: 'utf-8',
+            timeout: 30000
+          });
+          console.log('[webhook] Git pull output:', output);
+
+          json200(res, {
+            ok: true,
+            message: 'Dashboard updated from GitHub',
+            ref,
+            pusher,
+            output: output.trim()
+          });
+        } catch (gitError) {
+          console.error('[webhook] Git pull failed:', gitError.message);
+          return jsonErr(res, 500, 'Git pull failed: ' + gitError.message);
+        }
+      } else {
+        console.log(`[webhook] Ignoring push to ${ref} (not main/master)`);
+        json200(res, { ok: true, message: 'Ignored (not main branch)', ref });
+      }
+    } catch(e) {
+      console.error('[webhook] Error:', e);
+      jsonErr(res, 500, 'Webhook error: ' + e.message);
+    }
+    return;
+  }
 
   // POST /upload
   if (req.method==='POST' && urlPath==='/upload') {

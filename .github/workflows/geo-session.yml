@@ -24,47 +24,43 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Verify Python
+        shell: pwsh
+        run: |
+          python --version
+          pip --version
 
       - name: Install dependencies
+        shell: pwsh
         run: pip install openai
 
       - name: Generate session.json skeleton
+        shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
-          # Determine run type: default to weekly, or use workflow input
-          RUN_TYPE="${{ github.event.inputs.run_type }}"
-          if [ "$RUN_TYPE" = "monthly" ]; then
-            echo "Generating MONTHLY session.json skeleton..."
+          $RUN_TYPE = "${{ github.event.inputs.run_type }}"
+          if ($RUN_TYPE -eq "monthly") {
+            Write-Host "Generating MONTHLY session.json skeleton..."
             python generate_session_json.py --monthly
-          else
-            echo "Generating WEEKLY session.json skeleton..."
+          } else {
+            Write-Host "Generating WEEKLY session.json skeleton..."
             python generate_session_json.py --weekly
-          fi
-          echo ""
-          echo "Skeleton generated. Preview:"
-          python - <<'EOF'
-          import json
-          with open('public/data/session.json') as f:
-              s = json.load(f)
-          m = s.get('meta', {})
-          print(f"  run_type: {m.get('run_type')}")
-          print(f"  run_id: {m.get('run_id')}")
-          print(f"  unaided_sov: {s.get('sov_dashboard', {}).get('unaided_sov', {}).get('value')}")
-          EOF
+          }
+          Write-Host ""
+          Write-Host "Skeleton generated. Preview:"
+          python -c "import json; s=json.load(open('public/data/session.json')); m=s.get('meta',{}); print(f\"  run_type: {m.get('run_type')}\"); print(f\"  run_id: {m.get('run_id')}\"); print(f\"  unaided_sov: {s.get('sov_dashboard',{}).get('unaided_sov',{}).get('value')}\")"
 
       - name: Fill session.json via Claude API
+        shell: pwsh
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: python fill_session.py
 
       - name: Validate output
+        shell: pwsh
         run: |
-          python - <<'EOF'
+          python -c @"
           import json, sys
           with open('public/data/session.json') as f:
               s = json.load(f)

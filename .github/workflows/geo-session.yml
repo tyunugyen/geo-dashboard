@@ -24,6 +24,26 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Test CaaS connectivity
+        shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
+        env:
+          CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
+        run: |
+          Write-Host "Testing CaaS proxy connectivity..."
+          try {
+            $headers = @{
+              "Authorization" = "Bearer $env:CAAS_API_KEY"
+              "Content-Type" = "application/json"
+            }
+            $body = '{"model":"claude-sonnet-4-6","max_tokens":10,"messages":[{"role":"user","content":"Say OK"}]}'
+            $response = Invoke-WebRequest -Uri "https://caas-gocode-prod.caas-prod.prod.onkatana.net/chat/completions" -Method POST -Headers $headers -Body $body -TimeoutSec 30
+            Write-Host "[OK] CaaS reachable - status: $($response.StatusCode)"
+          } catch {
+            Write-Host "[ERROR] CaaS UNREACHABLE: $_" -ForegroundColor Red
+            Write-Host "Runner cannot reach CaaS proxy - check VPN/network" -ForegroundColor Red
+            exit 1
+          }
+
       - name: Install dependencies
         shell: powershell -ExecutionPolicy Bypass -Command "& {{0}}"
         run: |

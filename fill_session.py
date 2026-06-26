@@ -45,7 +45,12 @@ def get_client(api_key):
 
 # ── Single API call with retry ──────────────────────────────────────
 def call_claude(client, system_msg, user_msg):
+    """Call Claude via CaaS. Fails loudly on any error."""
     import time
+    print(f"  Calling CaaS proxy: {PROXY_URL}")
+    print(f"  Model: {MODEL}")
+    print(f"  Prompt length: {len(user_msg):,} chars")
+
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             response = client.chat.completions.create(
@@ -57,10 +62,20 @@ def call_claude(client, system_msg, user_msg):
                     {"role": "user",   "content": user_msg},
                 ]
             )
-            return response.choices[0].message.content
+            content = response.choices[0].message.content
+            print(f"  [OK] Response received: {len(content):,} chars")
+            return content
         except Exception as e:
             if attempt == MAX_RETRIES:
-                raise  # Last attempt, re-raise the exception
+                # Print full error details — never fail silently
+                print(f"  [ERROR] CaaS API call FAILED after {MAX_RETRIES} attempts")
+                print(f"  Error type: {type(e).__name__}")
+                print(f"  Error detail: {e}")
+                print(f"  Proxy URL: {PROXY_URL}")
+                print(f"  Model: {MODEL}")
+                import traceback
+                traceback.print_exc()
+                raise  # Re-raise so the Action fails visibly
             print(f"  Attempt {attempt} failed: {e}")
             print(f"  Retrying in {5 * attempt} seconds...")
             time.sleep(5 * attempt)  # Exponential backoff: 5s, 10s, 15s
@@ -238,6 +253,18 @@ def build_prompt_call2(session, strategy_actions):
 
 # ── Merge all filled data into skeleton ──────────────────────────────
 def merge_session(skeleton, call1_data, call2_data):
+    # Validate call1_data has actual content before merging
+    if not call1_data:
+        raise ValueError("Call 1 returned empty data — CaaS call likely failed silently")
+
+    intel_check = call1_data.get("competitive_intel", [])
+    if not intel_check:
+        raise ValueError(
+            f"Call 1 returned empty arrays — CaaS call failed silently.\n"
+            f"call1_data keys: {list(call1_data.keys())}\n"
+            f"competitive_intel: {intel_check}"
+        )
+
     result = dict(skeleton)
 
     # From call 1

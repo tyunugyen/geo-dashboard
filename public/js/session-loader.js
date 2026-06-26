@@ -78,9 +78,9 @@ function renderCategories(s, containerId) {
   if (!el) return;
   const cats = s.categories || [];
   el.innerHTML = cats.map(c => `
-    <div class="cat-cell cat-cell-${c.status}" title="${c.name}">
+    <div class="cat-cell cat-cell-${c.cell || c.status || 'red'}" title="${c.name}">
       <div class="cat-name">${c.name.replace(/_/g,' ')}</div>
-      <div class="cat-sov ${c.color}">${c.sov}</div>
+      <div class="cat-sov ${c.cell || c.color || 'red'}">${c.sov}</div>
       <div class="cat-target">→ ${c.target}</div>
     </div>`).join('');
 }

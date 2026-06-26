@@ -5,6 +5,12 @@
       "unaided_sov": 0.0,
       "aided_sov": 100.0,
       "rate_saver_sov": 0.0
+    },
+    {
+      "run_id": "UNKNOWN",
+      "unaided_sov": 0.0,
+      "aided_sov": 100.0,
+      "rate_saver_sov": 0.0
     }
   ]
 }

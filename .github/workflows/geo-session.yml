@@ -25,18 +25,18 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify Python
-        shell: pwsh
+        shell: powershell
         run: |
           # Use py launcher (more reliable on Windows)
           py --version
           py -m pip --version
 
       - name: Install dependencies
-        shell: pwsh
+        shell: powershell
         run: py -m pip install openai
 
       - name: Generate session.json skeleton
-        shell: pwsh
+        shell: powershell
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: |
@@ -53,13 +53,13 @@ jobs:
           py -c "import json; s=json.load(open('public/data/session.json')); m=s.get('meta',{}); print(f'  run_type: {m.get(''run_type'')}'); print(f'  run_id: {m.get(''run_id'')}'); print(f'  unaided_sov: {s.get(''sov_dashboard'',{}).get(''unaided_sov'',{}).get(''value'')}')"
 
       - name: Fill session.json via Claude API
-        shell: pwsh
+        shell: powershell
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: py fill_session.py
 
       - name: Validate output
-        shell: pwsh
+        shell: powershell
         run: |
           py -c @"
           import json, sys
@@ -83,7 +83,7 @@ jobs:
           "@
 
       - name: Commit completed session.json
-        shell: pwsh
+        shell: powershell
         run: |
           git config user.name  "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"

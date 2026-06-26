@@ -622,45 +622,76 @@
                 ctx.fillText(val + '%', padL - 8, y + 4);
               }
 
-              // Draw lines
-              function drawLine(data, color) {
-                if (points.length < 2) return;
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                points.forEach(function(p, i) {
-                  var x = padL + (chartW / (points.length - 1)) * i;
-                  var y = padT + chartH - (chartH * data(p) / 100);
-                  if (i === 0) ctx.moveTo(x, y);
-                  else ctx.lineTo(x, y);
-                });
-                ctx.stroke();
+              if (points.length === 1) {
+                // Single data point - show as dots with labels
+                var x = padL + chartW / 2;
 
-                // Draw dots
-                ctx.fillStyle = color;
-                points.forEach(function(p, i) {
-                  var x = padL + (chartW / (points.length - 1)) * i;
-                  var y = padT + chartH - (chartH * data(p) / 100);
+                // Draw dots for each metric
+                function drawDot(data, color, label) {
+                  var y = padT + chartH - (chartH * data(points[0]) / 100);
+                  ctx.fillStyle = color;
                   ctx.beginPath();
-                  ctx.arc(x, y, 3, 0, Math.PI * 2);
+                  ctx.arc(x, y, 5, 0, Math.PI * 2);
                   ctx.fill();
+
+                  // Label
+                  ctx.font = '11px sans-serif';
+                  ctx.fillStyle = color;
+                  ctx.textAlign = 'left';
+                  ctx.fillText(label + ': ' + data(points[0]).toFixed(1) + '%', x + 12, y + 4);
+                }
+
+                drawDot(function(p) { return p.unaided_sov; }, '#fc8181', 'Unaided');
+                drawDot(function(p) { return p.aided_sov; }, '#68d391', 'Aided');
+                drawDot(function(p) { return p.rate_saver_sov; }, '#90cdf4', 'Rate Saver');
+
+                // X-axis label
+                ctx.fillStyle = '#718096';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(points[0].run_id, x, h - 10);
+
+                if (note) note.textContent = 'Baseline data point — run weekly/monthly benchmarks to see trend lines';
+              } else {
+                // Multiple points - draw lines
+                function drawLine(data, color) {
+                  ctx.strokeStyle = color;
+                  ctx.lineWidth = 2;
+                  ctx.beginPath();
+                  points.forEach(function(p, i) {
+                    var x = padL + (chartW / (points.length - 1)) * i;
+                    var y = padT + chartH - (chartH * data(p) / 100);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                  });
+                  ctx.stroke();
+
+                  // Draw dots
+                  ctx.fillStyle = color;
+                  points.forEach(function(p, i) {
+                    var x = padL + (chartW / (points.length - 1)) * i;
+                    var y = padT + chartH - (chartH * data(p) / 100);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                  });
+                }
+
+                drawLine(function(p) { return p.unaided_sov; }, '#fc8181');
+                drawLine(function(p) { return p.aided_sov; }, '#68d391');
+                drawLine(function(p) { return p.rate_saver_sov; }, '#90cdf4');
+
+                // X-axis labels
+                ctx.fillStyle = '#718096';
+                ctx.font = '9px sans-serif';
+                ctx.textAlign = 'center';
+                points.forEach(function(p, i) {
+                  var x = padL + (chartW / (points.length - 1)) * i;
+                  ctx.fillText(p.run_id, x, h - 10);
                 });
+
+                if (note) note.textContent = points.length + ' data points · Updated ' + (d.meta.last_updated || 'recently');
               }
-
-              drawLine(function(p) { return p.unaided_sov; }, '#fc8181');
-              drawLine(function(p) { return p.aided_sov; }, '#68d391');
-              drawLine(function(p) { return p.rate_saver_sov; }, '#90cdf4');
-
-              // X-axis labels
-              ctx.fillStyle = '#718096';
-              ctx.font = '9px sans-serif';
-              ctx.textAlign = 'center';
-              points.forEach(function(p, i) {
-                var x = padL + (chartW / (points.length - 1)) * i;
-                ctx.fillText(p.run_id, x, h - 10);
-              });
-
-              if (note) note.textContent = points.length + ' data points · Updated ' + (d.meta.last_updated || 'recently');
             } else {
               if (note) note.textContent = 'No trend data yet — run additional benchmarks to see trends';
             }

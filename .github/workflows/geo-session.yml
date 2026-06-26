@@ -25,11 +25,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         run: py -m pip install openai
 
       - name: Show session.json run type
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         run: |
           $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
           Write-Host "run_type : $($s.meta.run_type)"
@@ -39,13 +39,13 @@ jobs:
           Write-Host "amplify  : $($s.amplify_threads.Count)"
 
       - name: Fill session.json via Claude API
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
         run: py fill_session.py
 
       - name: Validate output
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         run: |
           $s = Get-Content 'public/data/session.json' | ConvertFrom-Json
           $errors = @()
@@ -62,7 +62,7 @@ jobs:
           Write-Host "perplexity:    $($s.perplexity_simulation.Count)"
 
       - name: Commit completed session.json
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -Command "& {0}"
         run: |
           git config user.name "GEO Bot"
           git config user.email "geo-bot@users.noreply.github.com"

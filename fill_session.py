@@ -199,7 +199,11 @@ def build_prompt_call2(session, strategy_actions):
     p0 = strategy_actions.get("p0", [])
     p1 = strategy_actions.get("p1", [])
 
-    build_actions = [a for a in p0 + p1 if a.get("agent") == "BUILD"]
+    # Match any action that involves building content/pages
+    build_actions = [a for a in p0 + p1 if any(
+        keyword in a.get("agent", "").lower() or keyword in a.get("action", "").lower()
+        for keyword in ["build", "content", "page", "landing", "seo", "publish"]
+    )]
 
     if not build_actions:
         return None

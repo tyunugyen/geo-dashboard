@@ -43,6 +43,14 @@ jobs:
             exit 1
           fi
           echo "API key is configured (length: ${#CAAS_API_KEY})"
+          echo "Base URL configured: ${CAAS_BASE_URL:-'<not set, will use fallback>'}"
+          echo ""
+          echo "Testing network connectivity to base URL..."
+          if [ -n "$CAAS_BASE_URL" ]; then
+            curl -v --connect-timeout 10 "$CAAS_BASE_URL" 2>&1 | head -20 || echo "Connection failed"
+          else
+            curl -v --connect-timeout 10 "https://caas.open-webui.godaddy.com/api/v1" 2>&1 | head -20 || echo "Connection failed"
+          fi
 
       - name: Run GEO benchmark
         env:

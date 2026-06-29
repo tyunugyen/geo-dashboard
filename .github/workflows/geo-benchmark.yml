@@ -23,43 +23,43 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install dependencies
-        shell: powershell
+        shell: cmd
         run: pip install openai
 
       - name: Check API key is configured
-        shell: powershell
+        shell: cmd
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
-          if (-not $env:CAAS_API_KEY) {
-            Write-Host "ERROR: CAAS_API_KEY secret is not set."
-            Write-Host "Go to: github.com/tyunugyen/geo-dashboard → Settings → Secrets and variables → Actions → New repository secret"
-            Write-Host "Name: CAAS_API_KEY"
-            Write-Host "Value: your GoCaaS API key from caas.open-webui.godaddy.com"
-            exit 1
-          }
-          Write-Host "API key is configured (length: $($env:CAAS_API_KEY.Length))"
-          $url = if ($env:CAAS_BASE_URL) { $env:CAAS_BASE_URL } else { "<not set, will use fallback>" }
-          Write-Host "Base URL configured: $url"
+          if not defined CAAS_API_KEY (
+            echo ERROR: CAAS_API_KEY secret is not set.
+            echo Go to: github.com/tyunugyen/geo-dashboard - Settings - Secrets and variables - Actions - New repository secret
+            echo Name: CAAS_API_KEY
+            echo Value: your GoCaaS API key from caas.open-webui.godaddy.com
+            exit /b 1
+          )
+          echo API key is configured
+          if defined CAAS_BASE_URL (echo Base URL configured: %CAAS_BASE_URL%) else (echo Base URL: will use fallback)
 
       - name: Run GEO benchmark
-        shell: powershell
+        shell: cmd
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: python geo_benchmark_runner.py
 
       - name: Commit and push results
-        shell: powershell
+        shell: cmd
         run: |
           git config user.name "GEO Benchmark Bot"
           git config user.email "geo-benchmark@godaddy.com"
           git add public/data.json benchmarks/
-          if (git diff --staged --quiet) {
-            Write-Host "No changes to commit"
-          } else {
-            $date = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
-            git commit -m "GEO benchmark: $date"
+          git diff --staged --quiet
+          if errorlevel 1 (
+            for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd"') do set DATE=%%i
+            git commit -m "GEO benchmark: %DATE%"
             git push
-          }
+          ) else (
+            echo No changes to commit
+          )

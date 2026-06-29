@@ -21,7 +21,7 @@ from config.publisher_urls import COMPETITOR_RATE_URLS, KNOWN_RATES
 # ── Config ──────────────────────────────────────────────────────────
 PROXY_URL  = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
 MODEL      = "claude-sonnet-4-6"
-MAX_TOKENS = 8000
+MAX_TOKENS = 16000  # Increased from 8000 - claude-sonnet-4-6 supports up to 64K output tokens
 TIMEOUT    = 600.0  # 10 minutes for large intelligence responses
 MAX_RETRIES = 3
 
@@ -102,7 +102,7 @@ def call_claude(client, system_msg, user_msg):
             print(f"  Retrying in {5 * attempt} seconds...")
             time.sleep(5 * attempt)  # Exponential backoff: 5s, 10s, 15s
 
-# ── Parse JSON ───────────────────────────────────────────────────────
+# ── Parse JSON with truncation recovery ─────────────────────────────
 def parse_json(text):
     text = text.strip()
 
@@ -114,7 +114,7 @@ def parse_json(text):
     if text.endswith("```"):
         text = text[:-3].strip()
 
-    # Direct parse
+    # Direct parse — fast path
     try:
         return json.loads(text)
     except json.JSONDecodeError:
@@ -122,17 +122,78 @@ def parse_json(text):
 
     # Find outermost { }
     start = text.find("{")
-    end   = text.rfind("}") + 1
-    if start >= 0 and end > start:
+    if start < 0:
+        raise ValueError(f"No JSON found. Response starts: {text[:200]}")
+
+    # Try full content first
+    end = text.rfind("}") + 1
+    if end > start:
         try:
             return json.loads(text[start:end])
-        except json.JSONDecodeError as e:
-            raise ValueError(
-                f"JSON parse failed: {e.msg} at char {e.pos}\n"
-                f"Near: ...{text[max(0, e.pos-100):e.pos+100]}..."
-            )
+        except json.JSONDecodeError:
+            pass
 
-    raise ValueError(f"No JSON found. Response starts: {text[:200]}")
+    # ── RECOVERY: response was truncated mid-JSON ──────────────────
+    # Try to salvage by closing all open brackets/braces
+    print("  [PARSE] Direct parse failed — attempting truncation recovery...")
+    truncated = text[start:]
+
+    # Count unclosed brackets and braces
+    stack = []
+    in_string = False
+    escape_next = False
+    last_valid_pos = 0
+
+    for i, ch in enumerate(truncated):
+        if escape_next:
+            escape_next = False
+            continue
+        if ch == "\\" and in_string:
+            escape_next = True
+            continue
+        if ch == '"' and not escape_next:
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch in "{[":
+            stack.append(ch)
+        elif ch in "}]":
+            if stack:
+                stack.pop()
+                last_valid_pos = i
+
+    if stack:
+        # Truncated — close all open brackets in reverse order
+        closers = {"[": "]", "{": "}"}
+        closing = "".join(closers[b] for b in reversed(stack))
+
+        # Find a clean cut point — end of last complete key-value pair
+        clean_text = truncated[:last_valid_pos + 1] + closing
+        print(f"  [PARSE] Truncation detected — closing {len(stack)} open bracket(s): {closing}")
+
+        try:
+            result = json.loads(clean_text)
+            print("  [PARSE] ✅ Recovery successful — truncated response salvaged")
+            return result
+        except json.JSONDecodeError:
+            # Last resort — try progressively shorter cuts
+            for cut in range(last_valid_pos, max(0, last_valid_pos - 500), -10):
+                try:
+                    candidate = truncated[:cut]
+                    # Close at last complete object
+                    candidate = candidate.rstrip().rstrip(",") + closing
+                    result = json.loads(candidate)
+                    print(f"  [PARSE] ✅ Recovery at cut position {cut}")
+                    return result
+                except json.JSONDecodeError:
+                    continue
+
+    raise ValueError(
+        f"JSON parse failed after recovery attempt.\n"
+        f"Original error near char {start + last_valid_pos}\n"
+        f"Near: ...{text[max(0, start + last_valid_pos - 100):start + last_valid_pos + 100]}..."
+    )
 
 # ── Publisher Map Management ─────────────────────────────────────────
 def load_publisher_map():

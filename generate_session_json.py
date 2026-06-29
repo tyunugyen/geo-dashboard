@@ -97,8 +97,7 @@ PULSE_MODELS = [
         "aided": "100%",
         "status": "tracking",
         "u_color": "red",
-        "a_color": "green",
-        "trigger": "Promote to primary when stable"
+        "a_color": "green"
     },
     {
         "name": "o3-mini",
@@ -107,8 +106,7 @@ PULSE_MODELS = [
         "aided": "100%",
         "status": "tracking",
         "u_color": "red",
-        "a_color": "green",
-        "trigger": "Promote when usage stabilises"
+        "a_color": "green"
     },
     {
         "name": "Gemini 3.1 Pro Preview",
@@ -117,8 +115,7 @@ PULSE_MODELS = [
         "aided": "28.6%",
         "status": "partial",
         "u_color": "red",
-        "a_color": "yellow",
-        "trigger": "Watch on next full benchmark"
+        "a_color": "yellow"
     },
 ]
 

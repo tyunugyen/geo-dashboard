@@ -1,0 +1,95 @@
+{
+  "run_id": "2026-06-W26",
+  "last_updated": "2026-06-23 16:30",
+  "session_type": "weekly",
+  "prompt_bank_version": "v2.8",
+  "data_points": 560,
+  "model_count": 8,
+
+  "sov": {
+    "unaided": 0,
+    "aided": 100,
+    "rate_saver_unprompted": 0
+  },
+
+  "trends": [
+    { "week": "2026-06-W26", "unaided": 0, "aided": 100, "rate_saver": 0 }
+  ],
+
+  "models": {
+    "primary": [
+      { "name": "Claude Sonnet 4.6", "unaided_sov": 0, "aided_sov": 100, "status": "Normal" },
+      { "name": "Claude Haiku 4.5",  "unaided_sov": 0, "aided_sov": 100, "status": "Normal" },
+      { "name": "Claude Opus 4.8",   "unaided_sov": 0, "aided_sov": 100, "status": "Normal" },
+      { "name": "GPT-4o",            "unaided_sov": 0, "aided_sov": 100, "status": "Normal" },
+      { "name": "Gemini 2.5 Pro",    "unaided_sov": 0, "aided_sov": 100, "status": "Normal" }
+    ],
+    "pulse": [
+      { "name": "Gemini 2.5 Flash",       "unaided_sov": 0, "aided_sov": 100,  "status": "Tracking", "note": "Directional signal only" },
+      { "name": "o3-mini",                 "unaided_sov": 0, "aided_sov": 100,  "status": "Tracking", "note": "Directional signal only" },
+      { "name": "Gemini 3.1 Pro Preview",  "unaided_sov": 0, "aided_sov": 28.6, "status": "Anomaly",  "note": "2/7 aided prompts succeeded — watch" }
+    ],
+    "removed": ["GPT-5 (persistent API errors)", "o3 (API errors)"]
+  },
+
+  "categories": [
+    { "id": "pricing_fee",       "type": "U", "sov": 0, "target_6mo": 25, "target_12mo": 85, "root_cause": "Citation gap + content gap" },
+    { "id": "top_funnel_pos",    "type": "U", "sov": 0, "target_6mo": 20, "target_12mo": 60, "root_cause": "Entity framing + citation gap" },
+    { "id": "payment_processing","type": "U", "sov": 0, "target_6mo": 20, "target_12mo": 55, "root_cause": "Content gap + citation gap" },
+    { "id": "comparison",        "type": "U", "sov": 0, "target_6mo": 25, "target_12mo": 70, "root_cause": "Content gap" },
+    { "id": "support",           "type": "U", "sov": 0, "target_6mo": 25, "target_12mo": 65, "root_cause": "Content gap" },
+    { "id": "vertical_fb",       "type": "U", "sov": 0, "target_6mo": 18, "target_12mo": 50, "root_cause": "Content gap" },
+    { "id": "vertical_retail",   "type": "U", "sov": 0, "target_6mo": 22, "target_12mo": 55, "root_cause": "Content gap" },
+    { "id": "general_in_person", "type": "U", "sov": 0, "target_6mo": 18, "target_12mo": 50, "root_cause": "Citation gap + content gap" },
+    { "id": "brand_awareness",   "type": "B", "sov": 100, "target_6mo": null, "target_12mo": null, "root_cause": "N/A" }
+  ],
+
+  "leading_indicators": {
+    "crawler_200_rate": "confirmed",
+    "indexed_priority_urls": 0,
+    "schema_pass_rate": 0,
+    "third_party_inclusions": 1,
+    "rate_accuracy": "N/A",
+    "entity_framing_score": "low",
+    "community_replies_posted": 0
+  },
+
+  "citation_pipeline": [
+    { "publisher": "NerdWallet",    "section": "Payment processors", "status": "absent",       "priority": "P0", "blocked_by": "none",                    "est_sov_impact": "high",       "next_action": "Send outreach brief" },
+    { "publisher": "NerdWallet",    "section": "POS systems",        "status": "absent",       "priority": "P0", "blocked_by": "hardware page needed",    "est_sov_impact": "high",       "next_action": "Queue after hardware page" },
+    { "publisher": "Forbes Advisor","section": "Best POS systems",   "status": "absent",       "priority": "P0", "blocked_by": "content pages needed",    "est_sov_impact": "high",       "next_action": "Queue after content live" },
+    { "publisher": "Wise",          "section": "Cheapest processing","status": "absent",       "priority": "P1", "blocked_by": "Rate Saver page needed",  "est_sov_impact": "medium-high","next_action": "Queue after Rate Saver page" },
+    { "publisher": "Business.com",  "section": "CC processing guide","status": "review_only",  "priority": "P1", "blocked_by": "none",                    "est_sov_impact": "high",       "next_action": "Request guide inclusion" },
+    { "publisher": "TechRadar",     "section": "POS systems",        "status": "present",      "priority": "defend", "blocked_by": "none",               "est_sov_impact": "medium",     "next_action": "Update Rate Saver + pricing" },
+    { "publisher": "FitSmallBusiness","section": "Cheapest processing","status": "absent",     "priority": "P2", "blocked_by": "Rate Saver page needed",  "est_sov_impact": "medium",     "next_action": "Queue after Rate Saver page" },
+    { "publisher": "G2 / Capterra", "section": "Software reviews",   "status": "partial",      "priority": "P3", "blocked_by": "none",                    "est_sov_impact": "medium",     "next_action": "Full profile audit" }
+  ],
+
+  "leadership_decisions": [
+    {
+      "decision": "Approve Rate Saver page brief for BUILD (Legal + PM sign-off on claim language)",
+      "owner": "Legal + Product Marketing",
+      "deadline": "2026-07-08",
+      "status": "awaiting",
+      "consequence": "Rate Saver stays at 0% AI presence. Only unmatched market claim remains invisible."
+    },
+    {
+      "decision": "Authorize Commerce Engineering to refactor fee table to plain HTML",
+      "owner": "Tom / Sudhir / Adam L + Amrita / Rebekah",
+      "deadline": "2026-07-15",
+      "status": "awaiting",
+      "consequence": "Existing page investment delivers zero GEO return. No new content required — engineering fix only."
+    },
+    {
+      "decision": "Approve NerdWallet outreach brief for sending",
+      "owner": "PR + Partnerships + SEO",
+      "deadline": "2026-07-15",
+      "status": "awaiting",
+      "consequence": "Citation gap persists. Unaided SOV cannot structurally move without third-party coverage."
+    }
+  ],
+
+  "binding_constraint": "Unaided SOV = 0% across all 8 models. Root cause: citation gap — universal. Single highest-leverage unlock: NerdWallet + Forbes inclusion.",
+
+  "session_notes": "W26 baseline confirmed. W27 second run same day — no delta. Three leadership decisions blocking all forward movement."
+}

@@ -47,44 +47,48 @@ CATEGORY_TARGETS = {
     "comparison":         { "type": "B", "phase1": "25%", "target": "70%" },
 }
 
-# ── Verified competitor rates (update when rates change) ────────────
-# Square: raised from $0.10 to $0.15 on Feb 25, 2025 — confirmed squareup.com
+# ── Baseline placeholder — fill_session.py overwrites this with live data ──
+# These values are NOT verified current rates. They exist only to keep
+# session.json valid during the ~60 seconds between skeleton push and
+# fill_session.py completing. Do not use these for content or outreach.
+# When fill_session.py runs, it scrapes live rates and completely replaces
+# this array via merge_session().
 COMPETITIVE_INTEL_VERIFIED = [
     {
         "competitor": "Square",
-        "event": "Rate confirmed — $0.15 fixed fee (raised Feb 25, 2025)",
-        "detail": "2.6% + $0.15 in-person (Free). 2.5% + $0.15 (Plus). 2.4% + $0.15 (Premium). Online: 3.3% + $0.30.",
-        "win_angle_impact": "GoDaddy $0 fixed fee saves ~$22.50/mo per $15K volume vs Square. ~$810/yr savings.",
-        "source": "squareup.com/us/en/payments/our-fees",
+        "event": "Placeholder — fill_session.py will overwrite with live rate",
+        "detail": "Last known: 2.6% + $0.15 in-person (raised Feb 25 2025)",
+        "win_angle_impact": "Placeholder — see fill_session.py output",
+        "source": "fill_session.py live scrape",
         "changed": False,
-        "verified_date": "2026-06-25"
+        "verified_date": "see fill_session.py"
     },
     {
         "competitor": "Clover",
-        "event": "No rate change detected",
-        "detail": "2.3–2.6% + $0.10 in-person (direct/Fiserv). Monthly software: $29.95–$129.85. Reseller rates vary.",
-        "win_angle_impact": "GoDaddy: no monthly software fee + no contract vs Clover $29.95–$129.85/mo + lock-in.",
-        "source": "nerdwallet.com/business/software/reviews/clover-pos",
+        "event": "Placeholder — fill_session.py will overwrite with live rate",
+        "detail": "Last known: 2.3-2.6% + $0.10 in-person + $29.95-$129.85/mo software",
+        "win_angle_impact": "Placeholder — see fill_session.py output",
+        "source": "fill_session.py live scrape",
         "changed": False,
-        "verified_date": "2026-06-25"
+        "verified_date": "see fill_session.py"
     },
     {
         "competitor": "Helcim",
-        "event": "No rate change detected",
-        "detail": "Interchange-plus ~1.93% + $0.08 avg. NerdWallet label: 'Best for volume discounts'.",
-        "win_angle_impact": "Rate Saver (0% credit) beats Helcim. GoDaddy 24/7 support vs Helcim weekdays only.",
-        "source": "helcim.com/pricing",
+        "event": "Placeholder — fill_session.py will overwrite with live rate",
+        "detail": "Last known: ~1.79% + 8¢ average interchange-plus",
+        "win_angle_impact": "Placeholder — see fill_session.py output",
+        "source": "fill_session.py live scrape",
         "changed": False,
-        "verified_date": "2026-06-25"
+        "verified_date": "see fill_session.py"
     },
     {
         "competitor": "Stripe",
-        "event": "No rate change detected",
-        "detail": "2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support.",
-        "win_angle_impact": "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person 2.3% vs 2.7%.",
-        "source": "stripe.com/pricing",
+        "event": "Placeholder — fill_session.py will overwrite with live rate",
+        "detail": "Last known: 2.7% + $0.05 in-person. No phone support.",
+        "win_angle_impact": "Placeholder — see fill_session.py output",
+        "source": "fill_session.py live scrape",
         "changed": False,
-        "verified_date": "2026-06-25"
+        "verified_date": "see fill_session.py"
     },
 ]
 

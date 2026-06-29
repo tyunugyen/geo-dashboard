@@ -14,8 +14,8 @@ MODEL        = "claude-haiku-4-5-20251001"  # Using Haiku (Sonnet returns 500 er
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls
-# Use env var if set (for GitHub Actions), otherwise fall back to default
-PROXY_URL    = os.environ.get("CAAS_BASE_URL", "https://caas.open-webui.godaddy.com/api/v1")
+# Use internal URL (works on VPN) - self-hosted runner has VPN access
+PROXY_URL    = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. Answer the user's question directly and concisely."

@@ -617,6 +617,62 @@ def get_live_data(session, publisher_map=None):
     return results
 
 
+def parse_competitor_rate(competitor, rate_data):
+    """
+    Convert raw scraped rate patterns into clean verified string
+    for injection into the CaaS prompt.
+    Falls back to None if fetch completely failed.
+
+    Args:
+        competitor: Competitor name ("Square", "Stripe", "Helcim", "Clover", etc.)
+        rate_data: Dict with {"raw_patterns": [...], "verified_date": "...", "fetch_status": "..."}
+
+    Returns:
+        Formatted string like "2.6% + $0.15 in-person Free plan (live 2026-06-29)"
+        or None if fetch failed
+    """
+    patterns = rate_data.get("raw_patterns", [])
+    status   = rate_data.get("fetch_status", "failed")
+    verified_date = rate_data.get("verified_date", "")
+
+    if status == "failed" or not patterns:
+        # Fetch failed — return None so CaaS knows it's unverified
+        return None
+
+    if competitor == "Helcim":
+        # Find the Helcim-specific effective average rate (1.5%-2.0% range with 8¢)
+        # NOT the interchange-plus margin (0.40%)
+        helcim_rates = [p for p in patterns if "1." in p and ("8¢" in p or "0.08" in p or "$0.08" in p)]
+        if helcim_rates:
+            return f"{helcim_rates[0]} interchange-plus average (live {verified_date})"
+        # Fall back to first pattern found
+        return f"{patterns[0]} interchange-plus (live {verified_date})"
+
+    if competitor == "Square":
+        # Square page lists multiple tiers — find the Free plan rate (2.6% range)
+        free_rate = [p for p in patterns if "2.6" in p and ("15" in p or "$0.15" in p or "0.15" in p)]
+        if free_rate:
+            return f"{free_rate[0]} in-person Free plan (live {verified_date})"
+        return f"{patterns[0]} in-person (live {verified_date})"
+
+    if competitor == "Stripe":
+        # Stripe pricing page leads with online rate — find in-person ($0.05 fixed fee)
+        inperson = [p for p in patterns if "5¢" in p or "$0.05" in p or "0.05" in p]
+        if inperson:
+            return f"{inperson[0]} in-person (live {verified_date})"
+        return f"{patterns[0]} (live {verified_date})"
+
+    if competitor == "Clover":
+        # Find in-person rate with $0.10 fixed fee
+        inperson = [p for p in patterns if "10¢" in p or "$0.10" in p or "0.10" in p]
+        if inperson:
+            return f"{inperson[0]} in-person + software fee $29.95–$129.85/mo (live {verified_date})"
+        return f"{patterns[0]} in-person (live {verified_date})"
+
+    # Generic fallback for other competitors
+    return f"{patterns[0]} (live {verified_date})"
+
+
 def format_live_data_for_prompt(live_results):
     """
     Format the live crawl results into a clear string for the CaaS prompt.

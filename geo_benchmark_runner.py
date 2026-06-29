@@ -14,7 +14,8 @@ MODEL        = "claude-sonnet-4-6"  # Latest Claude Sonnet available in proxy
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls
-PROXY_URL    = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
+# Use env var if set (for GitHub Actions), otherwise fall back to default
+PROXY_URL    = os.environ.get("CAAS_BASE_URL", "https://caas.open-webui.godaddy.com/api/v1")
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant. Answer the user's question directly and concisely."

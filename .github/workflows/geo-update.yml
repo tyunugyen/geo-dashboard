@@ -1,0 +1,29 @@
+name: GEO Dashboard Update
+
+on:
+  repository_dispatch:
+    types: [geo-session-update]
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GEO_PUSH_TOKEN }}
+
+      - name: Write geo-data.json
+        run: |
+          cat << 'EOF' > data/geo-data.json
+          ${{ toJson(github.event.client_payload) }}
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "geo-dashboard-bot"
+          git config user.email "geo-bot@godaddy.com"
+          git add data/geo-data.json
+          git diff --staged --quiet || git commit -m "GEO session update: ${{ github.event.client_payload.run_id }}"
+          git push

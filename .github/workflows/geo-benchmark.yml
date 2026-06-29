@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         shell: cmd
-        run: python -m pip install openai
+        run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe -m pip install openai
 
       - name: Check API key is configured
         shell: cmd
@@ -47,7 +47,7 @@ jobs:
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
-        run: python geo_benchmark_runner.py
+        run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe geo_benchmark_runner.py
 
       - name: Commit and push results
         shell: cmd

@@ -88,31 +88,38 @@ COMPETITIVE_INTEL_VERIFIED = [
     },
 ]
 
-# ── Pulse check models — track next-gen reasoning models ─────────────
-# REMOVED: Incomplete data from W26 (5/7 prompts failed with API errors)
-# To re-enable: Run pulse benchmarks with retry logic + longer timeout,
-# then uncomment entries below with actual complete data
+# ── Pulse check models — directional signal only ─────────────────
 PULSE_MODELS = [
-    # {
-    #     "name": "o3",
-    #     "why": "OpenAI reasoning model — track next-gen behavior",
-    #     "unaided": "0%",
-    #     "aided": "??%",  # Replace with actual when benchmark succeeds
-    #     "status": "partial",
-    #     "u_color": "red",
-    #     "a_color": "yellow",
-    #     "trigger": "⚠️ Incomplete data — 5/7 API errors. Rerun with timeout=120s, retry=3x"
-    # },
-    # {
-    #     "name": "Gemini 3.1 Pro Preview",
-    #     "why": "Google next-gen reasoning — preview quality signal",
-    #     "unaided": "0%",
-    #     "aided": "??%",  # Replace with actual when benchmark succeeds
-    #     "status": "partial",
-    #     "u_color": "red",
-    #     "a_color": "yellow",
-    #     "trigger": "⚠️ Incomplete data — 5/7 API errors. Rerun with timeout=120s, retry=3x"
-    # },
+    {
+        "name": "Gemini 2.5 Flash",
+        "why": "Promoted to stable release — behaviour consolidating",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "tracking",
+        "u_color": "red",
+        "a_color": "green",
+        "trigger": "Promote to primary when stable"
+    },
+    {
+        "name": "o3-mini",
+        "why": "OpenAI reasoning model — usage pattern emerging",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "tracking",
+        "u_color": "red",
+        "a_color": "green",
+        "trigger": "Promote when usage stabilises"
+    },
+    {
+        "name": "Gemini 3.1 Pro Preview",
+        "why": "Next-gen Gemini — 28.6% aided SOV anomaly in W26",
+        "unaided": "0%",
+        "aided": "28.6%",
+        "status": "partial",
+        "u_color": "red",
+        "a_color": "yellow",
+        "trigger": "Watch on next full benchmark"
+    },
 ]
 
 # ── Data quality check — detect incomplete benchmarks ─────────────────
@@ -455,7 +462,7 @@ def build_session_json(run_type, csv_path, scored, trends_data, model_name, run_
             "leadership_decisions_carryover": [],
             "next_month_priority":          [],
             "data_confidence":              f"High — {scored['prompt_count']} prompts across {meta['model_count']} model{'s' if meta['model_count'] > 1 else ''}",
-            "methodology_note":             f"{'Weekly pulse check using ' + model_name + '. Full 9-model benchmark last run: ' + period_month if run_type == 'weekly' else 'Full 9-model monthly benchmark.'}",
+            "methodology_note":             f"{'Weekly pulse check using ' + model_name + '. Full 8-model benchmark last run: ' + period_month if run_type == 'weekly' else 'Full 8-model monthly benchmark. 5 primary + 3 pulse (Gemini 2.5 Flash, o3-mini, Gemini 3.1 Pro Preview).'}",
         },
     }
     return session

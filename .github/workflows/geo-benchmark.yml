@@ -13,7 +13,7 @@ on:
 jobs:
   benchmark:
     name: Run GEO Benchmark
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     permissions:
       contents: write
@@ -28,40 +28,43 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
+        shell: powershell
         run: pip install openai
 
       - name: Check API key is configured
+        shell: powershell
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
-          if [ -z "$CAAS_API_KEY" ]; then
-            echo "ERROR: CAAS_API_KEY secret is not set."
-            echo "Go to: github.com/tyunugyen/geo-dashboard → Settings → Secrets and variables → Actions → New repository secret"
-            echo "Name: CAAS_API_KEY"
-            echo "Value: your GoCaaS API key from caas.open-webui.godaddy.com"
+          if (-not $env:CAAS_API_KEY) {
+            Write-Host "ERROR: CAAS_API_KEY secret is not set."
+            Write-Host "Go to: github.com/tyunugyen/geo-dashboard → Settings → Secrets and variables → Actions → New repository secret"
+            Write-Host "Name: CAAS_API_KEY"
+            Write-Host "Value: your GoCaaS API key from caas.open-webui.godaddy.com"
             exit 1
-          fi
-          echo "API key is configured (length: ${#CAAS_API_KEY})"
-          echo "Base URL configured: ${CAAS_BASE_URL:-'<not set, will use fallback>'}"
-          echo ""
-          echo "Testing network connectivity to base URL..."
-          if [ -n "$CAAS_BASE_URL" ]; then
-            curl -v --connect-timeout 10 "$CAAS_BASE_URL" 2>&1 | head -20 || echo "Connection failed"
-          else
-            curl -v --connect-timeout 10 "https://caas.open-webui.godaddy.com/api/v1" 2>&1 | head -20 || echo "Connection failed"
-          fi
+          }
+          Write-Host "API key is configured (length: $($env:CAAS_API_KEY.Length))"
+          $url = if ($env:CAAS_BASE_URL) { $env:CAAS_BASE_URL } else { "<not set, will use fallback>" }
+          Write-Host "Base URL configured: $url"
 
       - name: Run GEO benchmark
+        shell: powershell
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: python geo_benchmark_runner.py
 
       - name: Commit and push results
+        shell: powershell
         run: |
-          git config user.name  "GEO Benchmark Bot"
+          git config user.name "GEO Benchmark Bot"
           git config user.email "geo-benchmark@godaddy.com"
           git add public/data.json benchmarks/
-          git diff --staged --quiet && echo "No changes to commit" || git commit -m "GEO benchmark: $(date -u +%Y-%m-%d)"
-          git push
+          if (git diff --staged --quiet) {
+            Write-Host "No changes to commit"
+          } else {
+            $date = (Get-Date).ToUniversalTime().ToString("yyyy-MM-dd")
+            git commit -m "GEO benchmark: $date"
+            git push
+          }

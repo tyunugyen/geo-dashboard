@@ -10,7 +10,7 @@ import os, sys, csv, json, re, datetime
 from openai import OpenAI
 
 # ── Config ────────────────────────────────────────────────────────
-MODEL        = "claude-sonnet-4-6"  # Latest Claude Sonnet available in proxy
+MODEL        = "claude-haiku-4-5-20251001"  # Using Haiku (Sonnet returns 500 error on GoCaaS)
 MAX_TOKENS   = 600
 TEMPERATURE  = 0.2
 DELAY_SECS   = 0.5   # polite delay between calls

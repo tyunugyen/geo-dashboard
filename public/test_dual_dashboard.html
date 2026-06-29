@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Dual Dashboard Loading</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1a1f2e; color: #e2e8f0; }
+    .test-section { margin: 20px 0; padding: 15px; background: #2d3748; border-radius: 8px; }
+    .success { color: #68d391; }
+    .error { color: #fc8181; }
+    .warn { color: #f6ad55; }
+    pre { background: #1a1f2e; padding: 10px; border-radius: 4px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Dual Dashboard Loading Test</h1>
+
+  <div class="test-section">
+    <h2>Test 1: Load data_monthly.json</h2>
+    <div id="monthly-result">Loading...</div>
+    <pre id="monthly-data"></pre>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 2: Load data_weekly.json</h2>
+    <div id="weekly-result">Loading...</div>
+    <pre id="weekly-data"></pre>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 3: Load data/session.json (fallback)</h2>
+    <div id="session-result">Loading...</div>
+    <pre id="session-data"></pre>
+  </div>
+
+  <div class="test-section">
+    <h2>Test 4: Dual Loading Logic</h2>
+    <div id="dual-result">Testing...</div>
+  </div>
+
+  <script>
+    // Test 1: Monthly
+    fetch('data_monthly.json?v=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
+      .then(data => {
+        document.getElementById('monthly-result').innerHTML = '<span class="success">✓ PASS</span> - Loaded successfully';
+        document.getElementById('monthly-data').textContent =
+          'Run ID: ' + data.meta.run_id + '\n' +
+          'Models: ' + data.meta.models + '\n' +
+          'Unaided SOV: ' + (data.kpis.unaided_sov ? data.kpis.unaided_sov.value : 'N/A');
+      })
+      .catch(err => {
+        document.getElementById('monthly-result').innerHTML = '<span class="error">✗ FAIL</span> - ' + err;
+      });
+
+    // Test 2: Weekly
+    fetch('data_weekly.json?v=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
+      .then(data => {
+        document.getElementById('weekly-result').innerHTML = '<span class="success">✓ PASS</span> - Loaded successfully';
+        document.getElementById('weekly-data').textContent =
+          'Run ID: ' + data.meta.run_id + '\n' +
+          'Models: ' + data.meta.models + '\n' +
+          'Unaided SOV: ' + (data.kpis.unaided_sov ? data.kpis.unaided_sov.value : 'N/A');
+      })
+      .catch(err => {
+        document.getElementById('weekly-result').innerHTML = '<span class="error">✗ FAIL</span> - ' + err;
+      });
+
+    // Test 3: Session (fallback)
+    fetch('data/session.json?v=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject('HTTP ' + r.status))
+      .then(data => {
+        document.getElementById('session-result').innerHTML = '<span class="success">✓ PASS</span> - Loaded successfully';
+        document.getElementById('session-data').textContent =
+          'Run ID: ' + data.meta.run_id + '\n' +
+          'Run Type: ' + data.meta.run_type + '\n' +
+          'Model: ' + data.meta.model_name;
+      })
+      .catch(err => {
+        document.getElementById('session-result').innerHTML = '<span class="warn">⚠ WARN</span> - ' + err + ' (optional fallback)';
+      });
+
+    // Test 4: Dual loading
+    Promise.all([
+      fetch('data_monthly.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data_weekly.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/session.json?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null)
+    ]).then(results => {
+      var monthly = results[0];
+      var weekly = results[1];
+      var session = results[2];
+
+      var resultHtml = '';
+      if (monthly && weekly) {
+        resultHtml = '<span class="success">✓ PASS</span> - Dual-tier mode: Monthly + Weekly available<br>';
+        resultHtml += 'Monthly: ' + monthly.meta.run_id + ' (' + monthly.meta.models.split(',').length + ' models)<br>';
+        resultHtml += 'Weekly: ' + weekly.meta.run_id + ' (' + weekly.meta.models + ')';
+      } else if (monthly || weekly || session) {
+        resultHtml = '<span class="warn">⚠ PARTIAL</span> - Legacy mode: Using ' +
+          (monthly ? 'monthly' : weekly ? 'weekly' : 'session') + ' only';
+      } else {
+        resultHtml = '<span class="error">✗ FAIL</span> - No data files found';
+      }
+      document.getElementById('dual-result').innerHTML = resultHtml;
+    });
+  </script>
+</body>
+</html>

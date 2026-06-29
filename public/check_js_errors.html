@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Error Check</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1a1f2e; color: #e2e8f0; }
+    .error { color: #fc8181; margin: 10px 0; padding: 10px; background: #742a2a; }
+    .success { color: #68d391; margin: 10px 0; padding: 10px; background: #1a3a2a; }
+  </style>
+</head>
+<body>
+  <h1>JavaScript Error Check</h1>
+  <div id="status">Checking...</div>
+  <div id="errors"></div>
+
+  <script>
+    var statusDiv = document.getElementById('status');
+    var errorsDiv = document.getElementById('errors');
+    var errors = [];
+
+    // Capture console errors
+    window.onerror = function(msg, url, line, col, error) {
+      errors.push('Line ' + line + ': ' + msg);
+      errorsDiv.innerHTML += '<div class="error">ERROR at line ' + line + ': ' + msg + '</div>';
+      return false;
+    };
+
+    // Try to load and parse the main page
+    fetch('index.html')
+      .then(r => r.text())
+      .then(html => {
+        statusDiv.innerHTML = '<div class="success">HTML loaded (' + html.length + ' bytes)</div>';
+
+        // Extract and try to execute the first script block
+        var scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+        if (scriptMatch) {
+          statusDiv.innerHTML += '<div class="success">Found script block (' + scriptMatch[1].length + ' bytes)</div>';
+
+          try {
+            // Try to parse the script (won't execute, just check syntax)
+            new Function(scriptMatch[1]);
+            statusDiv.innerHTML += '<div class="success">✓ Script syntax is valid</div>';
+          } catch (e) {
+            statusDiv.innerHTML += '<div class="error">✗ Script syntax error: ' + e.message + '</div>';
+            statusDiv.innerHTML += '<div class="error">Error at: ' + e.stack + '</div>';
+          }
+        } else {
+          statusDiv.innerHTML += '<div class="error">No script block found</div>';
+        }
+
+        if (errors.length === 0) {
+          statusDiv.innerHTML += '<div class="success">✓ No errors detected</div>';
+          statusDiv.innerHTML += '<div>Try opening the actual dashboard and check browser console (F12)</div>';
+        }
+      })
+      .catch(e => {
+        statusDiv.innerHTML = '<div class="error">Failed to load: ' + e + '</div>';
+      });
+  </script>
+</body>
+</html>

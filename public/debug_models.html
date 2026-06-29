@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Model Display</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1a1f2e; color: #e2e8f0; }
+    .model { margin: 10px 0; padding: 10px; background: #2d3748; border-radius: 4px; }
+    .primary { border-left: 4px solid #68d391; }
+    .pulse { border-left: 4px solid #f6ad55; }
+  </style>
+</head>
+<body>
+  <h1>Model Display Debug</h1>
+  <div id="output"></div>
+
+  <script>
+    var output = document.getElementById('output');
+
+    fetch('data_monthly.json?v=' + Date.now())
+      .then(r => r.json())
+      .then(d => {
+        output.innerHTML = '<h2>Raw model_sov keys:</h2>';
+        output.innerHTML += '<pre>' + JSON.stringify(Object.keys(d.model_sov || {}), null, 2) + '</pre>';
+
+        // Now run the same logic as index.html
+        var PRIMARY_MODEL_KEYS = [
+          'claude_sonnet_4_6',
+          'claude_haiku_4_5_20251001',
+          'claude_opus_4_8',
+          'gpt_4o',
+          'gemini_2_5_pro'
+        ];
+
+        var PULSE_MODEL_KEYS = [
+          'gemini_2_5_flash',
+          'o3_mini',
+          'gemini_3_1_pro_preview'
+        ];
+
+        var MODEL_META = {
+          'claude_sonnet_4_6': { name: 'Claude Sonnet 4.6', why: 'Core benchmark model' },
+          'claude_haiku_4_5_20251001': { name: 'Claude Haiku 4.5', why: 'Weekly pulse' },
+          'claude_opus_4_8': { name: 'Claude Opus 4.8', why: 'High-capability' },
+          'gpt_4o': { name: 'GPT-4o', why: 'Dominant consumer AI' },
+          'gemini_2_5_pro': { name: 'Gemini 2.5 Pro', why: 'Google primary' },
+          'gemini_2_5_flash': { name: 'Gemini 2.5 Flash', why: 'Stable release' },
+          'o3_mini': { name: 'o3-mini', why: 'Reasoning model' },
+          'gemini_3_1_pro_preview': { name: 'Gemini 3.1 Pro Preview', why: 'Preview' }
+        };
+
+        var EXCLUDED_KEYS = ['o3'];
+
+        var primaryModels = {};
+        var pulseModels = {};
+
+        // Initialize all 8 models with defaults
+        PRIMARY_MODEL_KEYS.forEach(function(key) {
+          var meta = MODEL_META[key];
+          primaryModels[key] = {
+            name: meta.name,
+            why: meta.why,
+            unaided: '—',
+            aided: '—',
+            status: 'tracking'
+          };
+        });
+
+        PULSE_MODEL_KEYS.forEach(function(key) {
+          var meta = MODEL_META[key];
+          pulseModels[key] = {
+            name: meta.name,
+            why: meta.why,
+            unaided: '—',
+            aided: '—',
+            status: 'tracking'
+          };
+        });
+
+        // Overlay actual data
+        for (var key in d.model_sov) {
+          if (EXCLUDED_KEYS.indexOf(key) >= 0) continue;
+
+          var model = d.model_sov[key];
+          var meta = MODEL_META[key];
+          if (!meta) continue;
+
+          var merged = {
+            name: model.name || meta.name,
+            why: meta.why,
+            unaided: model.unaided || '—',
+            aided: model.aided || '—',
+            status: model.status || 'tracking'
+          };
+
+          if (PULSE_MODEL_KEYS.indexOf(key) >= 0) {
+            if (merged.status === 'success') merged.status = 'tracking';
+            pulseModels[key] = merged;
+          } else if (PRIMARY_MODEL_KEYS.indexOf(key) >= 0) {
+            primaryModels[key] = merged;
+          }
+        }
+
+        output.innerHTML += '<h2>Primary Models (' + Object.keys(primaryModels).length + '):</h2>';
+        for (var key in primaryModels) {
+          var m = primaryModels[key];
+          output.innerHTML += '<div class="model primary"><strong>' + m.name + '</strong><br>' +
+            'Why: ' + m.why + '<br>' +
+            'Unaided: ' + m.unaided + ' | Aided: ' + m.aided + ' | Status: ' + m.status +
+            '</div>';
+        }
+
+        output.innerHTML += '<h2>Pulse Models (' + Object.keys(pulseModels).length + '):</h2>';
+        for (var key in pulseModels) {
+          var m = pulseModels[key];
+          output.innerHTML += '<div class="model pulse"><strong>' + m.name + '</strong><br>' +
+            'Why: ' + m.why + '<br>' +
+            'Unaided: ' + m.unaided + ' | Aided: ' + m.aided + ' | Status: ' + m.status +
+            '</div>';
+        }
+
+        output.innerHTML += '<h2>Total: ' + (Object.keys(primaryModels).length + Object.keys(pulseModels).length) + ' models</h2>';
+      })
+      .catch(e => {
+        output.innerHTML = '<div style="color:#fc8181;">ERROR: ' + e + '</div>';
+      });
+  </script>
+</body>
+</html>

@@ -60,7 +60,7 @@ PUBLISHER_URL_MAP = {
 COMPETITOR_RATE_URLS = {
     "Square":     "https://squareup.com/us/en/payments/our-fees",
     "Stripe":     "https://stripe.com/pricing",                          # Returns online rate; in-person: search for "2.7"
-    "Helcim":     "https://www.helcim.com/compare-alternatives/",        # pricing/ is 403 blocked; compare page has rates
+    "Helcim":     "https://www.helcim.com/",                             # Homepage - pricing/ and compare-alternatives/ both 403 blocked
     "Clover":     "https://www.clover.com/pricing/retail",               # Retail pricing page has transaction fees
     "Toast":      "https://pos.toasttab.com/pricing",
     "Shopify":    "https://www.shopify.com/pricing",

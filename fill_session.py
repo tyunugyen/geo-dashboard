@@ -642,7 +642,7 @@ def parse_competitor_rate(competitor, rate_data):
     if competitor == "Helcim":
         # Find the Helcim-specific effective average rate (1.5%-2.0% range with 8¢)
         # NOT the interchange-plus margin (0.40%)
-        helcim_rates = [p for p in patterns if "1." in p and ("8¢" in p or "0.08" in p or "$0.08" in p)]
+        helcim_rates = [p for p in patterns if p.startswith("1.") and ("8¢" in p or "0.08" in p or "$0.08" in p)]
         if helcim_rates:
             return f"{helcim_rates[0]} interchange-plus average (live {verified_date})"
         # Fall back to first pattern found

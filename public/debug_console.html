@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard Debug Console</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1a1f2e; color: #e2e8f0; }
+    .log { margin: 5px 0; padding: 8px; background: #2d3748; border-radius: 4px; }
+    .error { background: #742a2a; border-left: 4px solid #fc8181; }
+    .success { background: #1a3a2a; border-left: 4px solid #68d391; }
+    .info { background: #1e3a5f; border-left: 4px solid #90cdf4; }
+    pre { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Dashboard JavaScript Debug Console</h1>
+  <div id="logs"></div>
+
+  <script>
+    var logDiv = document.getElementById('logs');
+
+    function log(msg, type) {
+      var div = document.createElement('div');
+      div.className = 'log ' + type;
+      div.textContent = new Date().toLocaleTimeString() + ' - ' + msg;
+      logDiv.appendChild(div);
+    }
+
+    log('Starting data load test...', 'info');
+
+    // Capture console errors
+    window.onerror = function(msg, url, line) {
+      log('ERROR: ' + msg + ' (line ' + line + ')', 'error');
+    };
+
+    // Test data loading
+    Promise.all([
+      fetch('data_monthly.json?v=' + Date.now())
+        .then(r => { log('Monthly: HTTP ' + r.status, r.ok ? 'success' : 'error'); return r.ok ? r.json() : null; })
+        .catch(e => { log('Monthly: FETCH ERROR - ' + e, 'error'); return null; }),
+      fetch('data_weekly.json?v=' + Date.now())
+        .then(r => { log('Weekly: HTTP ' + r.status, r.ok ? 'success' : 'error'); return r.ok ? r.json() : null; })
+        .catch(e => { log('Weekly: FETCH ERROR - ' + e, 'error'); return null; }),
+      fetch('data/session.json?v=' + Date.now())
+        .then(r => { log('Session: HTTP ' + r.status, r.ok ? 'success' : 'error'); return r.ok ? r.json() : null; })
+        .catch(e => { log('Session: FETCH ERROR - ' + e, 'error'); return null; })
+    ]).then(function(results) {
+      var monthly = results[0];
+      var weekly = results[1];
+      var session = results[2];
+
+      log('Monthly loaded: ' + (monthly ? 'YES' : 'NO'), monthly ? 'success' : 'error');
+      log('Weekly loaded: ' + (weekly ? 'YES' : 'NO'), weekly ? 'success' : 'error');
+      log('Session loaded: ' + (session ? 'YES' : 'NO'), session ? 'success' : 'error');
+
+      var d = monthly || session || weekly;
+
+      if (!d) {
+        log('CRITICAL: No data available!', 'error');
+        return;
+      }
+
+      log('Using data source: ' + (monthly ? 'monthly' : session ? 'session' : 'weekly'), 'success');
+
+      // Check what's in the data
+      if (d.meta) {
+        log('Data meta: ' + JSON.stringify(d.meta), 'info');
+      } else {
+        log('WARNING: No meta in data', 'error');
+      }
+
+      if (d.kpis) {
+        log('Data kpis: ' + JSON.stringify(d.kpis), 'info');
+      } else {
+        log('WARNING: No kpis in data', 'error');
+      }
+
+      if (d.categories) {
+        log('Categories: ' + d.categories.length + ' items', 'success');
+      } else {
+        log('WARNING: No categories in data', 'error');
+      }
+
+      if (d.competitors) {
+        log('Competitors: ' + d.competitors.length + ' items', 'success');
+      } else {
+        log('WARNING: No competitors in data', 'error');
+      }
+
+      if (d.model_sov) {
+        log('Model SOV: primary=' + (d.model_sov.primary ? Object.keys(d.model_sov.primary).length : 0) +
+            ', pulse=' + (d.model_sov.pulse ? Object.keys(d.model_sov.pulse).length : 0), 'success');
+      } else {
+        log('WARNING: No model_sov in data', 'error');
+      }
+
+      // Test if elements exist
+      var testIds = ['pf-unaided', 'pf-aided', 'category-grid', 'competitor-chart',
+                     'primary-model-rows', 'pulse-model-rows', 'weekly-summary'];
+      testIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        log('Element #' + id + ': ' + (el ? 'EXISTS' : 'NOT FOUND'), el ? 'success' : 'error');
+      });
+
+      log('=== DIAGNOSIS COMPLETE ===', 'info');
+    }).catch(function(e) {
+      log('FATAL ERROR: ' + e, 'error');
+    });
+  </script>
+</body>
+</html>

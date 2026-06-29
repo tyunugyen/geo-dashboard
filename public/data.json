@@ -2,10 +2,10 @@
   "meta": {
     "label": "Monthly",
     "period": "June 2026",
-    "run_id": "2026-06-W26",
-    "sources": "Claude Opus 4.8 (GoCode proxy)",
+    "run_id": "2026-06-W27",
+    "sources": "Claude Haiku 4.5 (GoCode proxy)",
     "prompt_bank_version": "2.8",
-    "models": "Claude Opus 4.8"
+    "models": "Claude Haiku 4.5"
   },
   "kpis": {
     "unaided_sov": {

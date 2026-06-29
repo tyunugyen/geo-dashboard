@@ -118,21 +118,28 @@ def parse_json(text):
     raise ValueError(f"No JSON found. Response starts: {text[:200]}")
 
 # ── URL Fetcher ──────────────────────────────────────────────────────
-def fetch_url(url):
+def fetch_url(url, timeout=15):
     """
     Fetch URL with minimal dependencies. Returns HTML text or None on failure.
     Uses urllib (standard library) to avoid external dependencies.
+    Handles BLOCKED: prefix for known bot-protected sites.
     """
+    # Known bot-blocked publishers — skip fetch, mark as blocked
+    if url.startswith("BLOCKED:"):
+        real_url = url[8:]
+        print(f"  [KNOWN-BLOCKED] {real_url} — bot protection, cannot scrape")
+        return None
+
     try:
         import urllib.request
         import urllib.error
 
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (compatible; GEO-dashboard/1.0; +https://godaddy.com)'
         }
         req = urllib.request.Request(url, headers=headers)
 
-        with urllib.request.urlopen(req, timeout=10) as response:
+        with urllib.request.urlopen(req, timeout=timeout) as response:
             html = response.read().decode('utf-8', errors='ignore')
             return html
     except Exception as e:

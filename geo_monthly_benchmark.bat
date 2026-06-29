@@ -62,12 +62,18 @@ if errorlevel 1 (
     )
 )
 
-echo Generating session.json (new dynamic dashboard)...
+echo Generating session.json skeleton...
 python generate_session_json.py --monthly
 if errorlevel 1 (
     echo ERROR: session.json generation failed.
     pause
     exit /b 1
+)
+
+echo Filling session.json with live intelligence...
+python fill_session.py
+if errorlevel 1 (
+    echo WARNING: fill_session.py failed. Continuing with skeleton only...
 )
 
 echo Committing and pushing to GitHub...

@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         shell: cmd
-        run: pip install openai
+        run: python -m pip install openai
 
       - name: Check API key is configured
         shell: cmd

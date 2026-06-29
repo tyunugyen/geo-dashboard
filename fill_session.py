@@ -778,6 +778,7 @@ def build_prompt_call1(session, live_results):
         "FIXED KNOWN RATES (always accurate):\n"
         "- GoDaddy POS Plus: 2.3% + $0 in-person\n"
         "- Rate Saver: 0% credit, 1.9% + $0 debit. NOT in CT, MA, PR or ecommerce\n\n"
+        + build_competitor_rates_block(live_results) + "\n\n"
         "Use the LIVE DATA above to populate competitive_intel and perplexity_simulation "
         "with real current citations. Where fetch failed, use best available knowledge "
         "but note it as estimated.\n\n"

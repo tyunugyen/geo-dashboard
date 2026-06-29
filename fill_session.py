@@ -844,7 +844,7 @@ def build_prompt_call1(session, live_results):
     )
 
 # ── CALL 2: Build pages ──────────────────────────────────────────────
-def build_prompt_call2(session, strategy_actions):
+def build_prompt_call2(session, strategy_actions, live_results):
     run_type = session["meta"].get("run_type", "weekly")
     p0 = strategy_actions.get("p0", [])
     p1 = strategy_actions.get("p1", [])
@@ -865,11 +865,7 @@ def build_prompt_call2(session, strategy_actions):
         "Return ONLY a valid JSON object. No markdown, no explanation.\n\n"
         "Build full page drafts for these actions:\n"
         + actions_text + "\n\n"
-        "VERIFIED RATES:\n"
-        "- GoDaddy POS Plus in-person: 2.3% + $0\n"
-        "- Square in-person: 2.6% + $0.15 (raised Feb 25 2025)\n"
-        "- Clover in-person: 2.3-2.6% + $0.10 direct + $29.95-$129.85/mo software\n"
-        "- Rate Saver: 0% credit, 1.9% + $0 debit. NOT in CT, MA, PR or ecommerce\n\n"
+        + build_competitor_rates_block(live_results) + "\n\n"
         "Return:\n"
         "{\n"
         '  "build_pages": [\n'
@@ -1049,7 +1045,7 @@ def main():
 
     # ── CALL 2: Build pages ───────────────────────────────────────────
     strategy = call1_data.get("strategy_actions", {"p0": [], "p1": []})
-    prompt2  = build_prompt_call2(skeleton, strategy)
+    prompt2  = build_prompt_call2(skeleton, strategy, live_results)
 
     call2_data = None
     if prompt2:

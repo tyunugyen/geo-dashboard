@@ -16,7 +16,7 @@ from openai import OpenAI
 
 # Import URL maps (fallback only - prefer publisher_map.json)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config.publisher_urls import COMPETITOR_RATE_URLS, KNOWN_RATES
+from config.publisher_urls import COMPETITOR_RATE_URLS
 
 # ── Config ──────────────────────────────────────────────────────────
 PROXY_URL  = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
@@ -743,8 +743,6 @@ def format_live_data_for_prompt(live_results):
     for comp, data in live_results.get("competitor_rates", {}).items():
         if data.get("fetch_status") == "success":
             lines.append(f"  {comp}: raw patterns = {data.get('raw_patterns', [])[:3]} | source: {data['source']}")
-        elif data.get("fetch_status") == "fallback":
-            lines.append(f"  {comp}: USING FALLBACK — {data.get('raw_patterns', [])[0]} | {data.get('note', '')}")
         else:
             lines.append(f"  {comp}: FETCH FAILED — use last known rate")
 
@@ -761,8 +759,6 @@ def build_prompt_call1(session, live_results):
     aided      = session["sov_dashboard"]["aided_sov"]["value"]
     last_bench = session["meta"].get("last_full_benchmark", "June 2026")
 
-    live_data_str = format_live_data_for_prompt(live_results)
-
     return (
         "You are the GEO Intelligence Agent for GoDaddy Payments.\n"
         "Return ONLY a valid JSON object. No markdown, no explanation.\n\n"
@@ -772,7 +768,6 @@ def build_prompt_call1(session, live_results):
         "- Unaided SOV: " + unaided + " (north-star metric — GoDaddy mentioned cold)\n"
         "- Aided SOV: " + aided + "\n"
         "- Last full benchmark: " + last_bench + "\n\n"
-        + live_data_str + "\n\n"
         "FIXED KNOWN RATES (always accurate):\n"
         "- GoDaddy POS Plus: 2.3% + $0 in-person\n"
         "- Rate Saver: 0% credit, 1.9% + $0 debit. NOT in CT, MA, PR or ecommerce\n\n"

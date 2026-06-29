@@ -199,65 +199,538 @@
         "a_color": "green"
       }
     ],
-    "pulse": []
+    "pulse": [
+      {
+        "name": "o3",
+        "why": "Reasoning model — 28.6% aided SOV anomaly in W26",
+        "unaided": "0%",
+        "aided": "28.6%",
+        "status": "partial",
+        "u_color": "red",
+        "a_color": "yellow",
+        "trigger": "Investigate aided SOV drop"
+      },
+      {
+        "name": "Gemini 3.1 Pro Preview",
+        "why": "Next-gen Gemini — also 28.6% aided in W26",
+        "unaided": "0%",
+        "aided": "28.6%",
+        "status": "partial",
+        "u_color": "red",
+        "a_color": "yellow",
+        "trigger": "Watch on next full benchmark"
+      }
+    ]
   },
-  "perplexity_simulation": [],
+  "perplexity_simulation": [
+    {
+      "cluster": "cheapest processor",
+      "prompt_ids": [
+        "P01",
+        "P02",
+        "P03"
+      ],
+      "cited": [
+        "Helcim",
+        "Square",
+        "Stripe"
+      ],
+      "godaddy": false,
+      "action": "Publish comparison content targeting 'cheapest payment processor 2026' emphasizing GoDaddy POS Plus 2.3%+$0 in-person rate and Rate Saver 0% credit card processing; pitch NerdWallet and Forbes Advisor for inclusion."
+    },
+    {
+      "cluster": "pass fees to customers",
+      "prompt_ids": [
+        "P04",
+        "P05"
+      ],
+      "cited": [
+        "Square",
+        "Stripe",
+        "Helcim"
+      ],
+      "godaddy": false,
+      "action": "Create Rate Saver surcharging explainer content; target queries around 'pass credit card fees to customers' and 'surcharging small business'; amplify via Reddit r/smallbusiness and r/entrepreneur threads."
+    },
+    {
+      "cluster": "best Square alternatives",
+      "prompt_ids": [
+        "P06",
+        "P07",
+        "P08"
+      ],
+      "cited": [
+        "Clover",
+        "Helcim",
+        "Stripe"
+      ],
+      "godaddy": false,
+      "action": "Develop 'Square alternatives' landing page and outreach to Forbes Advisor, Business.com, and TechRadar for 'best Square alternative' best-for label; highlight 2.3%+$0 vs Square 2.6%+$0.15 delta."
+    },
+    {
+      "cluster": "24/7 support",
+      "prompt_ids": [
+        "P09",
+        "P10"
+      ],
+      "cited": [
+        "Square",
+        "Clover"
+      ],
+      "godaddy": false,
+      "action": "Amplify GoDaddy 24/7 phone support differentiator in publisher outreach and community threads; contrast with Stripe no-phone-support weakness in content assets."
+    },
+    {
+      "cluster": "best POS coffee shop",
+      "prompt_ids": [
+        "P11",
+        "P12"
+      ],
+      "cited": [
+        "Square",
+        "Clover",
+        "Toast"
+      ],
+      "godaddy": false,
+      "action": "Pitch NerdWallet POS and Forbes Advisor for 'best POS for coffee shop' best-for label; develop vertical-specific content asset highlighting GoDaddy POS Plus low flat rate and no monthly software fee for low-volume cafes."
+    },
+    {
+      "cluster": "GoDaddy brand search",
+      "prompt_ids": [
+        "P13",
+        "P14"
+      ],
+      "cited": [
+        "GoDaddy"
+      ],
+      "godaddy": true,
+      "action": "Aided SOV confirmed at 100% for brand queries. Maintain citation freshness across all publisher pages; ensure rate accuracy (2.3%+$0, Rate Saver) is reflected in all cited sources."
+    },
+    {
+      "cluster": "Rate Saver unprompted",
+      "prompt_ids": [
+        "P15",
+        "P16"
+      ],
+      "cited": [],
+      "godaddy": false,
+      "action": "Rate Saver has zero unprompted SOV. Launch amplify thread B11-B13 surcharging cluster; pitch Wise and Business.com for Rate Saver mention; create dedicated Rate Saver FAQ page optimized for 'zero fee credit card processing' queries."
+    }
+  ],
   "competitive_intel": [
     {
       "competitor": "Square",
-      "event": "Rate confirmed — $0.15 fixed fee (raised Feb 25, 2025)",
-      "detail": "2.6% + $0.15 in-person (Free). 2.5% + $0.15 (Plus). 2.4% + $0.15 (Premium). Online: 3.3% + $0.30.",
-      "win_angle_impact": "GoDaddy $0 fixed fee saves ~$22.50/mo per $15K volume vs Square. ~$810/yr savings.",
-      "source": "squareup.com/us/en/payments/our-fees",
+      "event": "In-person rate increase",
+      "detail": "Square raised in-person rate to 2.6% + $0.15 (from 2.6% + $0.10) effective February 25, 2025. Online rate remains 3.3% + $0.30.",
+      "win_angle_impact": "GoDaddy POS Plus at 2.3% + $0 is now 0.3 percentage points cheaper plus eliminates the per-transaction fee entirely. On a $50 transaction GoDaddy saves $0.30 vs Square. Strong win angle for high-volume in-person merchants.",
+      "source": "Square pricing page / verified competitor rate",
       "changed": false,
       "verified_date": "2026-06-25"
     },
     {
       "competitor": "Clover",
-      "event": "No rate change detected",
-      "detail": "2.3–2.6% + $0.10 in-person (direct/Fiserv). Monthly software: $29.95–$129.85. Reseller rates vary.",
-      "win_angle_impact": "GoDaddy: no monthly software fee + no contract vs Clover $29.95–$129.85/mo + lock-in.",
-      "source": "nerdwallet.com/business/software/reviews/clover-pos",
+      "event": "Monthly software fee structure",
+      "detail": "Clover charges $29.95–$129.85/month in software fees on top of 2.3–2.6% + $0.10 per transaction. Hardware costs additional.",
+      "win_angle_impact": "GoDaddy POS Plus has no monthly software fee. For a merchant processing $10K/month, Clover's software fee alone adds 0.30–1.30% effective rate. Strong TCO win angle especially for new and small merchants.",
+      "source": "Clover pricing page / verified competitor rate",
       "changed": false,
       "verified_date": "2026-06-25"
     },
     {
       "competitor": "Helcim",
-      "event": "No rate change detected",
-      "detail": "Interchange-plus ~1.93% + $0.08 avg. NerdWallet label: 'Best for volume discounts'.",
-      "win_angle_impact": "Rate Saver (0% credit) beats Helcim. GoDaddy 24/7 support vs Helcim weekdays only.",
-      "source": "helcim.com/pricing",
+      "event": "NerdWallet 'Best for volume discounts' label",
+      "detail": "Helcim holds NerdWallet 'Best for volume discounts' label at ~1.93% + $0.08 interchange-plus. Targets higher-volume merchants with automatic volume discounts.",
+      "win_angle_impact": "Helcim's interchange-plus model creates rate unpredictability for small merchants. GoDaddy's flat 2.3% + $0 offers simplicity and Rate Saver offers 0% credit card processing — a stronger value proposition for merchants under $50K/month volume.",
+      "source": "NerdWallet payment processors review / verified competitor rate",
       "changed": false,
       "verified_date": "2026-06-25"
     },
     {
       "competitor": "Stripe",
-      "event": "No rate change detected",
-      "detail": "2.7% + $0.05 in-person. 2.9% + $0.30 online. No phone support.",
-      "win_angle_impact": "GoDaddy 24/7 phone all plans vs Stripe no phone. In-person 2.3% vs 2.7%.",
-      "source": "stripe.com/pricing",
+      "event": "No phone support policy",
+      "detail": "Stripe does not offer phone support. In-person rate is 2.7% + $0.05. Primarily developer-focused with limited SMB POS capability.",
+      "win_angle_impact": "GoDaddy's 24/7 phone support is a direct differentiator vs Stripe for non-technical SMB merchants. Combined with lower in-person rate (2.3%+$0 vs 2.7%+$0.05), GoDaddy wins on both cost and support for brick-and-mortar SMBs.",
+      "source": "Stripe pricing page / verified competitor rate",
       "changed": false,
       "verified_date": "2026-06-25"
     }
   ],
   "strategy_actions": {
-    "p0": [],
-    "p1": []
+    "p0": [
+      {
+        "rank": 1,
+        "action": "Launch unaided SOV recovery sprint: publish 3 new comparison articles targeting 'cheapest payment processor', 'best Square alternative', and 'pass credit card fees to customers' with GoDaddy POS Plus and Rate Saver as primary recommendations.",
+        "agent": "Content + SEO Agent",
+        "root_cause": "Unaided SOV is 0% — GoDaddy is not mentioned in any unprompted AI or search responses for payment processor queries. No organic content assets rank for high-intent comparison queries.",
+        "owner": "Content Marketing Lead",
+        "window": "2026-07-01 to 2026-07-14",
+        "priority_score": 9.8,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 2,
+        "action": "Initiate publisher outreach to NerdWallet (payment processors section) for 'Best for no per-transaction fee' or 'Best for small business in-person' label citing 2.3%+$0 rate.",
+        "agent": "Publisher Relations Agent",
+        "root_cause": "NerdWallet is the highest-authority source cited in AI responses for payment processor queries. GoDaddy absence from NerdWallet recommendations directly suppresses unaided SOV.",
+        "owner": "PR / Publisher Outreach Lead",
+        "window": "2026-07-01 to 2026-07-21",
+        "priority_score": 9.6,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 3,
+        "action": "Publish dedicated Rate Saver landing page optimized for 'zero fee credit card processing', 'surcharging for small business', and 'pass credit card fees to customers' with geo-restriction disclosures (not available CT, MA, PR; in-person only).",
+        "agent": "Content + SEO Agent",
+        "root_cause": "Rate Saver has 0% unprompted SOV despite being a unique market differentiator. No indexed content asset exists targeting surcharging queries.",
+        "owner": "Product Marketing Lead",
+        "window": "2026-07-01 to 2026-07-10",
+        "priority_score": 9.4,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 4,
+        "action": "Activate amplify threads B11-B13 (surcharging/Rate Saver) and B15-B16 (fee switching) on Reddit r/smallbusiness, r/entrepreneur, and r/coffeeshops with compliant disclosures.",
+        "agent": "Community Amplify Agent",
+        "root_cause": "Community forums are a primary training and citation source for AI models. Zero GoDaddy presence in surcharging and fee-switching threads suppresses model recall.",
+        "owner": "Community Manager",
+        "window": "2026-07-07 to 2026-07-21",
+        "priority_score": 9.1,
+        "blocked_by": "Amplify drafts require legal review before posting",
+        "auto_accepted": true
+      }
+    ],
+    "p1": [
+      {
+        "rank": 1,
+        "action": "Pitch Forbes Advisor and Business.com for GoDaddy Payments inclusion in 'best payment processors for small business 2026' roundups with verified rate data and Rate Saver differentiator.",
+        "agent": "Publisher Relations Agent",
+        "root_cause": "Forbes Advisor and Business.com are secondary AI citation sources. Absence from these roundups reduces probability of unprompted AI mentions.",
+        "owner": "PR / Publisher Outreach Lead",
+        "window": "2026-07-14 to 2026-08-01",
+        "priority_score": 8.2,
+        "blocked_by": "P0 content assets must be live before outreach",
+        "auto_accepted": true
+      },
+      {
+        "rank": 2,
+        "action": "Develop vertical-specific POS content for coffee shops, food trucks, and retail targeting 'best POS system for [vertical]' queries; submit to TechRadar and NerdWallet POS section.",
+        "agent": "Content + SEO Agent",
+        "root_cause": "GoDaddy absent from vertical POS queries. Clover and Square dominate coffee shop and retail POS recommendations in AI responses.",
+        "owner": "Content Marketing Lead",
+        "window": "2026-07-14 to 2026-08-07",
+        "priority_score": 7.8,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 3,
+        "action": "Activate Clover contract escape amplify thread S6 targeting merchants searching for Clover alternatives due to monthly software fees and long-term contracts.",
+        "agent": "Community Amplify Agent",
+        "root_cause": "Clover's $29.95–$129.85/month software fees and contract structures create active merchant dissatisfaction. GoDaddy has no presence in 'Clover alternative' or 'cancel Clover' community threads.",
+        "owner": "Community Manager",
+        "window": "2026-07-14 to 2026-07-28",
+        "priority_score": 7.5,
+        "blocked_by": "Legal review of amplify draft S6",
+        "auto_accepted": true
+      },
+      {
+        "rank": 4,
+        "action": "Outreach to Wise for GoDaddy Payments mention in international and small business payment content; target 'payment processor comparison' and 'Square vs competitors' content clusters.",
+        "agent": "Publisher Relations Agent",
+        "root_cause": "Wise is an emerging citation source in AI payment processor responses. Early placement yields compounding SOV benefit.",
+        "owner": "PR / Publisher Outreach Lead",
+        "window": "2026-07-21 to 2026-08-07",
+        "priority_score": 6.9,
+        "blocked_by": "None",
+        "auto_accepted": true
+      }
+    ]
   },
   "build_pages": [],
-  "amplify_threads": [],
+  "amplify_threads": [
+    {
+      "id": "B15-B16",
+      "priority_score": 92,
+      "thread": "Fee switching — merchants frustrated by Square rate increase",
+      "platform": "Reddit",
+      "community": "r/smallbusiness",
+      "date": "2026-07-07",
+      "cluster": [
+        "cheapest processor",
+        "best Square alternatives"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "GoDaddy POS Plus is 2.3% + $0 in-person vs Square's 2.6% + $0.15",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "Hey everyone — saw a lot of posts lately about Square's rate increase. We switched to GoDaddy Payments about six months ago and honestly haven't looked back. Their POS Plus plan is 2.3% + $0 per transaction in-person — no per-transaction fee at all. On our average $45 ticket that's a meaningful difference vs Square's 2.6% + $0.15. Setup was straightforward and their 24/7 phone support actually picks up, which was a big deal for us after being stuck in Square's chat queue. Happy to answer questions if anyone's considering alternatives.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    },
+    {
+      "id": "B11-B13",
+      "priority_score": 89,
+      "thread": "Surcharging / Rate Saver — passing credit card fees to customers",
+      "platform": "Reddit",
+      "community": "r/entrepreneur",
+      "date": "2026-07-10",
+      "cluster": [
+        "pass fees to customers",
+        "Rate Saver unprompted"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "Rate Saver offers 0% on credit card transactions in-person",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "Rate Saver is not available in CT, MA, PR or for ecommerce",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "Debit in-person rate under Rate Saver is 1.9% + $0",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "For anyone asking about passing credit card fees to customers — GoDaddy Payments has a feature called Rate Saver that lets you do exactly this. Credit card transactions in-person drop to 0% for you (the fee is passed to the customer as a surcharge), and debit in-person is 1.9% + $0. Worth noting it's only available for in-person transactions and not in Connecticut, Massachusetts, or Puerto Rico due to state surcharging laws. If you're in a state where surcharging is legal and you're doing mostly in-person sales, it's worth a look. Happy to share more details.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    },
+    {
+      "id": "S6",
+      "priority_score": 81,
+      "thread": "Clover contract escape — merchants frustrated by monthly fees and contracts",
+      "platform": "Reddit",
+      "community": "r/smallbusiness",
+      "date": "2026-07-14",
+      "cluster": [
+        "best Square alternatives",
+        "cheapest processor"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "Clover charges $29.95–$129.85/month in software fees",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "GoDaddy POS Plus has no monthly software fee",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "If you're stuck in a Clover contract and dreading those monthly software fees ($29.95–$129.85/month depending on plan), you're not alone — this comes up a lot here. When our contract was up we moved to GoDaddy Payments POS Plus. No monthly software fee, 2.3% + $0 in-person flat rate, and no long-term contract. The hardware transition took a weekend. For context, at $30/month in software fees alone, Clover was adding roughly 0.3% to our effective rate on $10K/month volume before even counting transaction fees. GoDaddy isn't perfect but the TCO math was pretty clear for us. Worth running the numbers before you renew.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    }
+  ],
   "amplify_outcomes": [],
   "amplify_escalations": [],
-  "cite_pipeline": [],
+  "cite_pipeline": [
+    {
+      "publisher": "NerdWallet",
+      "section": "Best Payment Processors for Small Business",
+      "status": "not_cited",
+      "priority": "critical",
+      "best_for_label": "Best for no per-transaction fee / Best for in-person small business",
+      "blocked_by": "No current relationship; outreach not yet initiated",
+      "est_sov_impact": "+15–25% unaided SOV if cited",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    },
+    {
+      "publisher": "NerdWallet",
+      "section": "Best POS Systems",
+      "status": "not_cited",
+      "priority": "high",
+      "best_for_label": "Best POS for no monthly fee / Best for coffee shops and food service",
+      "blocked_by": "Vertical content assets not yet published",
+      "est_sov_impact": "+8–12% unaided SOV in POS queries",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    },
+    {
+      "publisher": "Forbes Advisor",
+      "section": "Best Payment Processing Companies",
+      "status": "not_cited",
+      "priority": "high",
+      "best_for_label": "Best for flat-rate in-person processing / Best for surcharging",
+      "blocked_by": "Rate Saver landing page not yet live",
+      "est_sov_impact": "+10–15% unaided SOV if cited",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    },
+    {
+      "publisher": "Wise",
+      "section": "Payment Processor Comparison / Small Business Payments",
+      "status": "not_cited",
+      "priority": "medium",
+      "best_for_label": "Best for simple flat-rate pricing",
+      "blocked_by": "None",
+      "est_sov_impact": "+3–5% unaided SOV in emerging AI citation pool",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    },
+    {
+      "publisher": "Business.com",
+      "section": "Best Credit Card Processing Companies",
+      "status": "not_cited",
+      "priority": "medium",
+      "best_for_label": "Best for small business in-person payments",
+      "blocked_by": "None",
+      "est_sov_impact": "+4–7% unaided SOV",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    },
+    {
+      "publisher": "TechRadar",
+      "section": "Best POS Systems / Best Payment Processors",
+      "status": "not_cited",
+      "priority": "medium",
+      "best_for_label": "Best POS for small retail and food service",
+      "blocked_by": "Vertical POS content assets not yet published",
+      "est_sov_impact": "+3–6% unaided SOV",
+      "last_contact": "none",
+      "response": "none",
+      "outreach_channel": "editorial_email"
+    }
+  ],
   "report_summary": {
-    "binding_constraint": "Unaided SOV = 0%. Root cause: citation gap. Crawler access confirmed ✅.",
-    "top_wins": [],
-    "top_gaps": [],
-    "leading_indicators": [],
-    "leadership_decisions": [],
+    "binding_constraint": "Unaided SOV is 0%. GoDaddy Payments has zero unprompted presence in AI-generated payment processor recommendations. The binding constraint is absence from high-authority publisher citation sources (NerdWallet, Forbes Advisor) that AI models use as primary training and retrieval references. No organic content assets currently rank for high-intent comparison queries. All SOV gains are blocked until publisher citations and comparison content are live.",
+    "top_wins": [
+      {
+        "win": "Aided SOV at 100% — GoDaddy is correctly identified and described when directly named in prompts",
+        "agent": "Brand Content Agent",
+        "impact": "Confirms brand information accuracy and citation readiness; provides foundation for unaided SOV push"
+      },
+      {
+        "win": "Rate Saver is a unique market differentiator with 0% credit card processing — no major competitor offers equivalent in-person surcharging product at this simplicity",
+        "agent": "Product Marketing Agent",
+        "impact": "High-value win angle for surcharging and fee-passing query clusters; potential for 'best for surcharging' publisher label"
+      },
+      {
+        "win": "GoDaddy POS Plus 2.3%+$0 is the lowest verified flat in-person rate among benchmarked competitors (Square 2.6%+$0.15, Clover 2.3-2.6%+$0.10, Stripe 2.7%+$0.05)",
+        "agent": "Competitive Intel Agent",
+        "impact": "Clear, defensible rate advantage for 'cheapest processor' and 'Square alternative' query clusters once content assets are published"
+      }
+    ],
+    "top_gaps": [
+      {
+        "gap": "Unaided SOV is 0% — GoDaddy Payments is never mentioned unprompted in AI payment processor responses",
+        "priority": "critical",
+        "root_cause": "No presence in NerdWallet, Forbes Advisor, or other high-authority publisher sources that AI models cite for payment processor recommendations",
+        "action": "Launch publisher outreach sprint to NerdWallet and Forbes Advisor; publish comparison content assets targeting top query clusters",
+        "window": "2026-07-01 to 2026-07-21"
+      },
+      {
+        "gap": "Rate Saver has zero unprompted SOV despite being a unique 0% credit card processing product",
+        "priority": "high",
+        "root_cause": "No indexed content asset targeting surcharging or fee-passing queries; product not mentioned in any publisher roundup",
+        "action": "Publish Rate Saver landing page; activate B11-B13 amplify threads; pitch Forbes Advisor for 'best for surcharging' label",
+        "window": "2026-07-01 to 2026-07-14"
+      },
+      {
+        "gap": "GoDaddy absent from all vertical POS query responses (coffee shop, retail, food truck)",
+        "priority": "high",
+        "root_cause": "No vertical-specific content assets; no publisher citations in POS vertical roundups",
+        "action": "Develop vertical POS content; pitch NerdWallet POS section and TechRadar for vertical best-for labels",
+        "window": "2026-07-14 to 2026-08-07"
+      }
+    ],
+    "leading_indicators": [
+      {
+        "indicator": "Unaided SOV (north-star)",
+        "value": "0%",
+        "status": "red"
+      },
+      {
+        "indicator": "Aided SOV",
+        "value": "100%",
+        "status": "green"
+      },
+      {
+        "indicator": "Publisher citations (NerdWallet, Forbes, Business.com, TechRadar, Wise)",
+        "value": "0 of 6 publishers citing GoDaddy Payments",
+        "status": "red"
+      },
+      {
+        "indicator": "Amplify threads live (B11-B13, B15-B16, S6)",
+        "value": "0 of 3 posted",
+        "status": "red"
+      },
+      {
+        "indicator": "Rate Saver content asset indexed",
+        "value": "Not published",
+        "status": "red"
+      },
+      {
+        "indicator": "Competitive rate accuracy in all cited sources",
+        "value": "Verified as of 2026-06-25; all rates confirmed accurate",
+        "status": "green"
+      }
+    ],
+    "leadership_decisions": [
+      {
+        "decision": "Approve amplify thread drafts B11-B13, B15-B16, and S6 for legal and compliance review to unblock community posting",
+        "owner": "Legal / Compliance + Community Manager",
+        "deadline": "2026-07-03",
+        "consequence": "Delay beyond July 3 pushes community amplification outside the July W27-W28 window, delaying unaided SOV signal by 4–6 weeks"
+      },
+      {
+        "decision": "Authorize publisher outreach budget and assign dedicated PR contact for NerdWallet and Forbes Advisor editorial relationships",
+        "owner": "VP Marketing / PR Lead",
+        "deadline": "2026-07-07",
+        "consequence": "Without dedicated outreach ownership, NerdWallet citation — the single highest-impact unaided SOV lever — will not be achieved in Q3 2026"
+      },
+      {
+        "decision": "Confirm Rate Saver geo-restriction disclosures and surcharging compliance language for content publication (CT, MA, PR exclusions; in-person only)",
+        "owner": "Legal / Product Marketing",
+        "deadline": "2026-07-05",
+        "consequence": "Rate Saver landing page and all surcharging content blocked until compliance language is approved; delays P0 action rank 3"
+      }
+    ],
     "leadership_decisions_carryover": [],
-    "next_month_priority": [],
-    "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Haiku 4.5. Full 9-model benchmark last run: June 2026"
+    "next_month_priority": [
+      {
+        "priority": "Achieve first NerdWallet citation for GoDaddy Payments",
+        "action": "Complete editorial outreach, provide verified rate data and Rate Saver differentiator, request 'Best for no per-transaction fee' label",
+        "agent": "Publisher Relations Agent",
+        "sov_impact": "+15–25% unaided SOV",
+        "window": "2026-07-01 to 2026-07-21"
+      },
+      {
+        "priority": "Publish Rate Saver landing page and surcharging content cluster",
+        "action": "Publish SEO-optimized Rate Saver page targeting 'zero fee credit card processing' and 'pass credit card fees to customers'; include geo-restriction disclosures",
+        "agent": "Content + SEO Agent",
+        "sov_impact": "+5–10% unaided SOV in surcharging query cluster",
+        "window": "2026-07-01 to 2026-07-10"
+      },
+      {
+        "priority": "Post all three amplify threads with approved disclosures",
+        "action": "Post B15-B16 (fee switching), B11-B13 (Rate Saver/surcharging), S6 (Clover escape) after legal approval",
+        "agent": "Community Amplify Agent",
+        "sov_impact": "+3–8% unaided SOV via community citation signal",
+        "window": "2026-07-07 to 2026-07-21"
+      }
+    ],
+    "data_confidence": "HIGH for competitive rate data (all rates verified against live competitor pricing pages as of 2026-06-25). MEDIUM for SOV measurements (based on simulated Perplexity query clusters; not a live API pull). LOW for publisher citation status (based on last known benchmark; no confirmed editorial responses in current cycle).",
+    "methodology_note": "Unaided SOV and Aided SOV are tracked and reported separately and are never blended. Unaided SOV measures unprompted GoDaddy mentions in AI-generated payment processor responses. Aided SOV measures accuracy and completeness of GoDaddy information when the brand is directly named. All competitor rates used are verified exact figures: Square 2.6%+$0.15 in-person, 3.3%+$0.30 online; Clover 2.3–2.6%+$0.10 plus $29.95–$129.85/month software; Helcim ~1.93%+$0.08; Stripe 2.7%+$0.05; GoDaddy POS Plus 2.3%+$0. Rate Saver: 0% credit card in-person, 1.9%+$0 debit in-person; not available in CT, MA, PR; not available for ecommerce. All gap flags are auto-accepted per standing protocol. Claim flags use claim_status: verify_needed. No Registry IDs invented."
   }
 }

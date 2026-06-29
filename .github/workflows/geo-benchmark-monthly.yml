@@ -1,18 +1,18 @@
-name: GEO Benchmark
+name: GEO Monthly Benchmark
 
 on:
   schedule:
-    - cron: '0 9 * * 1'
+    - cron: '0 10 1 * *'  # First day of month, 10am UTC (3am PDT)
   workflow_dispatch:
     inputs:
       reason:
-        description: 'Why are you running this manually?'
+        description: 'Why running monthly benchmark?'
         required: false
-        default: 'Manual benchmark run'
+        default: 'Manual monthly benchmark'
 
 jobs:
   benchmark:
-    name: Run GEO Benchmark
+    name: Run Monthly 8-Model Benchmark
     runs-on: self-hosted
 
     permissions:
@@ -30,34 +30,29 @@ jobs:
         shell: cmd
         run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe -m pip install openai
 
-      - name: Check API key is configured
+      - name: Check API key
         shell: cmd
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
-          CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
           if not defined CAAS_API_KEY (
-            echo ERROR: CAAS_API_KEY secret is not set.
-            echo Go to: github.com/tyunugyen/geo-dashboard - Settings - Secrets and variables - Actions - New repository secret
-            echo Name: CAAS_API_KEY
-            echo Value: your GoCaaS API key from caas.open-webui.godaddy.com
+            echo ERROR: CAAS_API_KEY not set
             exit /b 1
           )
-          echo API key is configured
-          if defined CAAS_BASE_URL (echo Base URL configured: %CAAS_BASE_URL%) else (echo Base URL: will use fallback)
+          echo API key configured
 
-      - name: Run GEO benchmark (weekly pulse)
+      - name: Run 8-model benchmark
         shell: cmd
         env:
           CAAS_API_KEY: ${{ secrets.CAAS_API_KEY }}
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
-          echo Running WEEKLY pulse check with Claude Haiku
-          C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe geo_benchmark_runner.py
+          echo Running MONTHLY official benchmark with 8 models
+          C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe geo_benchmark_multi_model.py --models all
 
-      - name: Update dashboard with weekly data
+      - name: Update dashboard with monthly data
         shell: cmd
-        run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe update_dashboard.py --frequency weekly
+        run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe update_dashboard.py --frequency monthly
 
       - name: Generate session.json (GoCaaS intelligence layer)
         shell: cmd
@@ -66,18 +61,18 @@ jobs:
           CAAS_BASE_URL: ${{ secrets.CAAS_BASE_URL }}
         run: |
           echo Generating session.json with GoCaaS intelligence
-          C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe generate_session_json.py --weekly
+          C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe generate_session_json.py --monthly
 
       - name: Commit and push results
         shell: cmd
         run: |
           git config user.name "GEO Benchmark Bot"
           git config user.email "geo-benchmark@godaddy.com"
-          git add public/data_weekly.json public/data/session.json benchmarks/
+          git add public/data_monthly.json public/data/session.json benchmarks/
           git diff --cached --quiet
           if errorlevel 1 (
-            for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd"') do set DATE=%%i
-            git commit -m "GEO weekly benchmark: %DATE% | Unaided SOV | Weekly pulse check"
+            for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM"') do set DATE=%%i
+            git commit -m "GEO monthly benchmark: %DATE% | Full 5-model official benchmark"
             git push
           ) else (
             echo No changes to commit

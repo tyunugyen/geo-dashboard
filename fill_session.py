@@ -14,9 +14,9 @@ Usage:
 import os, sys, json, argparse, time, re
 from openai import OpenAI
 
-# Import URL maps
+# Import URL maps (fallback only - prefer publisher_map.json)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config.publisher_urls import PUBLISHER_URL_MAP, COMPETITOR_RATE_URLS, KNOWN_RATES
+from config.publisher_urls import COMPETITOR_RATE_URLS, KNOWN_RATES
 
 # ── Config ──────────────────────────────────────────────────────────
 PROXY_URL  = "https://caas-gocode-prod.caas-prod.prod.onkatana.net"
@@ -29,6 +29,23 @@ SESSION_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "public", "data", "session.json"
 )
+
+PUBLISHER_MAP_PATH = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "publisher_map.json"
+)
+
+# Search query templates for finding replacement URLs
+PUBLISHER_SEARCH_QUERIES = {
+    "NerdWallet":       "site:nerdwallet.com best payment processors small business",
+    "Forbes Advisor":   "site:forbes.com/advisor best payment processors small business",
+    "Wise":             "site:wise.com credit card processing small business",
+    "Business.com":     "site:business.com best credit card processing",
+    "TechRadar":        "site:techradar.com best pos systems small business",
+    "FitSmallBusiness": "site:fitsmallbusiness.com cheapest credit card processing",
+    "Investopedia":     "site:investopedia.com best payment processors",
+    "Merchant Maverick": "site:merchantmaverick.com best payment processors",
+}
 
 # ── Load / save ──────────────────────────────────────────────────────
 def load_session(path):
@@ -117,6 +134,213 @@ def parse_json(text):
 
     raise ValueError(f"No JSON found. Response starts: {text[:200]}")
 
+# ── Publisher Map Management ─────────────────────────────────────────
+def load_publisher_map():
+    """Load publisher_map.json from disk. Falls back to empty dict if missing."""
+    if os.path.exists(PUBLISHER_MAP_PATH):
+        with open(PUBLISHER_MAP_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # Remove _meta key for use in code
+            return {k: v for k, v in data.items() if not k.startswith("_")}
+    print(f"  [MAP] publisher_map.json not found at {PUBLISHER_MAP_PATH}")
+    print(f"  [MAP] Will use empty map - add publishers to publisher_map.json")
+    return {}
+
+def save_publisher_map(pub_map, repairs_made):
+    """Write updated map back to disk with metadata."""
+    if not os.path.exists(PUBLISHER_MAP_PATH):
+        return
+    with open(PUBLISHER_MAP_PATH, "r", encoding="utf-8") as f:
+        full_data = json.load(f)
+    # Update with repaired entries
+    for publisher, sections in pub_map.items():
+        full_data[publisher] = sections
+    full_data["_meta"]["last_validated"] = time.strftime("%Y-%m-%d")
+    full_data["_meta"]["last_repairs"] = repairs_made
+    with open(PUBLISHER_MAP_PATH, "w", encoding="utf-8") as f:
+        json.dump(full_data, f, indent=2)
+    if repairs_made:
+        print(f"  [MAP] ✅ publisher_map.json updated with {len(repairs_made)} repair(s)")
+
+def check_url_status(url):
+    """
+    Returns: 'ok' | 'blocked' | 'not_found' | 'error'
+    Does not raise — always returns a status string.
+    """
+    if url.startswith("BLOCKED:") or url.startswith("STALE:"):
+        return "blocked"
+    try:
+        import urllib.request
+        import urllib.error
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; GEO-dashboard/1.0)"}
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status == 200:
+                return "ok"
+            return f"http_{resp.status}"
+    except urllib.error.HTTPError as e:
+        if e.code == 403:
+            return "blocked"
+        if e.code == 404:
+            return "not_found"
+        return f"http_{e.code}"
+    except Exception:
+        return "error"
+
+def search_for_replacement_url(publisher, section):
+    """
+    Use DuckDuckGo HTML search (no API key needed) to find
+    the current URL for a publisher+section combination.
+    Returns best candidate URL or None.
+    """
+    import urllib.parse
+
+    query = PUBLISHER_SEARCH_QUERIES.get(publisher)
+    if not query:
+        return None
+
+    # Add section keywords to query
+    section_keywords = section.lower().replace("best ", "").replace(" for small business", "")
+    full_query = f"{query} {section_keywords}"
+    search_url = f"https://html.duckduckgo.com/html/?q={urllib.parse.quote(full_query)}"
+
+    try:
+        import urllib.request
+        req = urllib.request.Request(
+            search_url,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; GEO-dashboard/1.0)"}
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+
+        # Extract result URLs matching the publisher domain
+        publisher_domain = {
+            "NerdWallet":       "nerdwallet.com",
+            "Forbes Advisor":   "forbes.com/advisor",
+            "Wise":             "wise.com",
+            "Business.com":     "business.com",
+            "TechRadar":        "techradar.com",
+            "FitSmallBusiness": "fitsmallbusiness.com",
+            "Investopedia":     "investopedia.com",
+            "Merchant Maverick":"merchantmaverick.com",
+        }.get(publisher, "")
+
+        if not publisher_domain:
+            return None
+
+        # Find all https URLs containing the publisher domain
+        pattern = rf'https://(?:www\.)?{re.escape(publisher_domain)}/[^\s"\'<>]+'
+        matches = re.findall(pattern, html)
+
+        # Filter out non-content pages
+        skip_patterns = ["login", "signup", "register", "cdn-cgi", ".jpg", ".png",
+                         ".css", ".js", "advertise", "careers", "about"]
+        candidates = [
+            url for url in matches
+            if not any(skip in url.lower() for skip in skip_patterns)
+        ]
+
+        if candidates:
+            # Prefer URLs with relevant keywords
+            preferred = [u for u in candidates if any(
+                kw in u.lower() for kw in ["best", "payment", "processor", "pos", "credit-card"]
+            )]
+            return preferred[0] if preferred else candidates[0]
+
+    except Exception as e:
+        print(f"  [SEARCH] Search failed for {publisher}/{section}: {e}")
+
+    return None
+
+def validate_and_repair_urls(pub_map, publishers_needed):
+    """
+    For each publisher+section about to be crawled:
+    1. Check current URL status
+    2. If 404/error: search for replacement and update map
+    3. If 403/blocked: mark as BLOCKED: and skip gracefully
+    4. Return updated map + list of repairs made
+    """
+    repairs_made = []
+    updated_map = {k: dict(v) for k, v in pub_map.items()}  # deep copy
+
+    print(f"\n  [VALIDATE] Checking {len(publishers_needed)} URLs before crawl...")
+
+    for item in publishers_needed:
+        publisher = item["publisher"]
+        section   = item["section"]
+
+        if publisher not in updated_map:
+            print(f"  [VALIDATE] ⚠️  {publisher} not in publisher_map — will be skipped")
+            continue
+
+        # Find the URL for this section
+        section_map = updated_map[publisher]
+        url = None
+        matched_section = section
+
+        if section in section_map:
+            url = section_map[section]
+        else:
+            # Fuzzy match
+            for key in section_map:
+                if any(w in section.lower() for w in key.lower().split()):
+                    url = section_map[key]
+                    matched_section = key
+                    break
+            if not url and section_map:
+                url = list(section_map.values())[0]
+                matched_section = list(section_map.keys())[0]
+
+        if not url:
+            continue
+
+        # Check status
+        status = check_url_status(url)
+        print(f"  [VALIDATE] {publisher} / {matched_section}: {status.upper()}")
+
+        if status == "ok" or status == "blocked":
+            continue  # ok = use it; blocked = already marked, handled in fetch_url
+
+        if status in ("not_found", "error") or status.startswith("http_"):
+            print(f"  [VALIDATE] 🔍 Searching for replacement URL...")
+            replacement = search_for_replacement_url(publisher, matched_section)
+
+            if replacement:
+                # Verify the replacement actually works
+                replacement_status = check_url_status(replacement)
+                if replacement_status == "ok":
+                    print(f"  [VALIDATE] ✅ Found replacement: {replacement}")
+                    updated_map[publisher][matched_section] = replacement
+                    repairs_made.append({
+                        "publisher": publisher,
+                        "section": matched_section,
+                        "old_url": url,
+                        "new_url": replacement,
+                        "date": time.strftime("%Y-%m-%d")
+                    })
+                elif replacement_status == "blocked":
+                    print(f"  [VALIDATE] ⚠️  Replacement is bot-blocked: {replacement}")
+                    updated_map[publisher][matched_section] = f"BLOCKED:{replacement}"
+                    repairs_made.append({
+                        "publisher": publisher,
+                        "section": matched_section,
+                        "old_url": url,
+                        "new_url": f"BLOCKED:{replacement}",
+                        "date": time.strftime("%Y-%m-%d")
+                    })
+                else:
+                    print(f"  [VALIDATE] ❌ Replacement also failed ({replacement_status})")
+                    updated_map[publisher][matched_section] = f"STALE:{url}"
+            else:
+                print(f"  [VALIDATE] ❌ No replacement found — marking as stale")
+                updated_map[publisher][matched_section] = f"STALE:{url}"
+
+        time.sleep(0.5)  # polite delay between checks
+
+    return updated_map, repairs_made
+
 # ── URL Fetcher ──────────────────────────────────────────────────────
 def fetch_url(url, timeout=15):
     """
@@ -147,15 +371,21 @@ def fetch_url(url, timeout=15):
         return None
 
 # ── LIVE DATA CRAWLER ────────────────────────────────────────────────
-def get_live_data(session):
+def get_live_data(session, publisher_map=None):
     """
     Dynamically determine what to crawl based on:
     - cite_pipeline: which publishers and sections to check
     - strategy_actions: which competitors to verify rates for
     - perplexity_simulation: which clusters need citation checking
 
+    publisher_map: dict from publisher_map.json (validated URLs)
+
     Returns live_results dict to inject into the CaaS prompt.
     """
+    # Use provided map or fall back to config
+    if publisher_map is None:
+        from config.publisher_urls import PUBLISHER_URL_MAP
+        publisher_map = PUBLISHER_URL_MAP
     today = time.strftime("%Y-%m-%d")
     results = {
         "publisher_checks": [],   # what we found on each publisher page
@@ -185,10 +415,10 @@ def get_live_data(session):
         if priority not in ("P0", "P1", "critical", "high"):
             continue
 
-        if publisher in PUBLISHER_URL_MAP:
+        if publisher in publisher_map:
             # Find the best URL match for this section
             url = None
-            section_map = PUBLISHER_URL_MAP[publisher]
+            section_map = publisher_map[publisher]
 
             # Exact match first
             if section in section_map:
@@ -592,13 +822,38 @@ def main():
     run_id   = skeleton["meta"].get("run_id", "UNKNOWN")
     print(f"  Run type: {run_type} | Run ID: {run_id}")
 
-    # ── LIVE CRAWL ────────────────────────────────────────────────────
+    # ── LOAD + VALIDATE PUBLISHER MAP ────────────────────────────────
+    publisher_map = None
+    if not args.skip_crawl:
+        print("\n  Loading publisher map...")
+        publisher_map = load_publisher_map()
+
+        if publisher_map:
+            # Determine which publishers we'll need based on cite_pipeline
+            cite_pipeline = skeleton.get("cite_pipeline", [])
+            publishers_needed = [
+                {"publisher": e["publisher"], "section": e["section"]}
+                for e in cite_pipeline
+                if e.get("priority") in ("P0", "P1", "critical", "high")
+                and e.get("publisher") in publisher_map
+            ]
+
+            if publishers_needed:
+                # Validate and auto-repair before crawling
+                publisher_map, repairs = validate_and_repair_urls(publisher_map, publishers_needed)
+
+                # Write repaired map back to disk
+                if repairs:
+                    save_publisher_map(publisher_map, repairs)
+                    print(f"\n  [MAP] {len(repairs)} URL(s) auto-repaired and saved to publisher_map.json")
+
+    # ── LIVE CRAWL (now with validated URLs) ─────────────────────────
     if args.skip_crawl:
         print("\n  [SKIP] Live crawling disabled")
         live_results = {"publisher_checks": [], "competitor_rates": {}, "crawl_date": time.strftime("%Y-%m-%d"), "fallback_used": []}
     else:
         print("\n  [LIVE] Starting dynamic crawl based on cite_pipeline and strategy_actions...")
-        live_results = get_live_data(skeleton)
+        live_results = get_live_data(skeleton, publisher_map)
         print(f"\n  [LIVE] Crawl complete:")
         print(f"    Publishers checked: {len(live_results['publisher_checks'])}")
         print(f"    Competitor rates:   {len(live_results['competitor_rates'])}")

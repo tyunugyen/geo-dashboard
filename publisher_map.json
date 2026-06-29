@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "last_validated": "2026-06-29",
+    "version": "1.0",
+    "note": "Auto-maintained by fill_session.py. Edit publisher names here but let the script manage URLs.",
+    "last_repairs": []
+  },
+  "NerdWallet": {
+    "Best Payment Processors": "https://www.nerdwallet.com/business/software/learn/payment-processors",
+    "Best POS Systems": "https://www.nerdwallet.com/best/small-business/payment-processing-companies",
+    "Best Payment Processing Companies": "https://www.nerdwallet.com/best/small-business/payment-processing-companies",
+    "Surcharging Guide": "https://www.nerdwallet.com/business/software/learn/passing-on-credit-card-fees-to-customers",
+    "Pass Fees to Customers": "https://www.nerdwallet.com/business/software/learn/passing-on-credit-card-fees-to-customers"
+  },
+  "Forbes Advisor": {
+    "Best Payment Processing Companies": "BLOCKED:https://www.forbes.com/advisor/business/software/best-payment-processing-companies/",
+    "Best POS Systems": "BLOCKED:https://www.forbes.com/advisor/business/software/best-pos-system-for-small-business/",
+    "Best Retail POS": "BLOCKED:https://www.forbes.com/advisor/business/software/best-retail-pos-system/",
+    "Best Restaurant POS": "BLOCKED:https://www.forbes.com/advisor/business/software/best-restaurant-pos-system/"
+  },
+  "Wise": {
+    "Best Payment Processors for Small Business": "https://wise.com/us/blog/credit-card-processing-for-small-business",
+    "Cheapest Credit Card Processing": "https://wise.com/us/blog/small-business-card-payments",
+    "Cheapest Processing": "https://wise.com/us/blog/small-business-card-payments"
+  },
+  "Business.com": {
+    "Best Credit Card Processing Companies": "https://www.business.com/categories/best-credit-card-processing/",
+    "Best Payment Processors": "https://www.business.com/categories/best-credit-card-processing/",
+    "Best Mobile Credit Card Processing": "https://www.business.com/categories/best-mobile-credit-card-processing/"
+  },
+  "TechRadar": {
+    "Best POS Systems for Small Business": "https://www.techradar.com/best/best-pos-systems-for-small-business",
+    "Best POS Systems": "https://www.techradar.com/best/best-pos-systems-for-small-business",
+    "Best POS System for Retail": "https://www.techradar.com/best/best-pos-systems-for-retail"
+  },
+  "FitSmallBusiness": {
+    "Cheapest Credit Card Processing": "https://fitsmallbusiness.com/cheapest-credit-card-processing/",
+    "Best Payment Processors": "https://fitsmallbusiness.com/best-credit-card-processing-companies/"
+  },
+  "Investopedia": {
+    "Best Payment Processors": "https://www.investopedia.com/best-payment-processors-5088735",
+    "Best Credit Card Processing": "https://www.investopedia.com/best-payment-processors-5088735"
+  },
+  "Merchant Maverick": {
+    "Best Payment Processors": "https://www.merchantmaverick.com/best-credit-card-processing-companies/",
+    "Payment Processor Reviews": "https://www.merchantmaverick.com/best-credit-card-processing-companies/"
+  }
+}

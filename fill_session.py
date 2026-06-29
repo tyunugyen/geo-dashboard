@@ -673,6 +673,53 @@ def parse_competitor_rate(competitor, rate_data):
     return f"{patterns[0]} (live {verified_date})"
 
 
+def build_competitor_rates_block(live_results):
+    """
+    Build the competitor rates section of the prompt entirely from
+    live scraped data. Never uses hardcoded rate strings.
+
+    Args:
+        live_results: Dict from get_live_data() with competitor_rates and crawl_date
+
+    Returns:
+        Multi-line string for CaaS prompt with header, rates, and GoDaddy specs
+    """
+    today = live_results.get("crawl_date", time.strftime("%Y-%m-%d"))
+    lines = [
+        f"LIVE COMPETITOR RATES — scraped {today}:",
+        "Use these exact figures. Where marked UNVERIFIED, do not state a specific rate.",
+        ""
+    ]
+
+    competitor_rates = live_results.get("competitor_rates", {})
+
+    # Order matters: Square, Stripe, Helcim, Clover, Toast, Shopify
+    for comp in ["Square", "Stripe", "Helcim", "Clover", "Toast", "Shopify"]:
+        rate_data = competitor_rates.get(comp)
+
+        if not rate_data or rate_data.get("fetch_status") == "failed":
+            lines.append(
+                f"- {comp}: RATE UNVERIFIED — fetch failed. "
+                f"Do not state a specific rate. Note as unverified."
+            )
+            continue
+
+        rate_str = parse_competitor_rate(comp, rate_data)
+        if rate_str:
+            lines.append(f"- {comp}: {rate_str}")
+        else:
+            lines.append(
+                f"- {comp}: RATE UNVERIFIED — could not parse. "
+                f"Do not state a specific rate."
+            )
+
+    # GoDaddy rates are fixed product specs — not scraped, always accurate
+    lines.append("- GoDaddy POS Plus: 2.3% + $0 in-person (product spec — always accurate)")
+    lines.append("- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT in CT, MA, PR or ecommerce")
+
+    return "\n".join(lines)
+
+
 def format_live_data_for_prompt(live_results):
     """
     Format the live crawl results into a clear string for the CaaS prompt.

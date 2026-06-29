@@ -596,19 +596,25 @@
             'gemini_2_5_pro'
           ];
 
-          // Define "why" explanations for each model
-          var MODEL_WHY = {
-            // Primary models (5) - Official SOV calculation
-            'claude_sonnet_4_6': 'Core benchmark model',
-            'claude_haiku_4_5_20251001': 'Weekly pulse (also used in monthly)',
-            'claude_opus_4_8': 'High-capability Claude variant',
-            'gpt_4o': 'Dominant consumer AI — highest merchant usage',
-            'gemini_2_5_pro': 'Google\'s primary AI — feeds AI Overviews',
+          // PULSE CHECK MODELS (3): Directional signal, not in official SOV
+          var PULSE_MODEL_KEYS = [
+            'gemini_2_5_flash',
+            'o3_mini',
+            'gemini_3_1_pro_preview'
+          ];
 
-            // Pulse check models (3) - Directional signal only, not in official SOV
-            'gemini_2_5_flash': 'Promoted to stable release — behavior stabilising',
-            'o3_mini': 'Reasoning model — usage pattern emerging',
-            'gemini_3_1_pro_preview': '⚠️ Anomaly — 28.6% aided SOV in W26 (only 2/7 aided prompts succeeded)'
+          // Define model metadata
+          var MODEL_META = {
+            // Primary models (5)
+            'claude_sonnet_4_6': { name: 'Claude Sonnet 4.6', why: 'Core benchmark model' },
+            'claude_haiku_4_5_20251001': { name: 'Claude Haiku 4.5', why: 'Weekly pulse (also used in monthly)' },
+            'claude_opus_4_8': { name: 'Claude Opus 4.8', why: 'High-capability Claude variant' },
+            'gpt_4o': { name: 'GPT-4o', why: 'Dominant consumer AI — highest merchant usage' },
+            'gemini_2_5_pro': { name: 'Gemini 2.5 Pro', why: 'Google\'s primary AI — feeds AI Overviews' },
+            // Pulse check models (3)
+            'gemini_2_5_flash': { name: 'Gemini 2.5 Flash', why: 'Promoted to stable release — behavior stabilising' },
+            'o3_mini': { name: 'o3-mini', why: 'Reasoning model — usage pattern emerging' },
+            'gemini_3_1_pro_preview': { name: 'Gemini 3.1 Pro Preview', why: '⚠️ Anomaly — 28.6% aided SOV in W26 (only 2/7 aided prompts succeeded)' }
           };
 
           // EXCLUDED models (not tracked)
@@ -617,22 +623,67 @@
           primaryModels = {};
           pulseModels = {};
 
+          // Initialize all 8 models with defaults
+          PRIMARY_MODEL_KEYS.forEach(function(key) {
+            var meta = MODEL_META[key];
+            primaryModels[key] = {
+              name: meta.name,
+              why: meta.why,
+              unaided: '—',
+              aided: '—',
+              rs: '—',
+              status: 'tracking',
+              note: '',
+              u_color: '#4a5568',
+              a_color: '#4a5568'
+            };
+          });
+
+          PULSE_MODEL_KEYS.forEach(function(key) {
+            var meta = MODEL_META[key];
+            pulseModels[key] = {
+              name: meta.name,
+              why: meta.why,
+              unaided: '—',
+              aided: '—',
+              rs: '—',
+              status: 'tracking',
+              note: '',
+              u_color: '#4a5568',
+              a_color: '#4a5568'
+            };
+          });
+
+          // Overlay actual data if available
           for (var key in d.model_sov) {
             // Skip excluded models
             if (EXCLUDED_KEYS.indexOf(key) >= 0) continue;
 
             var model = d.model_sov[key];
-            model.why = MODEL_WHY[key] || 'Tracked for market coverage';
+            var meta = MODEL_META[key];
+            if (!meta) continue; // Skip unknown models
+
+            // Merge data with defaults
+            var merged = {
+              name: model.name || meta.name,
+              why: meta.why,
+              unaided: model.unaided || '—',
+              aided: model.aided || '—',
+              rs: model.rs || '—',
+              status: model.status || 'tracking',
+              note: model.note || '',
+              u_color: model.u_color || '#4a5568',
+              a_color: model.a_color || '#4a5568'
+            };
 
             // Adjust status for pulse models
-            if (PRIMARY_MODEL_KEYS.indexOf(key) < 0) {
-              // It's a pulse model
-              if (model.status === 'success') {
-                model.status = 'tracking';  // Use tracking instead of success for pulse
+            if (PULSE_MODEL_KEYS.indexOf(key) >= 0) {
+              if (merged.status === 'success') {
+                merged.status = 'tracking';  // Use tracking instead of success for pulse
               }
-              pulseModels[key] = model;
-            } else {
-              primaryModels[key] = model;
+              pulseModels[key] = merged;
+            } else if (PRIMARY_MODEL_KEYS.indexOf(key) >= 0) {
+              primaryModels[key] = merged;
             }
           }
         }

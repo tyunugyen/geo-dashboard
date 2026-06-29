@@ -22,6 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Configure git safe directory
+        shell: cmd
+        run: git config --global --add safe.directory C:/actions-runner/_work/geo-dashboard/geo-dashboard
+
       - name: Install dependencies
         shell: cmd
         run: C:\Users\tyunguyen\AppData\Local\Python\bin\python.exe -m pip install openai
@@ -55,7 +59,7 @@ jobs:
           git config user.name "GEO Benchmark Bot"
           git config user.email "geo-benchmark@godaddy.com"
           git add public/data.json benchmarks/
-          git diff --staged --quiet
+          git diff --cached --quiet
           if errorlevel 1 (
             for /f %%i in ('powershell -Command "Get-Date -Format yyyy-MM-dd"') do set DATE=%%i
             git commit -m "GEO benchmark: %DATE%"

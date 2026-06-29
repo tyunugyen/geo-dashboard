@@ -24,36 +24,32 @@ SYSTEM_PROMPT = (
     "You are a helpful assistant. Answer the user's question directly and concisely."
 )
 
-# Model groups for benchmarking - organized by provider
+# Model groups for benchmarking - 8 total: 5 primary + 3 pulse
+# Primary = main monthly benchmark, Pulse = tracking signals
 MODEL_GROUPS = {
+    "primary": [
+        {"id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6"},
+        {"id": "claude-opus-4-8", "name": "Claude Opus 4.8"},
+        {"id": "claude-haiku-4-5-20251001", "name": "Claude Haiku 4.5"},
+        {"id": "gpt-4o", "name": "GPT-4o"},
+        {"id": "gemini-2.5-pro", "name": "Gemini 2.5 Pro"},
+    ],
+    "pulse": [
+        {"id": "o3", "name": "o3"},
+        {"id": "o3-mini", "name": "o3-mini"},
+        {"id": "gemini-3.1-pro-preview", "name": "Gemini 3.1 Pro Preview"},
+    ],
+    # Legacy groups for backwards compatibility
     "claude": [
         {"id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6"},
         {"id": "claude-opus-4-8", "name": "Claude Opus 4.8"},
         {"id": "claude-haiku-4-5-20251001", "name": "Claude Haiku 4.5"},
     ],
-    "openai": [
-        {"id": "gpt-4o", "name": "GPT-4o"},
-        {"id": "gpt-5", "name": "GPT-5"},
-        {"id": "o3", "name": "o3"},
-        {"id": "o3-mini", "name": "o3-mini"},
-    ],
-    "gemini": [
-        {"id": "gemini-2.5-pro", "name": "Gemini 2.5 Pro"},
-        {"id": "gemini-3.1-pro-preview", "name": "Gemini 3.1 Pro Preview"},
-        {"id": "gemini-2.5-flash", "name": "Gemini 2.5 Flash"},
-    ],
-    "research": [
-        {"id": "o3-deep-research", "name": "o3 Deep Research"},
-        {"id": "o4-mini-deep-research", "name": "o4-mini Deep Research"},
-    ],
-    "other": [
-        {"id": "kimi-k2.5", "name": "Kimi K2.5"},
-        {"id": "qwen3-235b-a22b-2507", "name": "Qwen 3 235B"},
-    ],
+    "all": None,  # Will be computed from primary + pulse
 }
 
-# All models in one list for easy iteration
-ALL_MODELS = [m for group in MODEL_GROUPS.values() for m in group]
+# All models = primary + pulse (8 total)
+ALL_MODELS = MODEL_GROUPS["primary"] + MODEL_GROUPS["pulse"]
 
 # ── Category targets (v2.6) ───────────────────────────────────────────
 CATEGORY_TARGETS = {
@@ -354,8 +350,8 @@ def save_results(all_results, run_id):
 def main():
     parser = argparse.ArgumentParser(description="GEO multi-model benchmark runner")
     parser.add_argument("--model", help="Run specific model by ID")
-    parser.add_argument("--models", nargs="+", choices=list(MODEL_GROUPS.keys()) + ["all"],
-                       default=["claude"], help="Run specific model groups (default: claude)")
+    parser.add_argument("--models", nargs="+", choices=["primary", "pulse", "claude", "all"],
+                       default=["primary"], help="Run specific model groups: primary (5), pulse (3), all (8)")
     parser.add_argument("--quiet", "-q", action="store_true", help="Minimal output")
     args = parser.parse_args()
 
@@ -376,7 +372,12 @@ def main():
         if "all" in args.models:
             models_to_run = ALL_MODELS
         else:
-            models_to_run = [m for group in args.models for m in MODEL_GROUPS[group]]
+            models_to_run = []
+            for group in args.models:
+                if group in MODEL_GROUPS and MODEL_GROUPS[group]:
+                    models_to_run.extend(MODEL_GROUPS[group])
+                else:
+                    print(f"Warning: Unknown group '{group}', skipping")
 
     print(f"\n{'='*60}")
     print(f"GEO Multi-Model Benchmark Runner")

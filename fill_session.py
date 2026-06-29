@@ -587,17 +587,15 @@ def get_live_data(session, publisher_map=None):
 
         html = fetch_url(url)
         if not html:
-            print(f"  [LIVE] ⚠️  Rate fetch failed for {comp} — using fallback")
+            print(f"  [LIVE] ⚠️  Rate fetch failed for {comp} — will be marked unverified")
             results["fallback_used"].append(f"{comp} rates")
-            # Use known fallback rates
-            if comp in KNOWN_RATES:
-                results["competitor_rates"][comp] = {
-                    "raw_patterns": [KNOWN_RATES[comp].get("in_person", "")],
-                    "source": url,
-                    "verified_date": KNOWN_RATES[comp].get("verified_date", ""),
-                    "fetch_status": "fallback",
-                    "note": "Fetch failed — using last known rate"
-                }
+            results["competitor_rates"][comp] = {
+                "raw_patterns": [],
+                "source": url,
+                "verified_date": "",
+                "fetch_status": "failed",
+                "note": "Fetch failed — rate unverified"
+            }
             continue
 
         # Extract rate patterns — look for percentage + cents format

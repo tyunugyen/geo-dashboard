@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "label": "Monthly",
+    "period": "June 2026",
+    "run_id": "2026-06-W26",
+    "sources": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro, Gemini 2.5 Flash, o3, o3-mini, Gemini 3.1 Pro Preview (GoCode proxy)",
+    "prompt_bank_version": "2.6",
+    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro, Gemini 2.5 Flash, o3, o3-mini, Gemini 3.1 Pro Preview",
+    "prompt_count": 70
+  },
+  "kpis": {
+    "unaided_sov": {
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
+    },
+    "aided_sov": {
+      "value": "100%",
+      "fill": 100,
+      "color": "#68d391"
+    },
+    "helcim_gap": {
+      "value": "25pts",
+      "fill": 0,
+      "color": "#f6e05e"
+    },
+    "tech_health": {
+      "value": "0%",
+      "fill": 0,
+      "color": "#fc8181"
+    }
+  },
+  "categories": [
+    {
+      "name": "pricing_fee",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "85%",
+      "cell": "red"
+    },
+    {
+      "name": "top_funnel_pos",
+      "sov": "0%",
+      "phase1": "20%",
+      "target": "60%",
+      "cell": "red"
+    },
+    {
+      "name": "payment_processing",
+      "sov": "0%",
+      "phase1": "20%",
+      "target": "55%",
+      "cell": "red"
+    },
+    {
+      "name": "vertical_fb",
+      "sov": "0%",
+      "phase1": "18%",
+      "target": "50%",
+      "cell": "red"
+    },
+    {
+      "name": "vertical_retail",
+      "sov": "0%",
+      "phase1": "22%",
+      "target": "55%",
+      "cell": "red"
+    },
+    {
+      "name": "general_in_person",
+      "sov": "0%",
+      "phase1": "18%",
+      "target": "50%",
+      "cell": "red"
+    },
+    {
+      "name": "support",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "65%",
+      "cell": "red"
+    },
+    {
+      "name": "comparison",
+      "sov": "0%",
+      "phase1": "25%",
+      "target": "70%",
+      "cell": "red"
+    }
+  ],
+  "competitors": [
+    {
+      "name": "Square",
+      "sov": 90,
+      "display": "~90%",
+      "color": "#fc8181",
+      "bar": "#e53e3e",
+      "label": "\"Best for brick-and-mortar\" (2.6% + $0.15)"
+    },
+    {
+      "name": "Clover",
+      "sov": 50,
+      "display": "~50%",
+      "color": "#f6ad55",
+      "bar": "#dd6b20",
+      "label": "\"Best POS hardware\" \u2014 primary F&B + retail rival"
+    },
+    {
+      "name": "Stripe",
+      "sov": 35,
+      "display": "~35%",
+      "color": "#90cdf4",
+      "bar": "#3182ce",
+      "label": "\"Best for online\" \u2014 not current priority"
+    },
+    {
+      "name": "Helcim",
+      "sov": 25,
+      "display": "~25%",
+      "color": "#68d391",
+      "bar": "#276749",
+      "label": "\"Volume discounts\" \u2014 services only (not F&B)"
+    },
+    {
+      "name": "PayPal",
+      "sov": 25,
+      "display": "~25%",
+      "color": "#b794f4",
+      "bar": "#553c9a",
+      "label": "\"Best for mobile sales\""
+    },
+    {
+      "name": "Shopify",
+      "sov": 30,
+      "display": "~30%",
+      "color": "#9f7aea",
+      "bar": "#6b46c1",
+      "label": "\"Best for ecommerce\" \u2014 online+POS bundle"
+    },
+    {
+      "name": "Toast",
+      "sov": 20,
+      "display": "~20%",
+      "color": "#f6e05e",
+      "bar": "#975a16",
+      "label": "\"Best for full-service restaurants\" \u2014 avoid head-to-head"
+    },
+    {
+      "name": "Finix",
+      "sov": 15,
+      "display": "~15%",
+      "color": "#81e6d9",
+      "bar": "#285e61",
+      "label": "\"Best for growing businesses\""
+    },
+    {
+      "name": "GoDaddy",
+      "sov": 1,
+      "display": "~0%",
+      "color": "#fc8181",
+      "bar": "#742a2a",
+      "label": "No aggregator label \u274c",
+      "godaddy": true
+    }
+  ],
+  "model_sov": {
+    "claude_sonnet_4_6": {
+      "name": "Claude Sonnet 4.6",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "claude_haiku_4_5_20251001": {
+      "name": "Claude Haiku 4.5",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "claude_opus_4_8": {
+      "name": "Claude Opus 4.8",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "gpt_4o": {
+      "name": "GPT-4o",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "gemini_2_5_pro": {
+      "name": "Gemini 2.5 Pro",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "gemini_2_5_flash": {
+      "name": "Gemini 2.5 Flash",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "o3": {
+      "name": "o3",
+      "unaided": "0.0%",
+      "aided": "28.6%",
+      "rs": "0.0%",
+      "status": "anomaly",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#fc8181"
+    },
+    "o3_mini": {
+      "name": "o3-mini",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "gemini_3_1_pro_preview": {
+      "name": "Gemini 3.1 Pro Preview",
+      "unaided": "0.0%",
+      "aided": "28.6%",
+      "rs": "0.0%",
+      "status": "anomaly",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#fc8181"
+    }
+  }
+}

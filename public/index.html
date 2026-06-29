@@ -287,6 +287,14 @@
       <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#90cdf4;">
         Primary models drive the SOV number we report. Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow.
       </div>
+      <div style="display:flex;gap:12px;margin-bottom:16px;">
+        <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
+          <strong style="color:#68d391;">📅 Monthly:</strong> <span style="color:#90cdf4;">All 8 models (1st of month)</span>
+        </div>
+        <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
+          <strong style="color:#f6ad55;">⚡ Weekly:</strong> <span style="color:#90cdf4;">Claude Haiku only (every Monday)</span>
+        </div>
+      </div>
 
       <!-- Primary Models Section -->
       <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — 5 (Official SOV Calculation)</div>
@@ -295,6 +303,7 @@
         <thead>
           <tr>
             <th>Model</th>
+            <th>Frequency</th>
             <th>Why Primary</th>
             <th>Unaided SOV</th>
             <th>Aided SOV</th>
@@ -313,6 +322,7 @@
         <thead>
           <tr>
             <th>Model</th>
+            <th>Frequency</th>
             <th>Why Watching</th>
             <th>Unaided SOV</th>
             <th>Aided SOV</th>
@@ -629,13 +639,21 @@
 
         // Render primary models
         if (primaryRows && primaryModels) {
-          var pRows = Object.values(primaryModels).map(function(m) {
+          var pRows = Object.keys(primaryModels).map(function(key) {
+            var m = primaryModels[key];
             var icon = STATUS_ICON[m.status] || '✅';
             var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
             var mName = m.name || '';
             var mWhy = m.why || 'Primary model';
+
+            // Flag Haiku as weekly + monthly, others as monthly only
+            var frequency = key === 'claude_haiku_4_5_20251001'
+              ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
+              : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
+
             return '<tr>' +
               '<td><strong>' + mName + '</strong></td>' +
+              '<td>' + frequency + '</td>' +
               '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>' +
               '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
               '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#68d391') + ';">' + (m.aided||'—') + '</span></td>' +
@@ -649,8 +667,10 @@
         if (pulseRows && pulseModels) {
           var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
+            var frequency = '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
+              '<td>' + frequency + '</td>' +
               '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
               '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
               '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#f6ad55') + ';">' + (m.aided||'—') + '</span></td>' +

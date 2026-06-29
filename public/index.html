@@ -224,7 +224,7 @@
 <div class="container">
 <div class="alert">⚠️ <strong>Unaided SOV is ~0%.</strong> GoDaddy is invisible when AI builds a consideration set cold. Binding constraint = missing third-party citations. Crawler access is confirmed working.</div>
 
-  <div class="section-title">📈 Top-Line Metrics <span style="font-weight:400;color:#4a5568;text-transform:none;font-size:11px;">— Profound-style view · baseline month</span></div>
+  <div class="section-title">📈 Top-Line Metrics <span style="font-weight:400;color:#4a5568;text-transform:none;font-size:11px;">— Monthly benchmark (5 primary models) + Weekly pulse (Haiku)</span></div>
   <div class="pf-strip">
     <div class="pf-card">
       <div class="pf-metric">Unaided Share of Voice</div>
@@ -258,7 +258,7 @@
 
   <div class="trend-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div class="pf-metric">📈 Weekly SOV Trends (Last 8 Weeks)</div>
+      <div class="pf-metric">📈 SOV Trends (Rolling 6-Month Window)</div>
       <div style="display:flex;gap:16px;font-size:11px;">
         <span style="color:#fc8181;">━ Unaided</span>
         <span style="color:#68d391;">━ Aided</span>
@@ -285,17 +285,17 @@
     <div class="card">
       <h3>✅ What We Track <span style="font-size:11px;color:#4a5568;font-weight:400;">— <a href="report.html" class="ext-link">view full monthly report</a></span></h3>
       <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#90cdf4;">
-        <strong>One sentence:</strong> "Primary models drive the SOV number we report. Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow."
+        Primary models drive the SOV number we report. Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow.
       </div>
 
       <!-- Primary Models Section -->
-      <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — Official SOV Benchmark</div>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models are used to calculate the official monthly SOV score.</p>
+      <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — 5 (Official SOV Calculation)</div>
+      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models drive the official SOV number we report.</p>
       <table class="model-table" style="margin-bottom:20px;">
         <thead>
           <tr>
             <th>Model</th>
-            <th>Why It's Primary</th>
+            <th>Why Primary</th>
             <th>Unaided SOV</th>
             <th>Aided SOV</th>
             <th>Status</th>
@@ -307,13 +307,13 @@
       </table>
 
       <!-- Pulse Check Models Section -->
-      <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — Directional Signal Only</div>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Not included in official SOV calculation. Monitored for emerging behavior. Pulse models remain separate from primary benchmark.</p>
+      <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — 3 (Directional Signal Only, Not in Official SOV)</div>
+      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Monitored for emerging behavior. Not included in official SOV calculation.</p>
       <table class="model-table">
         <thead>
           <tr>
             <th>Model</th>
-            <th>Why We Watch It</th>
+            <th>Why Watching</th>
             <th>Unaided SOV</th>
             <th>Aided SOV</th>
             <th>Status</th>
@@ -323,7 +323,7 @@
           <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;">8-model benchmark via GoCode proxy (June 2026 W26). 70 prompts × 8 models = 630 data points. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
+      <p style="font-size:11px;color:#718096;margin-top:10px;" id="model-benchmark-note">Multi-model benchmark via GoCode proxy. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
     </div>
     <div class="card">
       <h3>📡 Signal Indicators</h3>
@@ -353,6 +353,7 @@
       </div>
     </div>
   </div>
+
   <div class="section-title" style="margin-top:8px;">🚨 Action Required</div>
   <div id="strategy-actions" class="grid-2">
     <div class="card">
@@ -364,7 +365,7 @@
         <div class="action-rank">1</div>
         <div class="action-body">
           <div class="action-title">Get GoDaddy into NerdWallet + Forbes processor/POS lists</div>
-          <div class="action-meta">Owner: PR/Partnerships · Root cause: Citation gap · Confirmed across all 8 models</div>
+          <div class="action-meta" id="action-meta-cite">Owner: PR/Partnerships · Root cause: Citation gap · Confirmed across all models</div>
           <div class="action-window">⏱ 2-3 months → Perplexity + AI Overviews pull these live</div>
           <div style="margin-top:6px;"><a class="link-pill" href="action-cite.html">→ CITE outreach plan + sample emails</a></div>
         </div>
@@ -433,7 +434,7 @@
     <div class="card">
       <h3>Competitive Intel — June 2026</h3>
       <div class="indicator-row"><div class="indicator-label">🔺 Square raised online fees Jan 2026</div><div class="indicator-status yellow">⚠️ 3.3%+$0.30 (was 2.9%) — win angle confirmed</div></div>
-      <div class="indicator-row"><div class="indicator-label">📌 8-model benchmark: unaided SOV</div><div class="indicator-status red">❌ 0% across ALL 8 models</div></div>
+      <div class="indicator-row"><div class="indicator-label" id="model-count-label">📌 Multi-model benchmark: unaided SOV</div><div class="indicator-status red" id="model-count-status">❌ 0% across ALL models</div></div>
       <div class="indicator-row"><div class="indicator-label">📌 Helcim NerdWallet label</div><div class="indicator-status" style="color:#a0aec0;">"Best for volume discounts" + interchange-plus</div></div>
       <div class="indicator-row"><div class="indicator-label">📌 GoDaddy Business.com review</div><div class="indicator-status green">9.2/10 — correction-request CITE angle</div></div>
       <div class="indicator-row"><div class="indicator-label">📌 GoDaddy aggregator labels</div><div class="indicator-status red">❌ Absent NerdWallet, Forbes, Wise, FitSmallBusiness</div></div>
@@ -469,11 +470,44 @@
     "payment_processing":"prompts.html#tier3","vertical_fb":"prompts.html#tier2","vertical_retail":"prompts.html#tier2",
     "general_in_person":"prompts.html#tier2","support":"prompts.html#tier4"
   };
-  fetch('data/session.json?v=' + Date.now())
-    .then(function (r) { if (!r.ok) throw new Error('session.json HTTP ' + r.status); return r.json(); })
-    .then(function (d) {
+
+  // Load both monthly and weekly data files
+  Promise.all([
+    fetch('data_monthly.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }),
+    fetch('data_weekly.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }),
+    fetch('data/session.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; })
+  ]).then(function(results) {
+    var monthly = results[0];
+    var weekly = results[1];
+    var session = results[2];
+
+    // Use monthly as primary data source, fall back to session.json, then weekly
+    var d = monthly || session || weekly;
+
+    if (!d) {
+      console.error('No data files found (monthly, weekly, or session)');
+      return;
+    }
+
+    // If we have both monthly and weekly, render them separately
+    var hasDualData = monthly && weekly;
+
+    if (hasDualData) {
+      console.log('Rendering dual-tier dashboard (monthly + weekly)');
+      renderDashboard(monthly, 'monthly');
+      renderWeeklySummary(weekly);
+    } else {
+      console.log('Rendering single-tier dashboard (legacy mode)');
+      renderDashboard(d, 'legacy');
+    }
+
+    // Common function to render dashboard data
+    function renderDashboard(d, mode) {
       var meta = document.getElementById('meta-line');
-      if (meta && d.meta) meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 8 models';
+      if (meta && d.meta) {
+        var totalModels = (primaryModels ? Object.keys(primaryModels).length : 0) + (pulseModels ? Object.keys(pulseModels).length : 0);
+        meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 ' + totalModels + ' models';
+      }
       // Last Updated bar
       if (d.meta) {
         var luDate = document.getElementById('lu-date');
@@ -529,16 +563,80 @@
       var primaryRows = document.getElementById('primary-model-rows');
       var pulseRows = document.getElementById('pulse-model-rows');
       if (d.model_sov) {
-        var STATUS_ICON = {success:'✅', partial:'⚠️', anomaly:'❌', error:'❌'};
+        var STATUS_ICON = {
+          success:'✅ Normal',
+          partial:'⚠️ Partial',
+          anomaly:'❌ Anomaly',
+          error:'❌ Error',
+          tracking:'📊 Tracking'
+        };
+
+        // Handle both nested structure (session.json) and flat structure (data_monthly.json)
+        var primaryModels = d.model_sov.primary || null;
+        var pulseModels = d.model_sov.pulse || null;
+
+        // If flat structure, categorize models into primary vs pulse
+        if (!primaryModels && !pulseModels) {
+          // PRIMARY MODELS (5): Drive official SOV number we report
+          var PRIMARY_MODEL_KEYS = [
+            'claude_sonnet_4_6',
+            'claude_haiku_4_5_20251001',
+            'claude_opus_4_8',
+            'gpt_4o',
+            'gemini_2_5_pro'
+          ];
+
+          // Define "why" explanations for each model
+          var MODEL_WHY = {
+            // Primary models (5) - Official SOV calculation
+            'claude_sonnet_4_6': 'Core benchmark model',
+            'claude_haiku_4_5_20251001': 'Weekly pulse (also used in monthly)',
+            'claude_opus_4_8': 'High-capability Claude variant',
+            'gpt_4o': 'Dominant consumer AI — highest merchant usage',
+            'gemini_2_5_pro': 'Google\'s primary AI — feeds AI Overviews',
+
+            // Pulse check models (3) - Directional signal only, not in official SOV
+            'gemini_2_5_flash': 'Promoted to stable release — behavior stabilising',
+            'o3_mini': 'Reasoning model — usage pattern emerging',
+            'gemini_3_1_pro_preview': '⚠️ Anomaly — 28.6% aided SOV in W26 (only 2/7 aided prompts succeeded)'
+          };
+
+          // EXCLUDED models (not tracked)
+          var EXCLUDED_KEYS = ['o3'];  // o3 removed, but o3_mini stays
+
+          primaryModels = {};
+          pulseModels = {};
+
+          for (var key in d.model_sov) {
+            // Skip excluded models
+            if (EXCLUDED_KEYS.indexOf(key) >= 0) continue;
+
+            var model = d.model_sov[key];
+            model.why = MODEL_WHY[key] || 'Tracked for market coverage';
+
+            // Adjust status for pulse models
+            if (PRIMARY_MODEL_KEYS.indexOf(key) < 0) {
+              // It's a pulse model
+              if (model.status === 'success') {
+                model.status = 'tracking';  // Use tracking instead of success for pulse
+              }
+              pulseModels[key] = model;
+            } else {
+              primaryModels[key] = model;
+            }
+          }
+        }
 
         // Render primary models
-        if (primaryRows && d.model_sov.primary) {
-          var pRows = Object.values(d.model_sov.primary).map(function(m) {
+        if (primaryRows && primaryModels) {
+          var pRows = Object.values(primaryModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '✅';
             var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
+            var mName = m.name || '';
+            var mWhy = m.why || 'Primary model';
             return '<tr>' +
-              '<td><strong>' + (m.name||'') + '</strong></td>' +
-              '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
+              '<td><strong>' + mName + '</strong></td>' +
+              '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>' +
               '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
               '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#68d391') + ';">' + (m.aided||'—') + '</span></td>' +
               '<td>' + icon + note + '</td>' +
@@ -548,8 +646,8 @@
         }
 
         // Render pulse check models
-        if (pulseRows && d.model_sov.pulse) {
-          var pulRows = Object.values(d.model_sov.pulse).map(function(m) {
+        if (pulseRows && pulseModels) {
+          var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
@@ -562,19 +660,37 @@
           pulseRows.innerHTML = pulRows;
         }
       }
-      // Update header badge
+      // Update header badge and model counts
       if (d.meta) {
         var badge = document.querySelector('.badge:first-child');
-        var modelCount = 0;
-        if (d.model_sov) {
-          if (d.model_sov.primary) modelCount += Object.keys(d.model_sov.primary).length;
-          if (d.model_sov.pulse) modelCount += Object.keys(d.model_sov.pulse).length;
+        var primaryCount = primaryModels ? Object.keys(primaryModels).length : 0;
+        var pulseCount = pulseModels ? Object.keys(pulseModels).length : 0;
+        var modelCount = primaryCount + pulseCount;
+        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + primaryCount + ' primary + ' + pulseCount + ' pulse · ' + (d.meta.period || '');
+
+        // Update model benchmark note
+        var benchmarkNote = document.getElementById('model-benchmark-note');
+        if (benchmarkNote && d.meta.prompt_count) {
+          var totalDataPoints = (d.meta.prompt_count || 70) * modelCount;
+          benchmarkNote.textContent = modelCount + '-model benchmark via GoCode proxy (' + d.meta.period + ' ' + d.meta.run_id + '). ' + (d.meta.prompt_count || 70) + ' prompts × ' + modelCount + ' models = ' + totalDataPoints + ' data points. Automated via geo_monthly_benchmark.bat.';
         }
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + (modelCount || 8) + ' models · ' + (d.meta.period || 'June 2026');
+
+        // Update action meta with model count
+        var actionMeta = document.getElementById('action-meta-cite');
+        if (actionMeta) {
+          actionMeta.textContent = 'Owner: PR/Partnerships · Root cause: Citation gap · Confirmed across all ' + modelCount + ' models';
+        }
+
+        // Update competitive intel model count
+        var modelCountStatus = document.getElementById('model-count-status');
+        if (modelCountStatus) {
+          modelCountStatus.textContent = '❌ 0% across ALL ' + modelCount + ' models';
+        }
       }
 
-      // Render trends chart
-      if (d.trends) {
+      // Render trends chart - use session data if monthly/weekly don't have trends
+      var trendsData = d.trends || (session && session.trends) || null;
+      if (trendsData) {
         setTimeout(function() {
           var canvas = document.getElementById('trendsChart');
           var note = document.getElementById('trends-note');
@@ -591,120 +707,244 @@
               ctx.fillStyle = '#1a1f2e';
               ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-              var weekly = d.trends.weekly || [];
-              var monthly = d.trends.monthly || [];
+              var weekly = trendsData.weekly || [];
+              var monthly = trendsData.monthly || [];
 
-          if (weekly.length > 0 || monthly.length > 0) {
-            // Combine and dedupe by run_id
-            var allPoints = {};
-            weekly.forEach(function(p) { allPoints[p.run_id] = p; });
-            monthly.forEach(function(p) { allPoints[p.run_id] = p; });
-            var points = Object.values(allPoints).sort(function(a,b) {
-              return a.run_id.localeCompare(b.run_id);
-            }).slice(-8); // Last 8 weeks
+          // ALWAYS render chart with 6-month rolling window, even with no data
+          // Combine all data points
+          var allPoints = {};
+          weekly.forEach(function(p) { allPoints[p.run_id] = p; });
+          monthly.forEach(function(p) { allPoints[p.run_id] = p; });
 
-            if (points.length > 0 && points[0].run_id !== 'UNKNOWN') {
-              // Draw chart
-              var w = canvas.width;
-              var h = canvas.height;
-              var padL = 40, padR = 20, padT = 20, padB = 30;
-              var chartW = w - padL - padR;
-              var chartH = h - padT - padB;
+          // Generate rolling 6-month window of weekly ticks
+          // Find the earliest data point or use current date
+          var dataPoints = Object.values(allPoints);
+          var earliestRunId = null;
+          if (dataPoints.length > 0) {
+            dataPoints.sort(function(a,b) { return a.run_id.localeCompare(b.run_id); });
+            earliestRunId = dataPoints[0].run_id;
+          }
 
-              ctx.clearRect(0, 0, w, h);
+          // Parse run_id to get start date (format: YYYY-MM-WNN where WNN is ISO week number)
+          function parseRunIdToDate(runId) {
+            var match = runId.match(/^(\d{4})-(\d{2})-W(\d{2})$/);
+            if (match) {
+              var year = parseInt(match[1]);
+              var weekNum = parseInt(match[3]); // ISO week number (W01-W53)
+              // Calculate date from ISO week number: Jan 4 is always in week 1
+              var jan4 = new Date(year, 0, 4);
+              var dayOfWeek = jan4.getDay() || 7; // 1=Mon, 7=Sun
+              var weekOneStart = new Date(jan4);
+              weekOneStart.setDate(jan4.getDate() - dayOfWeek + 1); // Monday of week 1
+              var targetDate = new Date(weekOneStart);
+              targetDate.setDate(weekOneStart.getDate() + (weekNum - 1) * 7);
+              return targetDate;
+            }
+            // Monthly format YYYY-MM
+            match = runId.match(/^(\d{4})-(\d{2})$/);
+            if (match) {
+              return new Date(parseInt(match[1]), parseInt(match[2]) - 1, 1);
+            }
+            return new Date();
+          }
 
-              // Grid lines
-              ctx.strokeStyle = '#2d3748';
-              ctx.lineWidth = 1;
-              for (var i = 0; i <= 4; i++) {
-                var y = padT + (chartH / 4) * i;
-                ctx.beginPath();
-                ctx.moveTo(padL, y);
-                ctx.lineTo(w - padR, y);
-                ctx.stroke();
-              }
+          // Get ISO week number from a date
+          function getISOWeek(date) {
+            var target = new Date(date.valueOf());
+            var dayNum = (date.getDay() + 6) % 7;
+            target.setDate(target.getDate() - dayNum + 3);
+            var firstThursday = target.valueOf();
+            target.setMonth(0, 1);
+            if (target.getDay() !== 4) {
+              target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+            }
+            return 1 + Math.ceil((firstThursday - target) / 604800000);
+          }
 
-              // Y-axis labels
+          var startDate = earliestRunId ? parseRunIdToDate(earliestRunId) : new Date();
+          var endDate = new Date(startDate);
+          endDate.setMonth(endDate.getMonth() + 6);
+          endDate.setDate(endDate.getDate() - 1); // End just before 7th month starts (so June-Nov, not June-Dec)
+
+          // Generate all weekly tick marks for 6-month window using ISO week numbers
+          var weeklyTicks = [];
+          var currentDate = new Date(startDate);
+          while (currentDate <= endDate) {
+            var year = currentDate.getFullYear();
+            var month = currentDate.getMonth() + 1;
+            var isoWeek = getISOWeek(currentDate);
+            var runId = year + '-' + (month < 10 ? '0' : '') + month + '-W' + (isoWeek < 10 ? '0' : '') + isoWeek;
+            weeklyTicks.push({
+              runId: runId,
+              date: new Date(currentDate),
+              data: allPoints[runId] || null // null if no data for this week
+            });
+            currentDate.setDate(currentDate.getDate() + 7); // Next week
+          }
+
+          if (weeklyTicks.length > 0) {
+            // Draw chart with all weekly ticks
+            var w = canvas.width;
+            var h = canvas.height;
+            var padL = 40, padR = 20, padT = 20, padB = 35; // Increased bottom padding for two-row labels
+            var chartW = w - padL - padR;
+            var chartH = h - padT - padB;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Grid lines
+            ctx.strokeStyle = '#2d3748';
+            ctx.lineWidth = 1;
+            for (var i = 0; i <= 4; i++) {
+              var y = padT + (chartH / 4) * i;
+              ctx.beginPath();
+              ctx.moveTo(padL, y);
+              ctx.lineTo(w - padR, y);
+              ctx.stroke();
+            }
+
+            // Y-axis labels
+            ctx.fillStyle = '#718096';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'right';
+            for (var i = 0; i <= 4; i++) {
+              var val = 100 - (i * 25);
+              var y = padT + (chartH / 4) * i;
+              ctx.fillText(val + '%', padL - 8, y + 4);
+            }
+
+            // Count actual data points
+            var pointsWithData = weeklyTicks.filter(function(t) { return t.data !== null; });
+
+            if (pointsWithData.length === 0) {
+              // No data yet - show empty chart with axis labels
               ctx.fillStyle = '#718096';
-              ctx.font = '10px sans-serif';
-              ctx.textAlign = 'right';
-              for (var i = 0; i <= 4; i++) {
-                var val = 100 - (i * 25);
-                var y = padT + (chartH / 4) * i;
-                ctx.fillText(val + '%', padL - 8, y + 4);
-              }
+              ctx.font = '11px sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillText('No data yet — rolling 6-month window will fill as benchmarks run', w / 2, h / 2);
 
-              if (points.length === 1) {
-                // Single data point - show as dots
-                var centerX = padL + chartW / 2;
-                var p = points[0];
+              // Show week and month labels on X-axis
+              ctx.font = '9px sans-serif';
+              ctx.textAlign = 'center';
+              var monthsShown = {};
 
-                // Draw dots with slight horizontal offset to avoid overlap
-                function drawDot(value, color, offsetX) {
-                  var x = centerX + offsetX;
-                  var y = padT + chartH - (chartH * value / 100);
-                  ctx.fillStyle = color;
+              weeklyTicks.forEach(function(tick, i) {
+                var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
+
+                // Show week number (lighter, above)
+                ctx.fillStyle = '#4a5568';
+                ctx.font = '8px sans-serif';
+                var weekMatch = tick.runId.match(/W(\d+)$/);
+                if (weekMatch) {
+                  ctx.fillText('W' + weekMatch[1], x, h - 20);
+                }
+
+                // Show month name at first week of each month (darker, below)
+                var monthKey = tick.date.getFullYear() + '-' + (tick.date.getMonth() + 1);
+                if (!monthsShown[monthKey]) {
+                  monthsShown[monthKey] = true;
+                  ctx.fillStyle = '#718096';
+                  ctx.font = '9px sans-serif';
+                  var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][tick.date.getMonth()];
+                  ctx.fillText(monthName, x, h - 8);
+                }
+              });
+
+              if (note) note.textContent = 'Rolling 6-month window — updates weekly with new benchmarks';
+            } else {
+              // Draw data points on the 6-month timeline
+              // Plot points where data exists
+              weeklyTicks.forEach(function(tick, i) {
+                if (tick.data) {
+                  var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
+                  var uY = padT + chartH - (chartH * (tick.data.unaided_sov || 0) / 100);
+                  var aY = padT + chartH - (chartH * (tick.data.aided_sov || 0) / 100);
+                  var rY = padT + chartH - (chartH * (tick.data.rate_saver_sov || 0) / 100);
+
+                  // Draw dots for this data point
+                  ctx.fillStyle = '#fc8181';
                   ctx.beginPath();
-                  ctx.arc(x, y, 4, 0, Math.PI * 2);
+                  ctx.arc(x, uY, 3, 0, Math.PI * 2);
+                  ctx.fill();
+
+                  ctx.fillStyle = '#68d391';
+                  ctx.beginPath();
+                  ctx.arc(x, aY, 3, 0, Math.PI * 2);
+                  ctx.fill();
+
+                  ctx.fillStyle = '#90cdf4';
+                  ctx.beginPath();
+                  ctx.arc(x, rY, 3, 0, Math.PI * 2);
                   ctx.fill();
                 }
+              });
 
-                drawDot(p.unaided_sov, '#fc8181', -8);      // Unaided - left
-                drawDot(p.aided_sov, '#68d391', 0);         // Aided - center
-                drawDot(p.rate_saver_sov, '#90cdf4', 8);    // Rate Saver - right
+              // Draw lines connecting data points (skip gaps)
+              function drawLine(dataKey, color) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                var started = false;
+                weeklyTicks.forEach(function(tick, i) {
+                  if (tick.data) {
+                    var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
+                    var y = padT + chartH - (chartH * (tick.data[dataKey] || 0) / 100);
+                    if (!started) {
+                      ctx.moveTo(x, y);
+                      started = true;
+                    } else {
+                      ctx.lineTo(x, y);
+                    }
+                  }
+                });
+                if (started) ctx.stroke();
+              }
 
-                // X-axis label
-                ctx.fillStyle = '#718096';
-                ctx.font = '10px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(p.run_id, centerX, h - 10);
+              if (pointsWithData.length > 1) {
+                drawLine('unaided_sov', '#fc8181');
+                drawLine('aided_sov', '#68d391');
+                drawLine('rate_saver_sov', '#90cdf4');
+              }
 
-                if (note) note.textContent = 'Baseline data point — run weekly/monthly benchmarks to see trend lines';
-              } else {
-                // Multiple points - draw lines
-                function drawLine(data, color) {
-                  ctx.strokeStyle = color;
-                  ctx.lineWidth = 2;
-                  ctx.beginPath();
-                  points.forEach(function(p, i) {
-                    var x = padL + (chartW / (points.length - 1)) * i;
-                    var y = padT + chartH - (chartH * data(p) / 100);
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                  });
-                  ctx.stroke();
+              // X-axis labels - show week numbers and month names
+              ctx.textAlign = 'center';
+              var monthsShown = {};
 
-                  // Draw dots
-                  ctx.fillStyle = color;
-                  points.forEach(function(p, i) {
-                    var x = padL + (chartW / (points.length - 1)) * i;
-                    var y = padT + chartH - (chartH * data(p) / 100);
-                    ctx.beginPath();
-                    ctx.arc(x, y, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                  });
+              weeklyTicks.forEach(function(tick, i) {
+                var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
+
+                // Show week number (lighter, above)
+                ctx.fillStyle = '#4a5568';
+                ctx.font = '8px sans-serif';
+                var weekMatch = tick.runId.match(/W(\d+)$/);
+                if (weekMatch) {
+                  ctx.fillText('W' + weekMatch[1], x, h - 20);
                 }
 
-                drawLine(function(p) { return p.unaided_sov; }, '#fc8181');
-                drawLine(function(p) { return p.aided_sov; }, '#68d391');
-                drawLine(function(p) { return p.rate_saver_sov; }, '#90cdf4');
+                // Show month name at first week of each month (darker, below)
+                var monthKey = tick.date.getFullYear() + '-' + (tick.date.getMonth() + 1);
+                if (!monthsShown[monthKey]) {
+                  monthsShown[monthKey] = true;
+                  ctx.fillStyle = '#718096';
+                  ctx.font = '9px sans-serif';
+                  var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][tick.date.getMonth()];
+                  ctx.fillText(monthName, x, h - 8);
+                }
+              });
 
-                // X-axis labels
-                ctx.fillStyle = '#718096';
-                ctx.font = '9px sans-serif';
-                ctx.textAlign = 'center';
-                points.forEach(function(p, i) {
-                  var x = padL + (chartW / (points.length - 1)) * i;
-                  ctx.fillText(p.run_id, x, h - 10);
-                });
-
-                if (note) note.textContent = points.length + ' data points · Updated ' + (d.meta.last_updated || 'recently');
+              if (note) {
+                var startMonth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][startDate.getMonth()];
+                var endMonth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][endDate.getMonth()];
+                note.textContent = pointsWithData.length + ' data points · Rolling window: ' + startMonth + ' - ' + endMonth + ' ' + endDate.getFullYear();
               }
-            } else {
-              if (note) note.textContent = 'No trend data yet — run additional benchmarks to see trends';
             }
           } else {
-            if (note) note.textContent = 'No trend data yet — run additional benchmarks to see trends';
+            // No weekly ticks generated - show error
+            ctx.fillStyle = '#fc8181';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Unable to generate timeline - check data format', w / 2, h / 2);
+            if (note) note.textContent = 'No trend data available';
           }
           } catch (err) {
             console.error('Trends chart error:', err);
@@ -713,10 +953,100 @@
           }
         }, 100); // Small delay to ensure DOM is ready
       }
-    })
-    .catch(function (err) {
-      console.error('GEO Dashboard: session.json load failed -', err.message);
-    });
+    } // End renderDashboard function
+
+    // Function to render weekly pulse summary
+    function renderWeeklySummary(weeklyData) {
+      var summary = document.getElementById('weekly-summary');
+      if (summary && weeklyData.meta) {
+        var unaided = weeklyData.kpis && weeklyData.kpis.unaided_sov ? weeklyData.kpis.unaided_sov.value : '0%';
+        var runId = weeklyData.meta.run_id || 'W??';
+        summary.textContent = runId + ': ' + unaided + ' Unaided (↔ no change from baseline)';
+      }
+
+      // Render weekly trend chart (simplified - just weekly data points)
+      var canvas = document.getElementById('weekly-trend-chart');
+      if (canvas && canvas.getContext && weeklyData.trends) {
+        setTimeout(function() {
+          var ctx = canvas.getContext('2d');
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = 160;
+
+          ctx.fillStyle = '#1a1f2e';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          var weekly = weeklyData.trends.weekly || [];
+          if (weekly.length > 0) {
+            var points = weekly.slice(-8); // Last 8 weeks
+
+            var w = canvas.width;
+            var h = canvas.height;
+            var padL = 40, padR = 20, padT = 20, padB = 30;
+            var chartW = w - padL - padR;
+            var chartH = h - padT - padB;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Grid lines
+            ctx.strokeStyle = '#2d3748';
+            ctx.lineWidth = 1;
+            for (var i = 0; i <= 4; i++) {
+              var y = padT + (chartH / 4) * i;
+              ctx.beginPath();
+              ctx.moveTo(padL, y);
+              ctx.lineTo(w - padR, y);
+              ctx.stroke();
+            }
+
+            // Y-axis labels
+            ctx.fillStyle = '#718096';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'right';
+            for (var i = 0; i <= 4; i++) {
+              var val = 100 - (i * 25);
+              var y = padT + (chartH / 4) * i;
+              ctx.fillText(val + '%', padL - 8, y + 4);
+            }
+
+            // Draw unaided SOV line only (red)
+            ctx.strokeStyle = '#fc8181';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            points.forEach(function(p, i) {
+              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
+              var y = padT + chartH - (chartH * (p.unaided_sov || 0) / 100);
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // Draw dots
+            ctx.fillStyle = '#fc8181';
+            points.forEach(function(p, i) {
+              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
+              var y = padT + chartH - (chartH * (p.unaided_sov || 0) / 100);
+              ctx.beginPath();
+              ctx.arc(x, y, 4, 0, Math.PI * 2);
+              ctx.fill();
+            });
+
+            // X-axis labels
+            ctx.fillStyle = '#718096';
+            ctx.font = '9px sans-serif';
+            ctx.textAlign = 'center';
+            points.forEach(function(p, i) {
+              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
+              ctx.fillText(p.run_id, x, h - 10);
+            });
+          }
+        }, 150);
+      }
+    }
+
+  }).catch(function (err) {
+    console.error('GEO Dashboard: data load failed -', err.message);
+  });
 })();
 </script>
 

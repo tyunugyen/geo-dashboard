@@ -560,7 +560,7 @@ def get_live_data(session, publisher_map=None):
         }
         results["publisher_checks"].append(check_result)
 
-        status_icon = "✅" if godaddy_present else "❌"
+        status_icon = "[OK]" if godaddy_present else "[X]"
         print(f"  [LIVE] {status_icon} {pub['publisher']}: GoDaddy={'PRESENT' if godaddy_present else 'ABSENT'}, competitors={competitors_found[:4]}")
 
     # ── 3. Determine which competitors to verify from strategy_actions ─
@@ -728,9 +728,9 @@ def format_live_data_for_prompt(live_results):
     # Publisher status
     lines.append("PUBLISHER CITATION STATUS (from cite_pipeline targets):")
     for check in live_results.get("publisher_checks", []):
-        status = "✅ PRESENT" if check.get("godaddy_present") else "❌ ABSENT"
+        status = "[PRESENT]" if check.get("godaddy_present") else "[ABSENT]"
         if check.get("fetch_status") == "failed":
-            status = "⚠️ FETCH FAILED"
+            status = "[FETCH FAILED]"
         lines.append(
             f"  {check['priority']} | {check['publisher']} — {check['section']}: "
             f"GoDaddy {status} | Competitors: {check.get('competitors_found', [])[:4]}"
@@ -749,7 +749,7 @@ def format_live_data_for_prompt(live_results):
             lines.append(f"  {comp}: FETCH FAILED — use last known rate")
 
     if live_results.get("fallback_used"):
-        lines.append(f"\n⚠️ Fallbacks used (fetch failed): {live_results['fallback_used']}")
+        lines.append(f"\n[WARNING] Fallbacks used (fetch failed): {live_results['fallback_used']}")
 
     return "\n".join(lines)
 
@@ -1017,6 +1017,16 @@ def main():
         print(f"    Publishers checked: {len(live_results['publisher_checks'])}")
         print(f"    Competitor rates:   {len(live_results['competitor_rates'])}")
         print(f"    Fallbacks used:     {len(live_results['fallback_used'])}")
+
+    # ── DRY-RUN: Show prompts without API calls ───────────────────────
+    if args.dry_run:
+        print("\n  [DRY-RUN] Skipping API calls, showing prompts only...")
+        prompt1 = build_prompt_call1(skeleton, live_results)
+        print(f"\n  CALL 1 Prompt ({len(prompt1):,} chars):")
+        print("  " + "\n  ".join(prompt1.split("\n")[:30]))
+        print(f"\n  [DRY-RUN] Prompt contains live rates: {bool('(live 202' in prompt1)}")
+        print(f"  [DRY-RUN] No hardcoded dates: {bool('raised Feb 25 2025' not in prompt1)}")
+        sys.exit(0)
 
     client = get_client(api_key)
 

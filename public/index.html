@@ -568,6 +568,23 @@
         set('pf-aided',   d.kpis.aided_sov && d.kpis.aided_sov.value);
         set('pf-ratesaver', d.kpis.tech_health && d.kpis.tech_health.value);
       }
+      // Update sparklines with weekly trend data
+      if (d.trends && d.trends.weekly) {
+        var sparkUnaided = document.getElementById('spark-unaided');
+        if (sparkUnaided) {
+          sparkUnaided.outerHTML = buildSparkline(d.trends.weekly, 'unaided_sov');
+        }
+
+        var sparkAided = document.getElementById('spark-aided');
+        if (sparkAided) {
+          sparkAided.outerHTML = buildSparkline(d.trends.weekly, 'aided_sov');
+        }
+
+        var sparkRatesaver = document.getElementById('spark-ratesaver');
+        if (sparkRatesaver) {
+          sparkRatesaver.outerHTML = buildSparkline(d.trends.weekly, 'rate_saver_sov');
+        }
+      }
       var catGrid = document.getElementById('category-grid');
       if (catGrid && d.categories) {
         catGrid.innerHTML = d.categories.map(function (c) {

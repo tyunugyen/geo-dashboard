@@ -495,12 +495,34 @@
       return Math.round(3 + (val / maxValue) * 33);
     });
 
+    // Determine how many padding bars (bars with value 0 at the beginning)
+    var paddingCount = 0;
+    for (var j = 0; j < last4.length; j++) {
+      if ((last4[j][metricKey] || 0) === 0) {
+        paddingCount++;
+      } else {
+        break;
+      }
+    }
+
     // Build HTML for 4 bars (just the bars, not the container)
     var bars = '';
     for (var i = 0; i < 4; i++) {
       var isLast = (i === 3);
-      var className = isLast ? 'pf-bar now' : 'pf-bar';
-      bars += '<div class="' + className + '" style="height:' + heights[i] + 'px"></div>';
+      var isPadding = (i < paddingCount);
+      var isPreviousData = (!isPadding && !isLast);
+
+      var className = 'pf-bar';
+      var style = 'height:' + heights[i] + 'px';
+
+      if (isLast) {
+        className += ' now';  // Current week: blue #3182ce
+      } else if (isPreviousData) {
+        style += ';background:#5a8fc4';  // Previous weeks with data: lighter blue
+      }
+      // Padding bars keep default gray #2d3748
+
+      bars += '<div class="' + className + '" style="' + style + '"></div>';
     }
 
     return bars;

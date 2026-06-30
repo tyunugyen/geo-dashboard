@@ -495,15 +495,9 @@
       return Math.round(3 + (val / maxValue) * 33);
     });
 
-    // Determine how many padding bars (bars with value 0 at the beginning)
-    var paddingCount = 0;
-    for (var j = 0; j < last4.length; j++) {
-      if ((last4[j][metricKey] || 0) === 0) {
-        paddingCount++;
-      } else {
-        break;
-      }
-    }
+    // Determine how many padding bars we added (always at the beginning)
+    var actualDataCount = trendsWeekly.slice(-4).length;
+    var paddingCount = 4 - actualDataCount;
 
     // Build HTML for 4 bars (just the bars, not the container)
     var bars = '';
@@ -516,9 +510,9 @@
       var style = 'height:' + heights[i] + 'px';
 
       if (isLast) {
-        className += ' now';  // Current week: blue #3182ce
+        className += ' now';  // Current week: dark blue #3182ce
       } else if (isPreviousData) {
-        style += ';background:#5a8fc4';  // Previous weeks with data: lighter blue
+        style += ';background:#7ba3d1';  // Previous weeks with data: light blue
       }
       // Padding bars keep default gray #2d3748
 

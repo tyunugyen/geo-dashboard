@@ -570,20 +570,31 @@
       }
       // Update sparklines with weekly trend data
       if (d.trends && d.trends.weekly) {
+        console.log('[Sparklines] Updating with', d.trends.weekly.length, 'weeks of data');
+        console.log('[Sparklines] Data:', d.trends.weekly);
+
         var sparkUnaided = document.getElementById('spark-unaided');
         if (sparkUnaided) {
-          sparkUnaided.outerHTML = buildSparkline(d.trends.weekly, 'unaided_sov');
+          var unaidedHTML = buildSparkline(d.trends.weekly, 'unaided_sov');
+          console.log('[Sparklines] Unaided HTML:', unaidedHTML);
+          sparkUnaided.outerHTML = unaidedHTML;
         }
 
         var sparkAided = document.getElementById('spark-aided');
         if (sparkAided) {
-          sparkAided.outerHTML = buildSparkline(d.trends.weekly, 'aided_sov');
+          var aidedHTML = buildSparkline(d.trends.weekly, 'aided_sov');
+          console.log('[Sparklines] Aided HTML:', aidedHTML);
+          sparkAided.outerHTML = aidedHTML;
         }
 
         var sparkRatesaver = document.getElementById('spark-ratesaver');
         if (sparkRatesaver) {
-          sparkRatesaver.outerHTML = buildSparkline(d.trends.weekly, 'rate_saver_sov');
+          var ratesaverHTML = buildSparkline(d.trends.weekly, 'rate_saver_sov');
+          console.log('[Sparklines] RateSaver HTML:', ratesaverHTML);
+          sparkRatesaver.outerHTML = ratesaverHTML;
         }
+      } else {
+        console.log('[Sparklines] No trends.weekly data found in:', d);
       }
       var catGrid = document.getElementById('category-grid');
       if (catGrid && d.categories) {

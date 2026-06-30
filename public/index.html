@@ -462,6 +462,51 @@
     "general_in_person":"prompts.html#tier2","support":"prompts.html#tier4"
   };
 
+  function buildSparkline(trendsWeekly, metricKey) {
+    // Handle missing or empty data
+    if (!trendsWeekly || trendsWeekly.length === 0) {
+      return '<div class="pf-spark">' +
+        '<div class="pf-bar" style="height:3px"></div>' +
+        '<div class="pf-bar" style="height:3px"></div>' +
+        '<div class="pf-bar" style="height:3px"></div>' +
+        '<div class="pf-bar now" style="height:3px"></div>' +
+        '</div>';
+    }
+
+    // Get last 4 weeks (or all if fewer than 4)
+    var last4 = trendsWeekly.slice(-4);
+
+    // Pad to 4 entries if needed (add zeros at beginning)
+    while (last4.length < 4) {
+      var padEntry = {};
+      padEntry[metricKey] = 0;
+      last4.unshift(padEntry);
+    }
+
+    // Extract metric values, treating null/undefined as 0
+    var values = last4.map(function(week) {
+      return week[metricKey] || 0;
+    });
+
+    // Calculate max value (use 0.01 minimum to avoid division by zero)
+    var maxValue = Math.max.apply(null, values.concat([0.01]));
+
+    // Calculate heights using formula: 3 + (value / maxValue) * 33
+    var heights = values.map(function(val) {
+      return Math.round(3 + (val / maxValue) * 33);
+    });
+
+    // Build HTML for 4 bars
+    var bars = '';
+    for (var i = 0; i < 4; i++) {
+      var isLast = (i === 3);
+      var className = isLast ? 'pf-bar now' : 'pf-bar';
+      bars += '<div class="' + className + '" style="height:' + heights[i] + 'px"></div>';
+    }
+
+    return '<div class="pf-spark">' + bars + '</div>';
+  }
+
   // Load both monthly and weekly data files
   Promise.all([
     fetch('data_monthly.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }),

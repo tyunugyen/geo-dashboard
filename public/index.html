@@ -465,12 +465,10 @@
   function buildSparkline(trendsWeekly, metricKey) {
     // Handle missing or empty data
     if (!trendsWeekly || trendsWeekly.length === 0) {
-      return '<div class="pf-spark">' +
+      return '<div class="pf-bar" style="height:3px"></div>' +
         '<div class="pf-bar" style="height:3px"></div>' +
         '<div class="pf-bar" style="height:3px"></div>' +
-        '<div class="pf-bar" style="height:3px"></div>' +
-        '<div class="pf-bar now" style="height:3px"></div>' +
-        '</div>';
+        '<div class="pf-bar now" style="height:3px"></div>';
     }
 
     // Get last 4 weeks (or all if fewer than 4)
@@ -496,7 +494,7 @@
       return Math.round(3 + (val / maxValue) * 33);
     });
 
-    // Build HTML for 4 bars
+    // Build HTML for 4 bars (just the bars, not the container)
     var bars = '';
     for (var i = 0; i < 4; i++) {
       var isLast = (i === 3);
@@ -504,7 +502,7 @@
       bars += '<div class="' + className + '" style="height:' + heights[i] + 'px"></div>';
     }
 
-    return '<div class="pf-spark">' + bars + '</div>';
+    return bars;
   }
 
   // Load both monthly and weekly data files
@@ -577,21 +575,21 @@
         if (sparkUnaided) {
           var unaidedHTML = buildSparkline(d.trends.weekly, 'unaided_sov');
           console.log('[Sparklines] Unaided HTML:', unaidedHTML);
-          sparkUnaided.outerHTML = unaidedHTML;
+          sparkUnaided.innerHTML = unaidedHTML;
         }
 
         var sparkAided = document.getElementById('spark-aided');
         if (sparkAided) {
           var aidedHTML = buildSparkline(d.trends.weekly, 'aided_sov');
           console.log('[Sparklines] Aided HTML:', aidedHTML);
-          sparkAided.outerHTML = aidedHTML;
+          sparkAided.innerHTML = aidedHTML;
         }
 
         var sparkRatesaver = document.getElementById('spark-ratesaver');
         if (sparkRatesaver) {
           var ratesaverHTML = buildSparkline(d.trends.weekly, 'rate_saver_sov');
           console.log('[Sparklines] RateSaver HTML:', ratesaverHTML);
-          sparkRatesaver.outerHTML = ratesaverHTML;
+          sparkRatesaver.innerHTML = ratesaverHTML;
         }
       } else {
         console.log('[Sparklines] No trends.weekly data found in:', d);

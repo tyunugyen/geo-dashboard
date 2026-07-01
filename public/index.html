@@ -556,7 +556,8 @@
     function renderDashboard(d, mode) {
       var meta = document.getElementById('meta-line');
       if (meta && d.meta) {
-        var totalModels = (primaryModels ? Object.keys(primaryModels).length : 0) + (pulseModels ? Object.keys(pulseModels).length : 0);
+        // Count models from model_sov data directly
+        var totalModels = d.model_sov ? Object.keys(d.model_sov).length : 0;
         meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 ' + totalModels + ' models';
       }
       // Last Updated bar

@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "geo-dashboard/server.js",
+      "src": "work/my-product/geo/geo-dashboard/server.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["geo-dashboard/public/**"]
+        "includeFiles": ["work/my-product/geo/geo-dashboard/public/**"]
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "geo-dashboard/server.js"
+      "dest": "work/my-product/geo/geo-dashboard/server.js"
     }
   ],
-  "installCommand": "cd geo-dashboard && npm install"
+  "installCommand": "cd work/my-product/geo/geo-dashboard && npm install"
 }

@@ -570,11 +570,11 @@
       }
       // Last Updated bar
       if (d.meta) {
-        var luDate = document.getElementById('lu-date');
+        var luDate = document.querySelector('[data-lu-date]');
         if (luDate) luDate.textContent = (d.meta.run_date || '—') + (d.meta.run_time ? ' ' + d.meta.run_time : '');
-        var luRun = document.getElementById('lu-run');
+        var luRun = document.querySelector('[data-lu-run]');
         if (luRun) luRun.textContent = d.meta.run_id || '—';
-        var luMod = document.getElementById('lu-models');
+        var luMod = document.querySelector('[data-lu-details]');
         if (luMod) luMod.textContent = (d.meta.models || '3 models') + ' \u00b7 ' + (d.meta.prompt_count || 70) + ' prompts';
         var luSt = document.getElementById('lu-status');
         if (luSt) {

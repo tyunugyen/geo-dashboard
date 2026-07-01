@@ -357,7 +357,7 @@ def main():
         (["add", "-f", f"benchmarks/{os.path.basename(args.csv_path)}"],
          "Staging CSV"),
         (["commit", "-m", commit_msg],     "Committing"),
-        (["push"],                          "Pushing to GitHub → PaaS will redeploy"),
+        (["push", "origin", "main"],        "Pushing to GitHub → PaaS will redeploy"),
     ]
     for git_args, label in steps:
         print(f"  {label}...", end=" ", flush=True)

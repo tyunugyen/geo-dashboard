@@ -2,10 +2,12 @@
   "meta": {
     "label": "Monthly",
     "period": "June 2026",
-    "run_id": "2026-06-W26",
+    "run_id": "2026-06-W27",
+    "run_date": "2026-06-30",
+    "run_time": "08:48",
     "sources": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro, Gemini 2.5 Flash, o3, o3-mini, Gemini 3.1 Pro Preview (GoCode proxy)",
     "prompt_bank_version": "2.6",
-    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro, Gemini 2.5 Flash, o3, o3-mini, Gemini 3.1 Pro Preview",
+    "models": "Claude Haiku 4.5",
     "prompt_count": 70
   },
   "kpis": {

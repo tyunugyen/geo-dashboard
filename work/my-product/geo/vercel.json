@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "geo-dashboard/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["geo-dashboard/public/**"]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "geo-dashboard/server.js"
+    }
+  ],
+  "installCommand": "cd geo-dashboard && npm install"
+}

@@ -185,9 +185,13 @@
   .tier-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:14px; }
   .t1{background:#1a2744;color:#90cdf4;} .t2{background:#1a2e1a;color:#68d391;}
   .t3{background:#2d1f00;color:#f6ad55;} .t4{background:#2a1a2e;color:#d6bcfa;} .t5{background:#2d3748;color:#a0aec0;}
-  .prompt-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .prompt-table { width:100%; border-collapse:collapse; font-size:12px; table-layout:fixed; }
   .prompt-table th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #2d3748; }
   .prompt-table td { padding:7px 8px; border-bottom:1px solid #1a1f2e; color:#cbd5e0; vertical-align:top; }
+  .prompt-table th:nth-child(1), .prompt-table td:nth-child(1) { width:46px; }
+  .prompt-table th:nth-child(2), .prompt-table td:nth-child(2) { width:28px; }
+  .prompt-table th:nth-child(3), .prompt-table td:nth-child(3) { width:50%; }
+  .prompt-table th:nth-child(4), .prompt-table td:nth-child(4) { width:auto; }
   .prompt-id { font-weight:700; color:#90cdf4; white-space:nowrap; }
   .draft-box { background:#0d1420; border:1px solid #2d3748; border-radius:8px; padding:16px; margin:10px 0; font-size:13px; line-height:1.6; color:#cbd5e0; }
   .draft-box code { background:#1a1f2e; padding:2px 6px; border-radius:4px; color:#90cdf4; font-size:12px; }

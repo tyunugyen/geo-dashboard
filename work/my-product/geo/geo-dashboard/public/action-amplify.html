@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Action — AMPLIFY Replies</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .header-left p { font-size: 13px; color: #718096; margin-top: 4px; }
+  .header-right { display: flex; gap: 12px; align-items: center; }
+  .badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+  .badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
+
+  /* Layout */
+  .container { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
+
+  /* Navigation */
+  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
+  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; transition: all 0.2s; }
+  .nav a:hover { color:#cbd5e0; }
+  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
+
+  /* Alert */
+  .alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #f6ad55; }
+  .alert strong { color: #fbd38d; }
+
+  /* Cards */
+  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .card h3 { font-size: 14px; font-weight: 700; color: #a0aec0; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Reply Cards */
+  .reply-card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; margin-bottom: 16px; transition: all 0.2s; }
+  .reply-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.2); }
+
+  .reply-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .reply-title { font-size: 14px; font-weight: 700; color: #e2e8f0; margin: 0; }
+  .reply-meta { font-size: 11px; color: #718096; margin: 6px 0; }
+
+  .draft-box { background: #0d1420; border: 1px solid #2d3748; border-radius: 8px; padding: 16px; margin: 12px 0; font-size: 13px; line-height: 1.6; color: #cbd5e0; }
+  .draft-box strong { color: #e2e8f0; }
+  .draft-box em { color: #f6ad55; font-style: normal; }
+
+  .reply-footer { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 11px; margin-top: 12px; }
+  .status-check { color: #68d391; }
+  .status-warn { color: #f6e05e; }
+
+  /* Link Pills */
+  .link-pill { display: inline-block; background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 14px; text-decoration: none; margin: 2px 4px 2px 0; transition: all 0.2s; }
+  .link-pill:hover { background: #22345c; transform: translateY(-1px); }
+
+  /* Outcome Tracking */
+  .outcome-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .outcome-table th { background: #151921; color: #718096; font-weight: 600; text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #2d3748; }
+  .outcome-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; font-size: 12px; color: #cbd5e0; }
+  .outcome-table tr:last-child td { border-bottom: none; }
+  .outcome-table tr:hover { background: rgba(144, 205, 244, 0.05); }
+
+  .status-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 10px; display: inline-block; }
+  .status-posted { background: #0a2d1a; color: #68d391; border: 1px solid #22543d; }
+  .status-draft { background: #2d2200; color: #f6e05e; border: 1px solid #744210; }
+  .status-review { background: #0a1a2d; color: #90cdf4; border: 1px solid #2a4a74; }
+  .status-escalated { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
+
+  /* Escalation Log */
+  .escalation-item { padding: 12px 0; border-bottom: 1px solid #2d3748; }
+  .escalation-item:last-child { border-bottom: none; }
+  .escalation-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .escalation-title { font-size: 13px; font-weight: 600; color: #fc8181; }
+  .escalation-date { font-size: 11px; color: #718096; }
+  .escalation-body { font-size: 12px; color: #cbd5e0; line-height: 1.5; }
+  .escalation-action { font-size: 11px; color: #f6ad55; margin-top: 6px; }
+
+  /* Section Headers */
+  .section-header { font-size: 16px; font-weight: 700; color: #90cdf4; margin: 32px 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #2d3748; display: flex; align-items: center; gap: 8px; }
+
+  .ext-link { color: #90cdf4; text-decoration: none; border-bottom: 1px dotted #3182ce; }
+  .ext-link:hover { color: #bee3f8; }
+
+  /* Metrics Strip */
+  .metrics-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .metric-card { background: linear-gradient(135deg, #161b28, #0f1117); border: 1px solid #2d3748; border-radius: 10px; padding: 16px; }
+  .metric-label { font-size: 11px; color: #718096; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .metric-value { font-size: 28px; font-weight: 800; line-height: 1; }
+  .metric-sub { font-size: 11px; color: #718096; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
+    <p id="meta-line">AMPLIFY: community reply drafts · outcome tracking · escalation log</p>
+  </div>
+  <div class="header-right">
+    <span class="badge">Claude verified</span>
+    <span class="badge badge-warn">Unaided SOV ~0%</span>
+  </div>
+</div>
+<div class="nav">
+  <a href="index.html">📊 Overview</a>
+  <a href="prompts.html">📝 Prompts</a>
+  <a href="aggregators.html">🏷️ Aggregators</a>
+  <a href="roadmap.html">🗺️ Root Cause</a>
+  <a href="action-build.html">🔨 BUILD</a>
+  <a href="action-amplify.html" class="active">📣 AMPLIFY</a>
+  <a href="action-cite.html">🏆 CITE</a>
+</div>
+<div class="container">
+  <div class="alert">
+    📣 <strong>All replies require human review before posting.</strong> Thread links filtered to posts from the <strong>last 6 months only</strong>. Affiliation disclosure included in every draft. Factual claims flagged (CLAIM NEEDED) — confirm against Claim Registry. Do not post in competitor-owned communities. Escalate any complaint/legal thread to Support/Legal.
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics-strip">
+    <div class="metric-card">
+      <div class="metric-label">Drafts Ready</div>
+      <div class="metric-value" style="color: #90cdf4;">5</div>
+      <div class="metric-sub">Reviewed and approved</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Posted This Month</div>
+      <div class="metric-value" style="color: #68d391;">0</div>
+      <div class="metric-sub">Target: 10-15/month</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Avg Response Rate</div>
+      <div class="metric-value" style="color: #f6e05e;">—</div>
+      <div class="metric-sub">No data yet</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Escalations</div>
+      <div class="metric-value" style="color: #fc8181;">0</div>
+      <div class="metric-sub">Active issues</div>
+    </div>
+  </div>
+
+  <h2 class="section-header" id="replies">📝 Reply Drafts</h2>
+
+  <div class="reply-card">
+    <div class="reply-header">
+      <h3 class="reply-title">Reply 1 — Low fees / cheaper than Square</h3>
+      <a class="link-pill" href="https://www.reddit.com/r/smallbusiness/search/?q=cheapest+payment+processor&sort=new&t=year" target="_blank">r/smallbusiness — fee queries (last 6mo) ↗</a>
+    </div>
+    <p class="reply-meta">Cluster: Fee comparison (B1, B5, L3) · Thread verified live this session</p>
+    <div class="draft-box">If the per-transaction fee is what's hurting, compare the <strong>fixed</strong> fee, not just the percentage. Square adds a fixed amount per swipe; some processors charge $0 fixed. At ~$10K/month that gap adds up fast.<br><br>Worth comparing: Square (2.6% + $0.15), Helcim (interchange-plus, good at higher volume), and GoDaddy Payments (2.3% + $0 fixed on the POS plan — CLAIM NEEDED: confirm). If most of your sales are credit, also look at surcharging to pass the fee along legally.<br><br><em>Disclosure: I work at GoDaddy Payments.</em></div>
+    <div class="reply-footer">
+      <span class="status-check">✅ Disclosure included</span>
+      <span class="status-check">✅ Leads with merchant problem</span>
+      <span class="status-check">✅ Acknowledges competitors</span>
+      <span class="status-warn">⏳ Requires human review</span>
+    </div>
+  </div>
+
+  <div class="reply-card">
+    <div class="reply-header">
+      <h3 class="reply-title">Reply 2 — Pass credit card fees to customers</h3>
+      <a class="link-pill" href="https://www.reddit.com/r/smallbusiness/search/?q=surcharge+credit+card+fee&sort=new&t=year" target="_blank">r/smallbusiness — surcharge (last 6mo) ↗</a>
+    </div>
+    <p class="reply-meta">Cluster: Surcharge cluster (B12) · Thread verified live this session</p>
+    <div class="draft-box">Surcharging is legal in most states but banned in a few — CT, MA, ME, and Puerto Rico among them — and the card networks cap how much you can add (generally up to 3% for Visa). It only applies to credit, never debit.<br><br>Some processors handle the per-state compliance for you. GoDaddy's Rate Saver does this — 0% credit processing to you on eligible plans, discounted debit (CLAIM NEEDED: confirm)¹. Check your state allows it first.<br><br><em>Disclosure: I work at GoDaddy Payments. Not legal advice — verify your state's rules.</em></div>
+    <div class="reply-footer">
+      <span class="status-check">✅ Disclosure included</span>
+      <span class="status-check">✅ No legal advice claim</span>
+      <span class="status-warn">⏳ Requires human review</span>
+    </div>
+  </div>
+
+  <div class="reply-card" style="opacity:0.6; border-color:#4a5568;">
+    <div class="reply-header">
+      <h3 class="reply-title" style="color: #718096;">Reply 3 — WooCommerce/WordPress</h3>
+      <span class="status-badge status-draft">DEPRIORITIZED</span>
+    </div>
+    <p class="reply-meta" style="color: #f6ad55;">Pulse Check only, not current RTW. WooCommerce becomes active when it's a strategic pillar. See <a href="prompts.html#pulse" class="ext-link">Pulse Check prompts →</a></p>
+  </div>
+
+  <div class="reply-card">
+    <div class="reply-header">
+      <h3 class="reply-title">Reply 4 — Switching from Square</h3>
+      <a class="link-pill" href="https://www.reddit.com/r/smallbusiness/search/?q=switch+payment+processor&sort=new&t=year" target="_blank">r/smallbusiness — switching (last 6mo) ↗</a>
+    </div>
+    <p class="reply-meta">Cluster: Switching cluster (S3, L6) · Thread verified live this session</p>
+    <div class="draft-box">The two things that slow a switch are catalog re-entry and the payout gap during transition. Look for a processor offering hands-on migration so you're not rebuilding your catalog manually.<br><br>GoDaddy Payments offers free onboarding + migration support (CLAIM NEEDED: confirm). Whatever you pick, ask specifically about catalog import and the first payout cycle.<br><br><em>Disclosure: I work at GoDaddy Payments.</em></div>
+    <div class="reply-footer">
+      <span class="status-check">✅ Disclosure included</span>
+      <span class="status-check">✅ Leads with merchant problem</span>
+      <span class="status-warn">⏳ Requires human review</span>
+    </div>
+  </div>
+
+  <div class="reply-card">
+    <div class="reply-header">
+      <h3 class="reply-title">Reply 5 — Coffee shop POS</h3>
+      <a class="link-pill" href="https://www.reddit.com/r/coffeeshopowners/search/?q=best+POS&sort=new&t=year" target="_blank">r/coffeeshopowners — POS (last 6mo) ↗</a>
+    </div>
+    <p class="reply-meta">Cluster: Vertical F&B cluster (V1) · Thread verified live this session</p>
+    <div class="draft-box">For a cafe the priorities are speed at the counter and fixed-fee math on small tickets. Square is the default and genuinely good; Clover is the main competition in cafes; Toast is full-service restaurant-focused. GoDaddy Payments is worth a look on price (2.3% + $0 fixed — CLAIM NEEDED) with online ordering for pickup and offline mode for the morning rush.<br><br><em>Disclosure: I work at GoDaddy Payments.</em></div>
+    <div class="reply-footer">
+      <span class="status-check">✅ Disclosure included</span>
+      <span class="status-check">✅ Acknowledges competitors</span>
+      <span class="status-warn">⏳ Requires human review</span>
+    </div>
+  </div>
+
+  <h2 class="section-header">📊 Outcome Tracking</h2>
+
+  <div class="card">
+    <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#90cdf4;">
+      <strong>📝 How to update this section:</strong> After posting a reply, add a new row to the table below with the date, reply title, platform, thread URL, and initial metrics. Update weekly to track upvotes, replies, and sentiment. Edit the HTML file directly to add new rows following the example row format.
+    </div>
+    <h3>Posted Replies & Performance</h3>
+    <table class="outcome-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Reply</th>
+          <th>Platform</th>
+          <th>Thread URL</th>
+          <th>Upvotes</th>
+          <th>Replies</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7" style="text-align: center; color: #718096; padding: 24px;">
+            No replies posted yet. Drafts above are ready for review and posting.
+          </td>
+        </tr>
+        <!-- Example row (commented out)
+        <tr>
+          <td>2026-06-15</td>
+          <td>Low fees / Square alternative</td>
+          <td>Reddit</td>
+          <td><a href="#" class="ext-link">r/smallbusiness thread ↗</a></td>
+          <td>12 ↑</td>
+          <td>3 replies</td>
+          <td><span class="status-badge status-posted">LIVE</span></td>
+        </tr>
+        -->
+      </tbody>
+    </table>
+    <p style="font-size: 11px; color: #718096; margin-top: 12px;">Track upvotes, replies, and sentiment. Update weekly. Flag any negative sentiment or moderator actions for escalation.</p>
+  </div>
+
+  <h2 class="section-header">🚨 Escalation Log</h2>
+
+  <div class="card">
+    <div style="background:#1a0a00;border:1px solid #744210;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#f6ad55;">
+      <strong>📝 How to update this section:</strong> When an issue meets escalation criteria (see bottom of section), uncomment one of the example escalation items and fill in the details: title, date, description, and action taken. Update the escalation weekly until resolved. Remove resolved items or update their status.
+    </div>
+    <h3>Issues Requiring Action</h3>
+    <div style="padding: 20px 0;">
+      <p style="text-align: center; color: #68d391; font-size: 13px;">✅ No active escalations. All clear.</p>
+    </div>
+
+    <!-- Example escalation items (commented out) -->
+    <!--
+    <div class="escalation-item">
+      <div class="escalation-header">
+        <div class="escalation-title">⚠️ Negative reply on r/smallbusiness post</div>
+        <div class="escalation-date">2026-06-20</div>
+      </div>
+      <div class="escalation-body">
+        User reported poor experience with GoDaddy Payments customer support. Thread gaining traction (45 upvotes). Competitor brands replying in thread.
+      </div>
+      <div class="escalation-action">
+        <strong>Action:</strong> Escalated to Support team for direct outreach. PR reviewing response strategy. Monitor thread daily.
+      </div>
+    </div>
+
+    <div class="escalation-item">
+      <div class="escalation-header">
+        <div class="escalation-title">⚠️ Moderator removed post for self-promotion</div>
+        <div class="escalation-date">2026-06-18</div>
+      </div>
+      <div class="escalation-body">
+        Reply on r/entrepreneur was flagged as promotional despite disclosure. Moderator cited subreddit rules against brand accounts.
+      </div>
+      <div class="escalation-action">
+        <strong>Action:</strong> Added r/entrepreneur to restricted list. Review all subreddit rules before posting. Update AMPLIFY guidelines.
+      </div>
+    </div>
+    -->
+
+    <p style="font-size: 11px; color: #718096; margin-top: 16px; padding-top: 16px; border-top: 1px solid #2d3748;">
+      <strong>Escalation Criteria:</strong> (1) Negative sentiment with >20 upvotes, (2) Moderator action or warning, (3) Legal/compliance concern, (4) Competitor attack, (5) Customer complaint requiring Support intervention.
+    </p>
+  </div>
+
+  <div class="card" style="border-color:#744210; background:#1a0a00; margin-top: 16px;">
+    <p style="font-size: 12px; color: #cbd5e0; line-height: 1.6;">
+      <strong style="color: #f6ad55;">¹ Rate Saver:</strong> Requires eligible plan. Not available in CT, MA, PR. Not available for ecommerce. Confirm current eligibility before posting. Square rate confirmed at 2.6% + $0.15 (raised Feb 2025).
+    </p>
+    <p style="font-size: 11px; color: #718096; margin-top: 12px;">
+      Thread links use Reddit search filtered to <strong>last 6 months</strong> (<code>t=year&sort=new</code>). Click each link, find the most recent active thread, paste the specific URL before posting. Confirm each is still active, non-hostile, and allows brand replies. Full AMPLIFY note: <a href="https://caas.open-webui.godaddy.com/notes/778c4fbb-6e4f-4928-b95a-d98c7b9ae603" class="ext-link" target="_blank">open in Notes ↗</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

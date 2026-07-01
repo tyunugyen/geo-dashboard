@@ -564,10 +564,8 @@
     function renderDashboard(d, mode) {
       var meta = document.getElementById('meta-line');
       if (meta && d.meta) {
-        // Use meta fields directly instead of counting model_sov keys
-        var modelInfo = d.meta.models || '3 models';
-        var promptInfo = d.meta.prompt_count || 70;
-        meta.textContent = d.meta.label + ' \u00b7 ' + d.meta.period + ' \u00b7 Run ID: ' + d.meta.run_id + (d.meta.run_date ? ' \u00b7 Updated: ' + d.meta.run_date + (d.meta.run_time ? ' ' + d.meta.run_time : '') : '') + ' \u00b7 ' + modelInfo + ' \u00b7 ' + promptInfo + ' prompts';
+        // Simplified header: just show period and run_id
+        meta.textContent = d.meta.period + ' \u00b7 ' + d.meta.run_id + ' \u00b7 ' + (d.meta.prompt_count || 70) + ' prompts';
       }
       // Last Updated bar
       if (d.meta) {
@@ -860,11 +858,16 @@
               var weekly = trendsData.weekly || [];
               var monthly = trendsData.monthly || [];
 
+          console.log('[Trends] weekly data:', weekly);
+          console.log('[Trends] monthly data:', monthly);
+
           // ALWAYS render chart with 6-month rolling window, even with no data
           // Combine all data points
           var allPoints = {};
           weekly.forEach(function(p) { allPoints[p.run_id] = p; });
           monthly.forEach(function(p) { allPoints[p.run_id] = p; });
+
+          console.log('[Trends] allPoints:', allPoints);
 
           // Generate rolling 6-month window of weekly ticks
           // Find the earliest data point or use current date
@@ -921,25 +924,26 @@
           var currentDate = new Date(startDate);
           while (currentDate <= endDate) {
             var year = currentDate.getFullYear();
+            var month = currentDate.getMonth() + 1;
             var isoWeek = getISOWeek(currentDate);
-            // Try all possible run_id formats for this week (different month prefixes)
-            // This handles cases where ISO week spans month boundaries
-            var possibleRunIds = [];
-            for (var m = 1; m <= 12; m++) {
-              var monthStr = (m < 10 ? '0' : '') + m;
-              var weekStr = (isoWeek < 10 ? '0' : '') + isoWeek;
-              possibleRunIds.push(year + '-' + monthStr + '-W' + weekStr);
-            }
-            // Find matching data from any of the possible formats
+            var monthStr = (month < 10 ? '0' : '') + month;
+            var weekStr = (isoWeek < 10 ? '0' : '') + isoWeek;
+            var runId = year + '-' + monthStr + '-W' + weekStr;
+
+            // Match by year and week number only (ignore month in run_id)
+            // because ISO weeks can span month boundaries
             var matchedData = null;
-            for (var p = 0; p < possibleRunIds.length; p++) {
-              if (allPoints[possibleRunIds[p]]) {
-                matchedData = allPoints[possibleRunIds[p]];
+            for (var key in allPoints) {
+              var keyMatch = key.match(/^(\d{4})-\d{2}-(W\d{2})$/);
+              if (keyMatch && keyMatch[1] === year.toString() && keyMatch[2] === 'W' + weekStr) {
+                matchedData = allPoints[key];
+                console.log('[Trends] Matched', key, 'to', runId);
                 break;
               }
             }
+
             weeklyTicks.push({
-              runId: possibleRunIds[5], // Use middle month (June) as display format
+              runId: runId,
               date: new Date(currentDate),
               data: matchedData // null if no data for this week
             });
@@ -1280,8 +1284,7 @@
   // ── Apply full data.json to dashboard ────────────────────────
   function applyFullData(d) {
     var meta=document.getElementById('meta-line');
-    if(meta&&d.meta) meta.textContent=d.meta.label+' \u00b7 '+d.meta.period+
-      ' \u00b7 Run ID: '+d.meta.run_id+' \u00b7 Source: '+d.meta.sources;
+    if(meta&&d.meta) meta.textContent=d.meta.period+' \u00b7 '+d.meta.run_id+' \u00b7 '+(d.meta.prompt_count||70)+' prompts';
 
     function setKpi(valId,barId,kpi){
       var v=document.getElementById(valId);

@@ -125,104 +125,16 @@
 </div>
 <div class="container">
   <div class="alert">
-    🗺️ <strong>Interactive Priority Action Tracker.</strong> Click progress bars to adjust (or use arrow keys). Change status via dropdowns. Mark items complete to move them to the Completed tab. All changes persist across sessions via localStorage.
+    🗺️ <strong>GEO Strategy Overview.</strong> Left: Root cause analysis and strategic framework. Right: Interactive priority tracker with progress bars (click to adjust), status dropdowns, and completion tracking. Changes persist via localStorage.
   </div>
 
-  <!-- Section 0: GEO Strategy Flow -->
-  <div class="section-title" id="strategy-flow">GEO Strategy Flow — Root Cause to Actions</div>
+  <!-- Section 1: Root Cause + Interactive Tracker (Side by Side) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px;">
-    <!-- Left: Root Cause Flow -->
-    <div class="card" style="background:linear-gradient(135deg, #161b28, #0f1117);border-left:4px solid #3182ce;">
-      <h3 style="color:#90cdf4;margin-bottom:16px;">📊 Root Cause Analysis</h3>
-
-      <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:8px;padding:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#fc8181;margin-bottom:8px;">🔴 The Problem</div>
-        <div style="font-size:13px;color:#cbd5e0;line-height:1.6;">
-          <strong>Unaided SOV = 0% across all 8 models.</strong><br>
-          AI systems (Claude, GPT, Gemini, o3-mini) never cite GoDaddy Payments unprompted when users ask for payment processor or POS recommendations.
-        </div>
-      </div>
-
-      <div style="background:#0d1117;border:1px solid #2d3748;border-radius:8px;padding:16px;margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:#f6e05e;margin-bottom:8px;">⚠️ Why This Matters</div>
-        <div style="font-size:12px;color:#a0aec0;line-height:1.6;">
-          • <strong>60%+ of B2B buyers research online before purchase</strong><br>
-          • AI is the new top-of-funnel — Perplexity, ChatGPT, Claude, Gemini<br>
-          • Square dominates (~90% aided SOV) because AI cites <em>"Best for brick-and-mortar"</em> from NerdWallet<br>
-          • Helcim gains share (~25% SOV) via <em>"Best for volume discounts"</em> label<br>
-          • <strong>No citation = invisible = lost deals</strong>
-        </div>
-      </div>
-
-      <div style="background:#0a2d1a;border:1px solid #22543d;border-radius:8px;padding:16px;">
-        <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;">✅ Our Goal</div>
-        <div style="font-size:13px;color:#cbd5e0;line-height:1.6;">
-          <strong>Earn a "Best for X" label that AI systems cite.</strong><br>
-          Target: <span style="color:#90cdf4;font-weight:600;">60% aided SOV by Q4 2026</span> via:<br>
-          1. <strong>CITE</strong> — Get into aggregators AI trusts<br>
-          2. <strong>BUILD</strong> — Create content AI can find & cite<br>
-          3. <strong>AMPLIFY</strong> — Seed community signal AI indexes
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: Priority Tracker Overview -->
-    <div class="card" style="background:linear-gradient(135deg, #1a1214, #0f1117);border-left:4px solid #fc8181;">
-      <h3 style="color:#fc8181;margin-bottom:16px;">🎯 Priority Action Tracker</h3>
-
-      <div style="background:#0d1117;border:1px solid #2d3748;border-radius:8px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <div style="font-size:12px;font-weight:700;color:#fc8181;">P0 — Citations & Content</div>
-          <div style="font-size:11px;color:#4a5568;">Highest impact</div>
-        </div>
-        <div style="font-size:11px;color:#a0aec0;margin-bottom:8px;">
-          Root cause: <span style="color:#fc8181;font-weight:600;">Citation gap + Rate Saver invisibility</span><br>
-          Strategy: CITE outreach + BUILD Rate Saver page
-        </div>
-        <div style="background:#2d3748;height:6px;border-radius:3px;overflow:hidden;">
-          <div style="background:#fc8181;height:100%;width:30%;"></div>
-        </div>
-      </div>
-
-      <div style="background:#0d1117;border:1px solid #2d3748;border-radius:8px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <div style="font-size:12px;font-weight:700;color:#f6e05e;">P1 — Content & Community</div>
-          <div style="font-size:11px;color:#4a5568;">Medium impact</div>
-        </div>
-        <div style="font-size:11px;color:#a0aec0;margin-bottom:8px;">
-          Root cause: <span style="color:#f6e05e;font-weight:600;">Content gap + Community signal gap</span><br>
-          Strategy: BUILD vertical pages + AMPLIFY Reddit/Quora
-        </div>
-        <div style="background:#2d3748;height:6px;border-radius:3px;overflow:hidden;">
-          <div style="background:#f6e05e;height:100%;width:15%;"></div>
-        </div>
-      </div>
-
-      <div style="background:#0d1117;border:1px solid #2d3748;border-radius:8px;padding:14px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <div style="font-size:12px;font-weight:700;color:#90cdf4;">P2 — Enhancement</div>
-          <div style="font-size:11px;color:#4a5568;">Lower priority</div>
-        </div>
-        <div style="font-size:11px;color:#a0aec0;margin-bottom:8px;">
-          Root cause: <span style="color:#90cdf4;font-weight:600;">Evidence gap</span><br>
-          Strategy: BUILD rate tables, FAQ, comparisons
-        </div>
-        <div style="background:#2d3748;height:6px;border-radius:3px;overflow:hidden;">
-          <div style="background:#90cdf4;height:100%;width:5%;"></div>
-        </div>
-      </div>
-
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #2d3748;font-size:11px;color:#718096;">
-        ⬇️ <strong>Scroll down</strong> for detailed root causes, strategies, and interactive progress tracking by priority.
-      </div>
-    </div>
-  </div>
-
-  <!-- Section 1: Root Cause Summary -->
-  <div class="section-title" id="root-cause">Root Cause Summary & Strategies</div>
-
-  <div class="card">
+    <!-- LEFT: Root Cause Summary & Strategies -->
+    <div>
+      <div class="section-title" id="root-cause">Root Cause Summary</div>
+      <div class="card" style="background:linear-gradient(135deg, #161b28, #0f1117);border-left:4px solid #3182ce;">
     <div class="priority-header">
       <div>Priority</div>
       <div>Root Cause</div>
@@ -294,12 +206,13 @@
       </div>
       <div><a href="action-build.html#enhancements" class="action-btn">→ View enhancements</a></div>
     </div>
-  </div>
+      </div>
+    </div>
 
-  <!-- Section 2: Interactive Priority Tracker -->
-  <div class="section-title" id="tracker">Interactive Priority Tracker</div>
-
-  <div class="card" id="additional-actions">
+    <!-- RIGHT: Interactive Priority Tracker -->
+    <div>
+      <div class="section-title" id="tracker">Interactive Priority Tracker</div>
+      <div class="card" id="additional-actions">
     <div class="note-badge">📊 Priorities aggregated across all pages (BUILD, CITE, AMPLIFY) — Click bars to adjust progress</div>
 
     <div class="tabs">
@@ -445,9 +358,11 @@
       </div>
       <div id="completed-items"></div>
     </div>
-  </div>
+      </div>
+    </div>
+  </div><!-- End of side-by-side grid -->
 
-</div>
+</div><!-- End of container -->
 
 <script src="./js/session-loader.js"></script>
 <script>

@@ -27,19 +27,27 @@
   .alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #f6ad55; }
   .alert strong { color: #fbd38d; }
 
-  /* KPI cards row */
+  /* KPI cards row - Report page style with sparklines */
   .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-  .kpi { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
-  .kpi-label { font-size: 11px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .kpi-value { font-size: 36px; font-weight: 800; line-height: 1; }
-  .kpi-sub { font-size: 12px; color: #718096; margin-top: 6px; }
-  .kpi-target { font-size: 11px; color: #4a5568; margin-top: 4px; }
+  .kpi { background: #161b28; border: 1px solid #2d3748; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi.red::before { background: #fc8181; }
+  .kpi.yellow::before { background: #f6e05e; }
+  .kpi.green::before { background: #68d391; }
+  .kpi.blue::before { background: #90cdf4; }
+  .kpi-label { font-size: 11px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 34px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .kpi.red .kpi-value { color: #fc8181; }
+  .kpi.yellow .kpi-value { color: #f6e05e; }
+  .kpi.green .kpi-value { color: #68d391; }
+  .kpi.blue .kpi-value { color: #90cdf4; }
+  .kpi-sub { font-size: 11px; color: #718096; }
+  .kpi-target { font-size: 11px; color: #4a5568; margin-top: 8px; padding-top: 8px; border-top: 1px solid #2d3748; }
+  .kpi-target span { color: #63b3ed; font-weight: 700; }
   .red { color: #fc8181; }
   .green { color: #68d391; }
   .yellow { color: #f6e05e; }
   .blue { color: #90cdf4; }
-  .kpi-bar { height: 4px; background: #2d3748; border-radius: 2px; margin-top: 10px; }
-  .kpi-bar-fill { height: 100%; border-radius: 2px; }
 
   /* Section headers */
   .section-title { font-size: 14px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
@@ -225,35 +233,35 @@
 <div class="container">
 <div class="alert">⚠️ <strong>Unaided SOV is ~0%.</strong> GoDaddy is invisible when AI builds a consideration set cold. Binding constraint = missing third-party citations. Crawler access is confirmed working.</div>
 
-  <div class="section-title">📈 Top-Line Metrics <span style="font-weight:400;color:#4a5568;text-transform:none;font-size:11px;">— Monthly benchmark (5 primary models) + Weekly pulse (Haiku)</span></div>
-  <div class="pf-strip">
-    <div class="pf-card">
-      <div class="pf-metric">📊 Unaided Share of Voice</div>
-      <div class="pf-big red" id="pf-unaided">~0%</div>
-      <div class="pf-delta" style="color:#718096;">baseline · no prior month</div>
-      <div class="pf-spark" id="spark-unaided"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-      <div class="pf-foot">Target: 40%+ by month 9</div>
+  <div class="section-title">📈 Top-Line Metrics</div>
+  <div class="kpi-row">
+    <div class="kpi red">
+      <div class="kpi-label">🎯 Unaided SOV</div>
+      <div class="kpi-value" id="pf-unaided">~0%</div>
+      <div class="kpi-sub">Cold discovery — no GoDaddy in prompt</div>
+      <div class="pf-spark" id="spark-unaided" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
     </div>
-    <div class="pf-card">
-      <div class="pf-metric">✅ Aided Share of Voice</div>
-      <div class="pf-big green" id="pf-aided">~100%</div>
-      <div class="pf-delta" style="color:#718096;">baseline · maintain</div>
-      <div class="pf-spark" id="spark-aided"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:34px"></div></div>
-      <div class="pf-foot">Target: maintain ~100%</div>
+    <div class="kpi green">
+      <div class="kpi-label">✅ Aided SOV</div>
+      <div class="kpi-value" id="pf-aided">~100%</div>
+      <div class="kpi-sub">GoDaddy named in prompt — model knowledge ✓</div>
+      <div class="pf-spark" id="spark-aided" style="margin-top:10px;"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:34px"></div></div>
+      <div class="kpi-target">Target: <span>Maintain ~100%</span></div>
     </div>
-    <div class="pf-card">
-      <div class="pf-metric">🏷️ Citation Rank</div>
-      <div class="pf-big red">Unranked</div>
-      <div class="pf-delta" style="color:#fc8181;">absent from 5/7 aggregators</div>
-      <div class="pf-spark"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-      <div class="pf-foot">Source: aggregator label map</div>
+    <div class="kpi red">
+      <div class="kpi-label">🏆 Citation Rank</div>
+      <div class="kpi-value" style="font-size:20px;padding-top:8px;">Unranked</div>
+      <div class="kpi-sub">Absent 5/7 top aggregators</div>
+      <div class="pf-spark" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
     </div>
-    <div class="pf-card">
-      <div class="pf-metric">💡 Rate Saver Cited</div>
-      <div class="pf-big red" id="pf-ratesaver">0%</div>
-      <div class="pf-delta" style="color:#fc8181;">only 0% product in market</div>
-      <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-      <div class="pf-foot">Target: 50% of fee queries</div>
+    <div class="kpi yellow">
+      <div class="kpi-label">💡 Rate Saver Cited</div>
+      <div class="kpi-value" id="pf-ratesaver">0%</div>
+      <div class="kpi-sub">Only 0% product on market — invisible</div>
+      <div class="pf-spark" id="spark-ratesaver" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
     </div>
   </div>
 

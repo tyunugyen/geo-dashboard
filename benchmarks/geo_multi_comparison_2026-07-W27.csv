@@ -1,2 +1,2 @@
 model_id,model_name,unaided_sov,aided_sov,rate_saver_sov,unaided_hits,unaided_prompts,aided_hits,aided_prompts,status
-gemini-2.5-pro,Gemini 2.5 Pro,0.0%,71.4%,0.0%,0,63,5,7,success
+gemini-2.5-pro,Gemini 2.5 Pro,0.0%,100.0%,0.0%,0,63,7,7,success

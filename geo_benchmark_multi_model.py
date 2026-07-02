@@ -166,9 +166,33 @@ def pct(n, d):   return round(1000*n/d)/10 if d else 0.0
 def fmt(v):      return f"{v:.0f}%" if v==int(v) else f"{v:.1f}%"
 def norm(t):     return t.lower()
 
-def detect_godaddy(text):
+def detect_godaddy(text, prompt_text="", prompt_type="U"):
+    """Detect GoDaddy mentions in response.
+
+    For comparison prompts (Brand type with 'vs'), also accepts implicit mentions:
+    - "both" when comparing two options
+    - "each", "either", "they" in comparative context
+
+    This prevents false negatives where AI acknowledges both options without
+    explicitly naming GoDaddy (e.g., "Both are excellent processors...")
+    """
     t = norm(text)
-    return any(term in t for term in GODADDY_TERMS)
+
+    # Explicit mention - always counts
+    if any(term in t for term in GODADDY_TERMS):
+        return True
+
+    # For Brand comparison prompts, check for implicit acknowledgment
+    if prompt_type == "B" and " vs " in norm(prompt_text):
+        # If response uses "both" in first 200 chars, it's acknowledging both options
+        if "both " in t[:200] or " both " in t[:200]:
+            return True
+        # Also accept "each", "either", "they" in comparative context
+        comparative_terms = ["each ", " each ", "either ", " either "]
+        if any(term in t[:200] for term in comparative_terms):
+            return True
+
+    return False
 
 def detect_rate_saver(text):
     """Detect GoDaddy Rate Saver product mentions specifically.
@@ -245,7 +269,7 @@ def run_model_benchmark(model_info, api_key, verbose=True):
             err = "[ERROR: empty response from API]"
 
         # Detect GoDaddy mentions and other metrics
-        gd = "Y" if detect_godaddy(response) else "N"
+        gd = "Y" if detect_godaddy(response, ptext, ptype) else "N"
         rs = "Y" if detect_rate_saver(response) else "N"
         comps = detect_competitors(response)
         rate_acc = "Y" if (gd=="Y" and detect_rate_accurate(response)) else ("N" if gd=="Y" else "N/A")

@@ -922,7 +922,7 @@
       }
 
       // ═══════════════════════════════════════════════════════════
-      // Render SOV Trends Chart - Rolling 6 months with weekly tickers
+      // Render SOV Trends Chart - 6 months with weekly data points
       // ═══════════════════════════════════════════════════════════
       var trendsData = d.trends || (session && session.trends) || null;
       var canvas = document.getElementById('trendsChart');
@@ -937,20 +937,9 @@
           canvas.style.display = 'block';
           var w = canvas.width, h = canvas.height;
           console.log('[Trends] Canvas size:', w, 'x', h);
-        var padL = 50, padR = 20, padT = 30, padB = 40;
+        var padL = 60, padR = 20, padT = 30, padB = 40;
         var chartW = w - padL - padR, chartH = h - padT - padB;
         var points = trendsData.weekly || trendsData.monthly || [];
-
-        // Generate 26 weeks (6 months) worth of week labels
-        var today = new Date();
-        var weekLabels = [];
-        for (var i = 25; i >= 0; i--) {
-          var d = new Date(today);
-          d.setDate(d.getDate() - (i * 7));
-          var year = d.getFullYear();
-          var week = Math.ceil((d - new Date(year, 0, 1)) / 604800000) + 1;
-          weekLabels.push(year + '-W' + (week < 10 ? '0' + week : week));
-        }
 
         ctx.fillStyle = '#1a1f2e';
         ctx.fillRect(0, 0, w, h);
@@ -962,6 +951,18 @@
           ctx.fillText('No trend data', w / 2, h / 2);
           if (note) note.textContent = 'No data yet';
         } else {
+          // Generate month markers for 6 months back
+          var today = new Date();
+          var months = [];
+          var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          for (var i = 5; i >= 0; i--) {
+            var d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            months.push({
+              label: monthNames[d.getMonth()] + ' ' + d.getFullYear().toString().substr(2),
+              date: d
+            });
+          }
+
           // Draw grid lines and Y-axis labels
           ctx.strokeStyle = '#2d3748';
           ctx.lineWidth = 1;
@@ -980,15 +981,29 @@
             ctx.fillText((100 - i * 25) + '%', padL - 5, padT + (chartH / 4) * i + 4);
           }
 
-          // Draw X-axis week tickers (show every 4th week to avoid crowding)
-          ctx.fillStyle = '#4a5568';
-          ctx.font = '9px sans-serif';
+          // Draw X-axis month labels
+          ctx.fillStyle = '#90cdf4';
+          ctx.font = '11px sans-serif';
           ctx.textAlign = 'center';
-          for (var i = 0; i < weekLabels.length; i++) {
-            if (i % 4 === 0) {
-              var x = padL + (chartW / (weekLabels.length - 1)) * i;
-              ctx.fillText(weekLabels[i], x, h - 10);
-              // Draw tick mark
+          months.forEach(function(m, i) {
+            var x = padL + (chartW / (months.length - 1)) * i;
+            ctx.fillText(m.label, x, h - 10);
+            // Draw month tick mark (longer)
+            ctx.strokeStyle = '#4a5568';
+            ctx.beginPath();
+            ctx.moveTo(x, h - padB + 5);
+            ctx.lineTo(x, h - padB + 15);
+            ctx.stroke();
+          });
+
+          // Draw week tick marks (shorter, between months)
+          ctx.strokeStyle = '#2d3748';
+          ctx.lineWidth = 1;
+          var totalWeeks = 26;
+          var weeksPerMonth = totalWeeks / 6;
+          for (var i = 0; i <= totalWeeks; i++) {
+            if (i % Math.floor(weeksPerMonth) !== 0) {
+              var x = padL + (chartW / totalWeeks) * i;
               ctx.beginPath();
               ctx.moveTo(x, h - padB + 5);
               ctx.lineTo(x, h - padB + 10);
@@ -996,32 +1011,61 @@
             }
           }
 
-          // Plot data points
-          points.forEach(function(p, i) {
-            var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
-            var y = padT + chartH - (chartH * (p.aided_sov || 0) / 100);
-            ctx.fillStyle = '#68d391';
-            ctx.beginPath();
-            ctx.arc(x, y, 4, 0, Math.PI * 2);
-            ctx.fill();
-          });
+          // Plot all 3 metrics: Unaided, Aided, Rate Saver
+          var metrics = [
+            { key: 'unaided_sov', color: '#fc8181', label: 'Unaided' },
+            { key: 'aided_sov', color: '#68d391', label: 'Aided' },
+            { key: 'rate_saver_sov', color: '#90cdf4', label: 'Rate Saver' }
+          ];
 
-          // Draw line connecting points
-          if (points.length > 1) {
-            ctx.strokeStyle = '#68d391';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
+          metrics.forEach(function(metric) {
+            // Draw line
+            if (points.length > 1) {
+              ctx.strokeStyle = metric.color;
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              var hasData = false;
+              points.forEach(function(p, i) {
+                var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
+                var value = p[metric.key] || 0;
+                var y = padT + chartH - (chartH * value / 100);
+                if (i === 0) {
+                  ctx.moveTo(x, y);
+                  hasData = true;
+                } else {
+                  ctx.lineTo(x, y);
+                }
+              });
+              if (hasData) ctx.stroke();
+            }
+
+            // Draw data points
             points.forEach(function(p, i) {
               var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
-              var y = padT + chartH - (chartH * (p.aided_sov || 0) / 100);
-              if (i === 0) ctx.moveTo(x, y);
-              else ctx.lineTo(x, y);
+              var value = p[metric.key] || 0;
+              var y = padT + chartH - (chartH * value / 100);
+              ctx.fillStyle = metric.color;
+              ctx.beginPath();
+              ctx.arc(x, y, 3, 0, Math.PI * 2);
+              ctx.fill();
             });
-            ctx.stroke();
-          }
+          });
 
-          if (note) note.textContent = points.length + ' weeks of data (rolling 6-month view)';
-          console.log('[Trends] Rendered', points.length, 'points - DONE');
+          // Draw legend
+          var legendX = padL + 10;
+          var legendY = padT + 10;
+          ctx.font = '10px sans-serif';
+          ctx.textAlign = 'left';
+          metrics.forEach(function(metric, i) {
+            var x = legendX + (i * 90);
+            ctx.fillStyle = metric.color;
+            ctx.fillRect(x, legendY, 10, 10);
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillText(metric.label, x + 15, legendY + 8);
+          });
+
+          if (note) note.textContent = points.length + ' weeks of data (6-month view)';
+          console.log('[Trends] Rendered', points.length, 'points with 3 metrics - DONE');
         }
         }, 100);
       } else if (note) {

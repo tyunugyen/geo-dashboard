@@ -53,7 +53,7 @@ def color_for(sov, p1_str):
     return "#68d391", "green"
 
 def load_csv(path):
-    with open(path, newline="", encoding="utf-8") as f:
+    with open(path, newline="", encoding="utf-8-sig") as f:
         return list(csv.DictReader(f))
 
 def score_comparison(rows, csv_filename=""):

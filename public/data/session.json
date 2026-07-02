@@ -19,7 +19,7 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 85.7,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ],
@@ -33,7 +33,7 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 85.7,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ]
@@ -45,8 +45,8 @@
       "target": "15%"
     },
     "aided_sov": {
-      "value": "85.7%",
-      "status": "yellow",
+      "value": "100%",
+      "status": "green",
       "target": "100%"
     },
     "rate_saver_sov": {
@@ -198,46 +198,46 @@
         "name": "Claude Sonnet 4.6",
         "why": "Core benchmark model",
         "unaided": "0%",
-        "aided": "85.7%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       },
       {
         "name": "Claude Haiku 4.5",
         "why": "Weekly pulse (also used in monthly)",
         "unaided": "0%",
-        "aided": "85.7%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       },
       {
         "name": "Claude Opus 4.8",
         "why": "High-capability Claude variant",
         "unaided": "0%",
-        "aided": "85.7%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       },
       {
         "name": "GPT-4o",
         "why": "Dominant consumer AI — highest merchant usage",
         "unaided": "0%",
-        "aided": "85.7%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       },
       {
         "name": "Gemini 2.5 Pro",
         "why": "Google's primary AI — feeds AI Overviews",
         "unaided": "0%",
-        "aided": "85.7%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       }
     ],
     "pulse": [

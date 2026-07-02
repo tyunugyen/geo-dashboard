@@ -249,7 +249,8 @@ def run_model_benchmark(model_info, api_key, verbose=True):
         rs = "Y" if detect_rate_saver(response) else "N"
         comps = detect_competitors(response)
         rate_acc = "Y" if (gd=="Y" and detect_rate_accurate(response)) else ("N" if gd=="Y" else "N/A")
-        excerpt = (response[:300].replace("\n"," ") if response else err)
+        # Increase excerpt to 1000 chars to capture full comparison responses (typical response ~500-800 chars)
+        excerpt = (response[:1000].replace("\n"," ") if response else err)
 
         rows.append({
             "run_id": run_id,

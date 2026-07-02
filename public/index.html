@@ -880,13 +880,14 @@
             var detailsHTML = '';
             if (f.details.length > 0) {
               detailsHTML = f.details.map(function(d) {
-                // Truncate response to first 200 chars
-                var truncated = d.response.length > 200 ? d.response.substring(0, 200) + '...' : d.response;
+                // Show full response (no truncation) since these are diagnostic excerpts
+                var noteHTML = d.note ? '<div style="color:#f6ad55;margin-top:6px;font-style:italic;font-size:10px;">⚠️ ' + d.note + '</div>' : '';
                 return '<div style="margin-top:8px;padding:8px 12px;background:#0f1419;border-left:3px solid #fc8181;border-radius:4px;font-size:11px;">' +
                   '<div style="color:#f6e05e;font-weight:600;margin-bottom:4px;">Prompt ' + d.prompt_id + ': "' + d.prompt + '"</div>' +
-                  '<div style="color:#90cdf4;margin-bottom:4px;"><strong>AI Response:</strong></div>' +
-                  '<div style="color:#cbd5e0;line-height:1.5;">' + truncated + '</div>' +
-                  '<div style="color:#fc8181;margin-top:6px;font-weight:600;">❌ GoDaddy not mentioned</div>' +
+                  '<div style="color:#90cdf4;margin-bottom:4px;"><strong>AI Response (excerpt):</strong></div>' +
+                  '<div style="color:#cbd5e0;line-height:1.5;">' + d.response + '</div>' +
+                  '<div style="color:#fc8181;margin-top:6px;font-weight:600;">❌ GoDaddy not mentioned in response excerpt</div>' +
+                  noteHTML +
                   '</div>';
               }).join('');
             }

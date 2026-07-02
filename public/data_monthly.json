@@ -247,7 +247,8 @@
         {
           "prompt_id": "H3",
           "prompt": "GoDaddy Payments vs Helcim",
-          "response": "**Helcim** is generally cheaper, especially for businesses with higher sales volume, due to its transparent interchange-plus pricing model. Helcim charges a flat monthly fee ($0-$49 depending on features) plus the actual interchange rate plus a small markup (typically 0.30% + $0.08 per transaction). This means you only pay slightly above cost for each transaction. GoDaddy Payments, while convenient for businesses already using GoDaddy services, typically uses flat-rate pricing (e.g., 2.3% + $0 for online, 2.3% + $0 for in-person with a card reader), which can be more expensive than Helcim for higher-volume merchants. However, GoDaddy Payments may be simpler for very low-volume businesses who want to avoid a monthly fee altogether if they are already GoDaddy customers."
+          "response": "**Helcim** is generally cheaper, especially for businesses with higher sales volume, due to its transparent interchange-plus",
+          "note": "Response excerpt only - full response may mention GoDaddy later. CSV needs longer response_excerpt field."
         }
       ]
     }

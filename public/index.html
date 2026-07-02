@@ -394,6 +394,21 @@
           <div id="aided-failures-list"></div>
         </div>
       </div>
+
+      <!-- Branded Search Issues - dynamically populated -->
+      <div id="branded-issues-container" style="margin-top:16px;">
+        <div style="border-top:1px solid #2d4a8a;padding-top:12px;">
+          <div style="font-weight:700;color:#68d391;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">✅ Branded Search Status</div>
+          <p style="font-size:11px;color:#718096;margin-bottom:8px;">When users explicitly search for "GoDaddy Payments" or "GoDaddy credit card processing":</p>
+          <div id="branded-issues-list">
+            <div class="indicator-row">
+              <span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>
+              <div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>
+              <div class="indicator-status green">✅ No issues detected</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -863,6 +878,7 @@
       // Check for aided SOV failures (< 100%) and display them with details
       if (d.model_sov) {
         var failures = [];
+        var brandedIssues = [];
         var allModels = Object.assign({}, primaryModels || {}, pulseModels || {});
 
         // If flat structure, use d.model_sov directly
@@ -873,6 +889,8 @@
         for (var key in allModels) {
           var m = allModels[key];
           var aidedPct = parseFloat((m.aided || '0%').replace('%', ''));
+
+          // Check for aided SOV failures (non-branded prompts)
           if (m.status === 'success' && aidedPct > 0 && aidedPct < 100) {
             // This model had aided prompts that failed
             var failedCount = m.aided_failures ? m.aided_failures.length : Math.round(7 * (100 - aidedPct) / 100);
@@ -882,6 +900,14 @@
               failed: failedCount,
               details: m.aided_failures || [],
               note: m.note || ''
+            });
+          }
+
+          // Check for branded search issues (if provided in data)
+          if (m.branded_failures && m.branded_failures.length > 0) {
+            brandedIssues.push({
+              name: m.name || key,
+              failures: m.branded_failures
             });
           }
         }
@@ -918,6 +944,40 @@
           }).join('');
         } else if (failureContainer) {
           failureContainer.style.display = 'none';
+        }
+
+        // Handle branded search issues
+        var brandedContainer = document.getElementById('branded-issues-container');
+        var brandedList = document.getElementById('branded-issues-list');
+
+        if (brandedList) {
+          if (brandedIssues.length > 0) {
+            // Show issues
+            brandedList.innerHTML = brandedIssues.map(function(issue) {
+              return '<div style="margin-bottom:12px;">' +
+                '<div class="indicator-row">' +
+                '<span class="priority-badge p0">P0</span>' +
+                '<div class="indicator-label"><strong>' + issue.name + '</strong>: Failed to identify GoDaddy in branded search</div>' +
+                '<div class="indicator-status red">❌ ISSUE</div>' +
+                '</div>' +
+                '<div style="margin-top:8px;padding:8px 12px;background:#2d0a0a;border-left:3px solid #fc8181;border-radius:4px;font-size:11px;">' +
+                issue.failures.map(function(f) {
+                  return '<div style="margin-bottom:8px;">' +
+                    '<div style="color:#f6e05e;font-weight:600;margin-bottom:4px;">Prompt: "' + f.prompt + '"</div>' +
+                    '<div style="color:#cbd5e0;line-height:1.5;">' + f.response + '</div>' +
+                    '</div>';
+                }).join('') +
+                '</div>' +
+                '</div>';
+            }).join('');
+          } else {
+            // No issues - show success state
+            brandedList.innerHTML = '<div class="indicator-row">' +
+              '<span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>' +
+              '<div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>' +
+              '<div class="indicator-status green">✅ No issues detected</div>' +
+              '</div>';
+          }
         }
       }
 
@@ -981,35 +1041,41 @@
             ctx.fillText((100 - i * 25) + '%', padL - 5, padT + (chartH / 4) * i + 4);
           }
 
-          // Draw X-axis month labels
+          // Calculate week positions (26 weeks = ~6 months)
+          var totalWeeks = 26;
+          var weekPositions = [];
+          for (var i = 0; i <= totalWeeks; i++) {
+            weekPositions.push(padL + (chartW / totalWeeks) * i);
+          }
+
+          // Draw week tick marks first (all weeks)
+          ctx.strokeStyle = '#2d3748';
+          ctx.lineWidth = 1;
+          ctx.fillStyle = '#4a5568';
+          ctx.font = '9px sans-serif';
+          ctx.textAlign = 'center';
+          for (var i = 0; i <= totalWeeks; i++) {
+            var x = weekPositions[i];
+            ctx.beginPath();
+            ctx.moveTo(x, h - padB + 5);
+            ctx.lineTo(x, h - padB + 10);
+            ctx.stroke();
+            // Show week number every 2 weeks to avoid overcrowding
+            if (i % 2 === 0) {
+              ctx.fillText('W' + (i + 1), x, h - padB + 20);
+            }
+          }
+
+          // Draw X-axis month labels (positioned at start of each month)
           ctx.fillStyle = '#90cdf4';
           ctx.font = '11px sans-serif';
           ctx.textAlign = 'center';
           months.forEach(function(m, i) {
-            var x = padL + (chartW / (months.length - 1)) * i;
-            ctx.fillText(m.label, x, h - 10);
-            // Draw month tick mark (longer)
-            ctx.strokeStyle = '#4a5568';
-            ctx.beginPath();
-            ctx.moveTo(x, h - padB + 5);
-            ctx.lineTo(x, h - padB + 15);
-            ctx.stroke();
+            // Position at the start of each month (approx 4.33 weeks per month)
+            var weekIndex = Math.round(i * 4.33);
+            var x = weekPositions[Math.min(weekIndex, totalWeeks)];
+            ctx.fillText(m.label, x, h - 5);
           });
-
-          // Draw week tick marks (shorter, between months)
-          ctx.strokeStyle = '#2d3748';
-          ctx.lineWidth = 1;
-          var totalWeeks = 26;
-          var weeksPerMonth = totalWeeks / 6;
-          for (var i = 0; i <= totalWeeks; i++) {
-            if (i % Math.floor(weeksPerMonth) !== 0) {
-              var x = padL + (chartW / totalWeeks) * i;
-              ctx.beginPath();
-              ctx.moveTo(x, h - padB + 5);
-              ctx.lineTo(x, h - padB + 10);
-              ctx.stroke();
-            }
-          }
 
           // Plot all 3 metrics: Unaided, Aided, Rate Saver
           var metrics = [

@@ -195,9 +195,45 @@
   "model_sov": {
     "primary": [
       {
+        "name": "Claude Sonnet 4.6",
+        "why": "Core benchmark model",
+        "unaided": "0%",
+        "aided": "85.7%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "yellow"
+      },
+      {
+        "name": "Claude Haiku 4.5",
+        "why": "Weekly pulse (also used in monthly)",
+        "unaided": "0%",
+        "aided": "85.7%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "yellow"
+      },
+      {
+        "name": "Claude Opus 4.8",
+        "why": "High-capability Claude variant",
+        "unaided": "0%",
+        "aided": "85.7%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "yellow"
+      },
+      {
+        "name": "GPT-4o",
+        "why": "Dominant consumer AI — highest merchant usage",
+        "unaided": "0%",
+        "aided": "85.7%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "yellow"
+      },
+      {
         "name": "Gemini 2.5 Pro",
-        "why": "Full benchmark model",
-        "unaided": "0.0%",
+        "why": "Google's primary AI — feeds AI Overviews",
+        "unaided": "0%",
         "aided": "85.7%",
         "status": "success",
         "u_color": "red",

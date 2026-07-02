@@ -370,6 +370,15 @@
         <div class="indicator-label">🎯 AI platform SOV breakdown → <a href="report.html#ai-platform-insights" class="ext-link">Report</a></div>
         <div class="indicator-status blue">📊 By model</div>
       </div>
+
+      <!-- Aided SOV Failures - dynamically populated -->
+      <div id="aided-failures-container" style="margin-top:16px;display:none;">
+        <div style="border-top:1px solid #2d4a8a;padding-top:12px;">
+          <div style="font-weight:700;color:#fc8181;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">🚨 Aided Prompt Failures</div>
+          <p style="font-size:11px;color:#718096;margin-bottom:8px;">When explicitly asked about GoDaddy, these comparisons failed to mention us:</p>
+          <div id="aided-failures-list"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -833,6 +842,48 @@
         var modelCountStatus = document.getElementById('model-count-status');
         if (modelCountStatus) {
           modelCountStatus.textContent = '❌ 0% across ALL ' + modelCount + ' models';
+        }
+      }
+
+      // Check for aided SOV failures (< 100%) and display them
+      if (d.model_sov) {
+        var failures = [];
+        var allModels = Object.assign({}, primaryModels || {}, pulseModels || {});
+
+        // If flat structure, use d.model_sov directly
+        if (!primaryModels && !pulseModels) {
+          allModels = d.model_sov;
+        }
+
+        for (var key in allModels) {
+          var m = allModels[key];
+          var aidedPct = parseFloat((m.aided || '0%').replace('%', ''));
+          if (m.status === 'success' && aidedPct > 0 && aidedPct < 100) {
+            // This model had aided prompts that failed
+            var failedCount = Math.round(7 * (100 - aidedPct) / 100); // Assume 7 aided prompts
+            failures.push({
+              name: m.name || key,
+              aided: m.aided,
+              failed: failedCount,
+              note: m.note || ''
+            });
+          }
+        }
+
+        var failureContainer = document.getElementById('aided-failures-container');
+        var failureList = document.getElementById('aided-failures-list');
+
+        if (failures.length > 0 && failureContainer && failureList) {
+          failureContainer.style.display = 'block';
+          failureList.innerHTML = failures.map(function(f) {
+            return '<div class="indicator-row">' +
+              '<span class="priority-badge p0">P0</span>' +
+              '<div class="indicator-label"><strong>' + f.name + '</strong>: ' + f.failed + '/7 aided prompts failed to mention GoDaddy' + (f.note ? ' · ' + f.note : '') + '</div>' +
+              '<div class="indicator-status yellow">' + f.aided + '</div>' +
+              '</div>';
+          }).join('');
+        } else if (failureContainer) {
+          failureContainer.style.display = 'none';
         }
       }
 

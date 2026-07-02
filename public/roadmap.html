@@ -256,7 +256,7 @@ function buildCard(action, tier) {
         '<div class="tc-meta">Owner: <strong>'+(action.owner||'—')+'</strong> · '+(action.agent||'—')+'</div>' +
         '<div class="tc-root">Root cause: '+(action.root_cause||'—')+'</div>' +
         '<div class="tc-win">⏱ '+(action.window||'—')+'</div>' +
-        (isBlocked?'<div class="tc-blocked-msg">⚠️ Blocked: '+action.blocked_by+'</div>':'') +
+        '<div class="tc-win" style="color:'+(isBlocked?'#f6ad55':'#4a5568')+';">'+(isBlocked?'⚠️ Blocked: '+action.blocked_by:'Blocker: N/A')+'</div>' +
         '<div class="tc-controls">' +
           '<div class="prog-wrap" onclick="clickProg(''+key+'')" title="Click to advance 25%">' +
             '<div class="prog-fill" id="pf-'+key+'" style="width:'+prog+'%;background:'+fc+';"></div>' +
@@ -451,5 +451,22 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('Session fetch failed:', e);
     });
 });
+</script>
+
+<script>
+/* self-fetch: loads session.json independently of session-loader.js */
+(function() {
+  function go() {
+    fetch('./data/session.json?v=' + Date.now())
+      .then(function(r){ return r.json(); })
+      .then(function(s){ if (typeof renderPage === 'function') renderPage(s); })
+      .catch(function(e){ console.error('session fetch failed', e); });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', go);
+  } else {
+    go();
+  }
+})();
 </script>
 </body></html>

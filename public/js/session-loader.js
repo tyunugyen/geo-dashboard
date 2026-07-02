@@ -56,7 +56,7 @@ function renderHeader(s) {
   document.querySelectorAll('[data-last-benchmark]').forEach(el => {
     if (m.run_type === 'weekly' && m.last_full_benchmark) {
       el.style.display = 'inline';
-      el.innerHTML = `&nbsp;·&nbsp; Last full benchmark: <strong>${m.last_full_benchmark}</strong>`;
+      el.innerHTML = ` · &nbsp; Last full benchmark: <strong>${m.last_full_benchmark}</strong>`;
     } else {
       el.style.display = 'none';
     }
@@ -102,29 +102,46 @@ function renderCompetitors(s, containerId) {
 }
 
 // ── Model tables (Overview + Report) ─────────────────────────────
+// FIX 2026-07: Added missing Frequency column (2nd <td>) to match 6-column <thead>
+// BEFORE: 5 <td>s per row — Model | Why | Unaided | Aided | Status
+// AFTER:  6 <td>s per row — Model | Frequency | Why | Unaided | Aided | Status
 function renderModelTables(s) {
   const primary = s.model_sov?.primary || [];
   const pulse   = s.model_sov?.pulse   || [];
+  const COLOR_MAP = {'red':'#fc8181','yellow':'#f6e05e','green':'#68d391','blue':'#90cdf4'};
 
   const primaryEl = document.getElementById('primary-model-rows');
-  if (primaryEl) primaryEl.innerHTML = primary.map(m => `
-    <tr>
-      <td>${m.name}</td>
-      <td>${m.why}</td>
-      <td class="${m.u_color || 'red'}">${m.unaided}</td>
-      <td class="${m.a_color}">${m.aided}</td>
+  if (primaryEl) primaryEl.innerHTML = primary.map(m => {
+    const isHaiku = (m.name || '').toLowerCase().includes('haiku');
+    const freq = isHaiku
+      ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
+      : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
+    const uColor = COLOR_MAP[m.u_color] || m.u_color || '#fc8181';
+    const aColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
+    return `<tr>
+      <td><strong>${m.name}</strong></td>
+      <td>${freq}</td>
+      <td style="color:#a0aec0;font-size:11px;">${m.why}</td>
+      <td><span class="model-tag tag-red" style="color:${uColor}">${m.unaided}</span></td>
+      <td><span class="model-tag" style="background:#1a2744;color:${aColor};">${m.aided}</span></td>
       <td>${statusBadge(m.status)}</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 
   const pulseEl = document.getElementById('pulse-model-rows');
-  if (pulseEl) pulseEl.innerHTML = pulse.map(m => `
-    <tr>
-      <td>${m.name}</td>
-      <td>${m.why}</td>
-      <td class="${m.u_color || 'red'}">${m.unaided}</td>
-      <td class="${m.a_color}">${m.aided}</td>
-      <td>${m.trigger || '—'}</td>
-    </tr>`).join('');
+  if (pulseEl) pulseEl.innerHTML = pulse.map(m => {
+    const freq = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
+    const uColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
+    const aColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
+    return `<tr>
+      <td><strong>${m.name}</strong></td>
+      <td>${freq}</td>
+      <td style="color:#a0aec0;font-size:11px;">${m.why}</td>
+      <td><span class="model-tag" style="background:#1a2744;color:${uColor};">${m.unaided}</span></td>
+      <td><span class="model-tag" style="background:#1a2744;color:${aColor};">${m.aided}</span></td>
+      <td>${statusBadge(m.status)}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ── Perplexity simulation table (Overview + Report) ──────────────
@@ -183,7 +200,7 @@ function renderStrategyActions(s) {
       ${renderActions(p0, 'P0') || '<p>No P0 actions this session.</p>'}
     </div>
     <div class="p1-section">
-      <h4>🔶 P1 — Community &amp; Vertical Content</h4>
+      <h4>🟡 P1 — Community &amp; Vertical Content</h4>
       ${renderActions(p1, 'P1') || '<p>No P1 actions this session.</p>'}
     </div>`;
 }
@@ -373,7 +390,6 @@ function renderTrendsChart(trends) {
   // Handle dual-tier structure: trends can be {monthly: [...], weekly: [...]} or just [...]
   let trendsArray = [];
   if (trends && typeof trends === 'object' && !Array.isArray(trends)) {
-    // It's an object with monthly/weekly properties - prefer monthly, fallback to weekly
     trendsArray = trends.monthly || trends.weekly || [];
   } else if (Array.isArray(trends)) {
     trendsArray = trends;
@@ -384,27 +400,22 @@ function renderTrendsChart(trends) {
     return;
   }
 
-  // Use trendsArray instead of trends for all subsequent operations
   trends = trendsArray;
 
   const ctx = canvas.getContext('2d');
   const width = canvas.width;
   const height = canvas.height;
 
-  // Clear canvas
   ctx.clearRect(0, 0, width, height);
 
-  // Chart dimensions
   const padding = { top: 20, right: 40, bottom: 30, left: 50 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  // Find max value for Y-axis (at least 10 for visibility)
   const maxSov = Math.max(10,
     ...trends.map(t => Math.max(t.unaided_sov || 0, t.aided_sov || 0, t.rate_saver_sov || 0))
   );
 
-  // Draw grid lines
   ctx.strokeStyle = '#2d3748';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 4; i++) {
@@ -414,7 +425,6 @@ function renderTrendsChart(trends) {
     ctx.lineTo(padding.left + chartWidth, y);
     ctx.stroke();
 
-    // Y-axis labels
     const value = Math.round(maxSov * (1 - i / 4));
     ctx.fillStyle = '#718096';
     ctx.font = '10px -apple-system, sans-serif';
@@ -422,7 +432,6 @@ function renderTrendsChart(trends) {
     ctx.fillText(value + '%', padding.left - 10, y + 4);
   }
 
-  // Draw lines
   const drawLine = (data, color) => {
     if (data.length === 0) return;
 
@@ -443,7 +452,6 @@ function renderTrendsChart(trends) {
 
     ctx.stroke();
 
-    // Draw points
     ctx.fillStyle = color;
     data.forEach((point, i) => {
       const x = padding.left + (chartWidth / (trends.length - 1)) * i;
@@ -455,17 +463,14 @@ function renderTrendsChart(trends) {
     });
   };
 
-  // Prepare data series
   const unaidedData = trends.map(t => ({ value: t.unaided_sov || 0 }));
   const aidedData = trends.map(t => ({ value: t.aided_sov || 0 }));
   const rateSaverData = trends.map(t => ({ value: t.rate_saver_sov || 0 }));
 
-  // Draw lines (order matters for layering)
-  drawLine(aidedData, '#68d391');      // Green - Aided
-  drawLine(rateSaverData, '#90cdf4'); // Blue - Rate Saver
-  drawLine(unaidedData, '#fc8181');   // Red - Unaided (on top)
+  drawLine(aidedData, '#68d391');
+  drawLine(rateSaverData, '#90cdf4');
+  drawLine(unaidedData, '#fc8181');
 
-  // X-axis labels
   ctx.fillStyle = '#718096';
   ctx.font = '10px -apple-system, sans-serif';
   ctx.textAlign = 'center';
@@ -475,7 +480,6 @@ function renderTrendsChart(trends) {
     ctx.fillText(label, x, height - 10);
   });
 
-  // Update note
   if (note) {
     note.textContent = `Tracking ${trends.length} week${trends.length > 1 ? 's' : ''} of data`;
   }
@@ -503,11 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
   loadSession().then(session => {
     if (session) {
       renderHeader(session);
-      // Render trends chart if on index page
       if (document.getElementById('trendsChart')) {
         renderTrendsChart(session.trends || []);
       }
-      // Each page calls its own render functions after this
       if (typeof renderPage === 'function') {
         renderPage(session);
       }

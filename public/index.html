@@ -115,10 +115,25 @@
   .action-title { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
   .action-meta { font-size: 11px; color: #718096; }
   .action-window { font-size: 10px; color: #4a5568; margin-top: 2px; }
+  .action-blocked { font-size: 11px; color: #f6ad55; margin-top: 4px; font-weight: 600; }
   .priority-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
   .p0 { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
   .p1 { background: #2d2200; color: #f6e05e; border: 1px solid #744210; }
   .p2 { background: #0a1a2d; color: #90cdf4; border: 1px solid #2a4a74; }
+
+  /* Strategy Actions - Dynamic rendering from session.json */
+  .p0-section, .p1-section { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
+  .p0-section h4, .p1-section h4 { font-size: 13px; font-weight: 700; color: #a0aec0; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .action-card { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1e2436; }
+  .action-card:last-child { border-bottom: none; }
+  .action-card .action-rank { font-size: 16px; font-weight: 900; color: #4a5568; width: 24px; flex-shrink: 0; }
+  .action-card .action-body { flex: 1; }
+  .action-card .action-title { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; line-height: 1.4; }
+  .action-card .action-meta { font-size: 11px; color: #718096; margin-bottom: 2px; }
+  .action-card .action-window { font-size: 10px; color: #4a5568; margin-top: 2px; }
+  .action-card .action-blocked { font-size: 11px; color: #f6ad55; margin-top: 4px; font-weight: 600; }
+  .badge-p0 { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; flex-shrink: 0; }
+  .badge-p1 { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: #2d2200; color: #f6e05e; border: 1px solid #744210; flex-shrink: 0; }
 
   /* Leadership decisions */
   .decision-row { padding: 12px 0; border-bottom: 1px solid #1e2436; }

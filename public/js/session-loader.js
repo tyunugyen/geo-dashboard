@@ -179,7 +179,7 @@ function renderStrategyActions(s) {
 
   actionsEl.innerHTML = `
     <div class="p0-section">
-      <h4>🔥 P0 — Citations &amp; Content</h4>
+      <h4>🔴 P0 — Citations &amp; Content</h4>
       ${renderActions(p0, 'P0') || '<p>No P0 actions this session.</p>'}
     </div>
     <div class="p1-section">

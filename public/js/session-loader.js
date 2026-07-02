@@ -370,10 +370,22 @@ function renderTrendsChart(trends) {
 
   if (!canvas) return;
 
-  if (!trends || trends.length === 0) {
+  // Handle dual-tier structure: trends can be {monthly: [...], weekly: [...]} or just [...]
+  let trendsArray = [];
+  if (trends && typeof trends === 'object' && !Array.isArray(trends)) {
+    // It's an object with monthly/weekly properties - prefer monthly, fallback to weekly
+    trendsArray = trends.monthly || trends.weekly || [];
+  } else if (Array.isArray(trends)) {
+    trendsArray = trends;
+  }
+
+  if (!trendsArray || trendsArray.length === 0) {
     if (note) note.textContent = 'No historical data yet. Trends will appear after multiple weekly runs.';
     return;
   }
+
+  // Use trendsArray instead of trends for all subsequent operations
+  trends = trendsArray;
 
   const ctx = canvas.getContext('2d');
   const width = canvas.width;

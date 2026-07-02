@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GEO Community Drafts</title>
+<title>GEO Community</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
@@ -94,24 +94,53 @@ details summary::-webkit-details-marker{display:none}
 .data-table td:first-child{font-weight:500;color:#e2e8f0}
 .footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
-.thread-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;margin-bottom:14px;overflow:hidden;}
-.thread-card-header{padding:14px 18px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px;}
-.thread-card-body{padding:14px 18px;}
-.score-badge{width:52px;flex-shrink:0;text-align:center;border-radius:8px;padding:8px 4px;}
-.score-badge .score-num{font-size:20px;font-weight:900;line-height:1;}
-.score-badge .score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
+.status-pill:hover{border-color:#3182ce}
+.status-pill.red{border-left:3px solid #fc8181}
+.status-pill.yellow{border-left:3px solid #f6e05e}
+.status-pill.green{border-left:3px solid #68d391}
+.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+/* Action table */
+.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
+.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.action-section-title.p0-title{color:#fc8181}
+.action-section-title.p1-title{color:#f6e05e}
+.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
+.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
+.action-tbl tr:last-child td{border-bottom:none}
+.action-tbl .col-pri{width:60px;text-align:center}
+.action-tbl .col-action{width:40%}
+.action-tbl .col-root{width:30%}
+.action-tbl .col-blocker{width:20%}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
+/* Intel card */
+.intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
+.intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
+.intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
+
+.community-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+@media(max-width:900px){.community-grid{grid-template-columns:1fr;}}
+.thread-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;overflow:hidden;}
+.thread-hdr{padding:13px 16px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px;}
+.thread-body{padding:13px 16px;}
+.score-badge{width:56px;flex-shrink:0;text-align:center;border-radius:8px;padding:8px 4px;}
+.score-badge .score-num{font-size:18px;font-weight:900;line-height:1;}
+.score-badge .score-of{font-size:9px;color:inherit;opacity:.7;}
+.score-badge .score-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.4px;margin-top:1px;opacity:.7;}
 .score-high{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;}
 .score-med{background:#2d2200;color:#f6e05e;border:1px solid #744210;}
 .score-low{background:#0a2d1a;color:#68d391;border:1px solid #22543d;}
-.approval-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;}
-.ap-pending{background:#2d1f00;color:#f6ad55;border:1px solid #744210;}
-.ap-approved{background:#0a2d1a;color:#68d391;border:1px solid #22543d;}
-.ap-posted{background:#0a1a2d;color:#90cdf4;border:1px solid #2d4a8a;}
+.ap-pending{background:#2d1f00;color:#f6ad55;border:1px solid #744210;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;}
+.ap-approved{background:#0a2d1a;color:#68d391;border:1px solid #22543d;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;}
+.ap-posted{background:#0a1a2d;color:#90cdf4;border:1px solid #2d4a8a;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;}
+/* Draft is always visible */
 .draft-box{background:#0d1420;border:1px solid #2d3748;border-radius:6px;padding:12px 14px;margin:10px 0;font-size:12px;color:#cbd5e0;line-height:1.7;white-space:pre-wrap;}
-.disclosure-box{background:#0a2d1a;border:1px solid #22543d;border-radius:4px;padding:7px 11px;font-size:11px;color:#68d391;margin-top:6px;}
-.claim-item{font-size:11px;padding:5px 10px;border-radius:4px;margin:3px 0;}
-.claim-verified{background:#0a2d1a;border-left:3px solid #22543d;color:#68d391;}
-.claim-pending{background:#2d1f00;border-left:3px solid #744210;color:#f6ad55;}
+.disclosure-box{background:#0a2d1a;border:1px solid #22543d;border-radius:4px;padding:7px 11px;font-size:11px;color:#68d391;}
+.claim-item{font-size:11px;padding:4px 10px;border-radius:4px;margin:3px 0;}
+.claim-v{background:#0a2d1a;border-left:3px solid #22543d;color:#68d391;}
+.claim-p{background:#2d1f00;border-left:3px solid #744210;color:#f6ad55;}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .stat-box{background:#1a1f2e;border:1px solid #2d3748;border-radius:8px;padding:14px;text-align:center;}
 .stat-num{font-size:26px;font-weight:800;}
@@ -120,10 +149,7 @@ details summary::-webkit-details-marker{display:none}
 </head>
 <body>
 <div class="header">
-  <div>
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p>📣 Community: reply drafts · outcome tracking · fully dynamic from session.json</p>
-  </div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>📣 Community: reply drafts always visible · 2-column layout · priority score /100</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -143,7 +169,6 @@ details summary::-webkit-details-marker{display:none}
   Do not post in competitor-owned communities.
 </div>
 
-<!-- Stats -->
 <div class="stats-row">
   <div class="stat-box"><div class="stat-num" id="st-drafts" style="color:#90cdf4;">—</div><div class="stat-lbl">Drafts Ready</div></div>
   <div class="stat-box"><div class="stat-num" id="st-approved" style="color:#68d391;">—</div><div class="stat-lbl">Approved</div></div>
@@ -152,121 +177,109 @@ details summary::-webkit-details-marker{display:none}
 </div>
 
 <div class="section-title">📝 Reply Drafts
-  <span style="font-size:10px;color:#4a5568;font-weight:400;text-transform:none;letter-spacing:0;"> — Priority score = impact on unaided SOV, 0–100 scale</span>
+  <span style="font-size:10px;color:#4a5568;font-weight:400;text-transform:none;letter-spacing:0;"> — Priority score = estimated SOV impact, 0–100 scale</span>
 </div>
-<div id="threads-container">
-  <div style="color:#4a5568;font-size:12px;padding:16px;">Loading community drafts...</div>
-</div>
-
-<div class="section-title" style="margin-top:20px;">📊 Outcome Tracking</div>
-<div class="card">
-  <div id="outcomes-container">
-    <div class="alert green">✅ No replies posted yet. Drafts above are ready for review.</div>
-  </div>
+<div class="community-grid" id="threads-container">
+  <div style="color:#4a5568;font-size:12px;">Loading drafts...</div>
 </div>
 
-<div class="section-title" style="margin-top:16px;">🚨 Escalation Log</div>
+<div class="section-title" style="margin-top:8px;">📊 Outcome Tracking</div>
 <div class="card">
-  <div id="escalations-container">
-    <div class="alert green">✅ No active escalations.</div>
-  </div>
+  <div id="outcomes-container"><div class="alert green">✅ No replies posted yet. Drafts above are ready for review.</div></div>
+</div>
+
+<div class="section-title" style="margin-top:14px;">🚨 Escalation Log</div>
+<div class="card">
+  <div id="escalations-container"><div class="alert green">✅ No active escalations.</div></div>
   <div style="margin-top:10px;padding:9px 12px;background:#161b28;border-radius:6px;font-size:11px;color:#718096;">
-    Escalation triggers: (1) Negative sentiment &gt;20 upvotes · (2) Moderator action · (3) Legal/compliance concern · (4) Competitor attack · (5) Customer complaint
+    Triggers: (1) Negative sentiment &gt;20 upvotes · (2) Moderator action · (3) Legal/compliance concern · (4) Competitor attack · (5) Customer complaint
   </div>
 </div>
 
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · Rate Saver: eligible plan required, not CT/MA/PR, not ecommerce. Square rate: 2.6% + $0.15 (raised Feb 2025).</div>
-
-<script src="./js/session-loader.js"></script>
+<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
 <script>
+/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+
 function renderPage(s) {
   var threads = s.amplify_threads || [];
   var outcomes = s.amplify_outcomes || [];
   var escalations = s.amplify_escalations || [];
-  var el = function(id){return document.getElementById(id);};
+  function setEl(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  setEl('st-drafts',    threads.length);
+  setEl('st-approved',  threads.filter(function(t){return t.approved;}).length);
+  setEl('st-posted',    threads.filter(function(t){return t.posted;}).length);
+  setEl('st-esc',       escalations.length);
 
-  if(el('st-drafts'))   el('st-drafts').textContent   = threads.length;
-  if(el('st-approved')) el('st-approved').textContent = threads.filter(function(t){return t.approved;}).length;
-  if(el('st-posted'))   el('st-posted').textContent   = threads.filter(function(t){return t.posted;}).length;
-  if(el('st-esc'))      el('st-esc').textContent      = escalations.length;
-
-  var container = el('threads-container');
+  var container = document.getElementById('threads-container');
   if(container && threads.length) {
     container.innerHTML = threads.map(function(t) {
-      // Score badge — priority score 0-100, NOT shown as X/10
       var score = t.priority_score || 0;
       var scoreCls = score >= 85 ? 'score-high' : score >= 65 ? 'score-med' : 'score-low';
       var appBadge = t.posted
-        ? '<span class="approval-badge ap-posted">✅ Posted</span>'
+        ? '<span class="ap-posted">✅ Posted</span>'
         : t.approved
-          ? '<span class="approval-badge ap-approved">✅ Approved</span>'
-          : '<span class="approval-badge ap-pending">⏳ Awaiting Review</span>';
+          ? '<span class="ap-approved">✅ Approved</span>'
+          : '<span class="ap-pending">⏳ Awaiting Review</span>';
 
-      var claimHtml = (t.claim_flags||[]).map(function(f) {
-        var cls = f.claim_status==='verified' ? 'claim-verified' : 'claim-pending';
+      var claimHtml = (t.claim_flags||[]).map(function(f){
+        var cls = f.claim_status==='verified' ? 'claim-v' : 'claim-p';
         var ico = f.claim_status==='verified' ? '✅' : '⚠️';
-        return '<div class="claim-item ' + cls + '">' + ico + ' ' +
-          '<strong>' + (f.claim||f.field||'') + ':</strong> ' + (f.note||'') + '</div>';
+        return '<div class="claim-item '+cls+'">'+ico+' <strong>'+(f.claim||f.field||'')+':</strong> '+(f.note||'')+'</div>';
       }).join('');
 
       return '<div class="thread-card">' +
-        '<div class="thread-card-header">' +
-          '<div class="score-badge ' + scoreCls + '">' +
-            '<div class="score-num">' + score + '</div>' +
+        '<div class="thread-hdr">' +
+          '<div class="score-badge '+scoreCls+'">' +
+            '<div class="score-num">'+score+'</div>' +
+            '<div class="score-of">/ 100</div>' +
             '<div class="score-lbl">Priority</div>' +
           '</div>' +
           '<div style="flex:1;">' +
             '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px;">' +
-              '<span style="font-size:12px;font-weight:600;color:#90cdf4;">' + t.platform + '</span>' +
-              '<span style="font-size:12px;color:#718096;">' + t.community + '</span>' +
-              '<span style="font-size:11px;color:#4a5568;">' + (t.date||'') + '</span>' +
+              '<span style="font-size:12px;font-weight:600;color:#90cdf4;">'+t.platform+'</span>' +
+              '<span style="font-size:12px;color:#718096;">'+t.community+'</span>' +
               appBadge +
             '</div>' +
-            '<div style="font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">"' + (t.thread||'') + '"</div>' +
-            '<div style="font-size:11px;color:#718096;">Cluster: ' + (t.cluster||[]).join(', ') + '</div>' +
+            '<div style="font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:3px;">"'+(t.thread||'')+'"</div>' +
+            '<div style="font-size:11px;color:#718096;">Cluster: '+(t.cluster||[]).join(', ')+'</div>' +
+            (t.date?'<div style="font-size:10px;color:#4a5568;margin-top:2px;">Scheduled: '+t.date+'</div>':'') +
           '</div>' +
         '</div>' +
-        '<div class="thread-card-body">' +
-          (claimHtml ? '<div style="margin-bottom:10px;">' + claimHtml + '</div>' : '') +
-          '<details><summary style="color:#90cdf4;font-size:12px;cursor:pointer;">View draft response</summary>' +
-            '<div class="draft-box">' + (t.draft||'') + '</div>' +
-            '<div class="disclosure-box">📢 ' + (t.disclosure||'Disclosure: I represent GoDaddy Payments.') + '</div>' +
-          '</details>' +
-          (t.outcome ? '<div style="margin-top:8px;font-size:11px;color:#68d391;">Outcome: ' + t.outcome + '</div>' : '') +
+        '<div class="thread-body">' +
+          (claimHtml?'<div style="margin-bottom:10px;">'+claimHtml+'</div>':'') +
+          // Draft ALWAYS visible (no toggle)
+          '<div style="font-size:11px;font-weight:700;color:#a0aec0;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;">Draft Response</div>' +
+          '<div class="draft-box">'+(t.draft||'')+'</div>' +
+          '<div class="disclosure-box">📢 '+(t.disclosure||'Disclosure: I represent GoDaddy Payments.')+'</div>' +
+          (t.outcome?'<div style="margin-top:8px;font-size:11px;color:#68d391;">Outcome: '+t.outcome+'</div>':'') +
         '</div>' +
       '</div>';
     }).join('');
   } else if(container) {
-    container.innerHTML = '<div style="color:#4a5568;font-size:12px;padding:16px;">No community drafts in session.json yet.</div>';
+    container.innerHTML = '<div style="color:#4a5568;font-size:12px;padding:14px;grid-column:span 2;">No community drafts in this session.</div>';
   }
 
-  // Outcomes
   if(outcomes.length > 0) {
-    var outEl = el('outcomes-container');
+    var outEl = document.getElementById('outcomes-container');
     if(outEl) {
-      outEl.innerHTML = '<table class="data-table">' +
-        '<thead><tr><th>Date</th><th>Thread</th><th>Platform</th><th>Upvotes</th><th>Replies</th><th>Outcome</th></tr></thead>' +
-        '<tbody>' + outcomes.map(function(o) {
-          return '<tr><td>' + (o.date||'—') + '</td><td>' + (o.thread||'—') + '</td><td>' + (o.platform||'—') + '</td>' +
-            '<td>' + (o.upvotes||'—') + '</td><td>' + (o.replies||'—') + '</td><td>' + (o.outcome||'—') + '</td></tr>';
+      outEl.innerHTML = '<table class="data-table"><thead><tr><th>Date</th><th>Thread</th><th>Platform</th><th>Upvotes</th><th>Replies</th><th>Outcome</th></tr></thead><tbody>' +
+        outcomes.map(function(o){
+          return '<tr><td>'+(o.date||'—')+'</td><td>'+(o.thread||'—')+'</td><td>'+(o.platform||'—')+'</td><td>'+(o.upvotes||'—')+'</td><td>'+(o.replies||'—')+'</td><td>'+(o.outcome||'—')+'</td></tr>';
         }).join('') + '</tbody></table>';
     }
   }
 
-  // Escalations
   if(escalations.length > 0) {
-    var escEl = el('escalations-container');
+    var escEl = document.getElementById('escalations-container');
     if(escEl) {
-      escEl.innerHTML = escalations.map(function(e) {
-        return '<div class="indicator-row">' +
-          '<span class="priority-badge p0">🚨</span>' +
-          '<div class="indicator-label"><strong>' + (e.thread||'—') + '</strong> · ' + (e.reason||'—') + '</div>' +
-          '<div class="indicator-status red">' + (e.status||'Active') + '</div>' +
-        '</div>';
+      escEl.innerHTML = escalations.map(function(e){
+        return '<div class="indicator-row"><span class="priority-badge p0">🚨</span><div class="indicator-label"><strong>'+(e.thread||'—')+'</strong> · '+(e.reason||'—')+'</div><div class="indicator-status red">'+(e.status||'Active')+'</div></div>';
       }).join('');
     }
   }
 }
+
 </script>
+<script src="./js/session-loader.js"></script>
 </body></html>

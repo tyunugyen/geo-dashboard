@@ -94,20 +94,49 @@ details summary::-webkit-details-marker{display:none}
 .data-table td:first-child{font-weight:500;color:#e2e8f0}
 .footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
+.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
+.status-pill:hover{border-color:#3182ce}
+.status-pill.red{border-left:3px solid #fc8181}
+.status-pill.yellow{border-left:3px solid #f6e05e}
+.status-pill.green{border-left:3px solid #68d391}
+.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+/* Action table */
+.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
+.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.action-section-title.p0-title{color:#fc8181}
+.action-section-title.p1-title{color:#f6e05e}
+.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
+.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
+.action-tbl tr:last-child td{border-bottom:none}
+.action-tbl .col-pri{width:60px;text-align:center}
+.action-tbl .col-action{width:40%}
+.action-tbl .col-root{width:30%}
+.action-tbl .col-blocker{width:20%}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
+/* Intel card */
+.intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
+.intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
+.intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
+
 .tier-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:14px;}
 .t1{background:#1a2744;color:#90cdf4;} .t2{background:#1a2e1a;color:#68d391;}
 .t3{background:#2d1f00;color:#f6ad55;} .t4{background:#2a1a2e;color:#d6bcfa;} .t5{background:#2d3748;color:#a0aec0;}
-.prompt-tbl{width:100%;border-collapse:collapse;font-size:12px;}
-.prompt-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 10px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;}
-.prompt-tbl td{padding:8px 10px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top;}
+/* Consistent column widths across ALL prompt tables */
+.ptbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;}
+.ptbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 10px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;overflow:hidden;}
+.ptbl td{padding:8px 10px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top;overflow:hidden;word-wrap:break-word;}
+.ptbl .col-id{width:60px;}
+.ptbl .col-prompt{width:46%;}
+.ptbl .col-type{width:52px;}
+.ptbl .col-sov{width:50px;}
+.ptbl .col-note{} /* fills remaining */
 </style>
 </head>
 <body>
 <div class="header">
-  <div>
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p>📝 Prompts: full 50-prompt benchmark bank · from GEO Prompt Bank note v2.8</p>
-  </div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>📝 Prompts: benchmark bank · 50 prompts · v2.8</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -120,84 +149,112 @@ details summary::-webkit-details-marker{display:none}
 </div>
 <div class="container">
 
-<div class="alert blue">📝 Prompt bank sourced from GEO Prompt Bank note (7db9a2e8). All 50 prompts with B/U tags, categories, SOV baselines, and win angles. Governs every AUDIT benchmark run.</div>
-
-<!-- Category summary from session.json -->
-<div class="section-title">📊 Category SOV Summary</div>
+<div class="section-title">📊 Category SOV — from session.json</div>
 <div id="category-grid" class="cat-grid" style="margin-bottom:20px;"></div>
 
-<!-- Full prompt bank — static from note v2.8, session provides SOV overlays -->
-<div class="section-title">📋 Prompt Bank — v2.8</div>
+<div class="section-title">📋 Prompt Bank — v2.8 · Note 7db9a2e8</div>
+<div class="alert blue">50 active prompts across 5 tiers. B = Branded (aided, ~100% SOV — track only). U = Unaided (0% SOV — optimize). Source: GEO Prompt Bank note.</div>
 
-<div class="card" style="margin-bottom:16px;">
-  <h3>TIER 1 — Broad Fee &amp; Rate (B1–B19) <span class="tier-badge t1">Broad</span></h3>
-  <p style="font-size:11px;color:#718096;margin-bottom:12px;">Require aggregator citations to fully win. Rate Saver cluster can be won through owned content alone.</p>
-  <table class="prompt-tbl">
-    <thead><tr><th style="width:8%;">#</th><th style="width:50%;">Prompt</th><th style="width:8%;">Type</th><th style="width:10%;">SOV</th><th>Win Angle</th></tr></thead>
+<div class="card" style="margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="tier-badge t1">Tier 1</span>
+    <h3 style="margin:0;">Broad Fee &amp; Rate (B1–B19)</h3>
+    <span style="font-size:11px;color:#718096;">Require aggregator citations to fully win. Rate Saver cluster winnable via owned content.</span>
+  </div>
+  <table class="ptbl">
+    <thead><tr><th class="col-id">#</th><th class="col-prompt">Prompt</th><th class="col-type">Type</th><th class="col-sov">SOV</th><th class="col-note">Win Angle</th></tr></thead>
     <tbody>
-      <tr><td><span class="tier-badge t1">B1</span></td><td>What is the cheapest payment processor for a small business?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3% + $0</td></tr>
-      <tr><td><span class="tier-badge t1">B2</span></td><td>What payment processor has the lowest in-person fees?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">$0 fixed fee</td></tr>
+      <tr><td><span class="tier-badge t1">B1</span></td><td>What is the cheapest payment processor for a small business?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3% + $0 — lowest flat rate</td></tr>
+      <tr><td><span class="tier-badge t1">B2</span></td><td>What payment processor has the lowest in-person fees?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">$0 fixed fee differentiator</td></tr>
       <tr><td><span class="tier-badge t1">B3</span></td><td>What payment processors charge no per-transaction fixed fee?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Only major flat-rate with $0</td></tr>
-      <tr><td><span class="tier-badge t1">B4</span></td><td>Which payment processors charge less than 3% per transaction?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3% — factually the answer</td></tr>
+      <tr><td><span class="tier-badge t1">B4</span></td><td>Which payment processors charge less than 3% per transaction?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3% — factually correct answer</td></tr>
       <tr><td><span class="tier-badge t1">B5</span></td><td>What are the best payment processors for in-person sales?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3%+$0 beats all flat-rate</td></tr>
-      <tr><td><span class="tier-badge t1">B9</span></td><td>How can I reduce my credit card processing fees?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Rate Saver — only 0% answer</td></tr>
-      <tr><td><span class="tier-badge t1">B11</span></td><td>Can I pass credit card fees to my customers legally?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Rate Saver — 0% credit</td></tr>
+      <tr><td><span class="tier-badge t1">B9</span></td><td>How can I reduce my credit card processing fees?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Rate Saver — only 0% answer in market</td></tr>
+      <tr><td><span class="tier-badge t1">B11</span></td><td>Can I pass credit card fees to my customers legally?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Rate Saver — 0% credit, 1.9% debit</td></tr>
       <tr><td><span class="tier-badge t1">B12</span></td><td>How do I get 0% credit card processing for my business?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Rate Saver</td></tr>
-      <tr><td><span class="tier-badge t1">B15</span></td><td>What are the best alternatives to Square for small businesses?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Lower % + $0 vs Square $0.15</td></tr>
+      <tr><td><span class="tier-badge t1">B15</span></td><td>What are the best alternatives to Square for small businesses?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Lower % + $0 vs Square's $0.15</td></tr>
+      <tr><td><span class="tier-badge t1">B16</span></td><td>I'm processing ~$15K/month with Square — am I paying too much?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">$0.15×volume = concrete savings math</td></tr>
       <tr><td><span class="tier-badge t1">B17</span></td><td>What is the best POS system for a small business?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Lowest rate + low-cost hardware</td></tr>
       <tr><td><span class="tier-badge t1">B18</span></td><td>What is the cheapest POS system with no contract?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">$399 Duo, no contract</td></tr>
+      <tr><td><span class="tier-badge t1">B19</span></td><td>Where can I get free POS hardware or a free credit card reader?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Free Smart Terminal (&gt;$100K/yr)</td></tr>
     </tbody>
   </table>
-  <p style="font-size:10px;color:#4a5568;margin-top:8px;">+8 more B-tier prompts in prompt bank note 7db9a2e8</p>
 </div>
 
-<div class="card" style="margin-bottom:16px;">
-  <h3>TIER 2 — ICP Verticals (V1–V29) <span class="tier-badge t2">Vertical</span></h3>
-  <table class="prompt-tbl">
-    <thead><tr><th style="width:8%;">#</th><th style="width:50%;">Prompt</th><th style="width:8%;">Type</th><th style="width:10%;">SOV</th><th>Primary Competitor</th></tr></thead>
+<div class="card" style="margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="tier-badge t2">Tier 2</span>
+    <h3 style="margin:0;">ICP Verticals (V1–V29)</h3>
+    <span style="font-size:11px;color:#718096;">29 prompts across F&amp;B, Retail, General In-Person</span>
+  </div>
+  <table class="ptbl">
+    <thead><tr><th class="col-id">#</th><th class="col-prompt">Prompt</th><th class="col-type">Type</th><th class="col-sov">SOV</th><th class="col-note">Primary Competitor</th></tr></thead>
     <tbody>
       <tr><td><span class="tier-badge t2">V1</span></td><td>What is the best POS system for a coffee shop?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Clover</td></tr>
       <tr><td><span class="tier-badge t2">V2</span></td><td>What is the best POS for a food truck?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square</td></tr>
+      <tr><td><span class="tier-badge t2">V3</span></td><td>What is the best POS for a small counter-service restaurant?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Clover</td></tr>
+      <tr><td><span class="tier-badge t2">V4</span></td><td>What is the best POS for a bakery?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square / Clover</td></tr>
       <tr><td><span class="tier-badge t2">V7</span></td><td>What is the best POS system for a retail store?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square / Clover</td></tr>
       <tr><td><span class="tier-badge t2">V8</span></td><td>What is the cheapest POS system for a retail store?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square</td></tr>
+      <tr><td><span class="tier-badge t2">V9</span></td><td>How do I lower credit card processing fees for my retail store?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Clover / Square</td></tr>
       <tr><td><span class="tier-badge t2">V10</span></td><td>What is the best POS for a retail store with no contract?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Clover (36-month wedge)</td></tr>
       <tr><td><span class="tier-badge t2">V19</span></td><td>Is Clover or Square cheaper for a retail store?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Both — GoDaddy undercuts</td></tr>
+      <tr><td><span class="tier-badge t2">V21</span></td><td>How much does a retail POS system cost per month?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square</td></tr>
+      <tr><td><span class="tier-badge t2">V22</span></td><td>What is the best payment processor for service businesses with no hardware?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Helcim</td></tr>
+      <tr><td><span class="tier-badge t2">V23</span></td><td>What is the best way to send professional invoices and accept payments?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Invoice from YOUR email — unique</td></tr>
       <tr><td><span class="tier-badge t2">V24</span></td><td>What is the best POS system for a hair salon?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Square</td></tr>
       <tr><td><span class="tier-badge t2">V25</span></td><td>What payment processors accept HSA and FSA cards?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Medical anchor</td></tr>
+      <tr><td><span class="tier-badge t2">V27</span></td><td>What is the best way for a small service business to accept credit cards?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">2.3%+$0, no contract</td></tr>
     </tbody>
   </table>
-  <p style="font-size:10px;color:#4a5568;margin-top:8px;">+21 more V-tier prompts in prompt bank note 7db9a2e8</p>
+  <p style="font-size:10px;color:#4a5568;margin-top:8px;">+14 more V-tier prompts in prompt bank note 7db9a2e8</p>
 </div>
 
-<div class="card" style="margin-bottom:16px;">
-  <h3>TIER 3 — Long-Tail Gaps (L1–L6) <span class="tier-badge t3">Long-tail</span></h3>
-  <table class="prompt-tbl">
-    <thead><tr><th style="width:8%;">#</th><th style="width:55%;">Prompt</th><th style="width:8%;">Type</th><th style="width:10%;">SOV</th><th>Why Fast Win</th></tr></thead>
+<div class="card" style="margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="tier-badge t3">Tier 3</span>
+    <h3 style="margin:0;">Long-Tail Gaps (L1–L6)</h3>
+    <span style="font-size:11px;color:#718096;">High conversion, low competition — winnable via owned content alone</span>
+  </div>
+  <table class="ptbl">
+    <thead><tr><th class="col-id">#</th><th class="col-prompt">Prompt</th><th class="col-type">Type</th><th class="col-sov">SOV</th><th class="col-note">Why Fast Win</th></tr></thead>
     <tbody>
       <tr><td><span class="tier-badge t3">L1</span></td><td>What payment processor lets me send invoices from my own business email?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Unique — no competitor offers this</td></tr>
+      <tr><td><span class="tier-badge t3">L2</span></td><td>How do contractors and home service businesses accept credit card payments?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Tap to Pay + Pay Links — no hardware</td></tr>
       <tr><td><span class="tier-badge t3">L3</span></td><td>How much can I save by switching from Square to a lower-fee processor?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">$0 fixed fee math is concrete</td></tr>
+      <tr><td><span class="tier-badge t3">L4</span></td><td>How do I switch payment processors without disrupting my business?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">Migration support confirmed</td></tr>
       <tr><td><span class="tier-badge t3">L5</span></td><td>What payment processor offers free onboarding and migration support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">GoDaddy — no competitor matches</td></tr>
+      <tr><td><span class="tier-badge t3">L6</span></td><td>What is the best merchant cash advance for small businesses?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">GoDaddy Capital — approved in hours</td></tr>
     </tbody>
   </table>
 </div>
 
-<div class="card" style="margin-bottom:16px;">
-  <h3>TIER 4 — Support &amp; Migration (S1–S6) <span class="tier-badge t4">Support</span></h3>
-  <table class="prompt-tbl">
-    <thead><tr><th style="width:8%;">#</th><th style="width:55%;">Prompt</th><th style="width:8%;">Type</th><th style="width:10%;">SOV</th><th>GoDaddy Advantage</th></tr></thead>
+<div class="card" style="margin-bottom:14px;">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="tier-badge t4">Tier 4</span>
+    <h3 style="margin:0;">Support &amp; Migration (S1–S6)</h3>
+    <span style="font-size:11px;color:#718096;">24/7 support is GoDaddy's #2 RTB — zero AI presence today</span>
+  </div>
+  <table class="ptbl">
+    <thead><tr><th class="col-id">#</th><th class="col-prompt">Prompt</th><th class="col-type">Type</th><th class="col-sov">SOV</th><th class="col-note">GoDaddy Advantage</th></tr></thead>
     <tbody>
-      <tr><td><span class="tier-badge t4">S1</span></td><td>Which payment processors offer 24/7 phone support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">GoDaddy: all plans. Square: paid only.</td></tr>
-      <tr><td><span class="tier-badge t4">S2</span></td><td>What POS systems offer live human customer support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">24/7 vs Square chatbot-first</td></tr>
+      <tr><td><span class="tier-badge t4">S1</span></td><td>Which payment processors offer 24/7 phone support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">GoDaddy: all plans. Square: paid only. Helcim: weekdays.</td></tr>
+      <tr><td><span class="tier-badge t4">S2</span></td><td>What POS systems offer live human customer support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">24/7 vs Square chatbot-first free tier</td></tr>
+      <tr><td><span class="tier-badge t4">S3</span></td><td>How do I switch from Square without losing data?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">GoDaddy migration support</td></tr>
+      <tr><td><span class="tier-badge t4">S5</span></td><td>What POS system has the best customer support?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">24/7 all plans vs Square paid-plan-only</td></tr>
       <tr><td><span class="tier-badge t4">S6</span></td><td>How do I get out of my Clover contract and switch POS systems?</td><td><span class="tag-red">U</span></td><td style="color:#fc8181;">0%</td><td style="font-size:11px;color:#a0aec0;">No contract + free migration</td></tr>
     </tbody>
   </table>
 </div>
 
 <div class="card">
-  <h3>TIER 5 — Branded Health Checks (H1–H5) <span class="tier-badge t5">Branded</span></h3>
-  <p style="font-size:11px;color:#718096;margin-bottom:10px;">Track only. Already at ~100% aided SOV. Do not optimize — these are already won.</p>
-  <table class="prompt-tbl">
-    <thead><tr><th style="width:8%;">#</th><th style="width:55%;">Prompt</th><th style="width:8%;">Type</th><th style="width:10%;">Aided SOV</th><th>Notes</th></tr></thead>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <span class="tier-badge t5">Tier 5</span>
+    <h3 style="margin:0;">Branded Health Checks (H1–H5)</h3>
+    <span style="font-size:11px;color:#718096;">Track only — already ~100% aided SOV. Do not optimize.</span>
+  </div>
+  <table class="ptbl">
+    <thead><tr><th class="col-id">#</th><th class="col-prompt">Prompt</th><th class="col-type">Type</th><th class="col-sov">Aided SOV</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
       <tr><td><span class="tier-badge t5">H1</span></td><td>What is GoDaddy Payments?</td><td><span class="tag-blue">B</span></td><td style="color:#68d391;">~100%</td><td style="font-size:11px;color:#a0aec0;">Health check</td></tr>
       <tr><td><span class="tier-badge t5">H2</span></td><td>GoDaddy Payments vs Square</td><td><span class="tag-blue">B</span></td><td style="color:#68d391;">~100%</td><td style="font-size:11px;color:#a0aec0;">Build comparison page</td></tr>
@@ -209,12 +266,14 @@ details summary::-webkit-details-marker{display:none}
 </div>
 
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · Prompt Bank v2.8 · Source: Note 7db9a2e8</div>
-
-<script src="./js/session-loader.js"></script>
+<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
 <script>
+/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+
 function renderPage(s) {
   renderCategories(s, 'category-grid');
 }
+
 </script>
+<script src="./js/session-loader.js"></script>
 </body></html>

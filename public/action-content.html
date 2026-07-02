@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GEO Content Drafts</title>
+<title>GEO Content</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
@@ -94,27 +94,50 @@ details summary::-webkit-details-marker{display:none}
 .data-table td:first-child{font-weight:500;color:#e2e8f0}
 .footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
-/* Clean card layout */
+.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
+.status-pill:hover{border-color:#3182ce}
+.status-pill.red{border-left:3px solid #fc8181}
+.status-pill.yellow{border-left:3px solid #f6e05e}
+.status-pill.green{border-left:3px solid #68d391}
+.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+/* Action table */
+.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
+.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.action-section-title.p0-title{color:#fc8181}
+.action-section-title.p1-title{color:#f6e05e}
+.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
+.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
+.action-tbl tr:last-child td{border-bottom:none}
+.action-tbl .col-pri{width:60px;text-align:center}
+.action-tbl .col-action{width:40%}
+.action-tbl .col-root{width:30%}
+.action-tbl .col-blocker{width:20%}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
+/* Intel card */
+.intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
+.intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
+.intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
+
 .draft-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;margin-bottom:16px;overflow:hidden;}
-.draft-card-header{padding:14px 18px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px;}
-.draft-card-body{padding:14px 18px;}
+.draft-hdr{padding:14px 18px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px;}
+.draft-body{padding:14px 18px;}
 .draft-h1{font-size:15px;font-weight:700;color:#e2e8f0;margin:4px 0;line-height:1.35;}
 .draft-win{font-size:12px;color:#a0aec0;line-height:1.5;margin-top:4px;}
-.draft-meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
-.cluster-chip{background:#0a1a2d;border:1px solid #2d4a8a;color:#90cdf4;font-size:10px;padding:2px 8px;border-radius:10px;}
-.flags-row{margin:10px 0;display:flex;flex-direction:column;gap:4px;}
-.flag-item{display:flex;align-items:flex-start;gap:8px;padding:5px 10px;border-radius:4px;font-size:11px;}
-.flag-item.verified{background:#0a2d1a;border-left:3px solid #22543d;color:#68d391;}
-.flag-item.pending{background:#2d1f00;border-left:3px solid #744210;color:#f6ad55;}
+.cluster-chip{background:#0a1a2d;border:1px solid #2d4a8a;color:#90cdf4;font-size:10px;padding:2px 8px;border-radius:10px;display:inline-block;margin:2px 2px 2px 0;}
+.flag-item{display:flex;align-items:flex-start;gap:8px;padding:5px 10px;border-radius:4px;font-size:11px;margin:3px 0;}
+.flag-v{background:#0a2d1a;border-left:3px solid #22543d;color:#68d391;}
+.flag-p{background:#2d1f00;border-left:3px solid #744210;color:#f6ad55;}
 .not-best{background:#2d0a0a;border-left:3px solid #742a2a;padding:8px 12px;border-radius:0 4px 4px 0;font-size:11px;color:#fc8181;margin:8px 0;}
-.gate-block{background:#2d1f00;border-left:3px solid #744210;padding:8px 12px;border-radius:0 4px 4px 0;font-size:11px;color:#f6ad55;margin:8px 0;}
-.faq-accordion{border:1px solid #2d3748;border-radius:6px;overflow:hidden;margin-top:10px;}
-.faq-item{border-bottom:1px solid #1e2436;}
-.faq-item:last-child{border-bottom:none;}
+.gate{background:#2d1f00;border-left:3px solid #744210;padding:8px 12px;border-radius:0 4px 4px 0;font-size:11px;color:#f6ad55;margin:8px 0;}
+.faq-wrap{border:1px solid #2d3748;border-radius:6px;overflow:hidden;margin-top:10px;}
+.faq-row{border-bottom:1px solid #1e2436;}
+.faq-row:last-child{border-bottom:none;}
 .faq-q{padding:9px 12px;font-size:12px;font-weight:600;color:#e2e8f0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
 .faq-q:hover{background:#1e2436;}
-.faq-a{padding:0 12px 9px;font-size:11px;color:#a0aec0;line-height:1.6;}
-.meta-block{background:#0d1420;border:1px solid #2d3748;border-radius:6px;padding:10px 12px;font-family:monospace;font-size:11px;color:#68d391;margin-top:10px;}
+.faq-a{display:none;padding:0 12px 10px;font-size:11px;color:#a0aec0;line-height:1.6;}
+.meta-block{background:#0d1420;border:1px solid #2d3748;border-radius:6px;padding:10px 12px;font-family:monospace;font-size:11px;color:#68d391;margin-top:8px;word-break:break-all;}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .stat-box{background:#1a1f2e;border:1px solid #2d3748;border-radius:8px;padding:14px;text-align:center;}
 .stat-num{font-size:26px;font-weight:800;}
@@ -123,10 +146,7 @@ details summary::-webkit-details-marker{display:none}
 </head>
 <body>
 <div class="header">
-  <div>
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p>🔨 Content: GEO page drafts · fully dynamic from session.json</p>
-  </div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>🔨 Content: GEO page drafts · claim flags · publish gates</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -145,7 +165,6 @@ details summary::-webkit-details-marker{display:none}
   CRAWL Phase 2 required before any page goes live.
 </div>
 
-<!-- Stats -->
 <div class="stats-row">
   <div class="stat-box"><div class="stat-num" id="st-total" style="color:#90cdf4;">—</div><div class="stat-lbl">Total Drafts</div></div>
   <div class="stat-box"><div class="stat-num" id="st-p0" style="color:#fc8181;">—</div><div class="stat-lbl">P0 Priority</div></div>
@@ -153,31 +172,33 @@ details summary::-webkit-details-marker{display:none}
   <div class="stat-box"><div class="stat-num" id="st-pub" style="color:#68d391;">—</div><div class="stat-lbl">Published</div></div>
 </div>
 
-<div class="section-title">📄 Page Drafts — from session.json <span id="draft-run" style="font-size:10px;color:#4a5568;font-weight:400;text-transform:none;letter-spacing:0;"></span></div>
+<div class="section-title" id="drafts-title">📄 Page Drafts</div>
 <div id="drafts-container">
-  <div style="color:#4a5568;font-size:12px;padding:16px;">Loading drafts from session.json...</div>
+  <div style="color:#4a5568;font-size:12px;padding:16px;">Loading drafts...</div>
 </div>
 
 </div>
-<div class="footer">¹ Rate Saver: eligible plan required, not CT/MA/PR, not ecommerce. ² Free Terminal: &gt;$100K/yr in-person, devices up to $399.</div>
-
-<script src="./js/session-loader.js"></script>
+<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
 <script>
+/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+
 function renderPage(s) {
   var pages = s.build_pages || [];
   var p0  = pages.filter(function(p){return p.priority==='P0';}).length;
   var p1  = pages.filter(function(p){return p.priority==='P1';}).length;
   var pub = pages.filter(function(p){return p.status==='published';}).length;
-  var el  = function(id){return document.getElementById(id);};
-  if(el('st-total')) el('st-total').textContent = pages.length;
-  if(el('st-p0'))    el('st-p0').textContent    = p0;
-  if(el('st-p1'))    el('st-p1').textContent    = p1;
-  if(el('st-pub'))   el('st-pub').textContent   = pub;
-  if(el('draft-run') && s.meta) el('draft-run').textContent = '— ' + s.meta.run_id;
+  function setEl(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  setEl('st-total', pages.length);
+  setEl('st-p0',    p0);
+  setEl('st-p1',    p1);
+  setEl('st-pub',   pub);
+  var titleEl = document.getElementById('drafts-title');
+  if(titleEl && s.meta) titleEl.textContent = '📄 Page Drafts — Run ' + s.meta.run_id;
 
-  var container = el('drafts-container');
-  if(!container || !pages.length) {
-    if(container) container.innerHTML = '<div style="color:#4a5568;padding:16px;">No draft pages in session.json.</div>';
+  var container = document.getElementById('drafts-container');
+  if(!container) return;
+  if(!pages.length) {
+    container.innerHTML = '<div style="color:#4a5568;padding:16px;">No draft pages found in this session.</div>';
     return;
   }
 
@@ -185,79 +206,65 @@ function renderPage(s) {
     var priCls  = p.priority==='P0' ? 'p0' : 'p1';
     var verified = (p.claim_flags||[]).filter(function(f){return f.claim_status==='verified';}).length;
     var pending  = (p.claim_flags||[]).filter(function(f){return f.claim_status==='verify_needed';}).length;
-    var statusColor = p.status==='published' ? '#68d391' : p.status==='draft_complete' ? '#90cdf4' : '#f6ad55';
-    var crawlColor  = p.crawl_phase2==='pending' ? '#f6ad55' : '#68d391';
+    var statusColor = p.status==='published'?'#68d391':p.status==='draft_complete'?'#90cdf4':'#f6ad55';
+    var crawlColor  = p.crawl_phase2==='pending'?'#f6ad55':'#68d391';
 
-    var flagsHtml = (p.claim_flags||[]).map(function(f) {
-      var cls = f.claim_status==='verified' ? 'verified' : 'pending';
+    var flagsHtml = (p.claim_flags||[]).map(function(f){
+      var cls = f.claim_status==='verified' ? 'flag-v' : 'flag-p';
       var ico = f.claim_status==='verified' ? '✅' : '⚠️';
-      return '<div class="flag-item ' + cls + '">' +
-        '<span>' + ico + '</span>' +
-        '<span><strong>' + f.field + ':</strong> ' + f.note + '</span>' +
-      '</div>';
+      return '<div class="flag-item '+cls+'"><span>'+ico+'</span><span><strong>'+f.field+':</strong> '+f.note+'</span></div>';
     }).join('');
 
-    var faqHtml = (p.faq||[]).map(function(q, i) {
-      return '<div class="faq-item">' +
+    var faqHtml = (p.faq||[]).map(function(q,i){
+      return '<div class="faq-row">' +
         '<div class="faq-q" onclick="var a=this.nextElementSibling;a.style.display=a.style.display==='block'?'none':'block';">' +
-          q.q + '<span style="color:#4a5568;">▼</span>' +
+          q.q + '<span style="color:#4a5568;font-size:10px;">▼</span>' +
         '</div>' +
-        '<div class="faq-a" style="display:none;">' + q.a + '</div>' +
+        '<div class="faq-a">' + q.a + '</div>' +
       '</div>';
     }).join('');
 
     return '<div class="draft-card">' +
-      // Header: priority badge + brief ID + status + crawl
-      '<div class="draft-card-header">' +
-        '<span class="priority-badge ' + priCls + '" style="margin-top:2px;">' + p.priority + '</span>' +
+      '<div class="draft-hdr">' +
+        '<span class="priority-badge '+priCls+'" style="margin-top:2px;">'+p.priority+'</span>' +
         '<div style="flex:1;">' +
-          '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;">' +
-            '<span style="font-size:11px;color:#718096;">' + p.brief_id + '</span>' +
-            '<span style="font-size:11px;color:' + statusColor + ';">● ' + (p.status||'unknown') + '</span>' +
-            '<span style="font-size:11px;color:' + crawlColor + ';">CRAWL: ' + (p.crawl_phase2||'—') + '</span>' +
-            '<span style="font-size:11px;color:#718096;">' + verified + ' verified · ' +
-              '<span style="color:' + (pending>0?'#f6ad55':'#718096') + ';">' + pending + ' pending</span>' +
-            '</span>' +
+          '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">' +
+            '<span style="font-size:11px;color:#718096;">'+p.brief_id+'</span>' +
+            '<span style="font-size:11px;color:'+statusColor+';">● '+(p.status||'unknown')+'</span>' +
+            '<span style="font-size:11px;color:'+crawlColor+';">CRAWL: '+(p.crawl_phase2||'—')+'</span>' +
+            '<span style="font-size:11px;color:#718096;">'+verified+'✅ · <span style="color:'+(pending>0?'#f6ad55':'#718096')+'">'+pending+'⚠️ pending</span></span>' +
           '</div>' +
-          '<div class="draft-h1">' + p.h1 + '</div>' +
-          '<div class="draft-win">' + (p.win_angle||'') + '</div>' +
+          '<div class="draft-h1">'+p.h1+'</div>' +
+          '<div class="draft-win">'+(p.win_angle||'')+'</div>' +
         '</div>' +
       '</div>' +
-      // Body
-      '<div class="draft-card-body">' +
-        // Cluster chips
-        '<div class="draft-meta-row">' +
-          (p.query_cluster||[]).slice(0,5).map(function(q){
-            return '<span class="cluster-chip">' + q + '</span>';
-          }).join('') +
-          ((p.query_cluster||[]).length>5 ? '<span class="cluster-chip" style="background:#151921;border-color:#2d3748;color:#718096;">+'+((p.query_cluster||[]).length-5)+' more</span>' : '') +
+      '<div class="draft-body">' +
+        '<div style="margin-bottom:10px;">' +
+          (p.query_cluster||[]).slice(0,5).map(function(q){return '<span class="cluster-chip">'+q+'</span>';}).join('') +
+          ((p.query_cluster||[]).length>5?'<span class="cluster-chip" style="background:#151921;border-color:#2d3748;color:#718096;">+'+(((p.query_cluster||[]).length-5))+' more</span>':'') +
         '</div>' +
-        // Competitor + FAQ count
-        '<div style="display:flex;gap:20px;font-size:11px;margin-bottom:10px;">' +
-          '<span><span style="color:#718096;">Competitor:</span> <span style="color:#e2e8f0;">' + (p.competitor||'—') + '</span></span>' +
-          '<span><span style="color:#718096;">FAQs:</span> <span style="color:#e2e8f0;">' + (p.faq||[]).length + ' questions</span></span>' +
+        '<div style="display:flex;gap:18px;font-size:11px;margin-bottom:10px;">' +
+          '<span><span style="color:#718096;">Competitor:</span> <span style="color:#e2e8f0;">'+(p.competitor||'—')+'</span></span>' +
+          '<span><span style="color:#718096;">FAQs:</span> <span style="color:#e2e8f0;">'+(p.faq||[]).length+'</span></span>' +
         '</div>' +
-        // Claim flags
-        (flagsHtml ? '<div class="flags-row">' + flagsHtml + '</div>' : '') +
-        // Not best for
-        (p.not_best_for ? '<div class="not-best">❌ Not best for: ' + p.not_best_for + '</div>' : '') +
-        // Publish gate
+        (flagsHtml?'<div>'+flagsHtml+'</div>':'') +
+        (p.not_best_for?'<div class="not-best">❌ Not best for: '+p.not_best_for+'</div>':'') +
         (p.publish_gate
-          ? '<div class="gate-block">🚫 ' + p.publish_gate + '</div>'
-          : '<div class="gate-block">⏳ Awaiting CRAWL Phase 2 validation before publish.</div>') +
-        // FAQs collapsible
-        (faqHtml ? '<div class="faq-accordion">' + faqHtml + '</div>' : '') +
-        // Meta collapsible
-        '<details style="margin-top:10px;"><summary style="color:#4a5568;font-size:11px;">Meta / Canonical</summary>' +
+          ?'<div class="gate">🚫 '+p.publish_gate+'</div>'
+          :'<div class="gate">⏳ Awaiting CRAWL Phase 2 before publish.</div>') +
+        (faqHtml?'<div class="faq-wrap">'+faqHtml+'</div>':'') +
+        '<details style="margin-top:8px;"><summary style="color:#4a5568;font-size:11px;cursor:pointer;">Meta / Canonical</summary>' +
           '<div class="meta-block">' +
-            'title: '     + (p.meta_title||'—') + '<br>' +
-            'desc: '      + (p.meta_description||'—') + '<br>' +
-            'canonical: ' + (p.canonical||'—') +
+            'title: '+(p.meta_title||'—')+'<br>' +
+            'desc: '+(p.meta_description||'—')+'<br>' +
+            'canonical: '+(p.canonical||'—') +
           '</div>' +
         '</details>' +
       '</div>' +
     '</div>';
   }).join('');
 }
+
 </script>
+<script src="./js/session-loader.js"></script>
 </body></html>

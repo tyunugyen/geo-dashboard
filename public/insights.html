@@ -94,18 +94,43 @@ details summary::-webkit-details-marker{display:none}
 .data-table td:first-child{font-weight:500;color:#e2e8f0}
 .footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
-.cluster-row{padding:12px 0;border-bottom:1px solid #1e2436}
+.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
+.status-pill:hover{border-color:#3182ce}
+.status-pill.red{border-left:3px solid #fc8181}
+.status-pill.yellow{border-left:3px solid #f6e05e}
+.status-pill.green{border-left:3px solid #68d391}
+.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+/* Action table */
+.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
+.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.action-section-title.p0-title{color:#fc8181}
+.action-section-title.p1-title{color:#f6e05e}
+.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
+.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
+.action-tbl tr:last-child td{border-bottom:none}
+.action-tbl .col-pri{width:60px;text-align:center}
+.action-tbl .col-action{width:40%}
+.action-tbl .col-root{width:30%}
+.action-tbl .col-blocker{width:20%}
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
+/* Intel card */
+.intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
+.intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
+.intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
+
+.cluster-row{padding:11px 0;border-bottom:1px solid #1e2436}
 .cluster-row:last-child{border-bottom:none}
-.ci-item{padding:11px 0;border-bottom:1px solid #1e2436}
+.ci-item{padding:10px 0;border-bottom:1px solid #1e2436}
 .ci-item:last-child{border-bottom:none}
+/* Fix pill display — inline-block not display:table */
+.tag-green,.tag-red,.tag-yellow,.tag-blue{display:inline-block!important}
 </style>
 </head>
 <body>
 <div class="header">
-  <div>
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p>📡 Insights: Perplexity citations · Competitive Intel</p>
-  </div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>📡 Insights: Perplexity citations · Competitive Intel</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -119,41 +144,38 @@ details summary::-webkit-details-marker{display:none}
 <div class="container">
 
 <!-- 3 KPI number boxes -->
+<div class="section-title">📡 Perplexity Citation Audit</div>
 <div class="grid-3" style="margin-bottom:20px;">
   <div class="kpi blue">
     <div class="kpi-label">📡 Clusters Tracked</div>
     <div class="kpi-value" id="kpi-clusters">—</div>
-    <div class="kpi-sub">Perplexity query clusters</div>
-    <div class="kpi-target">Updated each session</div>
+    <div class="kpi-sub">Perplexity query clusters this session</div>
+    <div class="kpi-target">Updated each run</div>
   </div>
   <div class="kpi yellow">
     <div class="kpi-label">✅ GoDaddy Present</div>
     <div class="kpi-value" id="kpi-present">—</div>
-    <div class="kpi-sub">Cited in cluster (not leading)</div>
-    <div class="kpi-target">Target: top citation in all clusters</div>
+    <div class="kpi-sub">Clusters where GoDaddy is cited</div>
+    <div class="kpi-target">Target: cited in all clusters</div>
   </div>
   <div class="kpi red">
     <div class="kpi-label">❌ GoDaddy Absent</div>
     <div class="kpi-value" id="kpi-absent">—</div>
-    <div class="kpi-sub">Not cited — opportunity</div>
-    <div class="kpi-target">Each gap = content or citation action</div>
+    <div class="kpi-sub">Clusters — content or citation gap</div>
+    <div class="kpi-target">Each gap = P0 or P1 action</div>
   </div>
 </div>
 
-<!-- Perplexity — full width -->
-<div class="section-title">⚡ What Perplexity Cites Now
-  <span style="font-size:10px;color:#4a5568;font-weight:400;text-transform:none;letter-spacing:0;"> — <span id="perplexity-audit-date">loading...</span> · Not SOV. Tracks which sources Perplexity cites per query cluster.</span>
-</div>
-<div class="card" style="margin-bottom:20px;">
+<!-- Perplexity table — full width -->
+<div class="alert blue">Not SOV. Tracks which publishers Perplexity cites per query cluster — the leading indicator for unaided SOV. Last audited: <span id="perplexity-audit-date">loading...</span></div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
   <table class="data-table">
-    <thead>
-      <tr>
-        <th style="width:22%">Query Cluster</th>
-        <th style="width:25%">Sources Cited</th>
-        <th style="width:10%;text-align:center;">GoDaddy?</th>
-        <th>Recommended Action</th>
-      </tr>
-    </thead>
+    <thead><tr>
+      <th style="width:20%;">Query Cluster</th>
+      <th style="width:28%;">Sources Cited</th>
+      <th style="width:100px;text-align:center;">GoDaddy?</th>
+      <th>Recommended Action</th>
+    </tr></thead>
     <tbody id="perplexity-tbody">
       <tr><td colspan="4" style="color:#4a5568;text-align:center;padding:16px;">Loading Perplexity data...</td></tr>
     </tbody>
@@ -174,73 +196,74 @@ details summary::-webkit-details-marker{display:none}
 </div>
 
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Full Report</a></div>
-
-<script src="./js/session-loader.js"></script>
+<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
 <script>
+/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+
 function renderPage(s) {
-  // 3 KPI boxes
   var rows = s.perplexity_simulation || [];
   var present = rows.filter(function(r){return r.godaddy;}).length;
   var absent  = rows.length - present;
-  var el = function(id){return document.getElementById(id);};
-  if(el('kpi-clusters')) el('kpi-clusters').textContent = rows.length;
-  if(el('kpi-present'))  el('kpi-present').textContent  = present;
-  if(el('kpi-absent'))   el('kpi-absent').textContent   = absent;
 
-  // Perplexity date
-  var pdEl = el('perplexity-audit-date');
+  function setEl(id, v){ var e=document.getElementById(id); if(e) e.textContent=v; }
+  setEl('kpi-clusters', rows.length);
+  setEl('kpi-present',  present);
+  setEl('kpi-absent',   absent);
+
+  var pdEl = document.getElementById('perplexity-audit-date');
   if(pdEl && s.meta) pdEl.textContent = s.meta.last_updated || '—';
 
-  // Perplexity table — full width, 4 columns
-  var tbody = el('perplexity-tbody');
+  // Perplexity table
+  var tbody = document.getElementById('perplexity-tbody');
   if(tbody) {
-    tbody.innerHTML = rows.map(function(r) {
-      var gdBadge = r.godaddy
-        ? '<span class="tag-green" style="margin:0 auto;display:table;">✅ Cited</span>'
-        : '<span class="tag-red"   style="margin:0 auto;display:table;">❌ Absent</span>';
-      return '<tr>' +
-        '<td style="font-weight:600;color:#e2e8f0;">' + r.cluster + '</td>' +
-        '<td style="color:#a0aec0;">' + r.cited.join(', ') + '</td>' +
-        '<td style="text-align:center;">' + gdBadge + '</td>' +
-        '<td style="color:#718096;font-size:11px;line-height:1.5;">' + r.action + '</td>' +
-      '</tr>';
-    }).join('') || '<tr><td colspan="4" style="color:#4a5568;text-align:center;">No data</td></tr>';
+    tbody.innerHTML = rows.length
+      ? rows.map(function(r) {
+          var gdBadge = r.godaddy
+            ? '<span class="tag-green">✅ Cited</span>'
+            : '<span class="tag-red">❌ Absent</span>';
+          return '<tr>' +
+            '<td style="font-weight:600;color:#e2e8f0;">' + r.cluster + '</td>' +
+            '<td style="color:#a0aec0;font-size:11px;">' + r.cited.join(', ') + '</td>' +
+            '<td style="text-align:center;">' + gdBadge + '</td>' +
+            '<td style="color:#718096;font-size:11px;line-height:1.5;">' + r.action + '</td>' +
+          '</tr>';
+        }).join('')
+      : '<tr><td colspan="4" style="color:#4a5568;text-align:center;padding:14px;">No data</td></tr>';
   }
 
-  // CI date
+  // CI
   var ci = s.competitive_intel || [];
-  var ciDateEl = el('ci-date-header');
+  var ciDateEl = document.getElementById('ci-date-header');
   if(ciDateEl && ci.length) ciDateEl.textContent = ci[0].verified_date || '—';
 
-  // Rate verification
-  var rateEl = el('ci-rate-rows');
+  var rateEl = document.getElementById('ci-rate-rows');
   if(rateEl) {
     rateEl.innerHTML = ci.map(function(c) {
       var unver = c.event && c.event.indexOf('unverified') > -1;
       var badge = unver ? '<span class="tag-yellow">⚠️ Unverified</span>' : '<span class="tag-green">✅ Verified</span>';
-      var changed = c.changed ? '<span class="tag-yellow" style="margin-left:6px;">Changed</span>' : '';
       return '<div class="ci-item">' +
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
-          '<strong style="color:#e2e8f0;">' + c.competitor + '</strong>' + badge + changed +
+          '<strong style="color:#e2e8f0;">' + c.competitor + '</strong>' + badge +
+          (c.changed ? '<span class="tag-yellow" style="margin-left:4px;">Changed</span>' : '') +
         '</div>' +
         '<div style="font-size:11px;color:#a0aec0;margin-bottom:3px;">' + c.event + '</div>' +
         '<div style="font-size:11px;color:#718096;line-height:1.5;">' + c.detail + '</div>' +
         '<div style="font-size:10px;color:#4a5568;margin-top:4px;">Source: ' + c.source + '</div>' +
       '</div>';
-    }).join('');
+    }).join('') || '<div style="color:#4a5568;font-size:12px;">No CI data</div>';
   }
 
-  // Win angles
-  var winEl = el('ci-win-rows');
+  var winEl = document.getElementById('ci-win-rows');
   if(winEl) {
     winEl.innerHTML = ci.map(function(c) {
       return '<div class="ci-item">' +
         '<div style="font-weight:600;color:#e2e8f0;margin-bottom:4px;">' + c.competitor + '</div>' +
         '<div style="font-size:11px;color:#68d391;line-height:1.5;">' + c.win_angle_impact + '</div>' +
       '</div>';
-    }).join('');
+    }).join('') || '<div style="color:#4a5568;font-size:12px;">No data</div>';
   }
 }
+
 </script>
+<script src="./js/session-loader.js"></script>
 </body></html>

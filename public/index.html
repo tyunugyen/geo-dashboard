@@ -298,9 +298,6 @@
       </div>
       <div style="display:flex;gap:12px;margin-bottom:16px;">
         <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
-          <strong style="color:#68d391;">📅 Monthly:</strong> <span style="color:#90cdf4;">All 8 models (1st of month)</span>
-        </div>
-        <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
           <strong style="color:#f6ad55;">⚡ Weekly:</strong> <span style="color:#90cdf4;">Claude Haiku only (every Monday)</span>
         </div>
       </div>
@@ -804,7 +801,7 @@
         if (pulseRows && pulseModels) {
           var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
-            var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
+            var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
               '<td>' + frequency + '</td>' +
@@ -1177,7 +1174,7 @@
         var p1html=c.phase1?'<div class="cat-target" style="color:#f6ad55;">Phase 1: '+c.phase1+'</div>':'';
         return '<a class="cat-cell cat-cell-'+c.cell+' clickable" href="'+href+'">'+
                '<div class="cat-name">'+c.name+'</div>'+
-               '<div class="cat-sov '+c.cell+''>'+c.sov+'</div>'+
+               '<div class="cat-sov '+c.cell+'">'+c.sov+'</div>'+
                p1html+'<div class="cat-target">\u2192 '+c.target+'</div></a>';
       }).join('');
     }
@@ -1254,7 +1251,7 @@
 
   function applyLocalScore(s, filename) {
     var synth={
-      meta:{label:'Monthly',period:s.runId,run_id:s.runId,sources:'CSV upload (session only)'},
+      meta:{label:'Pulse',period:s.runId,run_id:s.runId,sources:'CSV upload (session only)'},
       kpis:{
         unaided_sov:{value:fmtPct(s.unaidedSOV),fill:Math.round(s.unaidedSOV),color:s.uColor},
         aided_sov:  {value:fmtPct(s.aidedSOV),  fill:Math.round(s.aidedSOV),  color:s.aColor},

@@ -804,13 +804,13 @@
         if (pulseRows && pulseModels) {
           var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
-            var frequency = '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
+            var frequency = '<span style="background:#44337a;color:#f6ad55;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY ONLY</span>';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
               '<td>' + frequency + '</td>' +
               '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
-              '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#f6ad55') + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.u_color||'#4a5568') + ';">' + (m.unaided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#4a5568') + ';">' + (m.aided||'—') + '</span></td>' +
               '<td>' + icon + '</td>' +
               '</tr>';
           }).join('');
@@ -913,19 +913,19 @@
 
       if (trendsData && canvas && canvas.getContext) {
         try {
-              // Set canvas internal dimensions to match display size
-              var rect = canvas.getBoundingClientRect();
-              canvas.width = rect.width;
-              canvas.height = 180;
+          // Set canvas internal dimensions to match display size
+          var rect = canvas.getBoundingClientRect();
+          canvas.width = rect.width;
+          canvas.height = 180;
 
-              var ctx = canvas.getContext('2d');
+          var ctx = canvas.getContext('2d');
 
-              // Debug: Draw background to verify canvas works
-              ctx.fillStyle = '#1a1f2e';
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
+          // Debug: Draw background to verify canvas works
+          ctx.fillStyle = '#1a1f2e';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-              var weekly = trendsData.weekly || [];
-              var monthly = trendsData.monthly || [];
+          var weekly = trendsData.weekly || [];
+          var monthly = trendsData.monthly || [];
 
           console.log('[Trends] weekly data:', weekly);
           console.log('[Trends] monthly data:', monthly);

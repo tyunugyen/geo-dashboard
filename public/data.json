@@ -3,10 +3,9 @@
     "label": "Monthly",
     "period": "July 2026",
     "run_id": "2026-07-W27",
-    "sources": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro (GoCode proxy)",
+    "sources": "Gemini 2.5 Pro (GoCode proxy)",
     "prompt_bank_version": "2.6",
-    "models": "Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro",
-    "prompt_count": 70
+    "models": "Gemini 2.5 Pro"
   },
   "kpis": {
     "unaided_sov": {
@@ -15,8 +14,8 @@
       "color": "#fc8181"
     },
     "aided_sov": {
-      "value": "85.7%",
-      "fill": 86,
+      "value": "71.4%",
+      "fill": 71,
       "color": "#f6e05e"
     },
     "helcim_gap": {
@@ -164,55 +163,9 @@
     }
   ],
   "model_sov": {
-    "claude_sonnet_4_6": {
-      "name": "Claude Sonnet 4.6",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "claude_haiku_4_5_20251001": {
-      "name": "Claude Haiku 4.5",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "claude_opus_4_8": {
-      "name": "Claude Opus 4.8",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gpt_4o": {
-      "name": "GPT-4o",
-      "unaided": "0.0%",
-      "aided": "100.0%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#68d391"
-    },
-    "gemini_2_5_pro": {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "85.7%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#f6e05e"
+    "gemini": {
+      "value": "0%",
+      "color": "#fc8181"
     }
   }
 }

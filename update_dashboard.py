@@ -56,7 +56,7 @@ def load_csv(path):
     with open(path, newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
-def score_comparison(rows):
+def score_comparison(rows, csv_filename=""):
     """Score a geo_multi_comparison_*.csv — builds multi-model SOV table."""
     import re
 
@@ -66,18 +66,36 @@ def score_comparison(rows):
 
     STATUS_COLOR = {"success": "#68d391", "partial": "#f6e05e", "anomaly": "#fc8181", "error": "#fc8181"}
 
-    model_sov = {}
+    # Extract run_id from filename if available
     run_id  = "2026-06-W26"
-    period  = "June 2026"
-    run_date = ""
+    if csv_filename:
+        match = re.search(r"(\d{4}-\d{2}-W\d{2})", csv_filename)
+        if match:
+            run_id = match.group(1)
 
-    # Use first successful model for overall SOV
+    # Derive period from run_id
+    if run_id:
+        match = re.match(r"(\d{4})-(\d{2})-W(\d{2})", run_id)
+        if match:
+            year, month, week = match.groups()
+            months = ["January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December"]
+            period = f"{months[int(month)-1]} {year}"
+        else:
+            period = "June 2026"
+    else:
+        period  = "June 2026"
+
+    run_date = ""
+    model_sov = {}
+
+    # Use minimum across all successful models for overall SOV (conservative estimate)
     u_sov, a_sov, r_sov = 0.0, 0.0, 0.0
     success_models = [r for r in rows if r.get("status","") == "success"]
     if success_models:
-        u_sov = parse_pct(success_models[0].get("unaided_sov","0"))
-        a_sov = parse_pct(success_models[0].get("aided_sov","0"))
-        r_sov = parse_pct(success_models[0].get("rate_saver_sov","0"))
+        u_sov = min(parse_pct(r.get("unaided_sov","0")) for r in success_models)
+        a_sov = min(parse_pct(r.get("aided_sov","0")) for r in success_models)
+        r_sov = min(parse_pct(r.get("rate_saver_sov","0")) for r in success_models)
 
     for r in rows:
         mid   = r.get("model_id", r.get("model_name","")).lower().replace("-","_").replace(".","_").replace(" ","_")
@@ -296,7 +314,7 @@ def main():
 
     if is_comparison:
         # Comparison CSV: model_id, model_name, unaided_sov, aided_sov, rate_saver_sov, status
-        scored = score_comparison(rows)
+        scored = score_comparison(rows, os.path.basename(args.csv_path))
     else:
         missing = [k for k in ["type","category","godaddy_mentioned"] if k not in rows[0]]
         if missing:
@@ -317,7 +335,7 @@ def main():
     # Update data_monthly.json (used by dashboard)
     data_monthly_path = os.path.join(repo, "public", "data_monthly.json")
     if os.path.exists(data_monthly_path):
-        with open(data_monthly_path) as f:
+        with open(data_monthly_path, encoding="utf-8-sig") as f:
             monthly = json.load(f)
 
         # Update main sections from new_data
@@ -347,8 +365,8 @@ def main():
         if "monthly" in scored.get("label", "").lower() or scored["run_id"].endswith("W27"):
             monthly["trends"]["monthly"].append(new_trend)
 
-        with open(data_monthly_path, "w") as f:
-            json.dump(monthly, f, indent=2)
+        with open(data_monthly_path, "w", encoding="utf-8") as f:
+            json.dump(monthly, f, indent=2, ensure_ascii=False)
         print(f"  Updated:  {data_monthly_path}")
 
     # Print summary
@@ -396,17 +414,17 @@ def main():
         (["add", "-f", f"benchmarks/{os.path.basename(args.csv_path)}"],
          "Staging CSV"),
         (["commit", "-m", commit_msg],     "Committing"),
-        (["push", "origin", "main"],        "Pushing to GitHub → PaaS will redeploy"),
+        (["push", "origin", "main"],        "Pushing to GitHub - PaaS will redeploy"),
     ]
     for git_args, label in steps:
         print(f"  {label}...", end=" ", flush=True)
         ok = run_git(git_args, cwd=repo, dry_run=args.dry_run)
-        print("✅" if ok else "❌")
+        print("[OK]" if ok else "[FAIL]")
         if not ok:
             print("\n  Push failed. Check git is set up: git remote -v")
             sys.exit(1)
 
-    print(f"\n  ✅ Done. PaaS will redeploy in ~30 seconds.")
+    print(f"\n  [DONE] PaaS will redeploy in ~30 seconds.")
     print(f"  Dashboard: https://host.beta.godaddy.com/paas/projects/kz6jwep09q")
     print(f"{'='*60}\n")
 

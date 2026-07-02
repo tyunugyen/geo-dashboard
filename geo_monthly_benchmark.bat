@@ -40,7 +40,7 @@ if errorlevel 1 (
 
 echo Running benchmark: PRIMARY models (Claude Sonnet/Haiku/Opus + GPT-4o + Gemini)...
 echo This takes ~15-20 minutes. You can minimize this window.
-python geo_benchmark_multi_model.py --model claude-sonnet-4-6
+python geo_benchmark_multi_model.py --model claude-sonnet-4-6 --fresh
 python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001
 python geo_benchmark_multi_model.py --model claude-opus-4-8
 python geo_benchmark_multi_model.py --model gpt-4o

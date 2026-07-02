@@ -318,15 +318,20 @@ def save_results(all_results, run_id):
 
             print(f"  Saved: {csv_path}")
 
-    # Save comparison summary
+    # Save comparison summary - append if file exists, otherwise create with header
     summary_path = f"benchmarks/geo_multi_comparison_{run_id}.csv"
-    with open(summary_path, "w", newline="", encoding="utf-8") as f:
+    file_exists = os.path.exists(summary_path)
+
+    with open(summary_path, "a" if file_exists else "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=[
             "model_id", "model_name", "unaided_sov", "aided_sov",
             "rate_saver_sov", "unaided_hits", "unaided_prompts",
             "aided_hits", "aided_prompts", "status"
         ])
-        writer.writeheader()
+
+        # Only write header if creating new file
+        if not file_exists:
+            writer.writeheader()
 
         for model_id, data in all_results.items():
             if data["rows"]:
@@ -353,6 +358,7 @@ def main():
     parser.add_argument("--models", nargs="+", choices=["primary", "pulse", "claude", "all"],
                        default=["primary"], help="Run specific model groups: primary (5), pulse (3), all (8)")
     parser.add_argument("--quiet", "-q", action="store_true", help="Minimal output")
+    parser.add_argument("--fresh", action="store_true", help="Delete existing comparison CSV before starting (for first run)")
     args = parser.parse_args()
 
     # Get API key
@@ -389,6 +395,13 @@ def main():
     # Run benchmarks
     all_results = {}
     run_id = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-W%V")
+
+    # If --fresh flag is set, delete existing comparison file for this run_id
+    if args.fresh:
+        summary_path = f"benchmarks/geo_multi_comparison_{run_id}.csv"
+        if os.path.exists(summary_path):
+            os.remove(summary_path)
+            print(f"  Deleted existing comparison file: {summary_path}")
 
     for model_info in models_to_run:
         rows, error = run_model_benchmark(model_info, api_key, verbose=not args.quiet)

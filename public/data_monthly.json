@@ -14,9 +14,9 @@
       "color": "#fc8181"
     },
     "aided_sov": {
-      "value": "71.4%",
-      "fill": 71,
-      "color": "#f6e05e"
+      "value": "100%",
+      "fill": 100,
+      "color": "#68d391"
     },
     "helcim_gap": {
       "value": "25pts",
@@ -40,7 +40,7 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 71.4,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ],
@@ -54,7 +54,7 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 71.4,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ]
@@ -193,29 +193,9 @@
     }
   ],
   "model_sov": {
-    "gemini_2_5_pro": {
-      "name": "Gemini 2.5 Pro",
-      "unaided": "0.0%",
-      "aided": "71.4%",
-      "rs": "0.0%",
-      "status": "success",
-      "note": "",
-      "u_color": "#fc8181",
-      "a_color": "#f6e05e",
-      "aided_failures": [
-        {
-          "prompt_id": "H2",
-          "prompt": "GoDaddy Payments vs Square",
-          "response": "Both are excellent payment processors for small businesses, but they serve slightly different needs. ### The Bottom Line",
-          "note": "Gemini started comparing but cut off without mentioning either processor by name"
-        },
-        {
-          "prompt_id": "P6",
-          "prompt": "GoDaddy Payments vs Shopify Payments",
-          "response": "Both are in-house payment processors designed to simplify transactions on their respective e-commerce platforms. The best choice depends",
-          "note": "Generic comparison that doesn't specifically name GoDaddy"
-        }
-      ]
+    "gemini": {
+      "value": "0%",
+      "color": "#fc8181"
     }
   }
 }

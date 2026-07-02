@@ -102,47 +102,92 @@ function renderCompetitors(s, containerId) {
 }
 
 // ── Model tables (Overview + Report) ─────────────────────────────
-// FIX 2026-07: Added missing Frequency column (2nd <td>) to match 6-column <thead>
-// BEFORE: 5 <td>s per row — Model | Why | Unaided | Aided | Status
-// AFTER:  6 <td>s per row — Model | Frequency | Why | Unaided | Aided | Status
+// FIX: adds Frequency column, consistent colors, also populates report.html table
 function renderModelTables(s) {
   const primary = s.model_sov?.primary || [];
   const pulse   = s.model_sov?.pulse   || [];
   const COLOR_MAP = {'red':'#fc8181','yellow':'#f6e05e','green':'#68d391','blue':'#90cdf4'};
 
-  const primaryEl = document.getElementById('primary-model-rows');
-  if (primaryEl) primaryEl.innerHTML = primary.map(m => {
+  // Build a row for the Overview "What We Track" table (6 columns)
+  function primaryRow(m) {
     const isHaiku = (m.name || '').toLowerCase().includes('haiku');
     const freq = isHaiku
       ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
       : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
     const uColor = COLOR_MAP[m.u_color] || m.u_color || '#fc8181';
     const aColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
-    return `<tr>
-      <td><strong>${m.name}</strong></td>
-      <td>${freq}</td>
-      <td style="color:#a0aec0;font-size:11px;">${m.why}</td>
-      <td><span class="model-tag tag-red" style="color:${uColor}">${m.unaided}</span></td>
-      <td><span class="model-tag" style="background:#1a2744;color:${aColor};">${m.aided}</span></td>
-      <td>${statusBadge(m.status)}</td>
-    </tr>`;
-  }).join('');
-
-  const pulseEl = document.getElementById('pulse-model-rows');
-  if (pulseEl) pulseEl.innerHTML = pulse.map(m => {
+    return '<tr>'
+      + '<td><strong>' + m.name + '</strong></td>'
+      + '<td>' + freq + '</td>'
+      + '<td style="color:#a0aec0;font-size:11px;">' + m.why + '</td>'
+      + '<td><span class="model-tag tag-red" style="color:' + uColor + '">' + m.unaided + '</span></td>'
+      + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
+      + '<td>' + statusBadge(m.status) + '</td>'
+      + '</tr>';
+  }
+  function pulseRow(m) {
     const freq = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
     const uColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
     const aColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
-    return `<tr>
-      <td><strong>${m.name}</strong></td>
-      <td>${freq}</td>
-      <td style="color:#a0aec0;font-size:11px;">${m.why}</td>
-      <td><span class="model-tag" style="background:#1a2744;color:${uColor};">${m.unaided}</span></td>
-      <td><span class="model-tag" style="background:#1a2744;color:${aColor};">${m.aided}</span></td>
-      <td>${statusBadge(m.status)}</td>
-    </tr>`;
-  }).join('');
+    return '<tr>'
+      + '<td><strong>' + m.name + '</strong></td>'
+      + '<td>' + freq + '</td>'
+      + '<td style="color:#a0aec0;font-size:11px;">' + m.why + '</td>'
+      + '<td><span class="model-tag" style="background:#1a2744;color:' + uColor + ';">' + m.unaided + '</span></td>'
+      + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
+      + '<td>' + statusBadge(m.status) + '</td>'
+      + '</tr>';
+  }
+
+  // Overview primary table
+  const primaryEl = document.getElementById('primary-model-rows');
+  if (primaryEl) primaryEl.innerHTML = primary.map(primaryRow).join('');
+
+  // Overview pulse table
+  const pulseEl = document.getElementById('pulse-model-rows');
+  if (pulseEl) pulseEl.innerHTML = pulse.map(pulseRow).join('');
+
+  // Report page AI Platform table — same data, extra Type + Notes columns
+  const reportEl = document.getElementById('report-ai-platform-rows');
+  if (reportEl) {
+    var rows = '';
+    primary.forEach(function(m) {
+      const uColor = COLOR_MAP[m.u_color] || m.u_color || '#fc8181';
+      const aColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
+      const noteText = m.status === 'partial'
+        ? 'Partial run — ' + m.aided + ' aided SOV (' + (m.aided_failures_count || '?') + '/' + (m.aided_total || 7) + ' prompts completed)'
+        : (m.aided === '100%' ? 'All aided prompts successful' : (m.notes || 'Baseline established'));
+      rows += '<tr>'
+        + '<td><strong>' + m.name + '</strong></td>'
+        + '<td><span style="color:#68d391;font-size:11px;">Primary</span></td>'
+        + '<td><span class="model-tag tag-red" style="color:' + uColor + '">' + m.unaided + '</span></td>'
+        + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
+        + '<td>' + statusBadge(m.status) + '</td>'
+        + '<td style="font-size:11px;color:#718096;">' + noteText + '</td>'
+        + '</tr>';
+    });
+    pulse.forEach(function(m) {
+      const uColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
+      const aColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
+      var noteText;
+      if (m.status === 'partial') {
+        noteText = 'Partial run — ' + m.aided + ' aided SOV. Some prompts failed to complete, not a GoDaddy recognition issue.';
+      } else {
+        noteText = m.notes || m.why || 'Directional signal only';
+      }
+      rows += '<tr>'
+        + '<td><strong>' + m.name + '</strong></td>'
+        + '<td><span style="color:#f6ad55;font-size:11px;">Pulse</span></td>'
+        + '<td><span class="model-tag" style="background:#1a2744;color:' + uColor + ';">' + m.unaided + '</span></td>'
+        + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
+        + '<td>' + statusBadge(m.status) + '</td>'
+        + '<td style="font-size:11px;color:#718096;">' + noteText + '</td>'
+        + '</tr>';
+    });
+    reportEl.innerHTML = rows;
+  }
 }
+
 
 // ── Perplexity simulation table (Overview + Report) ──────────────
 function renderPerplexity(s, containerId) {
@@ -381,79 +426,118 @@ function renderReport(s) {
 }
 
 // ── Trends Chart ─────────────────────────────────────────────────
-// 6-month rolling window: 26 week slots, months on x-axis, WK ticks between
+// Rolling 6-month window: starts at earliest data month, goes 6 months forward.
+// Jun data → shows Jun-Nov. When Jun drops off (>6mo old) → shifts to Aug-Jan.
+// X-axis: month names in blue at boundaries, WK labels every 2 weeks between.
+// Last month label is always shown even if no data has reached it yet.
 function renderTrendsChart(trends) {
   const canvas = document.getElementById('trendsChart');
   const note = document.getElementById('trends-note');
   if (!canvas) return;
 
-  // Normalise input — handle {monthly:[...], weekly:[...]} or flat array
-  let dataPoints = [];
+  // Normalise input
+  var dataPoints = [];
   if (trends && typeof trends === 'object' && !Array.isArray(trends)) {
     dataPoints = trends.monthly || trends.weekly || [];
   } else if (Array.isArray(trends)) {
     dataPoints = trends;
   }
 
-  // Build 26-slot skeleton (6 months back to today)
-  function getISOWeek(d) {
-    const jan4 = new Date(d.getFullYear(), 0, 4);
-    const w1 = new Date(jan4);
-    w1.setDate(jan4.getDate() - jan4.getDay() + 1);
-    return Math.floor((d - w1) / (7 * 86400000)) + 1;
-  }
-  function getWeekStart(year, week) {
-    const jan4 = new Date(year, 0, 4);
-    const w1 = new Date(jan4);
-    w1.setDate(jan4.getDate() - jan4.getDay() + 1);
-    const d = new Date(w1);
-    d.setDate(d.getDate() + (week - 1) * 7);
-    return d;
-  }
+  var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun',
+                     'Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  const today = new Date();
-  const currentWeek = getISOWeek(today);
-  const currentYear = today.getFullYear();
-  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const NUM_SLOTS = 26;
+  // ── Determine 6-month window ──────────────────────────────────────
+  // Start = earliest data month still within 6 months of today.
+  // If no data, start = current month. End = start + 5 months.
+  var today = new Date();
+  var currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  // slot 0 = 25 weeks ago, slot 25 = current week
-  const slots = [];
-  for (let i = 0; i < NUM_SLOTS; i++) {
-    let wn = currentWeek - (NUM_SLOTS - 1) + i;
-    let yr = currentYear;
-    if (wn <= 0) { wn += 52; yr -= 1; }
-    const ws = getWeekStart(yr, wn);
-    slots.push({
-      weekNum: wn, year: yr,
-      label: 'WK' + wn,
-      month: MONTH_NAMES[ws.getMonth()],
-      isMonthStart: ws.getDate() <= 7,
-      unaided: null, aided: null, rateSaver: null, hasData: false
-    });
-  }
+  // Six months ago (start of month)
+  var sixMoBackMonth = today.getMonth() - 5;
+  var sixMoBackYear  = today.getFullYear();
+  if (sixMoBackMonth < 0) { sixMoBackMonth += 12; sixMoBackYear -= 1; }
+  var sixMonthsAgo = new Date(sixMoBackYear, sixMoBackMonth, 1);
 
-  // Map actual data into slots by extracting week number from run_id
-  // Handles formats: "2026-06-W26", "2026-07-W27", "W26", etc.
+  // Collect data months that fall within the window
+  var dataMonths = [];
   dataPoints.forEach(function(p) {
     var rid = p.run_id || '';
-    var wMatch = rid.match(/W([0-9]+)$/);
+    var parts = rid.split('-');
+    if (parts.length >= 2) {
+      var yr = parseInt(parts[0]);
+      var mo = parseInt(parts[1]) - 1; // 0-indexed
+      if (!isNaN(yr) && !isNaN(mo)) {
+        var dm = new Date(yr, mo, 1);
+        if (dm >= sixMonthsAgo) dataMonths.push(dm);
+      }
+    }
+  });
+
+  // Window start: earliest valid data month, or current month if no data
+  var windowStart = dataMonths.length > 0
+    ? dataMonths.reduce(function(a, b) { return a < b ? a : b; })
+    : currentMonth;
+
+  // Window end: windowStart + 5 months
+  var endMo = windowStart.getMonth() + 5;
+  var endYr = windowStart.getFullYear();
+  if (endMo > 11) { endMo -= 12; endYr += 1; }
+  var windowEnd = new Date(endYr, endMo, 1); // first day of last month
+
+  // ── Build week slots from windowStart Monday → last day of windowEnd month ──
+  function getMonday(d) {
+    var day = d.getDay();
+    var diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.getFullYear(), d.getMonth(), diff);
+  }
+
+  // First Monday on or after windowStart
+  var slotDate = getMonday(windowStart);
+  // Last day of windowEnd month
+  var windowEndLastDay = new Date(windowEnd.getFullYear(), windowEnd.getMonth() + 1, 0);
+
+  var slots = [];
+  var d = new Date(slotDate);
+  while (d <= windowEndLastDay) {
+    // ISO week number
+    var jan4 = new Date(d.getFullYear(), 0, 4);
+    var w1 = new Date(jan4);
+    w1.setDate(jan4.getDate() - jan4.getDay() + 1);
+    var weekNum = Math.floor((d - w1) / (7 * 86400000)) + 1;
+
+    slots.push({
+      date: new Date(d),
+      weekNum: weekNum,
+      label: 'WK' + weekNum,
+      month: MONTH_NAMES[d.getMonth()],
+      monthIdx: d.getMonth(),
+      isMonthStart: d.getDate() <= 7,
+      unaided: null, aided: null, rateSaver: null, hasData: false
+    });
+    d.setDate(d.getDate() + 7);
+  }
+
+  // ── Map data points into slots by week number ─────────────────────
+  dataPoints.forEach(function(p) {
+    var wMatch = (p.run_id || '').match(/W([0-9]+)$/);
     if (!wMatch) return;
     var wn = parseInt(wMatch[1]);
-    var slot = null;
     for (var si = 0; si < slots.length; si++) {
-      if (slots[si].weekNum === wn) { slot = slots[si]; break; }
+      if (slots[si].weekNum === wn) {
+        slots[si].unaided   = parseFloat(p.unaided_sov)    || 0;
+        slots[si].aided     = parseFloat(p.aided_sov)      || 0;
+        slots[si].rateSaver = parseFloat(p.rate_saver_sov) || 0;
+        slots[si].hasData = true;
+        break;
+      }
     }
-    if (!slot) return;
-    slot.unaided   = parseFloat(p.unaided_sov)    || 0;
-    slot.aided     = parseFloat(p.aided_sov)      || 0;
-    slot.rateSaver = parseFloat(p.rate_saver_sov) || 0;
-    slot.hasData = true;
   });
 
   var dataCount = slots.filter(function(s) { return s.hasData; }).length;
+  var NUM_SLOTS = slots.length;
+  if (NUM_SLOTS < 2) NUM_SLOTS = 2; // avoid div-by-zero
 
-  // Canvas setup
+  // ── Canvas ────────────────────────────────────────────────────────
   canvas.width  = canvas.offsetWidth || 900;
   canvas.height = 210;
   canvas.style.display = 'block';
@@ -466,9 +550,8 @@ function renderTrendsChart(trends) {
   ctx.fillStyle = '#161b28';
   ctx.fillRect(0, 0, W, H);
 
-  // Y-axis grid lines + labels
-  var yPcts = [100, 75, 50, 25, 0];
-  yPcts.forEach(function(pct) {
+  // Y-axis grid + labels
+  [100, 75, 50, 25, 0].forEach(function(pct) {
     var y = padT + chartH - (pct / 100) * chartH;
     ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
@@ -477,10 +560,9 @@ function renderTrendsChart(trends) {
     ctx.fillText(pct + '%', padL - 6, y + 4);
   });
 
-  // Slot X positions
   function slotX(i) { return padL + (chartW / (NUM_SLOTS - 1)) * i; }
 
-  // Week tick marks (every slot, tiny gray)
+  // Week tick marks
   slots.forEach(function(s, i) {
     ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
     ctx.beginPath();
@@ -489,7 +571,7 @@ function renderTrendsChart(trends) {
     ctx.stroke();
   });
 
-  // WK labels every 2 slots (small gray) — skip month-start slots
+  // WK labels every 2 slots (gray, small) — skip month-start slots
   slots.forEach(function(s, i) {
     if (s.isMonthStart) return;
     if (i % 2 !== 0) return;
@@ -498,32 +580,49 @@ function renderTrendsChart(trends) {
     ctx.fillText(s.label, slotX(i), H - padB + 16);
   });
 
-  // Month labels (blue bold) + dashed vertical guide at month boundaries
+  // Month labels (blue bold) + dashed vertical guide
+  // Track which months have been labeled to fix the last-month problem
+  var labeledMonths = new Set();
   slots.forEach(function(s, i) {
     if (!s.isMonthStart) return;
     var x = slotX(i);
-    // Dashed vertical guide
+    labeledMonths.add(s.monthIdx + '_' + s.date.getFullYear());
     ctx.strokeStyle = '#2d4a8a'; ctx.lineWidth = 1;
     ctx.setLineDash([3, 3]);
     ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, H - padB + 2); ctx.stroke();
     ctx.setLineDash([]);
-    // Tick
     ctx.beginPath(); ctx.moveTo(x, H - padB + 2); ctx.lineTo(x, H - padB + 8); ctx.stroke();
-    // Month name
     ctx.fillStyle = '#90cdf4'; ctx.font = 'bold 11px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(s.month, x, H - padB + 30);
   });
 
-  // Draw lines + dots for the 3 metrics
+  // ── LAST MONTH LABEL FIX ──────────────────────────────────────────
+  // If the last slot's month was never labeled (window ends mid-month),
+  // force the label at the rightmost x position.
+  if (slots.length > 0) {
+    var lastSlot = slots[slots.length - 1];
+    var lastMonthKey = lastSlot.monthIdx + '_' + lastSlot.date.getFullYear();
+    if (!labeledMonths.has(lastMonthKey)) {
+      var x = slotX(slots.length - 1);
+      ctx.strokeStyle = '#2d4a8a'; ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, H - padB + 2); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(x, H - padB + 2); ctx.lineTo(x, H - padB + 8); ctx.stroke();
+      ctx.fillStyle = '#90cdf4'; ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(lastSlot.month, x, H - padB + 30);
+    }
+  }
+
+  // Lines + dots for each metric
   var METRICS = [
     { key: 'unaided',   color: '#dc2626' },
     { key: 'aided',     color: '#fbbf24' },
     { key: 'rateSaver', color: '#90cdf4' }
   ];
-
   METRICS.forEach(function(metric) {
-    // Line through data-bearing slots only
     ctx.strokeStyle = metric.color; ctx.lineWidth = 2; ctx.setLineDash([]);
     var started = false;
     ctx.beginPath();
@@ -531,12 +630,10 @@ function renderTrendsChart(trends) {
       if (!s.hasData) return;
       var x = slotX(i);
       var y = padT + chartH - (s[metric.key] / 100) * chartH;
-      if (!started) { ctx.moveTo(x, y); started = true; }
-      else { ctx.lineTo(x, y); }
+      started ? ctx.lineTo(x, y) : (ctx.moveTo(x, y), started = true);
     });
     if (started) ctx.stroke();
 
-    // Dots with dark ring on data slots
     slots.forEach(function(s, i) {
       if (!s.hasData) return;
       var x = slotX(i);
@@ -550,13 +647,79 @@ function renderTrendsChart(trends) {
 
   // Footer note
   if (note) {
-    var first = null, last = null;
-    slots.forEach(function(s) { if (s.hasData) { if (!first) first = s; last = s; } });
+    var startLabel = MONTH_NAMES[windowStart.getMonth()] + ' ' + windowStart.getFullYear();
+    var endLabel   = MONTH_NAMES[windowEnd.getMonth()]   + ' ' + windowEnd.getFullYear();
     note.textContent = dataCount === 0
-      ? 'No data yet — run a benchmark to populate the chart'
+      ? 'No data yet · ' + startLabel + ' → ' + endLabel
       : dataCount + ' week' + (dataCount !== 1 ? 's' : '') + ' of data'
-        + (first && last ? ' · ' + first.label + ' → ' + last.label : '');
+        + ' · ' + startLabel + ' → ' + endLabel;
   }
+}
+
+// ── Branded Search Status ────────────────────────────────────────
+// Handles success (all good), partial (incomplete run, not a failure),
+// and hard failure (model ran fully but missed GoDaddy on branded prompts).
+function renderBrandedSearchStatus(s) {
+  var brandedList = document.getElementById('branded-issues-list');
+  if (!brandedList) return;
+
+  var primary = (s.model_sov && s.model_sov.primary) ? s.model_sov.primary : [];
+  var pulse   = (s.model_sov && s.model_sov.pulse)   ? s.model_sov.pulse   : [];
+  var allModels = primary.concat(pulse);
+
+  var hardFailures = [];
+  var partialRuns  = [];
+  var brandedIssues = [];
+
+  allModels.forEach(function(m) {
+    var aidedPct = parseFloat((m.aided || '0').replace('%', ''));
+    if (m.status === 'success' && aidedPct < 100) hardFailures.push(m);
+    if (m.status === 'partial') partialRuns.push(m);
+    if (m.branded_failures && m.branded_failures.length > 0) brandedIssues.push(m);
+  });
+
+  var html = '';
+
+  // Hard failures — GoDaddy not recognized on branded prompts
+  hardFailures.concat(brandedIssues.filter(function(m) {
+    return hardFailures.indexOf(m) === -1;
+  })).forEach(function(m) {
+    html += '<div class="indicator-row">'
+      + '<span class="priority-badge p0">P0</span>'
+      + '<div class="indicator-label"><strong>' + m.name + '</strong>: '
+      + 'Failed to identify GoDaddy on branded prompts — aided SOV ' + m.aided + '</div>'
+      + '<div class="indicator-status red">❌ ISSUE</div>'
+      + '</div>';
+  });
+
+  // Partial runs — incomplete benchmark, not a recognition failure
+  partialRuns.forEach(function(m) {
+    var aidedPct = parseFloat((m.aided || '0').replace('%', ''));
+    var totalPrompts = m.aided_total || 7;
+    var completedPrompts = m.aided_completed || Math.round(aidedPct / 100 * totalPrompts);
+    html += '<div class="indicator-row">'
+      + '<span class="priority-badge p0" style="background:#2d1f00;border-color:#744210;color:#f6ad55;">'
+      + '⚠️</span>'
+      + '<div class="indicator-label">'
+      + '<strong>' + m.name + '</strong>: Partial run — '
+      + completedPrompts + '/' + totalPrompts + ' prompts completed. '
+      + 'Aided SOV ' + m.aided + ' reflects partial data only. '
+      + '<span style="color:#68d391;">Not a GoDaddy recognition issue.</span>'
+      + '</div>'
+      + '<div class="indicator-status yellow">⚠️ Partial data</div>'
+      + '</div>';
+  });
+
+  // All clear
+  if (html === '') {
+    html = '<div class="indicator-row">'
+      + '<span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>'
+      + '<div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>'
+      + '<div class="indicator-status green">✅ No issues detected</div>'
+      + '</div>';
+  }
+
+  brandedList.innerHTML = html;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────

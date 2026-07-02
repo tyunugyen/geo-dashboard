@@ -804,7 +804,7 @@
         if (pulseRows && pulseModels) {
           var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
-            var frequency = '<span style="background:#44337a;color:#f6ad55;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY ONLY</span>';
+            var frequency = '<span style="background:#44337a;color:#f6ad55;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
               '<td>' + frequency + '</td>' +
@@ -914,286 +914,72 @@
       var note = document.getElementById('trends-note');
 
       if (trendsData && canvas && canvas.getContext) {
-        requestAnimationFrame(function() {
-          try {
-            // Set canvas internal dimensions to match display size
-            var rect = canvas.getBoundingClientRect();
-            if (!rect.width) return; // Canvas not visible yet
-            canvas.width = rect.width;
-            canvas.height = 180;
-
-            var ctx = canvas.getContext('2d');
-
-          // Debug: Draw background to verify canvas works
-          ctx.fillStyle = '#1a1f2e';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-          var weekly = trendsData.weekly || [];
-          var monthly = trendsData.monthly || [];
-
-          console.log('[Trends] weekly data:', weekly);
-          console.log('[Trends] monthly data:', monthly);
-
-          // ALWAYS render chart with 6-month rolling window, even with no data
-          // Combine all data points
-          var allPoints = {};
-          weekly.forEach(function(p) { allPoints[p.run_id] = p; });
-          monthly.forEach(function(p) { allPoints[p.run_id] = p; });
-
-          console.log('[Trends] allPoints:', allPoints);
-
-          // Generate rolling 6-month window of weekly ticks
-          // Find the earliest data point or use current date
-          var dataPoints = Object.values(allPoints);
-          var earliestRunId = null;
-          if (dataPoints.length > 0) {
-            dataPoints.sort(function(a,b) { return a.run_id.localeCompare(b.run_id); });
-            earliestRunId = dataPoints[0].run_id;
+        var ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth || 900;
+        canvas.height = 180;
+        var w = canvas.width, h = canvas.height;
+        var padL = 50, padR = 20, padT = 30, padB = 40;
+        var chartW = w - padL - padR, chartH = h - padT - padB;
+        var points = trendsData.monthly || trendsData.weekly || [];
+        
+        ctx.fillStyle = '#1a1f2e';
+        ctx.fillRect(0, 0, w, h);
+        
+        if (points.length === 0) {
+          ctx.fillStyle = '#718096';
+          ctx.font = '14px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('No trend data', w / 2, h / 2);
+          if (note) note.textContent = 'No data yet';
+        } else {
+          ctx.strokeStyle = '#2d3748';
+          ctx.lineWidth = 1;
+          for (var i = 0; i <= 4; i++) {
+            var y = padT + (chartH / 4) * i;
+            ctx.beginPath();
+            ctx.moveTo(padL, y);
+            ctx.lineTo(w - padR, y);
+            ctx.stroke();
           }
-
-          // Parse run_id to get start date (format: YYYY-MM-WNN where WNN is ISO week number)
-          function parseRunIdToDate(runId) {
-            var match = runId.match(/^(\d{4})-(\d{2})-W(\d{2})$/);
-            if (match) {
-              var year = parseInt(match[1]);
-              var weekNum = parseInt(match[3]); // ISO week number (W01-W53)
-              // Calculate date from ISO week number: Jan 4 is always in week 1
-              var jan4 = new Date(year, 0, 4);
-              var dayOfWeek = jan4.getDay() || 7; // 1=Mon, 7=Sun
-              var weekOneStart = new Date(jan4);
-              weekOneStart.setDate(jan4.getDate() - dayOfWeek + 1); // Monday of week 1
-              var targetDate = new Date(weekOneStart);
-              targetDate.setDate(weekOneStart.getDate() + (weekNum - 1) * 7);
-              return targetDate;
-            }
-            // Monthly format YYYY-MM
-            match = runId.match(/^(\d{4})-(\d{2})$/);
-            if (match) {
-              return new Date(parseInt(match[1]), parseInt(match[2]) - 1, 1);
-            }
-            return new Date();
+          
+          ctx.fillStyle = '#718096';
+          ctx.font = '11px sans-serif';
+          ctx.textAlign = 'right';
+          for (var i = 0; i <= 4; i++) {
+            ctx.fillText((100 - i * 25) + '%', padL - 5, padT + (chartH / 4) * i + 4);
           }
-
-          // Get ISO week number from a date
-          function getISOWeek(date) {
-            var target = new Date(date.valueOf());
-            var dayNum = (date.getDay() + 6) % 7;
-            target.setDate(target.getDate() - dayNum + 3);
-            var firstThursday = target.valueOf();
-            target.setMonth(0, 1);
-            if (target.getDay() !== 4) {
-              target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
-            }
-            return 1 + Math.ceil((firstThursday - target) / 604800000);
-          }
-
-          var startDate = earliestRunId ? parseRunIdToDate(earliestRunId) : new Date();
-          var endDate = new Date(startDate);
-          endDate.setMonth(endDate.getMonth() + 6);
-          endDate.setDate(endDate.getDate() - 1); // End just before 7th month starts (so June-Nov, not June-Dec)
-
-          // Generate all weekly tick marks for 6-month window using ISO week numbers
-          var weeklyTicks = [];
-          var currentDate = new Date(startDate);
-          while (currentDate <= endDate) {
-            var year = currentDate.getFullYear();
-            var month = currentDate.getMonth() + 1;
-            var isoWeek = getISOWeek(currentDate);
-            var monthStr = (month < 10 ? '0' : '') + month;
-            var weekStr = (isoWeek < 10 ? '0' : '') + isoWeek;
-            var runId = year + '-' + monthStr + '-W' + weekStr;
-
-            // Match by year and week number only (ignore month in run_id)
-            // because ISO weeks can span month boundaries
-            var matchedData = null;
-            for (var key in allPoints) {
-              var keyMatch = key.match(/^(\d{4})-\d{2}-(W\d{2})$/);
-              if (keyMatch && keyMatch[1] === year.toString() && keyMatch[2] === 'W' + weekStr) {
-                matchedData = allPoints[key];
-                console.log('[Trends] Matched', key, 'to', runId);
-                break;
-              }
-            }
-
-            weeklyTicks.push({
-              runId: runId,
-              date: new Date(currentDate),
-              data: matchedData // null if no data for this week
-            });
-            currentDate.setDate(currentDate.getDate() + 7); // Next week
-          }
-
-          if (weeklyTicks.length > 0) {
-            // Draw chart with all weekly ticks
-            var w = canvas.width;
-            var h = canvas.height;
-            var padL = 40, padR = 20, padT = 20, padB = 35; // Increased bottom padding for two-row labels
-            var chartW = w - padL - padR;
-            var chartH = h - padT - padB;
-
-            ctx.clearRect(0, 0, w, h);
-
-            // Grid lines
-            ctx.strokeStyle = '#2d3748';
-            ctx.lineWidth = 1;
-            for (var i = 0; i <= 4; i++) {
-              var y = padT + (chartH / 4) * i;
-              ctx.beginPath();
-              ctx.moveTo(padL, y);
-              ctx.lineTo(w - padR, y);
-              ctx.stroke();
-            }
-
-            // Y-axis labels
-            ctx.fillStyle = '#718096';
-            ctx.font = '10px sans-serif';
-            ctx.textAlign = 'right';
-            for (var i = 0; i <= 4; i++) {
-              var val = 100 - (i * 25);
-              var y = padT + (chartH / 4) * i;
-              ctx.fillText(val + '%', padL - 8, y + 4);
-            }
-
-            // Count actual data points
-            var pointsWithData = weeklyTicks.filter(function(t) { return t.data !== null; });
-
-            if (pointsWithData.length === 0) {
-              // No data yet - show empty chart with axis labels
-              ctx.fillStyle = '#718096';
-              ctx.font = '11px sans-serif';
-              ctx.textAlign = 'center';
-              ctx.fillText('No data yet — rolling 6-month window will fill as benchmarks run', w / 2, h / 2);
-
-              // Show week and month labels on X-axis
-              ctx.font = '9px sans-serif';
-              ctx.textAlign = 'center';
-              var monthsShown = {};
-
-              weeklyTicks.forEach(function(tick, i) {
-                var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
-
-                // Show week number (lighter, above)
-                ctx.fillStyle = '#4a5568';
-                ctx.font = '8px sans-serif';
-                var weekMatch = tick.runId.match(/W(\d+)$/);
-                if (weekMatch) {
-                  ctx.fillText('W' + weekMatch[1], x, h - 20);
-                }
-
-                // Show month name at first week of each month (darker, below)
-                var monthKey = tick.date.getFullYear() + '-' + (tick.date.getMonth() + 1);
-                if (!monthsShown[monthKey]) {
-                  monthsShown[monthKey] = true;
-                  ctx.fillStyle = '#718096';
-                  ctx.font = '9px sans-serif';
-                  var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][tick.date.getMonth()];
-                  ctx.fillText(monthName, x, h - 8);
-                }
-              });
-
-              if (note) note.textContent = 'Rolling 6-month window — updates weekly with new benchmarks';
-            } else {
-              // Draw data points on the 6-month timeline
-              // Plot points where data exists
-              weeklyTicks.forEach(function(tick, i) {
-                if (tick.data) {
-                  var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
-                  var uY = padT + chartH - (chartH * (tick.data.unaided_sov || 0) / 100);
-                  var aY = padT + chartH - (chartH * (tick.data.aided_sov || 0) / 100);
-                  var rY = padT + chartH - (chartH * (tick.data.rate_saver_sov || 0) / 100);
-
-                  // Draw dots for this data point
-                  ctx.fillStyle = '#fc8181';
-                  ctx.beginPath();
-                  ctx.arc(x, uY, 3, 0, Math.PI * 2);
-                  ctx.fill();
-
-                  ctx.fillStyle = '#68d391';
-                  ctx.beginPath();
-                  ctx.arc(x, aY, 3, 0, Math.PI * 2);
-                  ctx.fill();
-
-                  ctx.fillStyle = '#90cdf4';
-                  ctx.beginPath();
-                  ctx.arc(x, rY, 3, 0, Math.PI * 2);
-                  ctx.fill();
-                }
-              });
-
-              // Draw lines connecting data points (skip gaps)
-              function drawLine(dataKey, color) {
-                ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                var started = false;
-                weeklyTicks.forEach(function(tick, i) {
-                  if (tick.data) {
-                    var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
-                    var y = padT + chartH - (chartH * (tick.data[dataKey] || 0) / 100);
-                    if (!started) {
-                      ctx.moveTo(x, y);
-                      started = true;
-                    } else {
-                      ctx.lineTo(x, y);
-                    }
-                  }
-                });
-                if (started) ctx.stroke();
-              }
-
-              if (pointsWithData.length > 1) {
-                drawLine('unaided_sov', '#fc8181');
-                drawLine('aided_sov', '#68d391');
-                drawLine('rate_saver_sov', '#90cdf4');
-              }
-
-              // X-axis labels - show week numbers and month names
-              ctx.textAlign = 'center';
-              var monthsShown = {};
-
-              weeklyTicks.forEach(function(tick, i) {
-                var x = padL + (chartW / (weeklyTicks.length - 1 || 1)) * i;
-
-                // Show week number (lighter, above)
-                ctx.fillStyle = '#4a5568';
-                ctx.font = '8px sans-serif';
-                var weekMatch = tick.runId.match(/W(\d+)$/);
-                if (weekMatch) {
-                  ctx.fillText('W' + weekMatch[1], x, h - 20);
-                }
-
-                // Show month name at first week of each month (darker, below)
-                var monthKey = tick.date.getFullYear() + '-' + (tick.date.getMonth() + 1);
-                if (!monthsShown[monthKey]) {
-                  monthsShown[monthKey] = true;
-                  ctx.fillStyle = '#718096';
-                  ctx.font = '9px sans-serif';
-                  var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][tick.date.getMonth()];
-                  ctx.fillText(monthName, x, h - 8);
-                }
-              });
-
-              if (note) {
-                var startMonth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][startDate.getMonth()];
-                var endMonth = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][endDate.getMonth()];
-                note.textContent = pointsWithData.length + ' data points · Rolling window: ' + startMonth + ' - ' + endMonth + ' ' + endDate.getFullYear();
-              }
-            }
-          } else {
-            // No weekly ticks generated - show error
-            ctx.fillStyle = '#fc8181';
-            ctx.font = '11px sans-serif';
+          
+          points.forEach(function(p, i) {
+            var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
+            var y = padT + chartH - (chartH * (p.aided_sov || 0) / 100);
+            ctx.fillStyle = '#68d391';
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#90cdf4';
             ctx.textAlign = 'center';
-            ctx.fillText('Unable to generate timeline - check data format', w / 2, h / 2);
-            if (note) note.textContent = 'No trend data available';
+            ctx.font = '10px sans-serif';
+            ctx.fillText(p.run_id || '', x, h - 10);
+          });
+          
+          if (points.length > 1) {
+            ctx.strokeStyle = '#68d391';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            points.forEach(function(p, i) {
+              var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
+              var y = padT + chartH - (chartH * (p.aided_sov || 0) / 100);
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
           }
-          } catch (err) {
-            console.error('Trends chart error:', err);
-            if (note) note.textContent = 'Chart rendering error - check console';
-          }
-        }); // End requestAnimationFrame
+          
+          if (note) note.textContent = points.length + ' data points';
+          console.log('[Trends] Rendered', points.length, 'points');
+        }
       } else if (note) {
-        note.textContent = 'No trends data available';
+        note.textContent = 'No trends data';
       }
     } // End renderDashboard function
 

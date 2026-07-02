@@ -38,13 +38,20 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Running benchmark: PRIMARY models (Claude Sonnet/Haiku/Opus + GPT-4o + Gemini)...
-echo This takes ~15-20 minutes. You can minimize this window.
+echo Running benchmark: ALL 8 models (5 Primary + 3 Pulse)...
+echo This takes ~25-30 minutes. You can minimize this window.
+echo.
+echo PRIMARY MODELS (5):
 python geo_benchmark_multi_model.py --model claude-sonnet-4-6 --fresh
 python geo_benchmark_multi_model.py --model claude-haiku-4-5-20251001
 python geo_benchmark_multi_model.py --model claude-opus-4-8
 python geo_benchmark_multi_model.py --model gpt-4o
 python geo_benchmark_multi_model.py --model gemini-2.5-pro
+echo.
+echo PULSE CHECK MODELS (3):
+python geo_benchmark_multi_model.py --model gemini-2.5-flash
+python geo_benchmark_multi_model.py --model o3-mini
+python geo_benchmark_multi_model.py --model gemini-3.1-pro-preview
 if errorlevel 1 (
     echo ERROR: Benchmark failed. Check CAAS_API_KEY and VPN.
     pause

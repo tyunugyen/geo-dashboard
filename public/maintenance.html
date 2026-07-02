@@ -2,399 +2,313 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Maintenance Guide — GEO Dashboard</title>
+<title>GEO Maintenance</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
+.header{background:linear-gradient(135deg,#1a1f2e 0%,#0f1117 100%);border-bottom:1px solid #2d3748;padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.header p{font-size:12px;color:#718096;margin-top:2px}
+.header-right{display:flex;gap:10px;align-items:center}
+.badge{background:#1a2744;border:1px solid #2d4a8a;color:#90cdf4;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.badge-warn{background:#2d1f00;border-color:#744210;color:#f6ad55}
+.badge-success{background:#0a2d1a;border-color:#22543d;color:#68d391}
+.nav{display:flex;gap:2px;padding:0 32px;background:#141821;border-bottom:1px solid #2d3748;flex-wrap:wrap}
+.nav a{padding:10px 13px;font-size:12px;font-weight:600;color:#718096;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.nav a:hover{color:#cbd5e0}
+.nav a.active{color:#90cdf4;border-bottom-color:#3182ce}
+.lu-bar{background:#0d1117;border-bottom:1px solid #2d3748;padding:5px 32px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#4a5568;position:sticky;top:0;z-index:90}
+.lu-bar strong{color:#718096}
+.container{padding:20px 32px;max-width:1400px;margin:0 auto}
+.alert{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:11px 16px;margin-bottom:18px;font-size:12px;color:#f6ad55}
+.alert strong{color:#fbd38d}
+.alert.green{background:#0a1a0a;border-color:#22543d;border-left-color:#48bb78;color:#68d391}
+.alert.blue{background:#0a1020;border-color:#2d4a8a;border-left-color:#3182ce;color:#90cdf4}
+.section-title{font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:"";flex:1;height:1px;background:#2d3748}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+.card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px}
+.card h3{font-size:11px;font-weight:700;color:#a0aec0;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.kpi{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.red::before{background:#fc8181}.kpi.yellow::before{background:#f6e05e}.kpi.green::before{background:#68d391}.kpi.blue::before{background:#90cdf4}
+.kpi-label{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:30px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi.red .kpi-value{color:#fc8181}.kpi.yellow .kpi-value{color:#f6e05e}.kpi.green .kpi-value{color:#68d391}.kpi.blue .kpi-value{color:#90cdf4}
+.kpi-sub{font-size:11px;color:#718096}
+.kpi-target{font-size:11px;color:#4a5568;margin-top:8px;padding-top:8px;border-top:1px solid #2d3748}
+.kpi-target span{color:#63b3ed;font-weight:700}
+.pf-spark{height:34px;margin-top:8px;display:flex;align-items:flex-end;gap:3px}
+.pf-bar{flex:1;background:#2d3748;border-radius:2px 2px 0 0;min-height:3px}
+.pf-bar.now{background:#3182ce}
+.priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;display:inline-block}
+.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
+.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210}
+.p2{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74}
+.tag-green{background:#0a2d1a;color:#68d391;border:1px solid #22543d;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-red{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-yellow{background:#2d2200;color:#f6e05e;border:1px solid #744210;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-blue{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.indicator-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e2436;gap:10px}
+.indicator-row:last-child{border-bottom:none}
+.indicator-label{font-size:12px;color:#e2e8f0;flex:1}
+.indicator-status{font-size:11px;font-weight:700;flex-shrink:0}
+.indicator-status.red{color:#fc8181}.indicator-status.green{color:#68d391}.indicator-status.yellow{color:#f6ad55}.indicator-status.blue{color:#90cdf4}
+.model-table{width:100%;border-collapse:collapse;font-size:12px}
+.model-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 11px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2d3748}
+.model-table td{padding:9px 11px;border-bottom:1px solid #1e2436;vertical-align:middle}
+.model-table tr:last-child td{border-bottom:none}
+.prompt-table{width:100%;border-collapse:collapse;font-size:12px}
+.prompt-table th{text-align:left;color:#718096;font-size:11px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #2d3748}
+.prompt-table td{padding:9px 8px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top}
+.comp-row{display:flex;align-items:center;margin-bottom:9px;gap:10px}
+.comp-name{font-size:12px;width:76px;flex-shrink:0;font-weight:600}
+.comp-bar-wrap{flex:1;height:18px;background:#2d3748;border-radius:4px;overflow:hidden}
+.comp-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff}
+.comp-pct{font-size:11px;color:#a0aec0;width:36px;text-align:right;flex-shrink:0}
+.comp-label{font-size:10px;color:#4a5568;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.cat-cell{border-radius:6px;padding:9px 11px;cursor:pointer;text-decoration:none;display:block;color:inherit;transition:transform .1s}
+.cat-cell:hover{transform:translateY(-1px)}
+.cat-cell-red{background:#2d0a0a;border:1px solid #742a2a}
+.cat-cell-green{background:#0a2d1a;border:1px solid #22543d}
+.cat-cell-yellow{background:#2d2200;border:1px solid #744210}
+.cat-name{font-size:11px;color:#a0aec0;font-weight:600}
+.cat-sov{font-size:18px;font-weight:800;margin-top:3px}
+.cat-sov.red{color:#fc8181}.cat-sov.green{color:#68d391}.cat-sov.yellow{color:#f6e05e}
+.cat-target{font-size:10px;color:#4a5568;margin-top:1px}
+.trend-card{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:18px;margin-bottom:20px}
+.ext-link{color:#90cdf4;text-decoration:none;border-bottom:1px dotted #3182ce}
+.ext-link:hover{color:#bee3f8}
+details summary{cursor:pointer;font-size:12px;color:#90cdf4;padding:6px 0;list-style:none}
+details summary::-webkit-details-marker{display:none}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;white-space:nowrap}
+.data-table td{padding:9px 12px;border-bottom:1px solid #1e2436;vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td:first-child{font-weight:500;color:#e2e8f0}
+.footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
-  /* Header */
-  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .header-left h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-  .header-left p { font-size: 13px; color: #718096; margin-top: 4px; }
-  .header-right { display: flex; gap: 12px; align-items: center; }
-  .badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
-  .badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
-
-  /* Navigation */
-  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
-  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; }
-  .nav a:hover { color:#cbd5e0; }
-  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
-
-  .last-updated-bar { background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568; }
-  .last-updated-bar strong { color:#718096; }
-
-  .container { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
-
-  /* Section headers */
-  .section-title { font-size: 14px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin: 32px 0 16px 0; display: flex; align-items: center; gap: 8px; }
-  .section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
-
-  /* Cards */
-  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-  .card h3 { font-size: 14px; font-weight: 700; color: #a0aec0; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  /* Hero box */
-  .hero { background:linear-gradient(135deg,#1a1f2e,#0f1117); border:1px solid #2d3748; border-radius:12px; padding:24px; margin-bottom:24px; }
-  .hero h2 { font-size:18px; font-weight:700; color:#fff; margin-bottom:12px; }
-  .hero p { font-size:13px; color:#cbd5e0; line-height:1.6; margin-bottom:12px; }
-  .hero-stats { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-top:16px; }
-  .hero-stat { background:#0d1117; border:1px solid #2d3748; border-radius:8px; padding:12px; text-align:center; }
-  .hero-stat-value { font-size:20px; font-weight:800; margin-bottom:4px; }
-  .hero-stat-label { font-size:11px; color:#718096; }
-
-  /* Grid layouts */
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px; }
-
-  /* Action boxes */
-  .action-box { background:#1a1f2e; border:1px solid #2d3748; border-radius:10px; padding:18px; }
-  .action-box h4 { font-size:14px; font-weight:700; color:#e2e8f0; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-  .action-box ul { list-style:none; }
-  .action-box ul li { font-size:12px; color:#a0aec0; padding:6px 0; padding-left:20px; position:relative; }
-  .action-box ul li::before { content:'→'; position:absolute; left:0; color:#4a5568; }
-  .action-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; }
-  .badge-weekly { background:rgba(144,205,244,.15); color:#90cdf4; }
-  .badge-monthly { background:rgba(183,148,244,.15); color:#d6bcfa; }
-  .badge-auto { background:rgba(104,211,145,.15); color:#68d391; }
-
-  /* Command block */
-  .cmd-block { background:#0d1117; border:1px solid #2d3748; border-radius:8px; padding:14px; font-family:monospace; font-size:12px; color:#68d391; margin:12px 0; }
-
-  /* Tables */
-  table { width:100%; border-collapse:collapse; }
-  th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:10px 12px; border-bottom:1px solid #2d3748; background:#151921; }
-  td { padding:12px; border-bottom:1px solid #1e2436; font-size:12px; color:#cbd5e0; vertical-align:top; }
-  tr:last-child td { border-bottom:none; }
-  tr:hover { background:rgba(255,255,255,.015); }
-
-  .pill { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; }
-  .pill-green { background:rgba(104,211,145,.15); color:#68d391; }
-  .pill-yellow { background:rgba(246,224,94,.1); color:#f6e05e; }
-  .pill-blue { background:rgba(144,205,244,.1); color:#90cdf4; }
-
-  /* Alerts */
-  .alert-blue { background:#0a0f1a; border:1px solid #2c4a8a; border-left:4px solid #3182ce; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:12px; color:#90cdf4; line-height:1.6; }
-  .alert-green { background:#0a1a0a; border:1px solid #276749; border-left:4px solid #48bb78; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:12px; color:#9ae6b4; line-height:1.6; }
-
-  .red { color: #fc8181; }
-  .green { color: #68d391; }
-  .yellow { color: #f6e05e; }
-  .blue { color: #90cdf4; }
-
-  @media(max-width:1024px){ .grid-2, .grid-3 { grid-template-columns:1fr; } }
+/* Status column fix — enough width for full pill text */
+.maint-table{width:100%;border-collapse:collapse;font-size:12px;}
+.maint-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;white-space:nowrap;}
+.maint-table td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:middle;}
+.maint-table tr:last-child td{border-bottom:none;}
+/* Status column gets min-width so pill shows fully */
+.maint-table .col-status{min-width:180px;white-space:nowrap;}
+.maint-table .col-name{width:22%;}
+.maint-table .col-schedule{width:16%;}
+.maint-table .col-last{width:16%;}
+.maint-table .col-next{width:16%;}
+.log-table{width:100%;border-collapse:collapse;font-size:12px;}
+.log-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;}
+.log-table td{padding:9px 12px;border-bottom:1px solid #1e2436;color:#a0aec0;}
+.log-table tr:last-child td{border-bottom:none;}
 </style>
 </head>
 <body>
-
 <div class="header">
-  <div class="header-left">
-    <h1>🔧 Maintenance Guide</h1>
-    <p>Weekly & monthly workflows to keep the GEO program running</p>
+  <div>
+    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
+    <p>🔧 Maintenance: system health · run schedule · agent activity</p>
   </div>
   <div class="header-right">
-    <span class="badge" data-run-type>Weekly pulse</span>
-    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>2026-06-23 16:30</span></span>
+    <span class="badge" data-run-type>BAT automated</span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
     <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
   </div>
 </div>
-
-<div class="nav">
-  <a href="index.html">📊 Overview</a>
-  <a href="prompts.html">📝 Prompts</a>
-  <a href="aggregators.html">🏷️ Aggregators</a>
-  <a href="action-build.html">🔨 BUILD</a>
-  <a href="action-amplify.html">📣 AMPLIFY</a>
-  <a href="action-cite.html">🏆 CITE</a>
-  <a href="report.html">📋 Report</a>
-  <a href="maintenance.html" class="active">🔧 Maintenance</a>
-  <a href="roadmap.html">🗺️ Next Steps</a>
+<div class="nav"><a href="index.html" class="">📊 Overview</a><a href="insights.html" class="">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="">📋 Report</a><a href="roadmap.html" class="">🗺️ Next Steps</a><a href="maintenance.html" class="active">🔧 Maintenance</a></div>
+<div class="lu-bar">
+  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
 </div>
-
-<div class="last-updated-bar" style="background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568;">
-  <span>Last updated: <strong style="color:#718096;" data-lu-date>2026-06-23 16:30</strong>
-    &nbsp;·&nbsp; Run: <span style="color:#4a5568;" data-lu-run>2026-06-W26</span>
-    &nbsp;·&nbsp; <span data-lu-details>Claude · 70 prompts</span>
-    <span data-last-benchmark style="display:none;"></span>
-  </span>
-</div>
-
 <div class="container">
 
-  <!-- Hero -->
-  <div class="hero">
-    <h2>Your automation stack is ready</h2>
-    <p>Weekly benchmarks (Claude Haiku) and monthly benchmarks (5 primary models) run via batch files. GitHub Actions auto-fill intelligence layer. Vercel auto-deploys on push. This page shows exactly what needs human attention and when.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-value green">~30 min</div>
-        <div class="hero-stat-label">Weekly time required</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-value blue">~2 hours</div>
-        <div class="hero-stat-label">Monthly time required</div>
-      </div>
-    </div>
-  </div>
+<div class="alert blue">🔧 System health dashboard. All benchmark runs are automated via scheduled BAT files. Fill sessions run locally on GoDaddy network (CaaS requirement). Dashboard deploys via Vercel on every git push.</div>
 
-  <div class="alert-blue">
-    <strong>Automation summary:</strong> Run geo_weekly_benchmark.bat (Monday) or geo_monthly_benchmark.bat (1st of month) → generates session.json → pushes to GitHub → GitHub Action fills intelligence layer → Vercel auto-deploys. You handle: community monitoring (weekly), analysis review (monthly), leadership decisions (as needed).
-  </div>
-
-  <!-- Weekly Actions -->
-  <div class="section-title">⚡ Weekly Actions — Every Monday (~30 min)</div>
-
-  <div class="grid-3">
-    <div class="action-box">
-      <h4><span class="action-badge badge-weekly">Step 1</span> Community Monitoring</h4>
-      <ul>
-        <li>Search Reddit/Quora for active threads</li>
-        <li>Score threads (7+ = respond, &lt;7 = monitor)</li>
-        <li>Flag hostile/legal threads for escalation</li>
-        <li>Time: ~10 minutes</li>
-      </ul>
-      <div style="margin-top:12px;font-size:11px;color:#4a5568;">
-        Search: r/smallbusiness "payment processor", r/coffeeshopowners "best POS"
-      </div>
-    </div>
-
-    <div class="action-box">
-      <h4><span class="action-badge badge-weekly">Step 2</span> Generate Reply Drafts</h4>
-      <ul>
-        <li>Run Weekly AMPLIFY Claude task</li>
-        <li>Paste 2-3 thread URLs</li>
-        <li>Review generated reply drafts</li>
-        <li>Time: ~15 minutes</li>
-      </ul>
-    </div>
-
-    <div class="action-box">
-      <h4><span class="action-badge badge-weekly">Step 3</span> Post Approved Replies</h4>
-      <ul>
-        <li>Confirm thread still active</li>
-        <li>Check subreddit rules allow brand replies</li>
-        <li>Post with disclosure</li>
-        <li>Log in Outcome Tracking (AMPLIFY page)</li>
-        <li>Max: 1-2 posts/week</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="alert-green">
-    ✅ <strong>Weekly checklist:</strong> (1) Search for threads → (2) Run Claude task → (3) Review drafts → (4) Post 1-2 replies with disclosure → (5) Log outcomes
-  </div>
-
-  <!-- Monthly Actions -->
-  <div class="section-title">📅 Monthly Actions — First Week of Month (~2 hours)</div>
-
-  <div class="card">
-    <h3>Monthly Workflow</h3>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:100px">Day</th>
-          <th>Action</th>
-          <th style="width:120px">Type</th>
-          <th style="width:100px">Time</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Day 1</strong></td>
-          <td>
-            <strong>Benchmark runs automatically</strong><br>
-            <span style="font-size:11px;color:#718096;">geo_monthly_benchmark.bat → scores CSV → generates session.json → pushes to GitHub → GitHub Action fills intelligence → Vercel auto-deploys</span>
-          </td>
-          <td><span class="pill pill-green">Automated</span></td>
-          <td class="green">0 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 1</strong></td>
-          <td>
-            <strong>Verify dashboard updated</strong><br>
-            <span style="font-size:11px;color:#718096;">Check that Run ID and period show current month. If stale, manually run: python update_dashboard.py</span>
-          </td>
-          <td><span class="pill pill-blue">Manual check</span></td>
-          <td class="blue">2 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 2-3</strong></td>
-          <td>
-            <strong>Run monthly GEO Claude session</strong><br>
-            <span style="font-size:11px;color:#718096;">Open Claude → "Run monthly GEO session" → Claude pulls notes and runs AUDIT → STRATEGY → BUILD/CITE/AMPLIFY workflow</span>
-          </td>
-          <td><span class="pill pill-blue">Claude task</span></td>
-          <td class="blue">45 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 3-4</strong></td>
-          <td>
-            <strong>CRAWL Phase 1 check (if infrastructure changed)</strong><br>
-            <span style="font-size:11px;color:#718096;">Verify no new robots.txt blockers. Confirm crawler access still clean. Only needed if CDN/deploy/infrastructure change happened.</span>
-          </td>
-          <td><span class="pill pill-yellow">Conditional</span></td>
-          <td class="yellow">15 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 4-5</strong></td>
-          <td>
-            <strong>CRAWL Phase 2 on new BUILD pages</strong><br>
-            <span style="font-size:11px;color:#718096;">Every new page needs Phase 2 PASS before publish. If Rate Saver or vertical pages were drafted, run Phase 2 check before legal/PM review.</span>
-          </td>
-          <td><span class="pill pill-yellow">If new pages</span></td>
-          <td class="yellow">20 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 5</strong></td>
-          <td>
-            <strong>Update CITE pipeline status</strong><br>
-            <span style="font-size:11px;color:#718096;">Log outreach responses. Update aggregator tracker. If new placement confirmed, schedule spot-check benchmark.</span>
-          </td>
-          <td><span class="pill pill-blue">Manual</span></td>
-          <td class="blue">10 min</td>
-        </tr>
-        <tr>
-          <td><strong>Day 5-7</strong></td>
-          <td>
-            <strong>Review & send monthly report</strong><br>
-            <span style="font-size:11px;color:#718096;">Report page auto-populates from session.json. Review Leadership Decisions and Next Month Priorities sections. Send link to leadership.</span>
-          </td>
-          <td><span class="pill pill-blue">Manual</span></td>
-          <td class="blue">15 min</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Agent Activity -->
-  <div class="section-title">📊 Agent Activity Summary — This Month</div>
-
-  <div class="card" style="padding:0;overflow:hidden;">
-    <table>
-      <thead>
-        <tr>
-          <th>Agent</th>
-          <th>Actions Completed</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>INTEL</strong></td>
-          <td>Prompt bank v2.6 finalized — 50 prompts, 5-source validated</td>
-          <td><span class="pill pill-green">✅ Complete</span></td>
-        </tr>
-        <tr>
-          <td><strong>AUDIT</strong></td>
-          <td>8-model benchmark run — 560 data points (70×8): 5 primary + 3 pulse models</td>
-          <td><span class="pill pill-green">✅ Complete</span></td>
-        </tr>
-        <tr>
-          <td><strong>CRAWL</strong></td>
-          <td>Phase 1 diagnostic — AI crawler access verified</td>
-          <td><span class="pill pill-green">✅ P0 cleared</span></td>
-        </tr>
-        <tr>
-          <td><strong>STRATEGY</strong></td>
-          <td>3 BUILD briefs + 2 CITE briefs issued, root causes classified</td>
-          <td><span class="pill pill-green">✅ Complete</span></td>
-        </tr>
-        <tr>
-          <td><strong>BUILD</strong></td>
-          <td>Rate Saver page draft in progress, vertical pages queued</td>
-          <td><span class="pill pill-yellow">⚠️ In progress</span></td>
-        </tr>
-        <tr>
-          <td><strong>AMPLIFY</strong></td>
-          <td>5 community reply drafts produced</td>
-          <td><span class="pill pill-yellow">⚠️ Awaiting posting</span></td>
-        </tr>
-        <tr>
-          <td><strong>CITE</strong></td>
-          <td>Aggregator gap report + NerdWallet/Forbes outreach briefs drafted</td>
-          <td><span class="pill pill-yellow">⚠️ Awaiting PR approval</span></td>
-        </tr>
-        <tr>
-          <td><strong>REPORT</strong></td>
-          <td>Monthly executive report published</td>
-          <td><span class="pill pill-green">✅ Published</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- File Locations -->
-  <div class="section-title">📁 File Locations & Purpose</div>
-
-  <div class="card" style="padding:0;overflow:hidden;">
-    <table>
-      <thead>
-        <tr>
-          <th>File</th>
-          <th>Location</th>
-          <th>Purpose</th>
-          <th>Update Frequency</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>geo_monthly_benchmark.bat</strong></td>
-          <td>~/geo-dashboard/</td>
-          <td>Runs 70-prompt × 5-model (primary) benchmark, generates session.json</td>
-          <td><span class="pill pill-green">Monthly auto</span></td>
-        </tr>
-        <tr>
-          <td><strong>public/data/session.json</strong></td>
-          <td>~/geo-dashboard/public/</td>
-          <td>Dashboard data source — auto-updated by .bat</td>
-          <td><span class="pill pill-green">Monthly auto</span></td>
-        </tr>
-        <tr>
-          <td><strong>public/report.html</strong></td>
-          <td>~/geo-dashboard/public/</td>
-          <td>Monthly executive report — reads from session.json</td>
-          <td><span class="pill pill-green">Auto from session.json</span></td>
-        </tr>
-        <tr>
-          <td><strong>public/action-amplify.html</strong></td>
-          <td>~/geo-dashboard/public/</td>
-          <td>Community reply drafts + outcome tracking</td>
-          <td><span class="pill pill-yellow">Weekly manual</span></td>
-        </tr>
-        <tr>
-          <td><strong>GEO Prompt Bank note</strong></td>
-          <td>Claude Notes (ID: 7db9a2e8)</td>
-          <td>50-prompt benchmark set — all agents read from here</td>
-          <td><span class="pill pill-yellow">Quarterly (INTEL)</span></td>
-        </tr>
-        <tr>
-          <td><strong>GEO Claim Registry</strong></td>
-          <td>Confluence</td>
-          <td>Approved claims for BUILD + AMPLIFY + CITE</td>
-          <td><span class="pill pill-yellow">When claims change</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
+<!-- Run schedule -->
+<div class="section-title">📅 Automation Schedule</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="maint-table">
+    <thead><tr>
+      <th class="col-name">Task</th>
+      <th class="col-schedule">Cadence</th>
+      <th class="col-status">Status</th>
+      <th class="col-last">Last Run</th>
+      <th class="col-next">Next Run</th>
+      <th>Notes</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>GEO Monthly Benchmark</strong><div style="font-size:10px;color:#718096;">geo_monthly_benchmark.bat</div></td>
+        <td>1st of each month · 9:00 AM</td>
+        <td class="col-status"><span class="tag-green">✅ Scheduled</span></td>
+        <td style="color:#718096;" id="last-monthly">2026-07-01</td>
+        <td style="color:#718096;">2026-08-01</td>
+        <td style="font-size:11px;color:#718096;">5 primary models · 70 prompts · ~20 min</td>
+      </tr>
+      <tr>
+        <td><strong>GEO Weekly Benchmark</strong><div style="font-size:10px;color:#718096;">geo_weekly_benchmark.bat</div></td>
+        <td>Every Monday · 9:00 AM</td>
+        <td class="col-status"><span class="tag-green">✅ Scheduled</span></td>
+        <td style="color:#718096;" id="last-weekly">2026-06-30</td>
+        <td style="color:#718096;">Next Monday</td>
+        <td style="font-size:11px;color:#718096;">Claude Haiku 4.5 · 70 prompts · ~3 min</td>
+      </tr>
+      <tr>
+        <td><strong>GEO Fill Session</strong><div style="font-size:10px;color:#718096;">geo_fill_session.bat</div></td>
+        <td>Every Monday · 11:30 AM</td>
+        <td class="col-status"><span class="tag-green">✅ Scheduled</span></td>
+        <td style="color:#718096;" id="last-fill">2026-07-01</td>
+        <td style="color:#718096;">Next Monday</td>
+        <td style="font-size:11px;color:#718096;">Live crawl + CaaS calls + Vercel deploy</td>
+      </tr>
+      <tr>
+        <td><strong>GEO Monthly Fill</strong><div style="font-size:10px;color:#718096;">geo_fill_session.bat (monthly)</div></td>
+        <td>1st of each month · 11:30 AM</td>
+        <td class="col-status"><span class="tag-green">✅ Scheduled</span></td>
+        <td style="color:#718096;">2026-07-01</td>
+        <td style="color:#718096;">2026-08-01</td>
+        <td style="font-size:11px;color:#718096;">Full intelligence + build page drafts</td>
+      </tr>
+      <tr>
+        <td><strong>GEO Claude Session</strong><div style="font-size:10px;color:#718096;">Manual · this assistant</div></td>
+        <td>1st of each month · 1:00 PM</td>
+        <td class="col-status"><span class="tag-blue">📋 Manual</span></td>
+        <td style="color:#718096;">2026-07-01</td>
+        <td style="color:#718096;">2026-08-01</td>
+        <td style="font-size:11px;color:#718096;">Interpret + Notes + Confluence + executive report</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<script>
-fetch('/data/session.json').then(r=>r.json()).then(d=>{
-  const meta = d.meta||{};
-  const period = (meta.run_date||'') + (meta.run_time ? ' ' + meta.run_time : '');
-  const runId = meta.run_id||'—';
-  const models = meta.model_count ? meta.model_count + ' models' : (meta.models||'8 models');
-  const prompts = meta.prompt_count||70;
-  const luDate = document.getElementById('lu-date');
-  const luRun = document.getElementById('lu-run');
-  const luModels = document.getElementById('lu-models');
-  if(luDate) luDate.textContent = period || meta.period || '—';
-  if(luRun) luRun.textContent = runId;
-  if(luModels) luModels.textContent = models + ' · ' + prompts + ' prompts';
-}).catch(()=>{});
-</script>
+<!-- Agent activity summary -->
+<div class="section-title">🤖 Agent Activity Summary</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="maint-table">
+    <thead><tr>
+      <th class="col-name">Agent</th>
+      <th>Role</th>
+      <th class="col-schedule">Cadence</th>
+      <th class="col-last">Last Activity</th>
+      <th class="col-status">Status</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>AUDIT</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">8-model benchmark · SOV measurement</td>
+        <td>Monthly</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span class="tag-green" id="audit-status">✅ Run complete</span></td>
+      </tr>
+      <tr>
+        <td><strong>INTEL</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Prompt bank · merchant language research</td>
+        <td>Quarterly</td>
+        <td style="color:#718096;">2026-06</td>
+        <td class="col-status"><span class="tag-blue">📋 v2.8 current</span></td>
+      </tr>
+      <tr>
+        <td><strong>STRATEGY</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Gap classification · content briefs</td>
+        <td>Monthly</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span id="strategy-status" class="tag-green">✅ Actions current</span></td>
+      </tr>
+      <tr>
+        <td><strong>BUILD (Content)</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Page draft generation</td>
+        <td>Each fill session</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span id="build-status" class="tag-yellow">⏳ — drafts, 0 published</span></td>
+      </tr>
+      <tr>
+        <td><strong>AMPLIFY (Community)</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Community reply drafts</td>
+        <td>Each fill session</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span id="amplify-status" class="tag-yellow">⏳ — drafts, 0 posted</span></td>
+      </tr>
+      <tr>
+        <td><strong>CITE (Citations)</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Publisher outreach pipeline</td>
+        <td>Each fill session</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span id="cite-status" class="tag-red">❌ — P0 absent</span></td>
+      </tr>
+      <tr>
+        <td><strong>REPORT</strong></td>
+        <td style="font-size:11px;color:#a0aec0;">Executive summary · leading indicators</td>
+        <td>Monthly</td>
+        <td style="color:#718096;" data-lu-date>—</td>
+        <td class="col-status"><span class="tag-green">✅ Current</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- System info -->
+<div class="section-title">⚙️ System Configuration</div>
+<div class="grid-2">
+  <div class="card">
+    <h3>Benchmark Models</h3>
+    <table class="log-table">
+      <thead><tr><th>Model</th><th>Tier</th><th>Role</th></tr></thead>
+      <tbody id="model-config-rows">
+        <tr><td colspan="3" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:10px;color:#4a5568;margin-top:8px;">❌ GPT-5 removed (API errors) · ❌ o3 removed (replaced by o3-mini)</div>
+  </div>
+  <div class="card">
+    <h3>Infrastructure</h3>
+    <div class="indicator-row"><div class="indicator-label">Benchmark runner</div><div class="indicator-status blue">PC · CaaS / GoDaddy network</div></div>
+    <div class="indicator-row"><div class="indicator-label">Dashboard hosting</div><div class="indicator-status green">Vercel · auto-deploy on git push</div></div>
+    <div class="indicator-row"><div class="indicator-label">Session data</div><div class="indicator-status blue">public/data/session.json</div></div>
+    <div class="indicator-row"><div class="indicator-label">Crawler access (GPTBot, ClaudeBot, Perplexity)</div><div class="indicator-status green">✅ 200 confirmed</div></div>
+    <div class="indicator-row"><div class="indicator-label">Repo</div><div class="indicator-status blue"><a href="https://github.com/tyunugyen/geo-dashboard" target="_blank" class="ext-link">tyunugyen/geo-dashboard</a></div></div>
+  </div>
+</div>
+
+</div>
+<div class="footer">GoDaddy Payments GEO Dashboard · <a href="https://geo-dashboard-pi-three.vercel.app" class="ext-link" target="_blank">geo-dashboard-pi-three.vercel.app</a></div>
+
 <script src="./js/session-loader.js"></script>
-</body>
-</html>
+<script>
+function renderPage(s) {
+  var meta = s.meta || {};
+  var pages = s.build_pages || [];
+  var amp   = s.amplify_threads || [];
+  var cite  = s.cite_pipeline || [];
+  var p0absent = cite.filter(function(c){return c.priority==='P0' && c.status && c.status.indexOf('not cited')>-1;}).length;
+
+  // Update dynamic status cells
+  var bs = document.getElementById('build-status');
+  if(bs) bs.textContent = '⏳ ' + pages.length + ' drafts, ' + pages.filter(function(p){return p.status==='published';}).length + ' published';
+  var as = document.getElementById('amplify-status');
+  if(as) as.textContent = '⏳ ' + amp.length + ' drafts, ' + amp.filter(function(t){return t.posted;}).length + ' posted';
+  var cs = document.getElementById('cite-status');
+  if(cs) {
+    cs.textContent = (p0absent>0?'❌':'⚠️') + ' ' + p0absent + ' P0 absent';
+    cs.className = p0absent>0 ? 'tag-red' : 'tag-yellow';
+  }
+
+  // Model config table
+  var primary = (s.model_sov||{}).primary || [];
+  var pulse   = (s.model_sov||{}).pulse   || [];
+  var rows = primary.map(function(m){
+    return '<tr><td><strong>'+m.name+'</strong></td><td><span class="tag-green">Primary</span></td><td style="font-size:11px;color:#718096;">'+m.why+'</td></tr>';
+  }).concat(pulse.map(function(m){
+    return '<tr><td><strong>'+m.name+'</strong></td><td><span class="tag-yellow">Pulse</span></td><td style="font-size:11px;color:#718096;">'+m.why+'</td></tr>';
+  }));
+  var mcEl = document.getElementById('model-config-rows');
+  if(mcEl) mcEl.innerHTML = rows.join('') || '<tr><td colspan="3" style="color:#4a5568;">No model data</td></tr>';
+}
+</script>
+</body></html>

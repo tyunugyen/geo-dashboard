@@ -2,327 +2,269 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GEO Monthly Report — GoDaddy Payments</title>
+<title>GEO Report</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
-  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .header-left h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-  .header-left p { font-size: 13px; color: #718096; margin-top: 4px; }
-  .header-right { display: flex; gap: 12px; align-items: center; }
-  .badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
-  .badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
-  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
-  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; }
-  .nav a:hover { color:#cbd5e0; }
-  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
-  .last-updated-bar { background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568; }
-  .last-updated-bar strong { color:#718096; }
-  .container { padding: 24px 32px; max-width: 1300px; margin: 0 auto; }
-  .section-title { font-size: 14px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
-  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
-  .alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #f6ad55; }
-  .alert strong { color: #fbd38d; }
-  .alert-green { background:#0a1a0a; border:1px solid #276749; border-left:4px solid #48bb78; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#9ae6b4; }
-  .alert-blue { background:#0a0f1a; border:1px solid #2c4a8a; border-left:4px solid #3182ce; border-radius:6px; padding:12px 16px; margin-bottom:16px; font-size:13px; color:#90cdf4; }
-  .red { color: #fc8181; } .green { color: #68d391; } .yellow { color: #f6e05e; } .blue { color: #90cdf4; } .muted { color: #718096; } .gray { color: #4a5568; }
-  table { width:100%; border-collapse:collapse; }
-  th { text-align:left; font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; padding:8px 12px; border-bottom:1px solid #2d3748; }
-  td { padding:10px 12px; border-bottom:1px solid #1e2535; font-size:13px; vertical-align:top; }
-  tr:last-child td { border-bottom:none; }
-  tr:hover td { background:rgba(255,255,255,.015); }
-  .pill { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700; }
-  .pill-red { background:rgba(252,129,129,.15); color:#fc8181; }
-  .pill-yellow { background:rgba(246,224,94,.1); color:#f6e05e; }
-  .pill-green { background:rgba(104,211,145,.15); color:#68d391; }
-  .pill-blue { background:rgba(144,205,244,.1); color:#90cdf4; }
-  .pill-purple { background:rgba(183,148,244,.1); color:#d6bcfa; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
+.header{background:linear-gradient(135deg,#1a1f2e 0%,#0f1117 100%);border-bottom:1px solid #2d3748;padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.header p{font-size:12px;color:#718096;margin-top:2px}
+.header-right{display:flex;gap:10px;align-items:center}
+.badge{background:#1a2744;border:1px solid #2d4a8a;color:#90cdf4;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.badge-warn{background:#2d1f00;border-color:#744210;color:#f6ad55}
+.badge-success{background:#0a2d1a;border-color:#22543d;color:#68d391}
+.nav{display:flex;gap:2px;padding:0 32px;background:#141821;border-bottom:1px solid #2d3748;flex-wrap:wrap}
+.nav a{padding:10px 13px;font-size:12px;font-weight:600;color:#718096;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.nav a:hover{color:#cbd5e0}
+.nav a.active{color:#90cdf4;border-bottom-color:#3182ce}
+.lu-bar{background:#0d1117;border-bottom:1px solid #2d3748;padding:5px 32px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#4a5568;position:sticky;top:0;z-index:90}
+.lu-bar strong{color:#718096}
+.container{padding:20px 32px;max-width:1400px;margin:0 auto}
+.alert{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:11px 16px;margin-bottom:18px;font-size:12px;color:#f6ad55}
+.alert strong{color:#fbd38d}
+.alert.green{background:#0a1a0a;border-color:#22543d;border-left-color:#48bb78;color:#68d391}
+.alert.blue{background:#0a1020;border-color:#2d4a8a;border-left-color:#3182ce;color:#90cdf4}
+.section-title{font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:"";flex:1;height:1px;background:#2d3748}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+.card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px}
+.card h3{font-size:11px;font-weight:700;color:#a0aec0;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.kpi{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.red::before{background:#fc8181}.kpi.yellow::before{background:#f6e05e}.kpi.green::before{background:#68d391}.kpi.blue::before{background:#90cdf4}
+.kpi-label{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:30px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi.red .kpi-value{color:#fc8181}.kpi.yellow .kpi-value{color:#f6e05e}.kpi.green .kpi-value{color:#68d391}.kpi.blue .kpi-value{color:#90cdf4}
+.kpi-sub{font-size:11px;color:#718096}
+.kpi-target{font-size:11px;color:#4a5568;margin-top:8px;padding-top:8px;border-top:1px solid #2d3748}
+.kpi-target span{color:#63b3ed;font-weight:700}
+.pf-spark{height:34px;margin-top:8px;display:flex;align-items:flex-end;gap:3px}
+.pf-bar{flex:1;background:#2d3748;border-radius:2px 2px 0 0;min-height:3px}
+.pf-bar.now{background:#3182ce}
+.priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;display:inline-block}
+.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
+.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210}
+.p2{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74}
+.tag-green{background:#0a2d1a;color:#68d391;border:1px solid #22543d;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-red{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-yellow{background:#2d2200;color:#f6e05e;border:1px solid #744210;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.tag-blue{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
+.indicator-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e2436;gap:10px}
+.indicator-row:last-child{border-bottom:none}
+.indicator-label{font-size:12px;color:#e2e8f0;flex:1}
+.indicator-status{font-size:11px;font-weight:700;flex-shrink:0}
+.indicator-status.red{color:#fc8181}.indicator-status.green{color:#68d391}.indicator-status.yellow{color:#f6ad55}.indicator-status.blue{color:#90cdf4}
+.model-table{width:100%;border-collapse:collapse;font-size:12px}
+.model-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 11px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2d3748}
+.model-table td{padding:9px 11px;border-bottom:1px solid #1e2436;vertical-align:middle}
+.model-table tr:last-child td{border-bottom:none}
+.prompt-table{width:100%;border-collapse:collapse;font-size:12px}
+.prompt-table th{text-align:left;color:#718096;font-size:11px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #2d3748}
+.prompt-table td{padding:9px 8px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top}
+.comp-row{display:flex;align-items:center;margin-bottom:9px;gap:10px}
+.comp-name{font-size:12px;width:76px;flex-shrink:0;font-weight:600}
+.comp-bar-wrap{flex:1;height:18px;background:#2d3748;border-radius:4px;overflow:hidden}
+.comp-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff}
+.comp-pct{font-size:11px;color:#a0aec0;width:36px;text-align:right;flex-shrink:0}
+.comp-label{font-size:10px;color:#4a5568;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.cat-cell{border-radius:6px;padding:9px 11px;cursor:pointer;text-decoration:none;display:block;color:inherit;transition:transform .1s}
+.cat-cell:hover{transform:translateY(-1px)}
+.cat-cell-red{background:#2d0a0a;border:1px solid #742a2a}
+.cat-cell-green{background:#0a2d1a;border:1px solid #22543d}
+.cat-cell-yellow{background:#2d2200;border:1px solid #744210}
+.cat-name{font-size:11px;color:#a0aec0;font-weight:600}
+.cat-sov{font-size:18px;font-weight:800;margin-top:3px}
+.cat-sov.red{color:#fc8181}.cat-sov.green{color:#68d391}.cat-sov.yellow{color:#f6e05e}
+.cat-target{font-size:10px;color:#4a5568;margin-top:1px}
+.trend-card{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:18px;margin-bottom:20px}
+.ext-link{color:#90cdf4;text-decoration:none;border-bottom:1px dotted #3182ce}
+.ext-link:hover{color:#bee3f8}
+details summary{cursor:pointer;font-size:12px;color:#90cdf4;padding:6px 0;list-style:none}
+details summary::-webkit-details-marker{display:none}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;white-space:nowrap}
+.data-table td{padding:9px 12px;border-bottom:1px solid #1e2436;vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td:first-child{font-weight:500;color:#e2e8f0}
+.footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 
-  .kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:20px; }
-  .kpi { background:#161b28; border:1px solid #2d3748; border-radius:12px; padding:20px; position:relative; overflow:hidden; }
-  .kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
-  .kpi.red::before { background:#fc8181; } .kpi.yellow::before { background:#f6e05e; } .kpi.green::before { background:#68d391; } .kpi.blue::before { background:#90cdf4; }
-  .kpi-label { font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
-  .kpi-value { font-size:34px; font-weight:800; line-height:1; margin-bottom:4px; }
-  .kpi.red .kpi-value { color:#fc8181; } .kpi.yellow .kpi-value { color:#f6e05e; } .kpi.green .kpi-value { color:#68d391; } .kpi.blue .kpi-value { color:#90cdf4; }
-  .kpi-sub { font-size:11px; color:#718096; }
-  .kpi-target { font-size:11px; color:#4a5568; margin-top:8px; padding-top:8px; border-top:1px solid #2d3748; }
-  .kpi-target span { color:#63b3ed; font-weight:700; }
-  .ind-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
-  .ind { background:#1a1f2e; border:1px solid #2d3748; border-radius:8px; padding:14px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
-  .ind-label { font-size:13px; } .ind-sub { font-size:11px; color:#718096; margin-top:2px; }
-  .ind-val { font-size:13px; font-weight:700; white-space:nowrap; }
-  .gap-section { margin-bottom:12px; }
-  .win-row { background:#0a1a0a; border:1px solid #276749; border-left:3px solid #48bb78; border-radius:8px; padding:14px; margin-bottom:10px; }
-  .gap-row { background:#1a0a0a; border:1px solid #742a2a; border-left:3px solid #fc8181; border-radius:8px; padding:14px; margin-bottom:10px; }
-  .gap-row.p1 { border-left-color:#f6e05e; border-color:#744210; background:#1a1000; }
-  .row-title { font-weight:700; font-size:14px; margin-bottom:4px; }
-  .row-meta { font-size:12px; color:#718096; display:flex; gap:12px; flex-wrap:wrap; margin-top:4px; }
-  .row-action { font-size:12px; color:#90cdf4; margin-top:8px; padding-top:8px; border-top:1px solid #2d3748; }
-  .prio-row { background:#1a1f2e; border:1px solid #2d3748; border-radius:8px; padding:14px; margin-bottom:10px; display:flex; gap:12px; align-items:flex-start; }
-  .prio-num { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; flex-shrink:0; margin-top:2px; }
-  .prio-num.p0 { background:rgba(252,129,129,.2); color:#fc8181; border:1px solid #fc8181; }
-  .prio-num.p1 { background:rgba(246,224,94,.1); color:#f6e05e; border:1px solid #f6e05e; }
-  .prio-num.p2 { background:rgba(144,205,244,.1); color:#90cdf4; border:1px solid #90cdf4; }
-  .prio-content h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
-  .prio-content .pm { font-size:12px; color:#718096; display:flex; gap:12px; flex-wrap:wrap; }
-  .pm .owner { color:#63b3ed; }
-  .two-col { display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
-  .method-block { background:#0d1117; border:1px solid #2d3748; border-radius:10px; padding:16px; font-size:12px; }
-  .method-block li { color:#718096; margin-bottom:5px; list-style:none; padding-left:0; }
-  .method-block li strong { color:#cbd5e0; }
-  .conf-card { background:#1a1f2e; border:1px solid #2d3748; border-radius:8px; padding:14px; margin-bottom:10px; }
-  .conf-level { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:8px; margin-bottom:8px; }
-  .conf-high { background:rgba(104,211,145,.15); color:#68d391; }
-  .conf-med { background:rgba(246,224,94,.1); color:#f6e05e; }
-  .sov-bar { display:flex; align-items:center; gap:8px; }
-  .bar-track { flex:1; height:5px; background:#2d3748; border-radius:3px; max-width:100px; }
-  .bar-fill { height:100%; border-radius:3px; background:#fc8181; }
-  .bar-fill.green { background:#68d391; } .bar-fill.yellow { background:#f6e05e; }
-  .report-footer { margin-top:48px; padding-top:20px; border-top:1px solid #2d3748; display:flex; justify-content:space-between; font-size:12px; color:#4a5568; }
-  @media(max-width:900px){ .kpi-grid,.ind-grid { grid-template-columns:1fr 1fr; } .two-col { grid-template-columns:1fr; } }
+.win-card{background:#0a2d1a;border:1px solid #22543d;border-radius:8px;padding:12px 14px;margin-bottom:8px;}
+.win-title{font-size:12px;font-weight:700;color:#68d391;margin-bottom:3px;}
+.win-meta{font-size:11px;color:#a0aec0;}
+.gap-card{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:12px 14px;margin-bottom:8px;}
+.gap-pri{font-size:10px;font-weight:700;color:#f6ad55;text-transform:uppercase;margin-bottom:3px;}
+.gap-title{font-size:12px;font-weight:700;color:#fbd38d;margin-bottom:3px;}
+.gap-meta{font-size:11px;color:#a0aec0;}
 </style>
 </head>
 <body>
-
 <div class="header">
-  <div class="header-left"><h1>📊 GEO Monthly Executive Report</h1><p>GoDaddy Payments — AI Visibility Program · Baseline Month</p></div>
+  <div>
+    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
+    <p>📋 Report: monthly executive summary · SOV scorecard · leading indicators</p>
+  </div>
   <div class="header-right">
-    <span class="badge" data-run-type>Weekly pulse</span>
-    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>2026-06-23 16:30</span></span>
+    <span class="badge" data-run-type>BAT automated</span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
     <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
   </div>
 </div>
-<div class="nav">
-  <a href="index.html">📊 Overview</a>
-  <a href="prompts.html">📝 Prompts</a>
-  <a href="aggregators.html">🏷️ Aggregators</a>
-  <a href="action-build.html">🔨 BUILD</a>
-  <a href="action-amplify.html">📣 AMPLIFY</a>
-  <a href="action-cite.html">🏆 CITE</a>
-  <a href="report.html" class="active">📋 Report</a>
-  <a href="maintenance.html">🔧 Maintenance</a>
-  <a href="roadmap.html">🗺️ Next Steps</a>
+<div class="nav"><a href="index.html" class="">📊 Overview</a><a href="insights.html" class="">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="active">📋 Report</a><a href="roadmap.html" class="">🗺️ Next Steps</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
+<div class="lu-bar">
+  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
 </div>
-<div class="last-updated-bar" style="background:#0d1117; border-bottom:1px solid #2d3748; padding:6px 32px; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#4a5568;">
-  <span>Last updated: <strong style="color:#718096;" data-lu-date>2026-06-23 16:30</strong>
-    &nbsp;·&nbsp; Run: <span style="color:#4a5568;" data-lu-run>2026-06-W26</span>
-    &nbsp;·&nbsp; <span data-lu-details>Claude · 70 prompts</span>
-    <span data-last-benchmark style="display:none;"></span>
-  </span>
-</div>
-
 <div class="container">
 
-<div class="alert">⚠️ <strong>Binding constraint — June 2026:</strong> Unaided SOV = 0% across all 9 models. Root cause: citation gap. Crawler access confirmed ✅ — not the issue. Single highest-leverage action: NerdWallet + Forbes inclusion.</div>
-
-<!-- S1: SOV Dashboard -->
-<div class="section-title">1 · SOV Dashboard — Lead with Unaided</div>
-<div class="kpi-grid">
+<!-- SOV Dashboard -->
+<div class="section-title">📈 SOV Dashboard — Lead with Unaided</div>
+<div class="grid-3" style="margin-bottom:20px;">
   <div class="kpi red">
-    <div class="kpi-label">🎯 Unaided SOV</div>
-    <div class="kpi-value" id="r-unaided">~0%</div>
-    <div class="kpi-sub">Cold discovery — no GoDaddy in prompt</div>
+    <div class="kpi-label">🎯 Unaided SOV (North-Star)</div>
+    <div class="kpi-value" id="kpi-unaided">0%</div>
+    <div class="kpi-sub">GoDaddy mentioned WITHOUT being named in prompt</div>
     <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
   </div>
   <div class="kpi green">
     <div class="kpi-label">✅ Aided SOV</div>
-    <div class="kpi-value" id="r-aided">~100%</div>
-    <div class="kpi-sub">GoDaddy named in prompt — model knowledge ✓</div>
+    <div class="kpi-value" id="kpi-aided">100%</div>
+    <div class="kpi-sub">GoDaddy mentioned WHEN named in prompt</div>
     <div class="kpi-target">Target: <span>Maintain ~100%</span></div>
   </div>
-  <div class="kpi red">
-    <div class="kpi-label">🏆 Citation Rank</div>
-    <div class="kpi-value" style="font-size:20px;padding-top:8px;">Unranked</div>
-    <div class="kpi-sub">Absent 5/7 top aggregators</div>
-    <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
-  </div>
   <div class="kpi yellow">
-    <div class="kpi-label">💡 Rate Saver Cited</div>
-    <div class="kpi-value" id="r-ratesaver">0%</div>
-    <div class="kpi-sub">Only 0% product on market — invisible</div>
-    <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
-  </div>
-</div>
-<div class="alert-blue" style="font-size:12px;">🔑 <strong>Two different problems:</strong> Unaided SOV = cold merchant AI discovery (currently 0%). Aided SOV = merchants who already know GoDaddy (currently ~100%). The entire program is about moving Unaided SOV.</div>
-
-<!-- S1.5: AI Platform Insights -->
-<div class="section-title" style="margin-top:28px;" id="ai-platform-insights">1.5 · AI Platform Breakdown — SOV by Model</div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>AI Platform</th><th>Type</th><th>Unaided SOV</th><th>Aided SOV</th><th>Status</th><th>Notes</th></tr></thead>
-<tbody id="report-ai-platform-rows">
-  <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
-</tbody>
-</table>
-</div>
-<div style="font-size:11px;color:#4a5568;margin-top:8px;">Universal 0% unaided SOV confirms citation gap is the binding constraint across all AI systems. No model-specific optimizations needed — single root cause applies to all.</div>
-
-<!-- S2: Category Traffic Lights -->
-<div class="section-title" style="margin-top:28px;">2 · Category Traffic Lights <span style="font-size:11px;color:#4a5568;font-weight:400;">— Legend: <span class="pill pill-blue">U</span> = Unaided, <span class="pill pill-purple">B</span> = Brand/Aided</span></div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>Category</th><th>Type</th><th>This Month</th><th>Phase 1 Target</th><th>Final Target</th><th>Status</th></tr></thead>
-  <tbody id="r-categories">
-    <tr><td>pricing_fee</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>25%</td><td>85%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>top_funnel_pos</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>20%</td><td>60%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>payment_processing</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>20%</td><td>55%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>vertical_fb</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>18%</td><td>50%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>vertical_retail</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>22%</td><td>55%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>general_in_person</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>18%</td><td>50%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>support</td><td><span class="pill pill-blue">U</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="red">0%</span></div></td><td>25%</td><td>65%</td><td><span style="color:#fc8181">● Baseline</span></td></tr>
-    <tr><td>comparison</td><td><span class="pill pill-purple">B</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div><span class="green">100%</span></div></td><td>25%</td><td>70%</td><td><span style="color:#68d391">● On track</span></td></tr>
-    <tr><td>brand_awareness</td><td><span class="pill pill-purple">B</span></td><td><div class="sov-bar"><div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div><span class="green">100%</span></div></td><td>—</td><td>Maintain</td><td><span style="color:#68d391">● On track</span></td></tr>
-  </tbody>
-</table>
-</div>
-<div style="font-size:11px;color:#4a5568;margin-top:8px;">🟢 On track · 🟡 Needs attention · 🔴 Critical gap. All unaided categories at baseline — expected for month 1.</div>
-
-<!-- S3: Leading Indicators -->
-<div class="section-title" style="margin-top:28px;">3 · Leading Indicators</div>
-<div class="ind-grid">
-  <div class="ind"><div><div class="ind-label">Third-party inclusions</div><div class="ind-sub">NerdWallet, Forbes, Wise, Business.com</div></div><div class="ind-val red">❌ 1 / 7</div></div>
-  <div class="ind"><div><div class="ind-label">Rate accuracy in AI answers (U)</div><div class="ind-sub">2.3% + $0 cited correctly when unaided</div></div><div class="ind-val yellow">⚠️ N/A — not yet mentioned</div></div>
-  <div class="ind"><div><div class="ind-label">Rate Saver aided accuracy (B)</div><div class="ind-sub">0% credit cited correctly on brand queries</div></div><div class="ind-val green">✅ Good when cited</div></div>
-  <div class="ind"><div><div class="ind-label">Entity framing</div><div class="ind-sub">Commerce/Payments vs Domains/Hosting</div></div><div class="ind-val red">❌ Mostly domains</div></div>
-  <div class="ind"><div><div class="ind-label">Crawler 200-rate</div><div class="ind-sub">GPTBot, ClaudeBot, PerplexityBot · server logs</div></div><div class="ind-val green">✅ Confirmed</div></div>
-  <div class="ind"><div><div class="ind-label">Community visibility</div><div class="ind-sub">Reddit/Quora replies indexed</div></div><div class="ind-val yellow">⚠️ 0 posted</div></div>
-</div>
-
-<!-- S4: Rate Saver -->
-<div class="section-title" style="margin-top:28px;">4 · Rate Saver Visibility</div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>Metric</th><th>This Month</th><th>Last Month</th><th>Delta</th><th>Target</th></tr></thead>
-  <tbody>
-    <tr><td>Rate Saver cited unprompted (U)</td><td><span class="red" style="font-weight:700">0%</span></td><td><span class="muted">—</span></td><td>Baseline</td><td>50% of fee queries by month 9</td></tr>
-    <tr><td>Rate Saver aided accuracy when cited (B)</td><td><span class="green" style="font-weight:700">100%</span></td><td><span class="muted">—</span></td><td>Baseline</td><td>Maintain 100%</td></tr>
-  </tbody>
-</table>
-</div>
-<div style="font-size:12px;color:#718096;margin-top:6px;">Root cause: No GEO page for Rate Saver. When cited (aided queries), accuracy is 100% — models describe "0% credit" correctly. Challenge is visibility — cited 0% unprompted. Page needed for B11–B14 prompt cluster (surcharging / 0% credit processing). Legal + PM approval required before publish.</div>
-
-<!-- S5: Citation Pipeline -->
-<div class="section-title" style="margin-top:28px;">5 · Citation Pipeline</div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>Publisher</th><th>Status</th><th>Channel</th><th>Last Action</th><th>Est. SOV Impact</th><th>Next Step</th></tr></thead>
-  <tbody>
-    <tr><td><strong>NerdWallet</strong><div style="font-size:11px;color:#718096">Payment processors + POS hardware</div></td><td><span class="red">❌ Absent</span></td><td>PR / Email</td><td>Not contacted</td><td><span class="pill pill-red">HIGH</span></td><td>Send outreach brief</td></tr>
-    <tr><td><strong>Forbes Advisor</strong><div style="font-size:11px;color:#718096">POS systems</div></td><td><span class="red">❌ Absent</span></td><td>PR / Partner</td><td>Not contacted</td><td><span class="pill pill-red">HIGH</span></td><td>Send outreach brief</td></tr>
-    <tr><td><strong>Wise</strong><div style="font-size:11px;color:#718096">Cheapest processing guide</div></td><td><span class="red">❌ Absent</span></td><td>Email</td><td>Not contacted</td><td><span class="pill pill-yellow">MED-HIGH</span></td><td>Rate Saver page first</td></tr>
-    <tr><td><strong>Business.com</strong><div style="font-size:11px;color:#718096">9.2/10 review exists — needs guide inclusion</div></td><td><span class="yellow">⚠️ Review only</span></td><td>Correction req.</td><td>Review confirmed</td><td><span class="pill pill-red">HIGH</span></td><td>Request guide placement</td></tr>
-    <tr><td><strong>TechRadar</strong><div style="font-size:11px;color:#718096">Existing placement — defend + expand</div></td><td><span class="green">✅ Present</span></td><td>Update req.</td><td>Placement live</td><td><span class="pill pill-yellow">MEDIUM</span></td><td>Update Rate Saver + pricing</td></tr>
-    <tr><td><strong>G2 / Capterra</strong></td><td><span class="yellow">⚠️ Partial</span></td><td>Profile update</td><td>Needs audit</td><td><span class="pill pill-yellow">MEDIUM</span></td><td>Full profile audit</td></tr>
-    <tr><td><strong>FitSmallBusiness</strong></td><td><span class="red">❌ Absent</span></td><td>PR outreach</td><td>Not contacted</td><td><span class="pill pill-yellow">MEDIUM</span></td><td>Queue after NerdWallet/Forbes</td></tr>
-  </tbody>
-</table>
-</div>
-
-<!-- S6: Wins and Gaps -->
-<div class="section-title" style="margin-top:28px;">6 · Top Wins & Gaps This Month</div>
-<div class="two-col">
-  <div>
-    <h3 style="font-size:14px;font-weight:700;color:#68d391;margin-bottom:12px;">✅ Top Wins</h3>
-    <div class="win-row"><div class="row-title">✅ Crawler access confirmed — all AI bots return HTTP 200</div><div class="row-meta"><span>Agent: CRAWL</span><span>Impact: Blocker removed</span></div><div class="row-action">GPTBot, ClaudeBot, PerplexityBot verified via server logs. Focus shifts entirely to citation gap.</div></div>
-    <div class="win-row"><div class="row-title">✅ 9-model benchmark infrastructure live + automated via .bat</div><div class="row-meta"><span>Agent: AUDIT</span><span>Impact: Monthly measurement is now a single command</span></div><div class="row-action">geo_monthly_benchmark.bat runs 70-prompt benchmark. Baseline established.</div></div>
-    <div class="win-row"><div class="row-title">✅ Business.com 9.2/10 review confirmed</div><div class="row-meta"><span>Agent: CITE</span><span>Impact: Live CITE leverage point</span></div><div class="row-action">Perplexity cites Business.com on brand search. Request guide inclusion using review as anchor.</div></div>
-  </div>
-  <div>
-    <h3 style="font-size:14px;font-weight:700;color:#fc8181;margin-bottom:12px;">❌ Top Gaps</h3>
-    <div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Unaided SOV = 0% across all 9 AI models</div><div class="row-meta"><span>Current: 0%</span><span>Target: 40%+</span><span>Root cause: Citation gap</span></div><div class="row-action">NerdWallet + Forbes inclusion. Expected: 2–3 months post-placement.</div></div>
-    <div class="gap-row"><span class="pill pill-red">P0</span><div class="row-title" style="margin-top:8px">❌ Rate Saver cited 0%</div><div class="row-meta"><span>Target: 50% fee queries</span><span>Root cause: Content gap</span></div><div class="row-action">BUILD Rate Saver GEO page. 3-week build. Visible in 1–2 AUDIT runs.</div></div>
-    <div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ Entity framing — domains vs payments</div><div class="row-meta"><span>Root cause: Entity framing gap</span></div><div class="row-action">Commerce content + community replies. Expected: 3–6 months to shift.</div></div>
-    <div class="gap-row p1"><span class="pill pill-yellow">P1</span><div class="row-title" style="margin-top:8px">⚠️ 5 AMPLIFY replies ready, not posted</div><div class="row-meta"><span>5 drafts reviewed and approved</span></div><div class="row-action">Post replies. 3–4 months to AI index.</div></div>
+    <div class="kpi-label">💡 Rate Saver Cited Unprompted</div>
+    <div class="kpi-value" id="kpi-rate-saver">0%</div>
+    <div class="kpi-sub">Rate Saver mentioned in surcharging queries</div>
+    <div class="kpi-target">Target: <span>50%</span> of fee queries</div>
   </div>
 </div>
 
-<!-- S8: Actions -->
-<div class="section-title" style="margin-top:28px;">7 · Actions</div>
-<div class="alert">⚠️ <strong>Actions blocked waiting for decisions.</strong> Delay = direct impact on 9-month SOV target.</div>
-<div class="card" style="padding:0;overflow:hidden;">
-<table>
-  <thead><tr><th>Decision Needed</th><th>Owner</th><th>Deadline</th><th>Consequence of No Decision</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Approve NerdWallet + Forbes CITE outreach</strong><div style="font-size:12px;color:#718096;margin-top:3px">PR/Partnerships to send outreach emails</div></td><td>VP Marketing + PR Lead</td><td><span class="yellow">ASAP — Month 1</span></td><td><span class="red" style="font-size:12px">SOV trajectory delayed 1 month. 2–3 month placement window. Every week of delay = 1 week later to first unaided SOV appearance.</span></td></tr>
-    <tr><td><strong>Approve Rate Saver GEO page for publish</strong><div style="font-size:12px;color:#718096;margin-top:3px">Legal + PM sign-off on 0% claim + caveat wording</div></td><td>Legal + PM</td><td><span class="yellow">Within 3 weeks</span></td><td><span class="red" style="font-size:12px">Rate Saver SOV stays 0%. B11–B14 surcharging cluster unaddressed. Only product on market with this claim.</span></td></tr>
-    <tr><td><strong>Approve 5 community reply posts</strong><div style="font-size:12px;color:#718096;margin-top:3px">Social/Community + Legal go-ahead for AMPLIFY drafts</div></td><td>Community Lead + Legal</td><td><span class="yellow">This week</span></td><td><span class="red" style="font-size:12px">Reddit/Quora AI indexing clock starts at post date. 3–4 month compound window — starts at zero until posted.</span></td></tr>
-  </tbody>
-</table>
-</div>
-<div style="font-size:12px;color:#4a5568;margin-top:8px;">Prior-month carryover: N/A — Baseline month. No prior decisions outstanding.</div>
+<!-- Binding constraint -->
+<div id="report-constraint" class="alert">Loading...</div>
 
-<!-- S9: Next Month Priorities -->
-<div class="section-title" style="margin-top:28px;">8 · Next Month Priority Brief → STRATEGY</div>
-<div class="alert-blue" style="font-size:13px;">🎯 <strong>Single highest-leverage action:</strong> Get NerdWallet to include GoDaddy in their payment processor list. Perplexity cites NerdWallet on every fee query. One placement = first unaided SOV signal expected within 2–3 months.</div>
-<div class="prio-row"><div class="prio-num p0">P0</div><div class="prio-content"><h4>Send NerdWallet + Forbes CITE outreach briefs</h4><div class="pm"><span>Agent: CITE</span><span class="owner">Owner: PR/Partnerships</span><span>Root cause: Citation gap</span><span>SOV impact: +15–25pts unaided</span><span>Window: 2–3 months post-placement</span></div></div></div>
-<div class="prio-row"><div class="prio-num p0">P0</div><div class="prio-content"><h4>Publish Rate Saver GEO page (post legal approval)</h4><div class="pm"><span>Agent: BUILD → CRAWL Phase 2</span><span class="owner">Owner: Content + Legal</span><span>Root cause: Content gap</span><span>SOV impact: +5–10pts (B11–B14)</span><span>Window: 1–2 months post-index</span></div></div></div>
-<div class="prio-row"><div class="prio-num p1">P1</div><div class="prio-content"><h4>Post 5 community replies (fee, surcharge, support, switching)</h4><div class="pm"><span>Agent: AMPLIFY</span><span class="owner">Owner: Social/Community + Legal</span><span>Root cause: Citation gap (community)</span><span>SOV impact: +3–8pts long-tail</span><span>Window: 3–4 months to AI index</span></div></div></div>
-<div class="prio-row"><div class="prio-num p2">P2</div><div class="prio-content"><h4>Build coffee shop + retail POS vertical pages</h4><div class="pm"><span>Agent: BUILD</span><span class="owner">Owner: Content/SEO</span><span>Root cause: Content gap</span><span>SOV impact: +5–12pts vertical_fb / vertical_retail</span><span>Window: 1–2 months post-index</span></div></div></div>
-<div class="prio-row"><div class="prio-num p2">P2</div><div class="prio-content"><h4>Business.com — request CC processing guide inclusion</h4><div class="pm"><span>Agent: CITE</span><span class="owner">Owner: PR/Partnerships</span><span>Root cause: Citation gap</span><span>SOV impact: +5–10pts pricing_fee</span><span>Window: 2–3 months post-placement</span></div></div></div>
-
-<!-- S9: Data Confidence & Methodology -->
-<div class="section-title" style="margin-top:28px;">9 · Data Confidence &amp; Methodology</div>
-<div class="two-col">
-  <div>
-    <div class="conf-card"><span class="conf-level conf-high">HIGH CONFIDENCE</span><div style="font-weight:600;margin-bottom:4px;">Unaided SOV = 0%</div><div style="font-size:12px;color:#718096">Confirmed across 8 models, 63 unaided prompts each. All primary models (Claude Sonnet 4.6, Haiku 4.5, Opus 4.8, GPT-4o, Gemini 2.5 Pro) and pulse models (Gemini 2.5 Flash, o3-mini, Gemini 3.1 Pro Preview) return 0%.</div></div>
-    <div class="conf-card"><span class="conf-level conf-high">HIGH CONFIDENCE</span><div style="font-weight:600;margin-bottom:4px;">Aided SOV = ~100% (primary models)</div><div style="font-size:12px;color:#718096">Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro = 100% branded queries. All primary models showing consistent 100% aided performance.</div></div>
-  </div>
-  <div class="method-block">
-    <div style="font-weight:700;color:#63b3ed;margin-bottom:10px;">📐 Methodology — June 2026</div>
-    <ul>
-      <li><strong>Models:</strong> 8 total — 5 primary (Claude Sonnet 4.6, Claude Haiku 4.5, Claude Opus 4.8, GPT-4o, Gemini 2.5 Pro), 3 pulse check (Gemini 2.5 Flash, o3-mini, Gemini 3.1 Pro Preview). Excluded: GPT-5 (removed from tracking), o3 (high API error rate), Kimi K2.5, Qwen 3 235B.</li>
-      <li style="margin-top:6px"><strong>Prompts:</strong> 70 total — 63 unaided (type=U), 7 branded (type=B)</li>
-      <li style="margin-top:6px"><strong>Prompt Bank:</strong> v2.6 — sourced from GEO Prompt Bank note (7db9a2e8)</li>
-      <li style="margin-top:6px"><strong>Proxy:</strong> GoCaaS (caas-gocode-prod) — consistent across all models</li>
-      <li style="margin-top:6px"><strong>Run cadence:</strong> Monthly via geo_monthly_benchmark.bat (automated)</li>
-      <li style="margin-top:6px"><strong>Methodology change vs prior:</strong> Baseline month — no prior to compare</li>
-      <li style="margin-top:6px"><strong>SOV calc:</strong> Unaided = type=U rows only. Aided = type=B rows only. Never blended.</li>
-    </ul>
-  </div>
+<!-- Category traffic lights -->
+<div class="section-title">📊 Category Traffic Lights</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="data-table">
+    <thead><tr><th>Category</th><th>Type</th><th>This Month</th><th>6-Mo Target</th><th>12-Mo Target</th><th>Status</th></tr></thead>
+    <tbody id="report-categories"><tr><td colspan="6" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr></tbody>
+  </table>
 </div>
 
-<div class="report-footer">
-  <span>GoDaddy Payments GEO Report · REPORT agent · <span id="footer-period">June 2026</span></span>
-  <span><a href="index.html" style="color:#90cdf4">← Back to Dashboard</a> &nbsp;|&nbsp; <a href="maintenance.html" style="color:#90cdf4">🔧 Maintenance Guide →</a></span>
+<!-- Model breakdown -->
+<div class="section-title">🤖 AI Platform SOV Breakdown</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="data-table">
+    <thead><tr><th>Model</th><th>Type</th><th>Unaided SOV</th><th>Aided SOV</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody id="report-ai-platform-rows"><tr><td colspan="6" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr></tbody>
+  </table>
+</div>
+
+<!-- Leading indicators -->
+<div class="section-title">📡 Leading Indicators</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="data-table">
+    <thead><tr><th>Indicator</th><th>Value</th><th>Status</th></tr></thead>
+    <tbody id="report-leading-indicators"><tr><td colspan="3" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr></tbody>
+  </table>
+</div>
+
+<!-- Top gaps -->
+<div class="section-title">🔴 Top Gaps</div>
+<div id="report-gaps"><div style="color:#4a5568;font-size:12px;padding:12px;">Loading...</div></div>
+
+<!-- Next month -->
+<div class="section-title" style="margin-top:20px;">📅 Next Month Priorities</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+  <table class="data-table">
+    <thead><tr><th>Priority</th><th>Action</th><th>Agent</th><th>SOV Impact</th><th>Window</th></tr></thead>
+    <tbody id="report-next-priority"><tr><td colspan="5" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr></tbody>
+  </table>
+</div>
+
+<!-- Data confidence -->
+<div class="section-title">📋 Data Confidence &amp; Methodology</div>
+<div class="card">
+  <div style="font-size:12px;color:#a0aec0;line-height:1.7;" id="report-confidence">Loading...</div>
+  <div style="font-size:12px;color:#718096;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px solid #1e2436;" id="report-methodology">Loading...</div>
 </div>
 
 </div>
+<div class="footer">GoDaddy Payments GEO Dashboard · Unaided and Aided SOV are never blended.</div>
 
+<script src="./js/session-loader.js"></script>
 <script>
-fetch('/data.json').then(r=>r.json()).then(d=>{
-  const meta = d.meta||{};
-  const period = meta.period||'June 2026';
-  const runId = meta.run_id||'—';
-  const models = meta.models||'3 models';
-  const prompts = meta.prompt_count||70;
-  const luDate = document.getElementById('lu-date');
-  const luRun = document.getElementById('lu-run');
-  const luModels = document.getElementById('lu-models');
-  if(luDate) luDate.textContent = period;
-  if(luRun) luRun.textContent = runId;
-  if(luModels) luModels.textContent = models + ' · ' + prompts + ' prompts';
-}).catch(()=>{});
-</script>
+function renderPage(s) {
+  renderSOVCards(s);
+  renderModelTables(s);
+  var rs = s.report_summary || {};
+  var el = function(id){return document.getElementById(id);};
 
-<script>
-fetch('/data.json').then(r=>r.json()).then(d=>{
-  const kpis=d.kpis||{};
-  if(kpis.unaided_sov){ document.getElementById('r-unaided').textContent=kpis.unaided_sov.value||'~0%'; document.getElementById('r-unaided').style.color=kpis.unaided_sov.color||'#fc8181'; }
-  if(kpis.aided_sov){ document.getElementById('r-aided').textContent=kpis.aided_sov.value||'~100%'; }
-  if(kpis.tech_health){ document.getElementById('r-ratesaver').textContent=kpis.tech_health.value||'0%'; }
-  if(d.meta&&d.meta.period) document.getElementById('footer-period').textContent=d.meta.period;
-}).catch(()=>{});
-</script>
-<script>
-// renderPage is called by session-loader.js after session.json loads
-function renderPage(session) {
-  renderReport(session);
-  renderModelTables(session);
+  // Constraint
+  if(el('report-constraint')&&rs.binding_constraint) el('report-constraint').textContent='⚠️ '+rs.binding_constraint;
+  else if(el('report-constraint')) el('report-constraint').style.display='none';
+
+  // Categories
+  var cats = s.categories||[];
+  var rcEl = el('report-categories');
+  if(rcEl) {
+    rcEl.innerHTML = cats.map(function(c){
+      var tl = c.cell==='green'?'🟢':c.cell==='yellow'?'🟡':'🔴';
+      return '<tr>'+
+        '<td><strong>'+c.name+'</strong></td>'+
+        '<td>'+(c.type==='U'?'<span class="tag-red">Unaided</span>':'<span class="tag-blue">Aided</span>')+'</td>'+
+        '<td style="color:'+(c.cell==='red'?'#fc8181':c.cell==='green'?'#68d391':'#f6e05e')+';font-weight:700;">'+c.sov+'</td>'+
+        '<td style="color:#f6ad55;">'+c.phase1+'</td>'+
+        '<td style="color:#90cdf4;">'+c.target+'</td>'+
+        '<td>'+tl+'</td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  // Leading indicators
+  var liEl = el('report-leading-indicators');
+  if(liEl&&rs.leading_indicators) {
+    liEl.innerHTML = rs.leading_indicators.map(function(i){
+      var tl=i.status==='green'?'🟢':i.status==='red'?'🔴':'🟡';
+      var vc=i.status==='green'?'#68d391':i.status==='red'?'#fc8181':'#f6e05e';
+      return '<tr><td>'+i.indicator+'</td><td style="color:'+vc+';font-weight:600;">'+i.value+'</td><td>'+tl+'</td></tr>';
+    }).join('');
+  }
+
+  // Gaps
+  var gEl=el('report-gaps');
+  if(gEl&&rs.top_gaps) {
+    gEl.innerHTML=rs.top_gaps.map(function(g){
+      return '<div class="gap-card">'+
+        '<div class="gap-pri">'+g.priority+'</div>'+
+        '<div class="gap-title">'+g.gap+'</div>'+
+        '<div class="gap-meta" style="margin-bottom:3px;">Root cause: '+g.root_cause+'</div>'+
+        '<div class="gap-meta">Action: '+g.action+' · '+g.window+'</div>'+
+      '</div>';
+    }).join('');
+  }
+
+  // Next month
+  var nmEl=el('report-next-priority');
+  if(nmEl&&rs.next_month_priority) {
+    nmEl.innerHTML=rs.next_month_priority.map(function(n){
+      return '<tr>'+
+        '<td style="font-weight:600;color:#e2e8f0;">'+n.priority+'</td>'+
+        '<td style="font-size:11px;color:#a0aec0;">'+n.action+'</td>'+
+        '<td style="font-size:11px;color:#718096;">'+n.agent+'</td>'+
+        '<td style="font-size:11px;color:#68d391;">'+n.sov_impact+'</td>'+
+        '<td style="font-size:11px;color:#4a5568;">'+n.window+'</td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  if(el('report-confidence')&&rs.data_confidence) el('report-confidence').textContent=rs.data_confidence;
+  if(el('report-methodology')&&rs.methodology_note) el('report-methodology').textContent=rs.methodology_note;
 }
 </script>
-<script src="./js/session-loader.js"></script>
-</body>
-</html>
+</body></html>

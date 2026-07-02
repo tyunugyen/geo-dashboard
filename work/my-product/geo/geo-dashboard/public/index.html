@@ -741,7 +741,7 @@
 
   function applyLocalScore(s, filename) {
     var synth={
-      meta:{label:'Monthly',period:s.runId,run_id:s.runId,sources:'CSV upload (session only)'},
+      meta:{label:'Pulse',period:s.runId,run_id:s.runId,sources:'CSV upload (session only)'},
       kpis:{
         unaided_sov:{value:fmtPct(s.unaidedSOV),fill:Math.round(s.unaidedSOV),color:s.uColor},
         aided_sov:  {value:fmtPct(s.aidedSOV),  fill:Math.round(s.aidedSOV),  color:s.aColor},

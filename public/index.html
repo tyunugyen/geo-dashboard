@@ -845,7 +845,7 @@
         }
       }
 
-      // Check for aided SOV failures (< 100%) and display them
+      // Check for aided SOV failures (< 100%) and display them with details
       if (d.model_sov) {
         var failures = [];
         var allModels = Object.assign({}, primaryModels || {}, pulseModels || {});
@@ -860,11 +860,12 @@
           var aidedPct = parseFloat((m.aided || '0%').replace('%', ''));
           if (m.status === 'success' && aidedPct > 0 && aidedPct < 100) {
             // This model had aided prompts that failed
-            var failedCount = Math.round(7 * (100 - aidedPct) / 100); // Assume 7 aided prompts
+            var failedCount = m.aided_failures ? m.aided_failures.length : Math.round(7 * (100 - aidedPct) / 100);
             failures.push({
               name: m.name || key,
               aided: m.aided,
               failed: failedCount,
+              details: m.aided_failures || [],
               note: m.note || ''
             });
           }
@@ -876,10 +877,27 @@
         if (failures.length > 0 && failureContainer && failureList) {
           failureContainer.style.display = 'block';
           failureList.innerHTML = failures.map(function(f) {
-            return '<div class="indicator-row">' +
+            var detailsHTML = '';
+            if (f.details.length > 0) {
+              detailsHTML = f.details.map(function(d) {
+                // Truncate response to first 200 chars
+                var truncated = d.response.length > 200 ? d.response.substring(0, 200) + '...' : d.response;
+                return '<div style="margin-top:8px;padding:8px 12px;background:#0f1419;border-left:3px solid #fc8181;border-radius:4px;font-size:11px;">' +
+                  '<div style="color:#f6e05e;font-weight:600;margin-bottom:4px;">Prompt ' + d.prompt_id + ': "' + d.prompt + '"</div>' +
+                  '<div style="color:#90cdf4;margin-bottom:4px;"><strong>AI Response:</strong></div>' +
+                  '<div style="color:#cbd5e0;line-height:1.5;">' + truncated + '</div>' +
+                  '<div style="color:#fc8181;margin-top:6px;font-weight:600;">❌ GoDaddy not mentioned</div>' +
+                  '</div>';
+              }).join('');
+            }
+
+            return '<div style="margin-bottom:12px;">' +
+              '<div class="indicator-row">' +
               '<span class="priority-badge p0">P0</span>' +
               '<div class="indicator-label"><strong>' + f.name + '</strong>: ' + f.failed + '/7 aided prompts failed to mention GoDaddy' + (f.note ? ' · ' + f.note : '') + '</div>' +
               '<div class="indicator-status yellow">' + f.aided + '</div>' +
+              '</div>' +
+              detailsHTML +
               '</div>';
           }).join('');
         } else if (failureContainer) {
@@ -887,14 +905,13 @@
         }
       }
 
-      // Render trends chart - use session data if monthly/weekly don't have trends
+      // Render trends chart - simplified version
       var trendsData = d.trends || (session && session.trends) || null;
-      if (trendsData) {
-        setTimeout(function() {
-          var canvas = document.getElementById('trendsChart');
-          var note = document.getElementById('trends-note');
-          if (canvas && canvas.getContext) {
-            try {
+      var canvas = document.getElementById('trendsChart');
+      var note = document.getElementById('trends-note');
+
+      if (trendsData && canvas && canvas.getContext) {
+        try {
               // Set canvas internal dimensions to match display size
               var rect = canvas.getBoundingClientRect();
               canvas.width = rect.width;
@@ -1165,12 +1182,12 @@
             ctx.fillText('Unable to generate timeline - check data format', w / 2, h / 2);
             if (note) note.textContent = 'No trend data available';
           }
-          } catch (err) {
-            console.error('Trends chart error:', err);
-            if (note) note.textContent = 'Chart rendering error - check console';
-          }
-          }
-        }, 100); // Small delay to ensure DOM is ready
+        } catch (err) {
+          console.error('Trends chart error:', err);
+          if (note) note.textContent = 'Chart rendering error - check console';
+        }
+      } else if (note) {
+        note.textContent = 'No trends data available';
       }
     } // End renderDashboard function
 

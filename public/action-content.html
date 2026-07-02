@@ -265,4 +265,19 @@ function renderPage(s) {
 
 </script>
 <script src="./js/session-loader.js"></script>
+<script>
+/* Self-contained session fetch — no dependency on session-loader.js timing */
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('./data/session.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(session) {
+      if (typeof renderPage === 'function') {
+        renderPage(session);
+      }
+    })
+    .catch(function(e) {
+      console.error('Session fetch failed:', e);
+    });
+});
+</script>
 </body></html>

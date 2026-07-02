@@ -314,6 +314,43 @@ def main():
         json.dump(new_data, f, indent=2)
     print(f"  Updated:  {data_json_path}")
 
+    # Update data_monthly.json (used by dashboard)
+    data_monthly_path = os.path.join(repo, "public", "data_monthly.json")
+    if os.path.exists(data_monthly_path):
+        with open(data_monthly_path) as f:
+            monthly = json.load(f)
+
+        # Update main sections from new_data
+        monthly["meta"] = new_data["meta"]
+        monthly["kpis"] = new_data["kpis"]
+        monthly["categories"] = new_data["categories"]
+        if "model_sov" in new_data:
+            monthly["model_sov"] = new_data["model_sov"]
+        if "competitors" in new_data:
+            monthly["competitors"] = new_data["competitors"]
+
+        # Add new trend point
+        if "trends" not in monthly:
+            monthly["trends"] = {"monthly": [], "weekly": []}
+
+        new_trend = {
+            "run_id": scored["run_id"],
+            "unaided_sov": scored["u_sov"],
+            "aided_sov": scored["a_sov"],
+            "rate_saver_sov": scored["r_sov"]
+        }
+
+        # Append to weekly trends (always)
+        monthly["trends"]["weekly"].append(new_trend)
+
+        # Append to monthly trends only if it's a monthly run (not a weekly pulse)
+        if "monthly" in scored.get("label", "").lower() or scored["run_id"].endswith("W27"):
+            monthly["trends"]["monthly"].append(new_trend)
+
+        with open(data_monthly_path, "w") as f:
+            json.dump(monthly, f, indent=2)
+        print(f"  Updated:  {data_monthly_path}")
+
     # Print summary
     print(f"\n{'='*60}")
     print(f"  Run ID        : {scored['run_id']}")
@@ -354,6 +391,8 @@ def main():
     steps = [
         (["add", "public/data.json"],
          "Staging data.json"),
+        (["add", "public/data_monthly.json"],
+         "Staging data_monthly.json"),
         (["add", "-f", f"benchmarks/{os.path.basename(args.csv_path)}"],
          "Staging CSV"),
         (["commit", "-m", commit_msg],     "Committing"),

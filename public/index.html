@@ -335,7 +335,7 @@
           </tr>
         </thead>
         <tbody id="primary-model-rows">
-          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+          <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
 
@@ -354,7 +354,7 @@
           </tr>
         </thead>
         <tbody id="pulse-model-rows">
-          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+          <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
       <p style="font-size:11px;color:#718096;margin-top:10px;" id="model-benchmark-note">Multi-model benchmark via GoCode proxy. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
@@ -700,6 +700,9 @@
         // Handle both nested structure (session.json) and flat structure (data_monthly.json)
         var primaryModels = d.model_sov.primary || null;
         var pulseModels = d.model_sov.pulse || null;
+
+        console.log('[Model Structure] primaryModels:', primaryModels, 'pulseModels:', pulseModels);
+        console.log('[Model Structure] Will use flat structure?', !primaryModels && !pulseModels);
 
         // If flat structure, categorize models into primary vs pulse
         if (!primaryModels && !pulseModels) {

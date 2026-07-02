@@ -153,16 +153,9 @@
 <div class="card" style="padding:0;overflow:hidden;">
 <table>
   <thead><tr><th>AI Platform</th><th>Type</th><th>Unaided SOV</th><th>Aided SOV</th><th>Status</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Claude Sonnet 4.6</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
-    <tr><td><strong>Claude Haiku 4.5</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
-    <tr><td><strong>Claude Opus 4.8</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
-    <tr><td><strong>GPT-4o</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>Baseline established</td></tr>
-    <tr><td><strong>Gemini 2.5 Pro</strong></td><td><span class="pill pill-blue">Primary</span></td><td><span class="red">0%</span></td><td><span class="green">100%</span></td><td>✅ Normal</td><td>All aided prompts successful (7/7)</td></tr>
-    <tr><td><strong>Gemini 2.5 Flash</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="gray">—</span></td><td>📊 Tracking</td><td>Not run in monthly benchmarks</td></tr>
-    <tr><td><strong>o3-mini</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="gray">—</span></td><td>📊 Tracking</td><td>Not run in monthly benchmarks</td></tr>
-    <tr><td><strong>Gemini 3.1 Pro Preview</strong></td><td><span class="pill pill-purple">Pulse</span></td><td><span class="red">0%</span></td><td><span class="gray">—</span></td><td>📊 Tracking</td><td>Not run in monthly benchmarks</td></tr>
-  </tbody>
+<tbody id="report-ai-platform-rows">
+  <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+</tbody>
 </table>
 </div>
 <div style="font-size:11px;color:#4a5568;margin-top:8px;">Universal 0% unaided SOV confirms citation gap is the binding constraint across all AI systems. No model-specific optimizations needed — single root cause applies to all.</div>
@@ -322,6 +315,13 @@ fetch('/data.json').then(r=>r.json()).then(d=>{
   if(kpis.tech_health){ document.getElementById('r-ratesaver').textContent=kpis.tech_health.value||'0%'; }
   if(d.meta&&d.meta.period) document.getElementById('footer-period').textContent=d.meta.period;
 }).catch(()=>{});
+</script>
+<script>
+// renderPage is called by session-loader.js after session.json loads
+function renderPage(session) {
+  renderReport(session);
+  renderModelTables(session);
+}
 </script>
 <script src="./js/session-loader.js"></script>
 </body>

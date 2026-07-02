@@ -976,41 +976,6 @@
           failureContainer.style.display = 'none';
         }
 
-        // Handle branded search issues
-        var brandedContainer = document.getElementById('branded-issues-container');
-        var brandedList = document.getElementById('branded-issues-list');
-
-        if (brandedList) {
-          if (brandedIssues.length > 0) {
-            // Show issues
-            brandedList.innerHTML = brandedIssues.map(function(issue) {
-              return '<div style="margin-bottom:12px;">' +
-                '<div class="indicator-row">' +
-                '<span class="priority-badge p0">P0</span>' +
-                '<div class="indicator-label"><strong>' + issue.name + '</strong>: Failed to identify GoDaddy in branded search</div>' +
-                '<div class="indicator-status red">❌ ISSUE</div>' +
-                '</div>' +
-                '<div style="margin-top:8px;padding:8px 12px;background:#2d0a0a;border-left:3px solid #fc8181;border-radius:4px;font-size:11px;">' +
-                issue.failures.map(function(f) {
-                  return '<div style="margin-bottom:8px;">' +
-                    '<div style="color:#f6e05e;font-weight:600;margin-bottom:4px;">Prompt: "' + f.prompt + '"</div>' +
-                    '<div style="color:#cbd5e0;line-height:1.5;">' + f.response + '</div>' +
-                    '</div>';
-                }).join('') +
-                '</div>' +
-                '</div>';
-            }).join('');
-          } else {
-            // No issues - show success state
-            brandedList.innerHTML = '<div class="indicator-row">' +
-              '<span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>' +
-              '<div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>' +
-              '<div class="indicator-status green">✅ No issues detected</div>' +
-              '</div>';
-          }
-        }
-      }
-
       // ═══════════════════════════════════════════════════════════
       // Render SOV Trends Chart - 6 months with weekly data points
       // ═══════════════════════════════════════════════════════════
@@ -1512,6 +1477,7 @@ function renderPage(session) {
   renderCategories(session, 'category-grid');
   renderCompetitors(session, 'competitor-chart');
   renderModelTables(session);
+  renderBrandedSearchStatus(session);
   renderPerplexity(session, 'perplexity-table');
   renderCompetitiveIntel(session, 'competitive-intel');
   renderStrategyActions(session);

@@ -94,9 +94,10 @@ if ('serviceWorker' in navigator) {
   .dot-yellow { background: #f6e05e; }
 
   /* Model table */
-  .model-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .model-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
   .model-table th { background: #151921; color: #718096; font-weight: 600; text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #2d3748; }
-  .model-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; }
+  .model-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; border-right: 1px solid #2d3748; }
+  .model-table td:last-child { border-right: none; }
   .model-table tr:last-child td { border-bottom: none; }
   .model-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; display: inline-block; }
   .tag-red { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
@@ -334,6 +335,14 @@ if ('serviceWorker' in navigator) {
       <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — 5 (Official SOV Calculation)</div>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models drive the official SOV number we report.</p>
       <table class="model-table" style="margin-bottom:20px;">
+        <colgroup>
+          <col style="width: 18%;">
+          <col style="width: 15%;">
+          <col style="width: 30%;">
+          <col style="width: 12%;">
+          <col style="width: 12%;">
+          <col style="width: 13%;">
+        </colgroup>
         <thead>
           <tr>
             <th>Model</th>
@@ -353,6 +362,14 @@ if ('serviceWorker' in navigator) {
       <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — 3 (Directional Signal Only, Not in Official SOV)</div>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Monitored for emerging behavior. Not included in official SOV calculation.</p>
       <table class="model-table">
+        <colgroup>
+          <col style="width: 18%;">
+          <col style="width: 15%;">
+          <col style="width: 30%;">
+          <col style="width: 12%;">
+          <col style="width: 12%;">
+          <col style="width: 13%;">
+        </colgroup>
         <thead>
           <tr>
             <th>Model</th>

@@ -284,8 +284,8 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
       <div class="pf-metric">📈 SOV Trends (Rolling 6-Month Window)</div>
       <div style="display:flex;gap:16px;font-size:11px;">
-        <span style="color:#fc8181;">━ Unaided</span>
-        <span style="color:#68d391;">━ Aided</span>
+        <span style="color:#dc2626;">━ Unaided</span>
+        <span style="color:#fbbf24;">━ Aided</span>
         <span style="color:#90cdf4;">━ Rate Saver</span>
       </div>
     </div>
@@ -806,24 +806,38 @@
 
         // Render primary models
         if (primaryRows && primaryModels) {
-          var pRows = Object.keys(primaryModels).map(function(key) {
-            var m = primaryModels[key];
+          // Handle both array and object formats
+          var modelsArray = Array.isArray(primaryModels) ? primaryModels : Object.values(primaryModels);
+
+          // Color mapping helper
+          var COLOR_MAP = {
+            'red': '#fc8181',
+            'yellow': '#f6e05e',
+            'green': '#68d391',
+            'blue': '#90cdf4'
+          };
+
+          var pRows = modelsArray.map(function(m) {
             var icon = STATUS_ICON[m.status] || '✅';
             var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
             var mName = m.name || '';
             var mWhy = m.why || 'Primary model';
 
             // Flag Haiku as weekly + monthly, others as monthly only
-            var frequency = key === 'claude_haiku_4_5_20251001'
+            var isHaiku = mName.toLowerCase().includes('haiku');
+            var frequency = isHaiku
               ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
               : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
+
+            // Convert color names to hex
+            var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
 
             return '<tr>' +
               '<td><strong>' + mName + '</strong></td>' +
               '<td>' + frequency + '</td>' +
               '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>' +
               '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#68d391') + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
               '<td>' + icon + note + '</td>' +
               '</tr>';
           }).join('');
@@ -832,15 +846,31 @@
 
         // Render pulse check models
         if (pulseRows && pulseModels) {
-          var pulRows = Object.values(pulseModels).map(function(m) {
-            var icon = STATUS_ICON[m.status] || '⚠️';
+          // Handle both array and object formats
+          var modelsArray = Array.isArray(pulseModels) ? pulseModels : Object.values(pulseModels);
+
+          // Color mapping helper
+          var COLOR_MAP = {
+            'red': '#fc8181',
+            'yellow': '#f6e05e',
+            'green': '#68d391',
+            'blue': '#90cdf4'
+          };
+
+          var pulRows = modelsArray.map(function(m) {
+            var icon = STATUS_ICON[m.status] || '📊 Tracking';
             var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
+
+            // Convert color names to hex
+            var unaidedColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
+            var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
+
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
               '<td>' + frequency + '</td>' +
               '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.u_color||'#4a5568') + ';">' + (m.unaided||'—') + '</span></td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + (m.a_color||'#4a5568') + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + unaidedColor + ';">' + (m.unaided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
               '<td>' + icon + '</td>' +
               '</tr>';
           }).join('');
@@ -1011,14 +1041,14 @@
           ctx.fillText('No trend data', w / 2, h / 2);
           if (note) note.textContent = 'No data yet';
         } else {
-          // Generate month markers for 6 months back
+          // Generate month markers for 6 months back (no year)
           var today = new Date();
           var months = [];
           var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           for (var i = 5; i >= 0; i--) {
             var d = new Date(today.getFullYear(), today.getMonth() - i, 1);
             months.push({
-              label: monthNames[d.getMonth()] + ' ' + d.getFullYear().toString().substr(2),
+              label: monthNames[d.getMonth()],
               date: d
             });
           }
@@ -1042,11 +1072,16 @@
           }
 
           // Calculate week positions (26 weeks = ~6 months)
+          // Extract actual week numbers from data points
           var totalWeeks = 26;
           var weekPositions = [];
           for (var i = 0; i <= totalWeeks; i++) {
             weekPositions.push(padL + (chartW / totalWeeks) * i);
           }
+
+          // Calculate starting week number from current date (rough estimate)
+          var currentWeek = 27; // Current week (2026-07-W27)
+          var startWeek = currentWeek - 26; // 26 weeks back
 
           // Draw week tick marks first (all weeks)
           ctx.strokeStyle = '#2d3748';
@@ -1062,7 +1097,8 @@
             ctx.stroke();
             // Show week number every 2 weeks to avoid overcrowding
             if (i % 2 === 0) {
-              ctx.fillText('W' + (i + 1), x, h - padB + 20);
+              var weekNum = startWeek + i;
+              ctx.fillText('W' + weekNum, x, h - padB + 20);
             }
           }
 
@@ -1078,10 +1114,11 @@
           });
 
           // Plot all 3 metrics: Unaided, Aided, Rate Saver
+          // Updated colors for colorblind accessibility
           var metrics = [
-            { key: 'unaided_sov', color: '#fc8181', label: 'Unaided' },
-            { key: 'aided_sov', color: '#68d391', label: 'Aided' },
-            { key: 'rate_saver_sov', color: '#90cdf4', label: 'Rate Saver' }
+            { key: 'unaided_sov', color: '#dc2626', label: 'Unaided' },      // Dark red
+            { key: 'aided_sov', color: '#fbbf24', label: 'Aided' },          // Yellow
+            { key: 'rate_saver_sov', color: '#90cdf4', label: 'Rate Saver' } // Blue (unchanged)
           ];
 
           metrics.forEach(function(metric) {
@@ -1117,18 +1154,7 @@
             });
           });
 
-          // Draw legend
-          var legendX = padL + 10;
-          var legendY = padT + 10;
-          ctx.font = '10px sans-serif';
-          ctx.textAlign = 'left';
-          metrics.forEach(function(metric, i) {
-            var x = legendX + (i * 90);
-            ctx.fillStyle = metric.color;
-            ctx.fillRect(x, legendY, 10, 10);
-            ctx.fillStyle = '#e2e8f0';
-            ctx.fillText(metric.label, x + 15, legendY + 8);
-          });
+          // Legend removed - using header legend instead
 
           if (note) note.textContent = points.length + ' weeks of data (6-month view)';
           console.log('[Trends] Rendered', points.length, 'points with 3 metrics - DONE');

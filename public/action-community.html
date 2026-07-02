@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Community — GoDaddy Payments</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+.header { background: linear-gradient(135deg deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+.header-left h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+.header-left p { font-size: 12px; color: #718096; margin-top: 2px; }
+.header-right { display: flex; gap: 10px; align-items: center; }
+.badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
+.badge-success { background: #0a2d1a; border-color: #22543d; color: #68d391; }
+.nav { display: flex; gap: 2px; padding: 0 32px; background: #141821; border-bottom: 1px solid #2d3748; flex-wrap: wrap; }
+.nav a { padding: 11px 14px; font-size: 12px; font-weight: 600; color: #718096; text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav a:hover { color: #cbd5e0; }
+.nav a.active { color: #90cdf4; border-bottom-color: #3182ce; }
+.lu-bar { background: #0d1117; border-bottom: 1px solid #2d3748; padding: 5px 32px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #4a5568; position: sticky; top: 0; z-index: 90; }
+.lu-bar strong { color: #718096; }
+.container { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
+.alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #f6ad55; }
+.alert strong { color: #fbd38d; }
+.alert.green { background: #0a1a0a; border-color: #22543d; border-left-color: #48bb78; color: #68d391; }
+.section-title { font-size: 13px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+@media(max-width:1024px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
+.card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
+.card h3 { font-size: 12px; font-weight: 700; color: #a0aec0; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.kpi { background: #161b28; border: 1px solid #2d3748; border-radius: 12px; padding: 18px; position: relative; overflow: hidden; }
+.kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.kpi.red::before { background:#fc8181; } .kpi.yellow::before { background:#f6e05e; } .kpi.green::before { background:#68d391; } .kpi.blue::before { background:#90cdf4; }
+.kpi-label { font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.kpi-value { font-size:32px; font-weight:800; line-height:1; margin-bottom:4px; }
+.kpi.red .kpi-value { color:#fc8181; } .kpi.yellow .kpi-value { color:#f6e05e; } .kpi.green .kpi-value { color:#68d391; } .kpi.blue .kpi-value { color:#90cdf4; }
+.kpi-sub { font-size:11px; color:#718096; }
+.kpi-target { font-size:11px; color:#4a5568; margin-top:8px; padding-top:8px; border-top:1px solid #2d3748; }
+.kpi-target span { color:#63b3ed; font-weight:700; }
+.indicator-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #1e2436; gap:10px; }
+.indicator-row:last-child { border-bottom:none; }
+.indicator-label { font-size:12px; color:#e2e8f0; flex:1; }
+.indicator-status { font-size:11px; font-weight:700; flex-shrink:0; }
+.indicator-status.red { color:#fc8181; } .indicator-status.green { color:#68d391; } .indicator-status.yellow { color:#f6ad55; } .indicator-status.blue { color:#90cdf4; }
+.priority-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; }
+.p0 { background:#2d0a0a; color:#fc8181; border:1px solid #742a2a; }
+.p1 { background:#2d2200; color:#f6e05e; border:1px solid #744210; }
+.p2 { background:#0a1a2d; color:#90cdf4; border:1px solid #2a4a74; }
+.tag-green { background:#0a2d1a; color:#68d391; border:1px solid #22543d; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-red { background:#2d0a0a; color:#fc8181; border:1px solid #742a2a; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-yellow { background:#2d2200; color:#f6e05e; border:1px solid #744210; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-blue { background:#0a1a2d; color:#90cdf4; border:1px solid #2a4a74; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.model-table { width:100%; border-collapse:collapse; font-size:12px; }
+.model-table th { background:#151921; color:#718096; font-weight:600; text-align:left; padding:8px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.4px; border-bottom:1px solid #2d3748; }
+.model-table td { padding:10px 12px; border-bottom:1px solid #1e2436; vertical-align:middle; }
+.model-table tr:last-child td { border-bottom:none; }
+.prompt-table { width:100%; border-collapse:collapse; font-size:12px; }
+.prompt-table th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #2d3748; }
+.prompt-table td { padding:10px 8px; border-bottom:1px solid #1a1f2e; color:#cbd5e0; vertical-align:top; }
+.ext-link { color:#90cdf4; text-decoration:none; border-bottom:1px dotted #3182ce; }
+.ext-link:hover { color:#bee3f8; }
+.comp-row { display:flex; align-items:center; margin-bottom:10px; gap:10px; }
+.comp-name { font-size:12px; width:80px; flex-shrink:0; font-weight:600; }
+.comp-bar-wrap { width:240px; height:20px; background:#2d3748; border-radius:4px; overflow:hidden; flex-shrink:0; }
+.comp-bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:6px; font-size:10px; font-weight:700; color:#fff; }
+.comp-pct { font-size:11px; color:#a0aec0; width:36px; text-align:right; flex-shrink:0; }
+.comp-label { font-size:10px; color:#4a5568; flex-shrink:0; max-width:160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.cat-cell { border-radius:6px; padding:10px 12px; cursor:pointer; text-decoration:none; display:block; color:inherit; transition:transform .1s; }
+.cat-cell:hover { transform:translateY(-1px); }
+.cat-cell-red { background:#2d0a0a; border:1px solid #742a2a; }
+.cat-cell-green { background:#0a2d1a; border:1px solid #22543d; }
+.cat-cell-yellow { background:#2d2200; border:1px solid #744210; }
+.cat-name { font-size:11px; color:#a0aec0; font-weight:600; }
+.cat-sov { font-size:20px; font-weight:800; margin-top:4px; }
+.cat-sov.red { color:#fc8181; } .cat-sov.green { color:#68d391; } .cat-sov.yellow { color:#f6e05e; }
+.cat-target { font-size:10px; color:#4a5568; margin-top:2px; }
+.footer { text-align:center; padding:20px; font-size:11px; color:#4a5568; border-top:1px solid #2d3748; margin-top:8px; }
+details summary { cursor:pointer; font-size:12px; color:#90cdf4; padding:8px 0; list-style:none; }
+details summary::-webkit-details-marker { display:none; }
+details[open] summary { color:#bee3f8; }
+.draft-text { background:#0d1420; border:1px solid #2d3748; border-radius:8px; padding:14px; margin:10px 0; font-size:13px; line-height:1.6; color:#cbd5e0; white-space:pre-wrap; }
+.claim-flag { background:#2d1f00; border-left:3px solid #744210; padding:6px 10px; margin:4px 0; font-size:11px; color:#f6ad55; border-radius:0 4px 4px 0; }
+.claim-flag.verified { background:#0a2d1a; border-left-color:#22543d; color:#68d391; }
+.action-card { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid #1e2436; }
+.action-card:last-child { border-bottom:none; }
+.action-rank { font-size:18px; font-weight:900; color:#4a5568; width:24px; flex-shrink:0; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:4px; line-height:1.4; }
+.action-meta { font-size:11px; color:#718096; margin-bottom:2px; }
+.action-window { font-size:10px; color:#4a5568; }
+.action-blocked { font-size:11px; color:#f6ad55; margin-top:4px; font-weight:600; }
+.trend-card { background:#161b28; border:1px solid #2d3748; border-radius:12px; padding:20px; margin-bottom:24px; }
+canvas { display:block; }
+
+.thread-card { background:#1a1f2e; border:1px solid #2d3748; border-radius:10px; padding:20px; margin-bottom:16px; }
+.thread-card-header { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; }
+.thread-score { font-size:22px; font-weight:900; width:44px; text-align:center; flex-shrink:0; }
+.score-high { color:#fc8181; } .score-med { color:#f6e05e; } .score-low { color:#68d391; }
+.thread-platform { font-size:11px; font-weight:600; color:#90cdf4; background:#0a1a2d; border:1px solid #2d4a8a; padding:2px 8px; border-radius:10px; }
+.thread-community { font-size:11px; color:#718096; }
+.thread-date { font-size:10px; color:#4a5568; }
+.thread-title { font-size:13px; font-weight:600; color:#e2e8f0; margin:4px 0; }
+.approval-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; }
+.approval-pending { background:#2d1f00; color:#f6ad55; border:1px solid #744210; }
+.approval-approved { background:#0a2d1a; color:#68d391; border:1px solid #22543d; }
+.approval-posted { background:#0a1a2d; color:#90cdf4; border:1px solid #2d4a8a; }
+.outcome-table { width:100%; border-collapse:collapse; font-size:12px; margin-top:12px; }
+.outcome-table th { background:#151921; color:#718096; text-align:left; padding:7px 10px; font-size:11px; text-transform:uppercase; border-bottom:1px solid #2d3748; }
+.outcome-table td { padding:8px 10px; border-bottom:1px solid #1e2436; color:#a0aec0; }
+.disclosure-box { background:#0a2d1a; border:1px solid #22543d; border-radius:6px; padding:8px 12px; margin-top:8px; font-size:11px; color:#68d391; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
+    <p>📣 Community: reply drafts · outcome tracking · escalation log · fully dynamic from session.json</p>
+  </div>
+  <div class="header-right">
+    <span class="badge" data-run-type>BAT automated</span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>—</span></span>
+    <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
+  </div>
+</div>
+
+<div class="nav">
+  <a href="index.html" class="">📊 Overview</a>
+  <a href="insights.html" class="">📡 Insights</a>
+  <a href="prompts.html" class="">📝 Prompts</a>
+  <a href="citations.html" class="">🏆 Citations</a>
+  <a href="action-content.html" class="">🔨 Content</a>
+  <a href="action-community.html" class="active">📣 Community</a>
+  <a href="report.html" class="">📋 Report</a>
+  <a href="roadmap.html" class="">🗺️ Next Steps</a>
+  <a href="maintenance.html" class="">🔧 Maintenance</a>
+</div>
+
+<div class="lu-bar">
+  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span></span>
+</div>
+
+<div class="container">
+
+  <div class="alert">
+    📣 All replies require <strong>human review before posting</strong>.
+    Affiliation disclosure included in every draft.
+    Factual claims flagged (CLAIM NEEDED) — confirm against Claim Registry.
+    Do not post in competitor-owned communities. Escalate any complaint/legal thread immediately.
+  </div>
+
+  <!-- Stats -->
+  <div class="grid-4" style="margin-bottom:20px;">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:28px;font-weight:800;color:#90cdf4;" id="stat-drafts">—</div>
+      <div style="font-size:11px;color:#718096;margin-top:4px;">Drafts Ready</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:28px;font-weight:800;color:#68d391;" id="stat-approved">—</div>
+      <div style="font-size:11px;color:#718096;margin-top:4px;">Approved</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:28px;font-weight:800;color:#f6e05e;" id="stat-posted">—</div>
+      <div style="font-size:11px;color:#718096;margin-top:4px;">Posted This Month</div>
+      <div style="font-size:10px;color:#4a5568;">Target: 10–15/month</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:28px;font-weight:800;color:#fc8181;" id="stat-escalations">—</div>
+      <div style="font-size:11px;color:#718096;margin-top:4px;">Escalations</div>
+    </div>
+  </div>
+
+  <div class="section-title">📝 Reply Drafts — All from session.json</div>
+  <div id="community-threads-container">
+    <div style="color:#4a5568;font-size:12px;">Loading community drafts...</div>
+  </div>
+
+  <!-- Outcome tracking -->
+  <div class="section-title" style="margin-top:28px;">📊 Outcome Tracking</div>
+  <div class="card">
+    <div style="font-size:11px;color:#718096;margin-bottom:12px;">
+      Manually tracked after posting. Update weekly with upvotes, replies, and sentiment.
+    </div>
+    <div id="outcomes-container">
+      <div class="alert green">✅ No replies posted yet. Drafts above are ready for review and posting.</div>
+    </div>
+  </div>
+
+  <!-- Escalation log -->
+  <div class="section-title" style="margin-top:28px;">🚨 Escalation Log</div>
+  <div class="card">
+    <div id="escalations-container">
+      <div class="alert green">✅ No active escalations. All clear.</div>
+    </div>
+    <div style="margin-top:12px;padding:10px 14px;background:#161b28;border-radius:6px;font-size:11px;color:#718096;">
+      Escalation criteria: (1) Negative sentiment &gt;20 upvotes · (2) Moderator action · (3) Legal/compliance concern · (4) Competitor attack · (5) Customer complaint requiring Support
+    </div>
+  </div>
+
+</div>
+<div class="footer">
+  GoDaddy Payments GEO Dashboard ·
+  Rate Saver: requires eligible plan, not available in CT/MA/PR, not ecommerce.
+  Square rate confirmed 2.6% + $0.15 (raised Feb 2025).
+</div>
+
+<script src="./js/session-loader.js"></script>
+<script>
+function renderPage(session) {
+  var threads = session.amplify_threads || [];
+  var outcomes = session.amplify_outcomes || [];
+  var escalations = session.amplify_escalations || [];
+
+  document.getElementById('stat-drafts').textContent = threads.length;
+  document.getElementById('stat-approved').textContent = threads.filter(function(t){return t.approved;}).length;
+  document.getElementById('stat-posted').textContent = threads.filter(function(t){return t.posted;}).length;
+  document.getElementById('stat-escalations').textContent = escalations.length;
+
+  // Threads
+  var container = document.getElementById('community-threads-container');
+  if (container && threads.length > 0) {
+    container.innerHTML = threads.map(function(t) {
+      var score = t.priority_score || 0;
+      var scoreClass = score >= 85 ? 'score-high' : score >= 70 ? 'score-med' : 'score-low';
+      var approvalBadge = t.posted
+        ? '<span class="approval-badge approval-posted">✅ Posted</span>'
+        : t.approved
+          ? '<span class="approval-badge approval-approved">✅ Approved</span>'
+          : '<span class="approval-badge approval-pending">⏳ Awaiting Review</span>';
+
+      var claimsHtml = (t.claim_flags||[]).map(function(f) {
+        var cls = f.claim_status==='verified' ? 'verified' : '';
+        return '<div class="claim-flag ' + cls + '">' +
+          (f.claim_status==='verified' ? '✅ ' : '⚠️ ') +
+          (f.claim||f.field||'') + ': ' + (f.note||'') +
+        '</div>';
+      }).join('');
+
+      return '<div class="thread-card">' +
+        '<div class="thread-card-header">' +
+          '<div class="thread-score ' + scoreClass + '">' + score + '<div style="font-size:9px;color:#718096;font-weight:400;">/10</div></div>' +
+          '<div style="flex:1;">' +
+            '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">' +
+              '<span class="thread-platform">' + t.platform + '</span>' +
+              '<span class="thread-community">' + t.community + '</span>' +
+              '<span class="thread-date">' + (t.date||'—') + '</span>' +
+              approvalBadge +
+            '</div>' +
+            '<div class="thread-title">"' + (t.thread||'') + '"</div>' +
+            '<div style="font-size:11px;color:#718096;margin-top:2px;">Cluster: ' + (t.cluster||[]).join(', ') + '</div>' +
+          '</div>' +
+        '</div>' +
+        (claimsHtml ? '<div>' + claimsHtml + '</div>' : '') +
+        '<details style="margin-top:10px;">' +
+          '<summary>View draft response</summary>' +
+          '<div style="margin-top:8px;">' +
+            '<div class="draft-text">' + (t.draft||'') + '</div>' +
+            '<div class="disclosure-box">📢 ' + (t.disclosure||'Disclosure: I represent GoDaddy Payments.') + '</div>' +
+          '</div>' +
+        '</details>' +
+        (t.outcome ? '<div style="margin-top:8px;padding:8px 12px;background:#0a2d1a;border-radius:6px;font-size:11px;color:#68d391;">Outcome: ' + t.outcome + '</div>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  // Outcomes table
+  if (outcomes.length > 0) {
+    var outEl = document.getElementById('outcomes-container');
+    if (outEl) {
+      outEl.innerHTML = '<table class="outcome-table">' +
+        '<thead><tr><th>Date</th><th>Thread</th><th>Platform</th><th>Upvotes</th><th>Replies</th><th>Outcome</th></tr></thead>' +
+        '<tbody>' + outcomes.map(function(o) {
+          return '<tr><td>' + (o.date||'—') + '</td><td>' + (o.thread||'—') + '</td><td>' + (o.platform||'—') + '</td>' +
+            '<td>' + (o.upvotes||'—') + '</td><td>' + (o.replies||'—') + '</td><td>' + (o.outcome||'—') + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    }
+  }
+
+  // Escalations
+  if (escalations.length > 0) {
+    var escEl = document.getElementById('escalations-container');
+    if (escEl) {
+      escEl.innerHTML = escalations.map(function(e) {
+        return '<div class="indicator-row">' +
+          '<span class="priority-badge p0">🚨</span>' +
+          '<div class="indicator-label"><strong>' + (e.thread||'—') + '</strong> · ' + (e.reason||'—') + '</div>' +
+          '<div class="indicator-status red">' + (e.status||'Active') + '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+}
+</script>
+</body>
+</html>

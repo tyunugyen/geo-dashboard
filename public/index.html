@@ -3,229 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoDaddy Payments — GEO Visibility Dashboard</title>
-<!-- Cache bust: 2026-07-02 dashboard-wiring-fix -->
+<title>GoDaddy Payments — GEO Dashboard</title>
+<!-- Cache bust: 2026-07-02 v2-overview -->
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+.header { background: linear-gradient(135deg deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+.header-left h1 { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+.header-left p { font-size: 12px; color: #718096; margin-top: 2px; }
+.header-right { display: flex; gap: 10px; align-items: center; }
+.badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
+.badge-success { background: #0a2d1a; border-color: #22543d; color: #68d391; }
+.nav { display: flex; gap: 2px; padding: 0 32px; background: #141821; border-bottom: 1px solid #2d3748; flex-wrap: wrap; }
+.nav a { padding: 11px 14px; font-size: 12px; font-weight: 600; color: #718096; text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav a:hover { color: #cbd5e0; }
+.nav a.active { color: #90cdf4; border-bottom-color: #3182ce; }
+.lu-bar { background: #0d1117; border-bottom: 1px solid #2d3748; padding: 5px 32px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #4a5568; position: sticky; top: 0; z-index: 90; }
+.lu-bar strong { color: #718096; }
+.container { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
+.alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 13px; color: #f6ad55; }
+.alert strong { color: #fbd38d; }
+.alert.green { background: #0a1a0a; border-color: #22543d; border-left-color: #48bb78; color: #68d391; }
+.section-title { font-size: 13px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+@media(max-width:1024px) { .grid-2,.grid-3,.grid-4 { grid-template-columns:1fr; } }
+.card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
+.card h3 { font-size: 12px; font-weight: 700; color: #a0aec0; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.kpi { background: #161b28; border: 1px solid #2d3748; border-radius: 12px; padding: 18px; position: relative; overflow: hidden; }
+.kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.kpi.red::before { background:#fc8181; } .kpi.yellow::before { background:#f6e05e; } .kpi.green::before { background:#68d391; } .kpi.blue::before { background:#90cdf4; }
+.kpi-label { font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.kpi-value { font-size:32px; font-weight:800; line-height:1; margin-bottom:4px; }
+.kpi.red .kpi-value { color:#fc8181; } .kpi.yellow .kpi-value { color:#f6e05e; } .kpi.green .kpi-value { color:#68d391; } .kpi.blue .kpi-value { color:#90cdf4; }
+.kpi-sub { font-size:11px; color:#718096; }
+.kpi-target { font-size:11px; color:#4a5568; margin-top:8px; padding-top:8px; border-top:1px solid #2d3748; }
+.kpi-target span { color:#63b3ed; font-weight:700; }
+.indicator-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid #1e2436; gap:10px; }
+.indicator-row:last-child { border-bottom:none; }
+.indicator-label { font-size:12px; color:#e2e8f0; flex:1; }
+.indicator-status { font-size:11px; font-weight:700; flex-shrink:0; }
+.indicator-status.red { color:#fc8181; } .indicator-status.green { color:#68d391; } .indicator-status.yellow { color:#f6ad55; } .indicator-status.blue { color:#90cdf4; }
+.priority-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; flex-shrink:0; }
+.p0 { background:#2d0a0a; color:#fc8181; border:1px solid #742a2a; }
+.p1 { background:#2d2200; color:#f6e05e; border:1px solid #744210; }
+.p2 { background:#0a1a2d; color:#90cdf4; border:1px solid #2a4a74; }
+.tag-green { background:#0a2d1a; color:#68d391; border:1px solid #22543d; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-red { background:#2d0a0a; color:#fc8181; border:1px solid #742a2a; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-yellow { background:#2d2200; color:#f6e05e; border:1px solid #744210; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.tag-blue { background:#0a1a2d; color:#90cdf4; border:1px solid #2a4a74; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; display:inline-block; }
+.model-table { width:100%; border-collapse:collapse; font-size:12px; }
+.model-table th { background:#151921; color:#718096; font-weight:600; text-align:left; padding:8px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.4px; border-bottom:1px solid #2d3748; }
+.model-table td { padding:10px 12px; border-bottom:1px solid #1e2436; vertical-align:middle; }
+.model-table tr:last-child td { border-bottom:none; }
+.prompt-table { width:100%; border-collapse:collapse; font-size:12px; }
+.prompt-table th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #2d3748; }
+.prompt-table td { padding:10px 8px; border-bottom:1px solid #1a1f2e; color:#cbd5e0; vertical-align:top; }
+.ext-link { color:#90cdf4; text-decoration:none; border-bottom:1px dotted #3182ce; }
+.ext-link:hover { color:#bee3f8; }
+.comp-row { display:flex; align-items:center; margin-bottom:10px; gap:10px; }
+.comp-name { font-size:12px; width:80px; flex-shrink:0; font-weight:600; }
+.comp-bar-wrap { width:240px; height:20px; background:#2d3748; border-radius:4px; overflow:hidden; flex-shrink:0; }
+.comp-bar-fill { height:100%; border-radius:4px; display:flex; align-items:center; padding-left:6px; font-size:10px; font-weight:700; color:#fff; }
+.comp-pct { font-size:11px; color:#a0aec0; width:36px; text-align:right; flex-shrink:0; }
+.comp-label { font-size:10px; color:#4a5568; flex-shrink:0; max-width:160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.cat-cell { border-radius:6px; padding:10px 12px; cursor:pointer; text-decoration:none; display:block; color:inherit; transition:transform .1s; }
+.cat-cell:hover { transform:translateY(-1px); }
+.cat-cell-red { background:#2d0a0a; border:1px solid #742a2a; }
+.cat-cell-green { background:#0a2d1a; border:1px solid #22543d; }
+.cat-cell-yellow { background:#2d2200; border:1px solid #744210; }
+.cat-name { font-size:11px; color:#a0aec0; font-weight:600; }
+.cat-sov { font-size:20px; font-weight:800; margin-top:4px; }
+.cat-sov.red { color:#fc8181; } .cat-sov.green { color:#68d391; } .cat-sov.yellow { color:#f6e05e; }
+.cat-target { font-size:10px; color:#4a5568; margin-top:2px; }
+.footer { text-align:center; padding:20px; font-size:11px; color:#4a5568; border-top:1px solid #2d3748; margin-top:8px; }
+details summary { cursor:pointer; font-size:12px; color:#90cdf4; padding:8px 0; list-style:none; }
+details summary::-webkit-details-marker { display:none; }
+details[open] summary { color:#bee3f8; }
+.draft-text { background:#0d1420; border:1px solid #2d3748; border-radius:8px; padding:14px; margin:10px 0; font-size:13px; line-height:1.6; color:#cbd5e0; white-space:pre-wrap; }
+.claim-flag { background:#2d1f00; border-left:3px solid #744210; padding:6px 10px; margin:4px 0; font-size:11px; color:#f6ad55; border-radius:0 4px 4px 0; }
+.claim-flag.verified { background:#0a2d1a; border-left-color:#22543d; color:#68d391; }
+.action-card { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid #1e2436; }
+.action-card:last-child { border-bottom:none; }
+.action-rank { font-size:18px; font-weight:900; color:#4a5568; width:24px; flex-shrink:0; }
+.action-body { flex:1; }
+.action-title { font-size:13px; font-weight:600; color:#e2e8f0; margin-bottom:4px; line-height:1.4; }
+.action-meta { font-size:11px; color:#718096; margin-bottom:2px; }
+.action-window { font-size:10px; color:#4a5568; }
+.action-blocked { font-size:11px; color:#f6ad55; margin-top:4px; font-weight:600; }
+.trend-card { background:#161b28; border:1px solid #2d3748; border-radius:12px; padding:20px; margin-bottom:24px; }
+canvas { display:block; }
 
-  /* Header */
-  .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2d3748; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .header-left h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
-  .header-left p { font-size: 13px; color: #718096; margin-top: 4px; }
-  .header-right { display: flex; gap: 12px; align-items: center; }
-  .badge { background: #1a2744; border: 1px solid #2d4a8a; color: #90cdf4; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
-  .badge-warn { background: #2d1f00; border-color: #744210; color: #f6ad55; }
-
-  /* Layout */
-  .container { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
-
-  /* Alert bar */
-  .alert { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: #f6ad55; }
-  .alert strong { color: #fbd38d; }
-
-  /* KPI cards row - Report page style with sparklines */
-  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-  .kpi { background: #161b28; border: 1px solid #2d3748; border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
-  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .kpi.red::before { background: #fc8181; }
-  .kpi.yellow::before { background: #f6e05e; }
-  .kpi.green::before { background: #68d391; }
-  .kpi.blue::before { background: #90cdf4; }
-  .kpi-label { font-size: 11px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .kpi-value { font-size: 34px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-  .kpi.red .kpi-value { color: #fc8181; }
-  .kpi.yellow .kpi-value { color: #f6e05e; }
-  .kpi.green .kpi-value { color: #68d391; }
-  .kpi.blue .kpi-value { color: #90cdf4; }
-  .kpi-sub { font-size: 11px; color: #718096; }
-  .kpi-target { font-size: 11px; color: #4a5568; margin-top: 8px; padding-top: 8px; border-top: 1px solid #2d3748; }
-  .kpi-target span { color: #63b3ed; font-weight: 700; }
-  .red { color: #fc8181; }
-  .green { color: #68d391; }
-  .yellow { color: #f6e05e; }
-  .blue { color: #90cdf4; }
-
-  /* Section headers */
-  .section-title { font-size: 14px; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .section-title::after { content: ""; flex: 1; height: 1px; background: #2d3748; }
-
-  /* Two-column grid */
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 24px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; }
-  @media (max-width: 1024px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-  .full-width { margin-bottom: 24px; }
-  .card { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
-  .card h3 { font-size: 13px; font-weight: 700; color: #a0aec0; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  /* SOV bars */
-  .sov-row { display: flex; align-items: center; margin-bottom: 12px; gap: 10px; }
-  .sov-label { font-size: 12px; color: #e2e8f0; width: 160px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sov-bar-wrap { flex: 1; height: 22px; background: #2d3748; border-radius: 4px; overflow: hidden; position: relative; }
-  .sov-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: #fff; transition: width 0.3s; }
-  .sov-pct { font-size: 11px; color: #a0aec0; width: 36px; text-align: right; flex-shrink: 0; }
-  .sov-target { font-size: 10px; color: #4a5568; width: 52px; text-align: right; flex-shrink: 0; }
-
-  /* Category heatmap */
-  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .cat-cell { border-radius: 6px; padding: 10px 12px; }
-  .cat-cell-red { background: #2d0a0a; border: 1px solid #742a2a; }
-  .cat-cell-green { background: #0a2d1a; border: 1px solid #22543d; }
-  .cat-cell-yellow { background: #2d2200; border: 1px solid #744210; }
-  .cat-name { font-size: 11px; color: #a0aec0; font-weight: 600; }
-  .cat-sov { font-size: 20px; font-weight: 800; margin-top: 4px; }
-  .cat-target { font-size: 10px; color: #4a5568; margin-top: 2px; }
-  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
-  .dot-red { background: #fc8181; }
-  .dot-green { background: #68d391; }
-  .dot-yellow { background: #f6e05e; }
-
-  /* Model table */
-  .model-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .model-table th { background: #151921; color: #718096; font-weight: 600; text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #2d3748; }
-  .model-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; }
-  .model-table tr:last-child td { border-bottom: none; }
-  .model-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; display: inline-block; }
-  .tag-red { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
-  .tag-green { background: #0a2d1a; color: #68d391; border: 1px solid #22543d; }
-  .tag-yellow { background: #2d2200; color: #f6e05e; border: 1px solid #744210; }
-
-  /* Competitor bars */
-  .comp-row { display: flex; align-items: center; margin-bottom: 10px; gap: 10px; }
-  .comp-name { font-size: 12px; width: 80px; flex-shrink: 0; font-weight: 600; }
-  .comp-bar-wrap { width: 300px; height: 20px; background: #2d3748; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
-  .comp-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 6px; font-size: 10px; font-weight: 700; color: #fff; }
-  .comp-pct { font-size: 11px; color: #a0aec0; width: 36px; text-align: right; flex-shrink: 0; }
-  .comp-label { font-size: 10px; color: #4a5568; flex-shrink: 0; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  /* Leading indicators */
-  .indicator-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1e2436; gap: 12px; }
-  .indicator-row:last-child { border-bottom: none; }
-  .indicator-label { font-size: 12px; color: #e2e8f0; flex: 1; }
-  .indicator-status { font-size: 11px; font-weight: 700; flex-shrink: 0; }
-
-  /* Priority actions */
-  .action-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1e2436; }
-  .action-row:last-child { border-bottom: none; }
-  .action-rank { font-size: 18px; font-weight: 900; color: #4a5568; width: 24px; flex-shrink: 0; }
-  .action-body { flex: 1; }
-  .action-title { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 3px; }
-  .action-meta { font-size: 11px; color: #718096; }
-  .action-window { font-size: 10px; color: #4a5568; margin-top: 2px; }
-  .action-blocked { font-size: 11px; color: #f6ad55; margin-top: 4px; font-weight: 600; }
-  .priority-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
-  .p0 { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
-  .p1 { background: #2d2200; color: #f6e05e; border: 1px solid #744210; }
-  .p2 { background: #0a1a2d; color: #90cdf4; border: 1px solid #2a4a74; }
-
-  /* Strategy Actions - Dynamic rendering from session.json */
-  .p0-section, .p1-section { background: #1a1f2e; border: 1px solid #2d3748; border-radius: 10px; padding: 20px; }
-  .p0-section h4, .p1-section h4 { font-size: 13px; font-weight: 700; color: #a0aec0; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .action-card { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1e2436; }
-  .action-card:last-child { border-bottom: none; }
-  .action-card .action-rank { font-size: 16px; font-weight: 900; color: #4a5568; width: 24px; flex-shrink: 0; }
-  .action-card .action-body { flex: 1; }
-  .action-card .action-title { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; line-height: 1.4; }
-  .action-card .action-meta { font-size: 11px; color: #718096; margin-bottom: 2px; }
-  .action-card .action-window { font-size: 10px; color: #4a5568; margin-top: 2px; }
-  .action-card .action-blocked { font-size: 11px; color: #f6ad55; margin-top: 4px; font-weight: 600; }
-  .badge-p0 { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; flex-shrink: 0; }
-  .badge-p1 { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: #2d2200; color: #f6e05e; border: 1px solid #744210; flex-shrink: 0; }
-
-  /* Leadership decisions */
-  .decision-row { padding: 12px 0; border-bottom: 1px solid #1e2436; }
-  .decision-row:last-child { border-bottom: none; }
-  .decision-title { font-size: 13px; font-weight: 600; color: #fbd38d; margin-bottom: 4px; }
-  .decision-meta { font-size: 11px; color: #718096; }
-  .decision-consequence { font-size: 11px; color: #fc8181; margin-top: 3px; }
-
-  /* Gaps */
-  .gap-card { background: #1a0a00; border: 1px solid #744210; border-left: 4px solid #ed8936; border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; }
-  .gap-title { font-size: 13px; font-weight: 700; color: #fbd38d; margin-bottom: 6px; }
-  .gap-meta { font-size: 12px; color: #a0aec0; display: flex; gap: 16px; flex-wrap: wrap; }
-  .gap-action { font-size: 11px; color: #718096; margin-top: 4px; }
-
-  /* Source path table */
-  .source-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .source-table th { background: #151921; color: #718096; font-weight: 600; text-align: left; padding: 7px 10px; font-size: 10px; text-transform: uppercase; border-bottom: 1px solid #2d3748; }
-  .source-table td { padding: 8px 10px; border-bottom: 1px solid #1e2436; color: #a0aec0; }
-  .source-table tr:last-child td { border-bottom: none; }
-  .source-table td:first-child { color: #e2e8f0; font-weight: 500; }
-
-  /* Footer */
-  .footer { text-align: center; padding: 24px; font-size: 11px; color: #4a5568; border-top: 1px solid #2d3748; margin-top: 8px; }
-</style>
-
-<style>
-
-  /* Upload button */
-  .upload-btn {
-    display:inline-flex; align-items:center; gap:6px;
-    background:#1a2744; border:1px solid #2d4a8a; color:#90cdf4;
-    font-size:12px; font-weight:600; padding:6px 14px; border-radius:20px;
-    cursor:pointer; transition:background .15s;
-  }
-  .upload-btn:hover { background:#22345c; }
-  .upload-btn.success { background:#0a2d1a; border-color:#22543d; color:#68d391; }
-  .upload-btn.error   { background:#2d1a1a; border-color:#742a2a; color:#fc8181; }
-  .nav { display:flex; gap:2px; padding:0 32px; background:#141821; border-bottom:1px solid #2d3748; flex-wrap:wrap; }
-  .nav a { padding:12px 16px; font-size:13px; font-weight:600; color:#718096; text-decoration:none; border-bottom:2px solid transparent; }
-  .nav a:hover { color:#cbd5e0; }
-  .nav a.active { color:#90cdf4; border-bottom-color:#3182ce; }
-  /* Last Updated bar */
-  .last-updated-bar {
-    background:#0d1117; border-bottom:1px solid #2d3748;
-    padding:6px 32px; display:flex; align-items:center;
-    justify-content:space-between; font-size:11px; color:#4a5568;
-    position:sticky; top:0; z-index:90;
-  }
-  .last-updated-bar strong { color:#718096; }
-  .last-updated-bar .lu-run { color:#4a5568; }
-  .last-updated-bar .lu-fresh { color:#68d391; }
-  .last-updated-bar .lu-stale { color:#f6ad55; }
-  .ext-link { color:#90cdf4; text-decoration:none; border-bottom:1px dotted #3182ce; }
-  .ext-link:hover { color:#bee3f8; }
-  .link-pill { display:inline-block; background:#1a2744; border:1px solid #2d4a8a; color:#90cdf4; font-size:11px; font-weight:600; padding:3px 9px; border-radius:14px; text-decoration:none; margin:2px 4px 2px 0; }
-  .link-pill:hover { background:#22345c; }
-  .link-pill.broken { background:#2d1a1a; border-color:#742a2a; color:#fc8181; }
-  /* Profound-style metric strip */
-  .pf-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:14px; }
-  .pf-card { background:linear-gradient(135deg,#161b28,#0f1117); border:1px solid #2d3748; border-radius:12px; padding:18px 20px; position:relative; }
-  .pf-metric { font-size:11px; color:#718096; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
-  .pf-big { font-size:32px; font-weight:800; margin:6px 0 2px; }
-  .pf-delta { font-size:12px; font-weight:600; }
-  .pf-spark { height:36px; margin-top:10px; display:flex; align-items:flex-end; gap:3px; }
-  .pf-bar { flex:1; background:#2d3748; border-radius:2px 2px 0 0; min-height:3px; }
-  .pf-bar.now { background:#3182ce; }
-  .pf-foot { font-size:10px; color:#4a5568; margin-top:6px; }
-  /* trend chart frame */
-  .trend-card { background:#161b28; border:1px solid #2d3748; border-radius:12px; padding:20px; margin-bottom:24px; }
-  .trend-plot { height:180px; border-left:1px solid #2d3748; border-bottom:1px solid #2d3748; position:relative; margin:16px 0 8px; }
-  .trend-line { position:absolute; left:0; right:0; border-top:1px dashed #22543d; }
-  .trend-target { position:absolute; border-top:1px dashed #744210; left:0; right:0; }
-  .trend-pt { position:absolute; width:10px; height:10px; border-radius:50%; background:#3182ce; border:2px solid #90cdf4; transform:translate(-50%,50%); }
-  .trend-axis { display:flex; justify-content:space-between; font-size:10px; color:#4a5568; }
-  .clickable { cursor:pointer; transition:transform .1s; text-decoration:none; display:block; color:inherit; }
-  .clickable:hover { transform:translateY(-2px); border-color:#3182ce !important; }
-  /* tier + table + flow (child pages) */
-  .tier-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:14px; }
-  .t1{background:#1a2744;color:#90cdf4;} .t2{background:#1a2e1a;color:#68d391;}
-  .t3{background:#2d1f00;color:#f6ad55;} .t4{background:#2a1a2e;color:#d6bcfa;} .t5{background:#2d3748;color:#a0aec0;}
-  .prompt-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .prompt-table th { text-align:left; color:#718096; font-size:11px; text-transform:uppercase; padding:6px 8px; border-bottom:1px solid #2d3748; }
-  .prompt-table td { padding:7px 8px; border-bottom:1px solid #1a1f2e; color:#cbd5e0; vertical-align:top; }
-  .prompt-id { font-weight:700; color:#90cdf4; white-space:nowrap; }
-  .draft-box { background:#0d1420; border:1px solid #2d3748; border-radius:8px; padding:16px; margin:10px 0; font-size:13px; line-height:1.6; color:#cbd5e0; }
-  .draft-box code { background:#1a1f2e; padding:2px 6px; border-radius:4px; color:#90cdf4; font-size:12px; }
-  .meta-block { background:#0a0f1a; border:1px solid #22543d; border-radius:6px; padding:12px; font-family:monospace; font-size:11px; color:#68d391; white-space:pre-wrap; overflow-x:auto; }
-  .step { display:flex; gap:12px; margin-bottom:14px; }
-  .step-num { width:26px; height:26px; border-radius:50%; background:#1a2744; color:#90cdf4; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.pf-spark { height:36px; margin-top:10px; display:flex; align-items:flex-end; gap:3px; }
+.pf-bar { flex:1; background:#2d3748; border-radius:2px 2px 0 0; min-height:3px; }
+.pf-bar.now { background:#3182ce; }
+.status-pill { display:inline-flex; align-items:center; gap:8px; background:#161b28; border:1px solid #2d3748; border-radius:8px; padding:10px 16px; font-size:12px; text-decoration:none; color:inherit; transition:border-color .15s; }
+.status-pill:hover { border-color:#3182ce; }
+.status-pill .pill-label { color:#a0aec0; font-weight:600; }
+.status-pill .pill-count { font-weight:700; }
+.status-pill .pill-cta { color:#90cdf4; margin-left:4px; font-size:11px; }
+.status-pill.red { border-left:3px solid #fc8181; }
+.status-pill.yellow { border-left:3px solid #f6e05e; }
+.status-pill.green { border-left:3px solid #68d391; }
+.pills-row { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+.intel-card { background:#1a1f2e; border:1px solid #2d3748; border-radius:10px; padding:20px; margin-bottom:24px; }
+.intel-section { margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid #1e2436; }
+.intel-section:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.intel-section-title { font-size:11px; font-weight:700; color:#718096; text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px; }
 </style>
 </head>
 <body>
+
 <div class="header">
   <div class="header-left">
     <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
@@ -233,56 +127,72 @@
   </div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
-    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>2026-06-23 16:30</span></span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Last updated: <span data-last-updated>—</span></span>
     <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
   </div>
 </div>
-<div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="prompts.html" class="">📝 Prompts</a><a href="aggregators.html" class="">🏷️ Aggregators</a><a href="action-build.html" class="">🔨 BUILD</a><a href="action-amplify.html" class="">📣 AMPLIFY</a><a href="action-cite.html" class="">🏆 CITE</a><a href="report.html" class="">📋 Report</a><a href="maintenance.html" class="">🔧 Maintenance</a><a href="roadmap.html" class="">🗺️ Next Steps</a></div>
-<div class="last-updated-bar">
-  <span>Last updated: <strong data-lu-date>—</strong>
-    &nbsp;·&nbsp; Run: <span class="lu-run" data-lu-run>—</span>
-    &nbsp;·&nbsp; <span data-lu-details>Claude · 70 prompts</span>
-    <span data-last-benchmark style="display:none;"></span>
-  </span>
-</div>
-<div class="container">
-<div class="alert">⚠️ <strong>Unaided SOV is ~0%.</strong> GoDaddy is invisible when AI builds a consideration set cold. Binding constraint = missing third-party citations. Crawler access is confirmed working.</div>
 
+<div class="nav">
+  <a href="index.html" class="active">📊 Overview</a>
+  <a href="insights.html" class="">📡 Insights</a>
+  <a href="prompts.html" class="">📝 Prompts</a>
+  <a href="citations.html" class="">🏆 Citations</a>
+  <a href="action-content.html" class="">🔨 Content</a>
+  <a href="action-community.html" class="">📣 Community</a>
+  <a href="report.html" class="">📋 Report</a>
+  <a href="roadmap.html" class="">🗺️ Next Steps</a>
+  <a href="maintenance.html" class="">🔧 Maintenance</a>
+</div>
+
+<div class="lu-bar">
+  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details>— · 70 prompts</span><span data-last-benchmark style="display:none;"></span></span>
+</div>
+
+<div class="container">
+
+  <!-- Alert -->
+  <div class="alert">
+    ⚠️ <strong>Unaided SOV is 0%.</strong> GoDaddy is invisible when AI builds a consideration set cold.
+    Binding constraint = absent from NerdWallet, Forbes Advisor, and TechRadar roundups.
+  </div>
+
+  <!-- KPI tiles -->
   <div class="section-title">📈 Top-Line Metrics</div>
   <div class="kpi-row">
     <div class="kpi red">
       <div class="kpi-label">🎯 Unaided SOV</div>
-      <div class="kpi-value" id="pf-unaided">~0%</div>
+      <div class="kpi-value" id="kpi-unaided">~0%</div>
       <div class="kpi-sub">Cold discovery — no GoDaddy in prompt</div>
-      <div class="pf-spark" id="spark-unaided" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="pf-spark" id="spark-unaided"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
       <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
     </div>
     <div class="kpi green">
       <div class="kpi-label">✅ Aided SOV</div>
-      <div class="kpi-value" id="pf-aided">~100%</div>
+      <div class="kpi-value" id="kpi-aided">~100%</div>
       <div class="kpi-sub">GoDaddy named in prompt — model knowledge ✓</div>
-      <div class="pf-spark" id="spark-aided" style="margin-top:10px;"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:34px"></div></div>
+      <div class="pf-spark" id="spark-aided"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:34px"></div></div>
       <div class="kpi-target">Target: <span>Maintain ~100%</span></div>
     </div>
     <div class="kpi red">
       <div class="kpi-label">🏆 Citation Rank</div>
-      <div class="kpi-value" style="font-size:20px;padding-top:8px;">Unranked</div>
-      <div class="kpi-sub">Absent 5/7 top aggregators</div>
-      <div class="pf-spark" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="kpi-value" id="kpi-citation" style="font-size:20px;padding-top:8px;">Unranked</div>
+      <div class="kpi-sub">Absent from 5 of 6 top publishers</div>
+      <div class="pf-spark"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
       <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
     </div>
     <div class="kpi yellow">
       <div class="kpi-label">💡 Rate Saver Cited</div>
-      <div class="kpi-value" id="pf-ratesaver">0%</div>
+      <div class="kpi-value" id="kpi-rate-saver">0%</div>
       <div class="kpi-sub">Only 0% product on market — invisible</div>
-      <div class="pf-spark" id="spark-ratesaver" style="margin-top:10px;"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+      <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
       <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
     </div>
   </div>
 
+  <!-- Trends chart -->
   <div class="trend-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div class="pf-metric">📈 SOV Trends (Rolling 6-Month Window)</div>
+      <div style="font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.5px;">📈 SOV Trends (Rolling 6-Month Window)</div>
       <div style="display:flex;gap:16px;font-size:11px;">
         <span style="color:#dc2626;">━ Unaided</span>
         <span style="color:#fbbf24;">━ Aided</span>
@@ -290,1181 +200,121 @@
       </div>
     </div>
     <canvas id="trendsChart" style="width:100%;height:180px;display:block;"></canvas>
-    <div style="margin-top:8px;font-size:10px;color:#4a5568;text-align:center;" id="trends-note">
-      Loading trends data...
-    </div>
+    <div id="trends-note" style="margin-top:8px;font-size:10px;color:#4a5568;text-align:center;">Loading trends data...</div>
   </div>
+
+  <!-- Category + Competitor -->
   <div class="grid-2">
     <div class="card">
-      <h3>📊 Unaided SOV by Category <span style="font-size:11px;color:#4a5568;font-weight:400;">— click any box to see its prompts</span></h3>
+      <h3>📊 Unaided SOV by Category <span style="font-size:11px;color:#4a5568;font-weight:400;">— click to see prompts</span></h3>
       <div id="category-grid" class="cat-grid"></div>
     </div>
     <div class="card">
       <h3>🏆 Competitor Unaided SOV <span style="font-size:11px;color:#4a5568;font-weight:400;">— click for aggregator labels</span></h3>
-      <a class="clickable" href="aggregators.html"><div id="competitor-chart"></div></a>
+      <a href="citations.html" style="display:block;text-decoration:none;color:inherit;">
+        <div id="competitor-chart"></div>
+      </a>
     </div>
   </div>
 
+  <!-- Model tracking -->
   <div class="grid-2" style="margin-top:24px;">
     <div class="card">
-      <h3>✅ What We Track <span style="font-size:11px;color:#4a5568;font-weight:400;">— <a href="report.html" class="ext-link">view full monthly report</a></span></h3>
-      <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:#90cdf4;">
-        Primary models drive the SOV number we report. Pulse check models tell us where AI behavior is heading — we build for today, watch for tomorrow.
+      <h3>✅ What We Track <span style="font-size:11px;color:#4a5568;font-weight:400;">— <a href="report.html" class="ext-link">full report</a></span></h3>
+      <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:#90cdf4;">
+        Primary models drive the SOV number we report. Pulse models show where AI behavior is heading.
       </div>
-      <div style="display:flex;gap:12px;margin-bottom:16px;">
-        <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
-          <strong style="color:#68d391;">📅 Monthly:</strong> <span style="color:#90cdf4;">Primary 5 models (1st of month)</span>
-        </div>
-        <div style="background:#1a2744;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;font-size:11px;flex:1;">
-          <strong style="color:#f6ad55;">⚡ Weekly:</strong> <span style="color:#90cdf4;">Pulse 3 models (every Monday)</span>
-        </div>
-      </div>
-
-      <!-- Primary Models Section -->
-      <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — 5 (Official SOV Calculation)</div>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models drive the official SOV number we report.</p>
-      <table class="model-table" style="margin-bottom:20px;">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Frequency</th>
-            <th>Why Primary</th>
-            <th>Unaided SOV</th>
-            <th>Aided SOV</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="primary-model-rows">
-          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
-        </tbody>
+      <div style="font-size:12px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Primary Models — 5 (Official SOV)</div>
+      <table class="model-table" style="margin-bottom:18px;">
+        <thead><tr><th>Model</th><th>Frequency</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
+        <tbody id="primary-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
       </table>
-
-      <!-- Pulse Check Models Section -->
-      <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — 3 (Directional Signal Only, Not in Official SOV)</div>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Monitored for emerging behavior. Not included in official SOV calculation.</p>
+      <div style="font-size:12px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Pulse Models — 3 (Directional)</div>
       <table class="model-table">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Frequency</th>
-            <th>Why Watching</th>
-            <th>Unaided SOV</th>
-            <th>Aided SOV</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="pulse-model-rows">
-          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
-        </tbody>
+        <thead><tr><th>Model</th><th>Frequency</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
+        <tbody id="pulse-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
       </table>
-      <p style="font-size:11px;color:#718096;margin-top:10px;" id="model-benchmark-note">Multi-model benchmark via GoCode proxy. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
     </div>
-    <div class="card">
-      <h3>📡 Signal Indicators</h3>
-      <p style="font-size:11px;color:#718096;margin-bottom:10px;">Source of truth: <strong>Profound</strong> (blended SOV). AUDIT 6-model run for source-path diagnostics. Perplexity as leading indicator (cites inline).</p>
-      <div class="indicator-row">
-        <span class="priority-badge p0">P0</span>
-        <div class="indicator-label">📰 NerdWallet / Forbes inclusion → <a href="action-cite.html" class="ext-link">CITE outreach</a></div>
-        <div class="indicator-status red">❌ ABSENT</div>
-      </div>
-      <div class="indicator-row">
-        <span class="priority-badge p1">P1</span>
-        <div class="indicator-label">💬 Community response drafts ready → <a href="action-amplify.html" class="ext-link">AMPLIFY replies</a></div>
-        <div class="indicator-status yellow">⚠️ <span id="signal-amplify-count">loading...</span></div>
-      </div>
-      <div class="indicator-row">
-        <span class="priority-badge p0">P0</span>
-        <div class="indicator-label">💡 Rate Saver cited unprompted → <a href="action-build.html#rate-saver" class="ext-link">BUILD page</a></div>
-        <div class="indicator-status red">❌ <span id="signal-rate-saver">0%</span></div>
-      </div>
-      <div class="indicator-row">
-        <div class="indicator-label">🔍 Perplexity citation tracking → <a href="#perplexity-simulation" class="ext-link">See below</a></div>
-        <div class="indicator-status blue">📊 Live audit</div>
-      </div>
-      <div class="indicator-row">
-        <div class="indicator-label">🎯 AI platform SOV breakdown → <a href="report.html#ai-platform-insights" class="ext-link">Report</a></div>
-        <div class="indicator-status blue">📊 By model</div>
-      </div>
 
-      <!-- Aided SOV Failures - dynamically populated -->
-      <div id="aided-failures-container" style="margin-top:16px;display:none;">
-        <div style="border-top:1px solid #2d4a8a;padding-top:12px;">
-          <div style="font-weight:700;color:#fc8181;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">🚨 Aided Prompt Failures</div>
-          <p style="font-size:11px;color:#718096;margin-bottom:8px;">When explicitly asked about GoDaddy, these comparisons failed to mention us:</p>
-          <div id="aided-failures-list"></div>
+    <!-- Intel & Signals (combined) -->
+    <div class="intel-card">
+      <div class="section-title" style="margin-bottom:16px;">📡 Intel & Signals</div>
+
+      <!-- Top Tracking Signal Indicators -->
+      <div class="intel-section">
+        <div class="intel-section-title">Top Tracking Signal Indicators</div>
+        <div class="indicator-row">
+          <span class="priority-badge p0">P0</span>
+          <div class="indicator-label">📰 Citations — NerdWallet / Forbes inclusion
+            <div style="font-size:10px;color:#4a5568;margin-top:1px;"><a href="citations.html" class="ext-link">→ view outreach plan</a></div>
+          </div>
+          <div class="indicator-status red">❌ ABSENT</div>
+        </div>
+        <div class="indicator-row">
+          <span class="priority-badge p0">P0</span>
+          <div class="indicator-label">💡 Rate Saver cited unprompted
+            <div style="font-size:10px;color:#4a5568;margin-top:1px;"><a href="action-content.html" class="ext-link">→ content draft ready</a></div>
+          </div>
+          <div class="indicator-status red">❌ <span id="signal-rate-saver">0%</span></div>
+        </div>
+        <div class="indicator-row">
+          <span class="priority-badge p1">P1</span>
+          <div class="indicator-label">💬 Community reply drafts ready
+            <div style="font-size:10px;color:#4a5568;margin-top:1px;"><a href="action-community.html" class="ext-link">→ review drafts</a></div>
+          </div>
+          <div class="indicator-status yellow">⚠️ <span id="signal-amplify-count">loading...</span></div>
+        </div>
+        <div class="indicator-row">
+          <div class="indicator-label">📡 Perplexity citation audit
+            <div style="font-size:10px;color:#4a5568;margin-top:1px;"><a href="insights.html" class="ext-link">→ see full Insights page</a></div>
+          </div>
+          <div class="indicator-status blue">📊 Live</div>
         </div>
       </div>
 
-      <!-- Branded Search Issues - dynamically populated -->
-      <div id="branded-issues-container" style="margin-top:16px;">
-        <div style="border-top:1px solid #2d4a8a;padding-top:12px;">
-          <div style="font-weight:700;color:#68d391;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">✅ Branded Search Status</div>
-          <p style="font-size:11px;color:#718096;margin-bottom:8px;">When users explicitly search for "GoDaddy Payments" or "GoDaddy credit card processing":</p>
-          <div id="branded-issues-list">
-            <div class="indicator-row">
-              <span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>
-              <div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>
-              <div class="indicator-status green">✅ No issues detected</div>
-            </div>
+      <!-- Branded Search Status -->
+      <div class="intel-section">
+        <div class="intel-section-title">Branded Search Status</div>
+        <div id="branded-issues-list">
+          <div class="indicator-row">
+            <span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>
+            <div class="indicator-label">All models correctly identify GoDaddy Payments when explicitly searched</div>
+            <div class="indicator-status green">✅ No issues</div>
           </div>
         </div>
       </div>
+
+      <!-- Competitive Intel (dynamic) -->
+      <div class="intel-section">
+        <div class="intel-section-title">Competitive Intel — <span id="competitive-intel-date">loading...</span></div>
+        <div id="competitive-intel-rows">
+          <div style="color:#4a5568;font-size:12px;">Loading competitive data...</div>
+        </div>
+        <p style="font-size:10px;color:#4a5568;margin-top:8px;">Live crawl each session · <a href="insights.html" class="ext-link">full analysis →</a></p>
+      </div>
+
+      <!-- Data confidence note -->
+      <div id="data-confidence-note" style="display:none;margin-top:12px;padding:8px 12px;background:#2d1f00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:4px;font-size:11px;color:#f6ad55;"></div>
     </div>
   </div>
 
-  <div class="section-title" style="margin-top:8px;">🚨 Action Required</div>
-  <div id="strategy-actions" class="grid-2">
-    <div class="card">
-      <h3>🔴 P0 — Citations & Content (highest SOV impact)</h3>
-      <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:#90cdf4;">
-        📊 <strong>8-model benchmark confirms:</strong> Unaided SOV = 0% across ALL models (Claude Sonnet/Haiku/Opus, GPT-4o, Gemini 2.5 Pro/Flash, o3-mini, Gemini 3.1 Preview). Root cause is citation gap — universal across all AI systems.
-      </div>
-      <div class="action-row">
-        <div class="action-rank">1</div>
-        <div class="action-body">
-          <div class="action-title">Get GoDaddy into NerdWallet + Forbes processor/POS lists</div>
-          <div class="action-meta" id="action-meta-cite">Owner: PR/Partnerships · Root cause: Citation gap · Confirmed across all models</div>
-          <div class="action-window">⏱ 2-3 months → Perplexity + AI Overviews pull these live</div>
-          <div style="margin-top:6px;"><a class="link-pill" href="action-cite.html">→ CITE outreach plan + sample emails</a></div>
-        </div>
-        <span class="priority-badge p0">P0</span>
-      </div>
-      <div class="action-row">
-        <div class="action-rank">2</div>
-        <div class="action-body">
-          <div class="action-title">Publish Rate Saver GEO page — 0% credit processing, only product in market</div>
-          <div class="action-meta">Owner: Content + Legal + PM · Root cause: Content gap · Rate Saver cited 0% unaided across all models</div>
-          <div class="action-window">⏱ 3 weeks → visible in 1-2 AUDIT runs</div>
-          <div style="margin-top:6px;"><a class="link-pill" href="action-build.html">→ BUILD draft + meta + schema</a></div>
-        </div>
-        <span class="priority-badge p0">P0</span>
-      </div>
-    </div>
-    <div class="card">
-      <h3>🟡 P1 — Community & Vertical Content</h3>
-      <div class="action-row">
-        <div class="action-rank">3</div>
-        <div class="action-body">
-          <div class="action-title">Post 5 reviewed community replies (fee, surcharge, support, switching)</div>
-          <div class="action-meta">Owner: Social/Community + Legal · Root cause: Citation gap (community)</div>
-          <div class="action-window">⏱ Ongoing → 3-4 months to AI index</div>
-          <div style="margin-top:6px;"><a class="link-pill" href="action-amplify.html">→ AMPLIFY reply drafts + live threads</a></div>
-        </div>
-        <span class="priority-badge p1">P1</span>
-      </div>
-      <div class="action-row">
-        <div class="action-rank">4</div>
-        <div class="action-body">
-          <div class="action-title">Build coffee shop + retail store vertical pages</div>
-          <div class="action-meta">Owner: Content/SEO · Root cause: Content gap</div>
-          <div class="action-window">⏱ 1-2 months → next AUDIT</div>
-          <div style="margin-top:6px;"><a class="link-pill" href="action-build.html">→ BUILD drafts</a></div>
-        </div>
-        <span class="priority-badge p1">P1</span>
-      </div>
-    </div>
+  <!-- Action Status Pills — replaces hardcoded Action Required -->
+  <div class="section-title" style="margin-top:8px;">🚨 Action Status</div>
+  <div class="pills-row" id="action-pills-row">
+    <!-- Populated dynamically -->
   </div>
+
+  <!-- Actions summary from session.json -->
+  <div id="strategy-actions"></div>
+
+  <!-- Crawler note -->
   <div style="margin-top:16px;padding:12px;background:#0a2d1a;border:1px solid #22543d;border-radius:6px;font-size:12px;color:#68d391;">
     ✅ <strong>No action pending on crawler access.</strong> Server logs confirm GPTBot, ClaudeBot, PerplexityBot return 200. Resolved — do not re-litigate.
   </div>
-  <div id="data-confidence-note" style="display:none;margin-top:12px;padding:10px 14px;background:#2d1f00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;font-size:11px;color:#f6ad55;"></div>
-
-  <!-- Perplexity Data Section -->
-  <div class="section-title" style="margin-top:24px;" id="perplexity-data">⚡ Perplexity Data — Live Citation Audit
-    <span style="font-weight:400;color:#4a5568;font-size:11px;text-transform:none;"> · Not SOV. Tracks which aggregators Perplexity cites for each query cluster.</span>
-  </div>
-  <div class="grid-2">
-    <div class="card">
-      <h3>What Perplexity Cites Now</h3>
-      <table class="prompt-table">
-        <thead><tr><th>Query Cluster</th><th>Cited Sources</th><th>GoDaddy?</th></tr></thead>
-        <tbody id="perplexity-tbody">
-          <!-- Rows populated dynamically from session.json perplexity_simulation[] -->
-        </tbody>
-      </table>
-      <p style="font-size:10px;color:#4a5568;margin-top:8px;">Last audited: <span id="perplexity-audit-date">loading...</span> · Updated each session</p>
-    </div>
-    <div class="card">
-      <h3>Competitive Intel — <span id="competitive-intel-date">loading...</span></h3>
-      <div class="indicator-row"><div class="indicator-label">🔺 Square raised online fees Jan 2026</div><div class="indicator-status yellow">⚠️ 3.3%+$0.30 (was 2.9%) — win angle confirmed</div></div>
-      <div class="indicator-row"><div class="indicator-label" id="model-count-label">📌 Multi-model benchmark: unaided SOV</div><div class="indicator-status red" id="model-count-status">❌ 0% across ALL models</div></div>
-      <div class="indicator-row"><div class="indicator-label">📌 Helcim NerdWallet label</div><div class="indicator-status" style="color:#a0aec0;">"Best for volume discounts" + interchange-plus</div></div>
-      <div class="indicator-row"><div class="indicator-label">📌 GoDaddy Business.com review</div><div class="indicator-status green">9.2/10 — correction-request CITE angle</div></div>
-      <div class="indicator-row"><div class="indicator-label">📌 GoDaddy aggregator labels</div><div class="indicator-status red">❌ Absent NerdWallet, Forbes, Wise, FitSmallBusiness</div></div>
-      <p style="font-size:10px;color:#4a5568;margin-top:8px;">Updated via weekly Claude web search · See <a href="action-cite.html" class="ext-link">CITE →</a></p>
-    </div>
-  </div>
 
 </div>
+<div class="footer">GoDaddy Payments GEO Dashboard · session.json auto-updates · <a href="maintenance.html" class="ext-link">Maintenance</a></div>
 
-<script>
-(function () {
-  var CAT_ANCHOR = {
-    "pricing_fee":"prompts.html#tier1","top_funnel_pos":"prompts.html#tier1","comparison":"prompts.html#tier1",
-    "payment_processing":"prompts.html#tier3","vertical_fb":"prompts.html#tier2","vertical_retail":"prompts.html#tier2",
-    "general_in_person":"prompts.html#tier2","support":"prompts.html#tier4"
-  };
-
-  function buildSparkline(trendsWeekly, metricKey) {
-    // Handle missing or empty data
-    if (!trendsWeekly || trendsWeekly.length === 0) {
-      return '<div class="pf-bar" style="height:3px"></div>' +
-        '<div class="pf-bar" style="height:3px"></div>' +
-        '<div class="pf-bar" style="height:3px"></div>' +
-        '<div class="pf-bar now" style="height:3px"></div>';
-    }
-
-    // Get last 4 weeks (or all if fewer than 4)
-    var last4 = trendsWeekly.slice(-4);
-
-    // Pad to 4 entries if needed (add zeros at beginning)
-    while (last4.length < 4) {
-      var padEntry = {};
-      padEntry[metricKey] = 0;
-      last4.unshift(padEntry);
-    }
-
-    // Extract metric values, treating null/undefined as 0
-    var values = last4.map(function(week) {
-      return week[metricKey] || 0;
-    });
-
-    // Calculate max value (use 0.01 minimum to avoid division by zero)
-    var maxValue = Math.max.apply(null, values.concat([0.01]));
-
-    // Calculate heights using formula: 3 + (value / maxValue) * 33
-    var heights = values.map(function(val) {
-      return Math.round(3 + (val / maxValue) * 33);
-    });
-
-    // Determine how many padding bars we added (always at the beginning)
-    var actualDataCount = trendsWeekly.slice(-4).length;
-    var paddingCount = 4 - actualDataCount;
-
-    // Build HTML for 4 bars (just the bars, not the container)
-    var bars = '';
-    for (var i = 0; i < 4; i++) {
-      var isLast = (i === 3);
-      var isPadding = (i < paddingCount);
-      var isPreviousData = (!isPadding && !isLast);
-
-      var className = 'pf-bar';
-      var style = 'height:' + heights[i] + 'px';
-
-      if (isLast) {
-        className += ' now';  // Current week: dark blue #3182ce
-      } else if (isPreviousData) {
-        style += ';background:#7ba3d1';  // Previous weeks with data: light blue
-      }
-      // Padding bars keep default gray #2d3748
-
-      bars += '<div class="' + className + '" style="' + style + '"></div>';
-    }
-
-    return bars;
-  }
-
-  // Load both monthly and weekly data files
-  Promise.all([
-    fetch('data_monthly.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }),
-    fetch('data_weekly.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; }),
-    fetch('data/session.json?v=' + Date.now()).then(function(r) { return r.ok ? r.json() : null; }).catch(function() { return null; })
-  ]).then(function(results) {
-    var monthly = results[0];
-    var weekly = results[1];
-    var session = results[2];
-
-    // Use monthly as primary data source, fall back to session.json, then weekly
-    var d = monthly || session || weekly;
-
-    if (!d) {
-      console.error('No data files found (monthly, weekly, or session)');
-      return;
-    }
-
-    // If we have both monthly and weekly, render them separately
-    var hasDualData = monthly && weekly;
-
-    if (hasDualData) {
-      console.log('Rendering dual-tier dashboard (monthly + weekly)');
-      renderDashboard(monthly, 'monthly');
-      renderWeeklySummary(weekly);
-    } else {
-      console.log('Rendering single-tier dashboard (legacy mode)');
-      renderDashboard(d, 'legacy');
-    }
-
-    // Common function to render dashboard data
-    function renderDashboard(d, mode) {
-      var meta = document.getElementById('meta-line');
-      if (meta && d.meta) {
-        // Simplified header: just show period and run_id
-        meta.textContent = d.meta.period + ' \u00b7 ' + d.meta.run_id + ' \u00b7 ' + (d.meta.prompt_count || 70) + ' prompts';
-      }
-      // Last Updated bar
-      if (d.meta) {
-        var luDate = document.querySelector('[data-lu-date]');
-        if (luDate) luDate.textContent = (d.meta.run_date || '—') + (d.meta.run_time ? ' ' + d.meta.run_time : '');
-        var luRun = document.querySelector('[data-lu-run]');
-        if (luRun) luRun.textContent = d.meta.run_id || '—';
-        var luMod = document.querySelector('[data-lu-details]');
-        if (luMod) luMod.textContent = (d.meta.models || '3 models') + ' \u00b7 ' + (d.meta.prompt_count || 70) + ' prompts';
-        var luSt = document.getElementById('lu-status');
-        if (luSt) {
-          var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-          var cur = months[new Date().getMonth()] + ' ' + new Date().getFullYear();
-          if ((d.meta.period||'') === cur) { luSt.textContent='\u2705 Current'; luSt.className='lu-fresh'; }
-          else { luSt.textContent='\u26a0\ufe0f Stale — re-run benchmark'; luSt.className='lu-stale'; }
-        }
-        var headerLU = document.getElementById('header-last-updated');
-        if (headerLU) headerLU.textContent = (d.meta.run_date || '—') + (d.meta.run_time ? ' ' + d.meta.run_time : '');
-      }
-      function set(id,val){var e=document.getElementById(id); if(e&&val!=null)e.textContent=val;}
-      if (d.kpis){
-        set('pf-unaided', d.kpis.unaided_sov && d.kpis.unaided_sov.value);
-        set('pf-aided',   d.kpis.aided_sov && d.kpis.aided_sov.value);
-        set('pf-ratesaver', d.kpis.tech_health && d.kpis.tech_health.value);
-      }
-      // Update sparklines with weekly trend data
-      if (d.trends && d.trends.weekly) {
-        console.log('[Sparklines] Updating with', d.trends.weekly.length, 'weeks of data');
-        console.log('[Sparklines] Data:', d.trends.weekly);
-
-        var sparkUnaided = document.getElementById('spark-unaided');
-        if (sparkUnaided) {
-          var unaidedHTML = buildSparkline(d.trends.weekly, 'unaided_sov');
-          console.log('[Sparklines] Unaided HTML:', unaidedHTML);
-          sparkUnaided.innerHTML = unaidedHTML;
-        }
-
-        var sparkAided = document.getElementById('spark-aided');
-        if (sparkAided) {
-          var aidedHTML = buildSparkline(d.trends.weekly, 'aided_sov');
-          console.log('[Sparklines] Aided HTML:', aidedHTML);
-          sparkAided.innerHTML = aidedHTML;
-        }
-
-        var sparkRatesaver = document.getElementById('spark-ratesaver');
-        if (sparkRatesaver) {
-          var ratesaverHTML = buildSparkline(d.trends.weekly, 'rate_saver_sov');
-          console.log('[Sparklines] RateSaver HTML:', ratesaverHTML);
-          sparkRatesaver.innerHTML = ratesaverHTML;
-        }
-      } else {
-        console.log('[Sparklines] No trends.weekly data found in:', d);
-      }
-      var catGrid = document.getElementById('category-grid');
-      if (catGrid && d.categories) {
-        catGrid.innerHTML = d.categories.map(function (c) {
-          var cls = c.cell || 'red';
-          var href = CAT_ANCHOR[c.name] || 'prompts.html';
-          var p1 = c.phase1 ? '<div class="cat-target" style="color:#f6ad55;">Phase 1: ' + c.phase1 + '</div>' : '';
-          return '<a class="cat-cell cat-cell-' + cls + ' clickable" href="' + href + '">' +
-                   '<div class="cat-name">' + c.name + '</div>' +
-                   '<div class="cat-sov ' + cls + '">' + c.sov + '</div>' +
-                   p1 +
-                   '<div class="cat-target">\u2192 ' + c.target + '</div></a>';
-        }).join('');
-      }
-      var compRows = document.getElementById('competitor-chart');
-      if (compRows && d.competitors) {
-        var sortedForDisplay = d.competitors.slice().sort(function(a,b){return (b.sov||0)-(a.sov||0)});
-        compRows.innerHTML = sortedForDisplay.map(function (c) {
-          var nameStyle='color:'+c.color+';'+(c.godaddy?'font-weight:900;':'');
-          var fillStyle='width:'+c.sov+'%;background:'+c.bar+';'+(c.godaddy?'min-width:8px;':'');
-          var barText=c.godaddy?'':(c.sov+'%');
-          var pctCls=c.godaddy?'comp-pct red':'comp-pct';
-          var labelStyle=c.godaddy?' style="color:#fc8181;"':'';
-          return '<div class="comp-row"><div class="comp-name" style="'+nameStyle+'">'+c.name+'</div>'+
-                 '<div class="comp-bar-wrap"><div class="comp-bar-fill" style="'+fillStyle+'">'+barText+'</div></div>'+
-                 '<div class="'+pctCls+'">'+c.display+'</div><div class="comp-label"'+labelStyle+'>'+c.label+'</div></div>';
-        }).join('');
-      }
-      // Model SOV table — render primary and pulse check models separately
-      var primaryRows = document.getElementById('primary-model-rows');
-      var pulseRows = document.getElementById('pulse-model-rows');
-      if (d.model_sov) {
-        var STATUS_ICON = {
-          success:'✅ Normal',
-          partial:'⚠️ Partial',
-          anomaly:'❌ Anomaly',
-          error:'❌ Error',
-          tracking:'📊 Tracking'
-        };
-
-        // Handle both nested structure (session.json) and flat structure (data_monthly.json)
-        var primaryModels = d.model_sov.primary || null;
-        var pulseModels = d.model_sov.pulse || null;
-
-        // If flat structure, categorize models into primary vs pulse
-        if (!primaryModels && !pulseModels) {
-          // PRIMARY MODELS (5): Drive official SOV number we report
-          var PRIMARY_MODEL_KEYS = [
-            'claude_sonnet_4_6',
-            'claude_haiku_4_5_20251001',
-            'claude_opus_4_8',
-            'gpt_4o',
-            'gemini_2_5_pro'
-          ];
-
-          // PULSE CHECK MODELS (3): Directional signal, not in official SOV
-          var PULSE_MODEL_KEYS = [
-            'gemini_2_5_flash',
-            'o3_mini',
-            'gemini_3_1_pro_preview'
-          ];
-
-          // Define model metadata
-          var MODEL_META = {
-            // Primary models (5)
-            'claude_sonnet_4_6': { name: 'Claude Sonnet 4.6', why: 'Core benchmark model' },
-            'claude_haiku_4_5_20251001': { name: 'Claude Haiku 4.5', why: 'Weekly pulse (also used in monthly)' },
-            'claude_opus_4_8': { name: 'Claude Opus 4.8', why: 'High-capability Claude variant' },
-            'gpt_4o': { name: 'GPT-4o', why: 'Dominant consumer AI — highest merchant usage' },
-            'gemini_2_5_pro': { name: 'Gemini 2.5 Pro', why: 'Google\'s primary AI — feeds AI Overviews' },
-            // Pulse check models (3)
-            'gemini_2_5_flash': { name: 'Gemini 2.5 Flash', why: 'Promoted to stable release — behavior stabilising' },
-            'o3_mini': { name: 'o3-mini', why: 'Reasoning model — usage pattern emerging' },
-            'gemini_3_1_pro_preview': { name: 'Gemini 3.1 Pro Preview', why: 'Experimental preview model — tracking for stability' }
-          };
-
-          // EXCLUDED models (not tracked)
-          var EXCLUDED_KEYS = ['o3'];  // o3 removed, but o3_mini stays
-
-          primaryModels = {};
-          pulseModels = {};
-
-          // Initialize all 8 models with defaults
-          PRIMARY_MODEL_KEYS.forEach(function(key) {
-            var meta = MODEL_META[key];
-            primaryModels[key] = {
-              name: meta.name,
-              why: meta.why,
-              unaided: '—',
-              aided: '—',
-              rs: '—',
-              status: 'tracking',
-              note: '',
-              u_color: '#4a5568',
-              a_color: '#4a5568'
-            };
-          });
-
-          PULSE_MODEL_KEYS.forEach(function(key) {
-            var meta = MODEL_META[key];
-            pulseModels[key] = {
-              name: meta.name,
-              why: meta.why,
-              unaided: '—',
-              aided: '—',
-              rs: '—',
-              status: 'tracking',
-              note: '',
-              u_color: '#4a5568',
-              a_color: '#4a5568'
-            };
-          });
-
-          // Overlay actual data if available
-          for (var key in d.model_sov) {
-            // Skip excluded models
-            if (EXCLUDED_KEYS.indexOf(key) >= 0) continue;
-
-            var model = d.model_sov[key];
-            var meta = MODEL_META[key];
-            if (!meta) continue; // Skip unknown models
-
-            // Merge data with defaults
-            var merged = {
-              name: model.name || meta.name,
-              why: meta.why,
-              unaided: model.unaided || '—',
-              aided: model.aided || '—',
-              rs: model.rs || '—',
-              status: model.status || 'tracking',
-              note: model.note || '',
-              u_color: model.u_color || '#4a5568',
-              a_color: model.a_color || '#4a5568'
-            };
-
-            // Adjust status for pulse models
-            if (PULSE_MODEL_KEYS.indexOf(key) >= 0) {
-              if (merged.status === 'success') {
-                merged.status = 'tracking';  // Use tracking instead of success for pulse
-              }
-              pulseModels[key] = merged;
-            } else if (PRIMARY_MODEL_KEYS.indexOf(key) >= 0) {
-              primaryModels[key] = merged;
-            }
-          }
-        }
-
-        // Render primary models
-        if (primaryRows && primaryModels) {
-          // Handle both array and object formats
-          var modelsArray = Array.isArray(primaryModels) ? primaryModels : Object.values(primaryModels);
-
-          // Color mapping helper
-          var COLOR_MAP = {
-            'red': '#fc8181',
-            'yellow': '#f6e05e',
-            'green': '#68d391',
-            'blue': '#90cdf4'
-          };
-
-          var pRows = modelsArray.map(function(m) {
-            var icon = STATUS_ICON[m.status] || '✅';
-            var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
-            var mName = m.name || '';
-            var mWhy = m.why || 'Primary model';
-
-            // Flag Haiku as weekly + monthly, others as monthly only
-            var isHaiku = mName.toLowerCase().includes('haiku');
-            var frequency = isHaiku
-              ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
-              : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
-
-            // Convert color names to hex
-            var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
-
-            return '<tr>' +
-              '<td><strong>' + mName + '</strong></td>' +
-              '<td>' + frequency + '</td>' +
-              '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>' +
-              '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
-              '<td>' + icon + note + '</td>' +
-              '</tr>';
-          }).join('');
-          primaryRows.innerHTML = pRows;
-        }
-
-        // Render pulse check models
-        if (pulseRows && pulseModels) {
-          // Handle both array and object formats
-          var modelsArray = Array.isArray(pulseModels) ? pulseModels : Object.values(pulseModels);
-
-          // Color mapping helper
-          var COLOR_MAP = {
-            'red': '#fc8181',
-            'yellow': '#f6e05e',
-            'green': '#68d391',
-            'blue': '#90cdf4'
-          };
-
-          var pulRows = modelsArray.map(function(m) {
-            var icon = STATUS_ICON[m.status] || '📊 Tracking';
-            var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
-
-            // Convert color names to hex
-            var unaidedColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
-            var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
-
-            return '<tr>' +
-              '<td><strong>' + (m.name||'') + '</strong></td>' +
-              '<td>' + frequency + '</td>' +
-              '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + unaidedColor + ';">' + (m.unaided||'—') + '</span></td>' +
-              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
-              '<td>' + icon + '</td>' +
-              '</tr>';
-          }).join('');
-          pulseRows.innerHTML = pulRows;
-        }
-      }
-      // Update header badge and model counts
-      if (d.meta) {
-        var badge = document.querySelector('.badge:first-child');
-        var primaryCount = primaryModels ? Object.keys(primaryModels).length : 0;
-        var pulseCount = pulseModels ? Object.keys(pulseModels).length : 0;
-        var modelCount = primaryCount + pulseCount;
-        if (badge) badge.textContent = 'Prompt Bank v' + (d.meta.prompt_bank_version || '2.8') + ' · ' + primaryCount + ' primary + ' + pulseCount + ' pulse · ' + (d.meta.period || '');
-
-        // Update model benchmark note
-        var benchmarkNote = document.getElementById('model-benchmark-note');
-        if (benchmarkNote && d.meta.prompt_count) {
-          var totalDataPoints = (d.meta.prompt_count || 70) * modelCount;
-          benchmarkNote.textContent = modelCount + '-model benchmark via GoCode proxy (' + d.meta.period + ' ' + d.meta.run_id + '). ' + (d.meta.prompt_count || 70) + ' prompts × ' + modelCount + ' models = ' + totalDataPoints + ' data points. Automated via geo_monthly_benchmark.bat.';
-        }
-
-        // Update action meta with model count
-        var actionMeta = document.getElementById('action-meta-cite');
-        if (actionMeta) {
-          actionMeta.textContent = 'Owner: PR/Partnerships · Root cause: Citation gap · Confirmed across all ' + modelCount + ' models';
-        }
-
-        // Update competitive intel model count
-        var modelCountStatus = document.getElementById('model-count-status');
-        if (modelCountStatus) {
-          modelCountStatus.textContent = '❌ 0% across ALL ' + modelCount + ' models';
-        }
-      }
-
-      // Check for aided SOV failures (< 100%) and display them with details
-      if (d.model_sov) {
-        var failures = [];
-        var brandedIssues = [];
-        var allModels = Object.assign({}, primaryModels || {}, pulseModels || {});
-
-        // If flat structure, use d.model_sov directly
-        if (!primaryModels && !pulseModels) {
-          allModels = d.model_sov;
-        }
-
-        for (var key in allModels) {
-          var m = allModels[key];
-          var aidedPct = parseFloat((m.aided || '0%').replace('%', ''));
-
-          // Check for aided SOV failures (non-branded prompts)
-          if (m.status === 'success' && aidedPct > 0 && aidedPct < 100) {
-            // This model had aided prompts that failed
-            var failedCount = m.aided_failures ? m.aided_failures.length : Math.round(7 * (100 - aidedPct) / 100);
-            failures.push({
-              name: m.name || key,
-              aided: m.aided,
-              failed: failedCount,
-              details: m.aided_failures || [],
-              note: m.note || ''
-            });
-          }
-
-          // Check for branded search issues (if provided in data)
-          if (m.branded_failures && m.branded_failures.length > 0) {
-            brandedIssues.push({
-              name: m.name || key,
-              failures: m.branded_failures
-            });
-          }
-        }
-
-        var failureContainer = document.getElementById('aided-failures-container');
-        var failureList = document.getElementById('aided-failures-list');
-
-        if (failures.length > 0 && failureContainer && failureList) {
-          failureContainer.style.display = 'block';
-          failureList.innerHTML = failures.map(function(f) {
-            var detailsHTML = '';
-            if (f.details.length > 0) {
-              detailsHTML = f.details.map(function(d) {
-                // Show full response (no truncation) since these are diagnostic excerpts
-                var noteHTML = d.note ? '<div style="color:#f6ad55;margin-top:6px;font-style:italic;font-size:10px;">⚠️ ' + d.note + '</div>' : '';
-                return '<div style="margin-top:8px;padding:8px 12px;background:#0f1419;border-left:3px solid #fc8181;border-radius:4px;font-size:11px;">' +
-                  '<div style="color:#f6e05e;font-weight:600;margin-bottom:4px;">Prompt ' + d.prompt_id + ': "' + d.prompt + '"</div>' +
-                  '<div style="color:#90cdf4;margin-bottom:4px;"><strong>AI Response (excerpt):</strong></div>' +
-                  '<div style="color:#cbd5e0;line-height:1.5;">' + d.response + '</div>' +
-                  '<div style="color:#fc8181;margin-top:6px;font-weight:600;">❌ GoDaddy not mentioned in response excerpt</div>' +
-                  noteHTML +
-                  '</div>';
-              }).join('');
-            }
-
-            return '<div style="margin-bottom:12px;">' +
-              '<div class="indicator-row">' +
-              '<span class="priority-badge p0">P0</span>' +
-              '<div class="indicator-label"><strong>' + f.name + '</strong>: ' + f.failed + '/7 aided prompts failed to mention GoDaddy' + (f.note ? ' · ' + f.note : '') + '</div>' +
-              '<div class="indicator-status yellow">' + f.aided + '</div>' +
-              '</div>' +
-              detailsHTML +
-              '</div>';
-          }).join('');
-        } else if (failureContainer) {
-          failureContainer.style.display = 'none';
-        }
-
-      // ═══════════════════════════════════════════════════════════
-      // Render SOV Trends Chart - 6 months with weekly data points
-      // ═══════════════════════════════════════════════════════════
-      var trendsData = d.trends || (session && session.trends) || null;
-      var canvas = document.getElementById('trendsChart');
-      var note = document.getElementById('trends-note');
-
-      if (trendsData && canvas && canvas.getContext) {
-        setTimeout(function() {
-          console.log('[Trends] Starting render...');
-          var ctx = canvas.getContext('2d');
-          canvas.width = canvas.offsetWidth || 900;
-          canvas.height = 180;
-          canvas.style.display = 'block';
-          var w = canvas.width, h = canvas.height;
-          console.log('[Trends] Canvas size:', w, 'x', h);
-        var padL = 60, padR = 20, padT = 30, padB = 40;
-        var chartW = w - padL - padR, chartH = h - padT - padB;
-        var points = trendsData.weekly || trendsData.monthly || [];
-
-        ctx.fillStyle = '#1a1f2e';
-        ctx.fillRect(0, 0, w, h);
-
-        if (points.length === 0) {
-          ctx.fillStyle = '#718096';
-          ctx.font = '14px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('No trend data', w / 2, h / 2);
-          if (note) note.textContent = 'No data yet';
-        } else {
-          // Generate month markers for 6 months back (no year)
-          var today = new Date();
-          var months = [];
-          var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-          for (var i = 5; i >= 0; i--) {
-            var d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-            months.push({
-              label: monthNames[d.getMonth()],
-              date: d
-            });
-          }
-
-          // Draw grid lines and Y-axis labels
-          ctx.strokeStyle = '#2d3748';
-          ctx.lineWidth = 1;
-          for (var i = 0; i <= 4; i++) {
-            var y = padT + (chartH / 4) * i;
-            ctx.beginPath();
-            ctx.moveTo(padL, y);
-            ctx.lineTo(w - padR, y);
-            ctx.stroke();
-          }
-
-          ctx.fillStyle = '#718096';
-          ctx.font = '11px sans-serif';
-          ctx.textAlign = 'right';
-          for (var i = 0; i <= 4; i++) {
-            ctx.fillText((100 - i * 25) + '%', padL - 5, padT + (chartH / 4) * i + 4);
-          }
-
-          // Calculate week positions (26 weeks = ~6 months)
-          // Extract actual week numbers from data points
-          var totalWeeks = 26;
-          var weekPositions = [];
-          for (var i = 0; i <= totalWeeks; i++) {
-            weekPositions.push(padL + (chartW / totalWeeks) * i);
-          }
-
-          // Calculate starting week number from current date (rough estimate)
-          var currentWeek = 27; // Current week (2026-07-W27)
-          var startWeek = currentWeek - 26; // 26 weeks back
-
-          // Draw week tick marks first (all weeks)
-          ctx.strokeStyle = '#2d3748';
-          ctx.lineWidth = 1;
-          ctx.fillStyle = '#4a5568';
-          ctx.font = '9px sans-serif';
-          ctx.textAlign = 'center';
-          for (var i = 0; i <= totalWeeks; i++) {
-            var x = weekPositions[i];
-            ctx.beginPath();
-            ctx.moveTo(x, h - padB + 5);
-            ctx.lineTo(x, h - padB + 10);
-            ctx.stroke();
-            // Show week number every 2 weeks to avoid overcrowding
-            if (i % 2 === 0) {
-              var weekNum = startWeek + i;
-              ctx.fillText('W' + weekNum, x, h - padB + 20);
-            }
-          }
-
-          // Draw X-axis month labels (positioned at start of each month)
-          ctx.fillStyle = '#90cdf4';
-          ctx.font = '11px sans-serif';
-          ctx.textAlign = 'center';
-          months.forEach(function(m, i) {
-            // Position at the start of each month (approx 4.33 weeks per month)
-            var weekIndex = Math.round(i * 4.33);
-            var x = weekPositions[Math.min(weekIndex, totalWeeks)];
-            ctx.fillText(m.label, x, h - 5);
-          });
-
-          // Plot all 3 metrics: Unaided, Aided, Rate Saver
-          // Updated colors for colorblind accessibility
-          var metrics = [
-            { key: 'unaided_sov', color: '#dc2626', label: 'Unaided' },      // Dark red
-            { key: 'aided_sov', color: '#fbbf24', label: 'Aided' },          // Yellow
-            { key: 'rate_saver_sov', color: '#90cdf4', label: 'Rate Saver' } // Blue (unchanged)
-          ];
-
-          metrics.forEach(function(metric) {
-            // Draw line
-            if (points.length > 1) {
-              ctx.strokeStyle = metric.color;
-              ctx.lineWidth = 2;
-              ctx.beginPath();
-              var hasData = false;
-              points.forEach(function(p, i) {
-                var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
-                var value = p[metric.key] || 0;
-                var y = padT + chartH - (chartH * value / 100);
-                if (i === 0) {
-                  ctx.moveTo(x, y);
-                  hasData = true;
-                } else {
-                  ctx.lineTo(x, y);
-                }
-              });
-              if (hasData) ctx.stroke();
-            }
-
-            // Draw data points
-            points.forEach(function(p, i) {
-              var x = padL + (chartW / Math.max(1, points.length - 1)) * i;
-              var value = p[metric.key] || 0;
-              var y = padT + chartH - (chartH * value / 100);
-              ctx.fillStyle = metric.color;
-              ctx.beginPath();
-              ctx.arc(x, y, 3, 0, Math.PI * 2);
-              ctx.fill();
-            });
-          });
-
-          // Legend removed - using header legend instead
-
-          if (note) note.textContent = points.length + ' weeks of data (6-month view)';
-          console.log('[Trends] Rendered', points.length, 'points with 3 metrics - DONE');
-        }
-        }, 100);
-      } else if (note) {
-        note.textContent = 'No trends data';
-      }
-    } // End renderDashboard function
-
-    // Function to render weekly pulse summary
-    function renderWeeklySummary(weeklyData) {
-      var summary = document.getElementById('weekly-summary');
-      if (summary && weeklyData.meta) {
-        var unaided = weeklyData.kpis && weeklyData.kpis.unaided_sov ? weeklyData.kpis.unaided_sov.value : '0%';
-        var runId = weeklyData.meta.run_id || 'W??';
-        summary.textContent = runId + ': ' + unaided + ' Unaided (↔ no change from baseline)';
-      }
-
-      // Render weekly trend chart (simplified - just weekly data points)
-      var canvas = document.getElementById('weekly-trend-chart');
-      if (canvas && canvas.getContext && weeklyData.trends) {
-        setTimeout(function() {
-          var ctx = canvas.getContext('2d');
-          var rect = canvas.getBoundingClientRect();
-          canvas.width = rect.width;
-          canvas.height = 160;
-
-          ctx.fillStyle = '#1a1f2e';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-          var weekly = weeklyData.trends.weekly || [];
-          if (weekly.length > 0) {
-            var points = weekly.slice(-8); // Last 8 weeks
-
-            var w = canvas.width;
-            var h = canvas.height;
-            var padL = 40, padR = 20, padT = 20, padB = 30;
-            var chartW = w - padL - padR;
-            var chartH = h - padT - padB;
-
-            ctx.clearRect(0, 0, w, h);
-
-            // Grid lines
-            ctx.strokeStyle = '#2d3748';
-            ctx.lineWidth = 1;
-            for (var i = 0; i <= 4; i++) {
-              var y = padT + (chartH / 4) * i;
-              ctx.beginPath();
-              ctx.moveTo(padL, y);
-              ctx.lineTo(w - padR, y);
-              ctx.stroke();
-            }
-
-            // Y-axis labels
-            ctx.fillStyle = '#718096';
-            ctx.font = '10px sans-serif';
-            ctx.textAlign = 'right';
-            for (var i = 0; i <= 4; i++) {
-              var val = 100 - (i * 25);
-              var y = padT + (chartH / 4) * i;
-              ctx.fillText(val + '%', padL - 8, y + 4);
-            }
-
-            // Draw unaided SOV line only (red)
-            ctx.strokeStyle = '#fc8181';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            points.forEach(function(p, i) {
-              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
-              var y = padT + chartH - (chartH * (p.unaided_sov || 0) / 100);
-              if (i === 0) ctx.moveTo(x, y);
-              else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-
-            // Draw dots
-            ctx.fillStyle = '#fc8181';
-            points.forEach(function(p, i) {
-              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
-              var y = padT + chartH - (chartH * (p.unaided_sov || 0) / 100);
-              ctx.beginPath();
-              ctx.arc(x, y, 4, 0, Math.PI * 2);
-              ctx.fill();
-            });
-
-            // X-axis labels
-            ctx.fillStyle = '#718096';
-            ctx.font = '9px sans-serif';
-            ctx.textAlign = 'center';
-            points.forEach(function(p, i) {
-              var x = padL + (chartW / Math.max(points.length - 1, 1)) * i;
-              ctx.fillText(p.run_id, x, h - 10);
-            });
-          }
-        }, 150);
-      }
-    }
-
-  }).catch(function (err) {
-    console.error('GEO Dashboard: data load failed -', err.message);
-  });
-})();
-</script>
-
-<script>
-// ================================================================
-// GEO Dashboard — CSV Upload Engine (v2 — server-backed)
-// PRIMARY:  POST /upload  → server scores CSV + writes data.json
-//           Dashboard updates live from server response.
-// FALLBACK: If server is unreachable (file:// mode), scores in
-//           browser and updates session-only (no disk write).
-// ================================================================
-(function () {
-
-  // ── Category config ──────────────────────────────────────────
-  var CATEGORY_TARGETS = {
-    pricing_fee:        { phase1: '25%', target: '85%' },
-    top_funnel_pos:     { phase1: '20%', target: '60%' },
-    payment_processing: { phase1: '20%', target: '55%' },
-    vertical_fb:        { phase1: '18%', target: '50%' },
-    vertical_retail:    { phase1: '22%', target: '55%' },
-    general_in_person:  { phase1: '18%', target: '50%' },
-    support:            { phase1: '25%', target: '65%' },
-    comparison:         { phase1: '25%', target: '70%' },
-  };
-  var CAT_ANCHOR = {
-    pricing_fee:'prompts.html#tier1', top_funnel_pos:'prompts.html#tier1',
-    comparison:'prompts.html#tier1', payment_processing:'prompts.html#tier3',
-    vertical_fb:'prompts.html#tier2', vertical_retail:'prompts.html#tier2',
-    general_in_person:'prompts.html#tier2', support:'prompts.html#tier4'
-  };
-
-  // ── Helpers ──────────────────────────────────────────────────
-  function fmtPct(v) {
-    if (v === null || v === undefined || isNaN(v)) return '0%';
-    return (v === Math.round(v) ? Number(v).toFixed(0) : Number(v).toFixed(1)) + '%';
-  }
-  function colorFor(sov, p1Str) {
-    var p1 = parseFloat(p1Str) || 20, ratio = p1 > 0 ? sov / p1 : 0;
-    if (ratio < 0.33) return { color:'#fc8181', cell:'red' };
-    if (ratio < 0.80) return { color:'#f6e05e', cell:'yellow' };
-    return { color:'#68d391', cell:'green' };
-  }
-  function splitLine(line) {
-    var result=[], cur='', inQ=false;
-    for (var i=0;i<line.length;i++) {
-      var c=line[i];
-      if(c==='"'){inQ=!inQ;}
-      else if(c===','&&!inQ){result.push(cur);cur='';}
-      else{cur+=c;}
-    }
-    result.push(cur); return result;
-  }
-  function parseCSV(text) {
-    var lines=text.trim().split(/\r?\n/);
-    if(lines.length<2) return [];
-    var headers=splitLine(lines[0]), rows=[];
-    for(var i=1;i<lines.length;i++){
-      if(!lines[i].trim()) continue;
-      var vals=splitLine(lines[i]), row={};
-      for(var j=0;j<headers.length;j++) row[headers[j].trim()]=(vals[j]||'').trim();
-      rows.push(row);
-    }
-    return rows;
-  }
-  function pct(n,d){ return d ? Math.round(1000*n/d)/10 : 0; }
-
-  // ── Apply full data.json to dashboard ────────────────────────
-  function applyFullData(d) {
-    var meta=document.getElementById('meta-line');
-    if(meta&&d.meta) meta.textContent=d.meta.period+' \u00b7 '+d.meta.run_id+' \u00b7 '+(d.meta.prompt_count||70)+' prompts';
-
-    function setKpi(valId,barId,kpi){
-      var v=document.getElementById(valId);
-      if(v&&kpi){v.textContent=kpi.value;v.style.color=kpi.color;}
-      var b=document.getElementById(barId);
-      if(b&&kpi){b.style.width=kpi.fill+'%';b.style.background=kpi.color;}
-    }
-    if(d.kpis){
-      setKpi('kpi-unaided','bar-unaided',d.kpis.unaided_sov);
-      setKpi('kpi-aided',  'bar-aided',  d.kpis.aided_sov);
-      setKpi('kpi-tech',   'bar-tech',   d.kpis.tech_health);
-      var pfU=document.getElementById('pf-unaided');
-      if(pfU&&d.kpis.unaided_sov){pfU.textContent=d.kpis.unaided_sov.value;pfU.style.color=d.kpis.unaided_sov.color;}
-      var pfA=document.getElementById('pf-aided');
-      if(pfA&&d.kpis.aided_sov){pfA.textContent=d.kpis.aided_sov.value;pfA.style.color=d.kpis.aided_sov.color;}
-      var pfR=document.getElementById('pf-ratesaver');
-      if(pfR&&d.kpis.tech_health){pfR.textContent=d.kpis.tech_health.value;pfR.style.color=d.kpis.tech_health.color;}
-      var badge=document.getElementById('unaided-badge');
-      if(badge&&d.kpis.unaided_sov) badge.textContent='Unaided SOV '+d.kpis.unaided_sov.value;
-    }
-    var catGrid=document.getElementById('category-grid');
-    if(catGrid&&d.categories){
-      catGrid.innerHTML=d.categories.map(function(c){
-        var href=CAT_ANCHOR[c.name]||'prompts.html';
-        var p1html=c.phase1?'<div class="cat-target" style="color:#f6ad55;">Phase 1: '+c.phase1+'</div>':'';
-        return '<a class="cat-cell cat-cell-'+c.cell+' clickable" href="'+href+'">'+
-               '<div class="cat-name">'+c.name+'</div>'+
-               '<div class="cat-sov '+c.cell+'">'+c.sov+'</div>'+
-               p1html+'<div class="cat-target">\u2192 '+c.target+'</div></a>';
-      }).join('');
-    }
-    var compRows=document.getElementById('competitor-chart');
-    if(compRows&&d.competitors){
-      var sortedComps=d.competitors.slice().sort(function(a,b){return (b.sov||0)-(a.sov||0)});
-      compRows.innerHTML=sortedComps.map(function(c){
-        var ns='color:'+c.color+';'+(c.godaddy?'font-weight:900;':'');
-        var fs='width:'+c.sov+'%;background:'+c.bar+';'+(c.godaddy?'min-width:8px;':'');
-        var bt=c.godaddy?'':(c.sov+'%');
-        var pc=c.godaddy?'comp-pct red':'comp-pct';
-        var ls=c.godaddy?' style="color:#fc8181;"':'';
-        return '<div class="comp-row"><div class="comp-name" style="'+ns+'">'+c.name+'</div>'+
-               '<div class="comp-bar-wrap"><div class="comp-bar-fill" style="'+fs+'">'+bt+'</div></div>'+
-               '<div class="'+pc+'">'+c.display+'</div><div class="comp-label"'+ls+'>'+c.label+'</div></div>';
-      }).join('');
-    }
-    // Add trend point
-    var sovVal=d.kpis&&d.kpis.unaided_sov?parseFloat(d.kpis.unaided_sov.value)||0:0;
-    var sovColor=d.kpis&&d.kpis.unaided_sov?d.kpis.unaided_sov.color:'#fc8181';
-    var plot=document.querySelector('.trend-plot');
-    if(plot){
-      var n=plot.querySelectorAll('.trend-pt').length;
-      var lp=8+n*18;
-      var pt=document.createElement('div'); pt.className='trend-pt';
-      pt.style.left=lp+'%'; pt.style.bottom=Math.min(sovVal,38)*(100/40)+'%';
-      pt.style.background=sovColor; pt.title='Run '+(n+1)+': '+fmtPct(sovVal);
-      plot.appendChild(pt);
-      var lbl=document.createElement('span');
-      lbl.style.cssText='position:absolute;left:'+lp+'%;bottom:'+(Math.min(sovVal,38)*(100/40)+4)+'%;font-size:10px;color:#90cdf4;transform:translateX(-50%);';
-      lbl.textContent=fmtPct(sovVal); plot.appendChild(lbl);
-    }
-  }
-
-  // ── Toast notification ────────────────────────────────────────
-  function showToast(html, bg, border, color) {
-    var n=document.createElement('div');
-    n.style.cssText='position:fixed;bottom:20px;right:20px;background:'+bg+
-      ';border:1px solid '+border+';color:'+color+
-      ';padding:12px 16px;border-radius:8px;font-size:12px;z-index:999;max-width:320px;line-height:1.5;';
-    n.innerHTML=html+' <span style="cursor:pointer;float:right;margin-left:8px;">&times;</span>';
-    n.querySelector('span').onclick=function(){if(document.body.contains(n))document.body.removeChild(n);};
-    document.body.appendChild(n);
-    setTimeout(function(){if(document.body.contains(n))document.body.removeChild(n);},9000);
-  }
-
-  // ── Client-side scoring (fallback for file:// mode) ──────────
-  function scoreRowsLocal(rows) {
-    var unaided=rows.filter(function(r){return(r.type||'').toUpperCase()==='U';});
-    var aided=rows.filter(function(r){return(r.type||'').toUpperCase()==='B';});
-    function hit(r){return(r.godaddy_mentioned||'').toUpperCase()==='Y';}
-    var unaidedSOV=pct(unaided.filter(hit).length,unaided.length);
-    var aidedSOV=pct(aided.filter(hit).length,aided.length);
-    var rsSOV=pct(unaided.filter(function(r){return(r.rate_saver_mentioned||'').toUpperCase()==='Y';}).length,unaided.length);
-    var catMap={};
-    unaided.forEach(function(r){
-      var c=(r.category||'').trim(); if(!c) return;
-      if(!catMap[c])catMap[c]={hit:0,total:0};
-      catMap[c].total++; if(hit(r))catMap[c].hit++;
-    });
-    var categories=Object.keys(catMap).map(function(c){
-      var s=catMap[c], sovV=pct(s.hit,s.total);
-      var tgt=CATEGORY_TARGETS[c]||{phase1:'20%',target:'50%'};
-      var cd=colorFor(sovV,tgt.phase1);
-      return{name:c,sov:fmtPct(sovV),phase1:tgt.phase1,target:tgt.target,cell:cd.cell};
-    });
-    var runId=(rows[0]&&rows[0].run_id)||'UNKNOWN';
-    var uColor=colorFor(unaidedSOV,'40%').color;
-    var aColor=aidedSOV>=90?'#68d391':aidedSOV>=70?'#f6e05e':'#fc8181';
-    var rColor=colorFor(rsSOV,'25%').color;
-    return{runId,unaidedSOV,aidedSOV,rsSOV,categories,uColor,aColor,rColor,
-      unaidedCount:unaided.length,aidedCount:aided.length};
-  }
-
-  function applyLocalScore(s, filename) {
-    var synth={
-      meta:{label:'Pulse',period:s.runId,run_id:s.runId,sources:'CSV upload (session only)'},
-      kpis:{
-        unaided_sov:{value:fmtPct(s.unaidedSOV),fill:Math.round(s.unaidedSOV),color:s.uColor},
-        aided_sov:  {value:fmtPct(s.aidedSOV),  fill:Math.round(s.aidedSOV),  color:s.aColor},
-        tech_health:{value:fmtPct(s.rsSOV),      fill:Math.round(s.rsSOV),     color:s.rColor},
-      },
-      categories:s.categories,
-      competitors:[]
-    };
-    applyFullData(synth);
-    uploadBtn.className='upload-btn success';
-    uploadBtn.innerHTML='✅ '+(filename||'').replace('geo_audit_results_','').replace('.csv','');
-    statusEl.style.color='#f6ad55';
-    statusEl.textContent='Session only (server offline) — Unaided: '+fmtPct(s.unaidedSOV);
-    showToast('&#9888; <strong>Session-only update.</strong><br>Start the server (<code>npm start</code>) for permanent saves. See STORAGE_SETUP.md.','#2d1f00','#744210','#f6ad55');
-  }
-
-  // ── File input wiring ────────────────────────────────────────
-  var fileInput=document.getElementById('csv-upload');
-  var uploadBtn=document.querySelector('.upload-btn');
-  var statusEl=document.getElementById('upload-status');
-  if(!fileInput) return;
-
-  fileInput.addEventListener('change', function(e) {
-    var file=e.target.files[0]; if(!file) return;
-    statusEl.style.display='inline'; statusEl.style.color='#718096';
-    statusEl.textContent='Uploading '+file.name+'...';
-    uploadBtn.className='upload-btn'; uploadBtn.innerHTML='&#8987; Uploading...';
-
-    // POST to /upload — server scores + persists data.json
-    var fd=new FormData(); fd.append('file',file);
-    fetch('/upload',{method:'POST',body:fd})
-      .then(function(r){return r.json().then(function(d){return{ok:r.ok,status:r.status,body:d};});})
-      .then(function(res){
-        if(!res.ok) throw new Error(res.body.error||'Server error '+res.status);
-        var d=res.body;
-        if(d.data) applyFullData(d.data);
-        uploadBtn.className='upload-btn success';
-        uploadBtn.innerHTML='&#10003; '+(d.period||file.name.replace('geo_audit_results_','').replace('.csv',''));
-        statusEl.style.color='#68d391';
-        statusEl.textContent='Unaided: '+fmtPct(d.unaidedSOV)+' \u00b7 Aided: '+fmtPct(d.aidedSOV)+
-          ' \u00b7 Rate Saver: '+fmtPct(d.rsSOV)+' \u00b7 Saved \u2705';
-        showToast('\u2705 <strong>Dashboard saved permanently.</strong><br>data.json saved permanently via jsonstorage.net.','#0a2d1a','#22543d','#68d391');
-      })
-      .catch(function(err){
-        var offline=err.message&&(err.message.includes('fetch')||err.message.includes('NetworkError')||err.message.includes('Failed'));
-        if(offline){
-          // Graceful fallback — score in browser, update session only
-          var reader=new FileReader();
-          reader.onload=function(ev){
-            try{
-              var rows=parseCSV(ev.target.result);
-              if(!rows.length) throw new Error('Empty CSV');
-              var req2=['type','category','godaddy_mentioned'];
-              var miss=req2.filter(function(k){return!(k in rows[0]);});
-              if(miss.length) throw new Error('Missing columns: '+miss.join(', '));
-              applyLocalScore(scoreRowsLocal(rows),file.name);
-            }catch(e2){
-              uploadBtn.className='upload-btn error'; uploadBtn.innerHTML='&#128194; Upload CSV';
-              statusEl.style.color='#fc8181'; statusEl.textContent='Error: '+e2.message;
-            }
-          };
-          reader.readAsText(file);
-        } else {
-          uploadBtn.className='upload-btn error'; uploadBtn.innerHTML='&#128194; Upload CSV';
-          statusEl.style.color='#fc8181'; statusEl.textContent='Error: '+err.message;
-          console.error('Upload error:',err);
-        }
-      })
-      .finally(function(){fileInput.value='';});
-  });
-
-})();
-</script>
 <script src="./js/session-loader.js"></script>
 <script>
 function renderPage(session) {
@@ -1473,20 +323,60 @@ function renderPage(session) {
   renderCompetitors(session, 'competitor-chart');
   renderModelTables(session);
   renderBrandedSearchStatus(session);
-  renderPerplexity(session, 'perplexity-tbody');
-    var pdEl = document.getElementById('perplexity-audit-date');
-    if (pdEl && session.meta && session.meta.last_updated) pdEl.textContent = session.meta.last_updated;
   renderCompetitiveIntel(session, 'competitive-intel-rows');
-    var ciHdr = document.getElementById('competitive-intel-date');
-    if (ciHdr && session.meta && session.meta.last_updated) ciHdr.textContent = session.meta.last_updated;
+  var ciHdr = document.getElementById('competitive-intel-date');
+  if (ciHdr && session.meta && session.meta.last_updated) ciHdr.textContent = session.meta.last_updated;
   renderStrategyActions(session);
-    var ampEl = document.getElementById('signal-amplify-count');
-    if (ampEl) ampEl.textContent = (session.amplify_threads || []).length + ' drafted';
-    var rsEl = document.getElementById('signal-rate-saver');
-    if (rsEl && session.sov_dashboard && session.sov_dashboard.rate_saver_sov) rsEl.textContent = session.sov_dashboard.rate_saver_sov.value;
-  renderStrategyActions(session);
+
+  // Signal pills
+  var ampEl = document.getElementById('signal-amplify-count');
+  if (ampEl) ampEl.textContent = (session.amplify_threads || []).length + ' drafted';
+  var rsEl = document.getElementById('signal-rate-saver');
+  if (rsEl && session.sov_dashboard && session.sov_dashboard.rate_saver_sov) rsEl.textContent = session.sov_dashboard.rate_saver_sov.value;
+
+  // Action status pills
+  renderActionPills(session);
+
+  // Data confidence
+  var confEl = document.getElementById('data-confidence-note');
+  if (confEl && session.report_summary && session.report_summary.data_confidence) {
+    confEl.textContent = '⚠️ ' + session.report_summary.data_confidence;
+    confEl.style.display = 'block';
+  }
+}
+
+function renderActionPills(s) {
+  var row = document.getElementById('action-pills-row');
+  if (!row) return;
+  var p = s.build_pages || [];
+  var amp = s.amplify_threads || [];
+  var cite = s.cite_pipeline || [];
+  var drafted = p.length;
+  var published = p.filter(function(x){return x.status==='published';}).length;
+  var ampDrafted = amp.length;
+  var ampPosted = amp.filter(function(x){return x.posted;}).length;
+  var citeP0 = cite.filter(function(x){return x.priority==='P0' && x.status && x.status.indexOf('not cited')>-1;}).length;
+  row.innerHTML =
+    '<a href="action-content.html" class="status-pill ' + (published===0?'red':'yellow') + '">' +
+      '<span class="pill-label">🔨 Content</span>' +
+      '<span class="pill-count" style="color:#f6ad55;">' + drafted + ' drafts</span>' +
+      '<span style="color:#718096;font-size:11px;">' + published + ' published</span>' +
+      '<span class="pill-cta">→</span>' +
+    '</a>' +
+    '<a href="action-community.html" class="status-pill ' + (ampPosted===0?'yellow':'green') + '">' +
+      '<span class="pill-label">📣 Community</span>' +
+      '<span class="pill-count" style="color:#f6ad55;">' + ampDrafted + ' drafted</span>' +
+      '<span style="color:#718096;font-size:11px;">' + ampPosted + ' posted</span>' +
+      '<span class="pill-cta">→</span>' +
+    '</a>' +
+    '<a href="citations.html" class="status-pill ' + (citeP0>0?'red':'yellow') + '">' +
+      '<span class="pill-label">🏆 Citations</span>' +
+      '<span class="pill-count" style="color:#fc8181;">' + citeP0 + ' P0 absent</span>' +
+      '<span style="color:#718096;font-size:11px;">' + cite.length + ' tracked</span>' +
+      '<span class="pill-cta">→</span>' +
+    '</a>';
 }
 </script>
+<!-- Force deploy: 2026-07-02 v2 -->
 </body>
 </html>
-<!-- Force deploy: 2026-07-02 14:00:00 -->

@@ -7,17 +7,7 @@
 <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoDaddy Payments — GEO Visibility Dashboard</title>
-<!-- Version: 2026-07-02-15:30 - CACHE CLEAR REQUIRED -->
-<script>
-// Force cache clear
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.unregister();
-    }
-  });
-}
-</script>
+<!-- Cache bust: 2026-06-30 sparklines fix -->
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
@@ -94,10 +84,9 @@ if ('serviceWorker' in navigator) {
   .dot-yellow { background: #f6e05e; }
 
   /* Model table */
-  .model-table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  .model-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .model-table th { background: #151921; color: #718096; font-weight: 600; text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #2d3748; }
-  .model-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; border-right: 1px solid #2d3748; }
-  .model-table td:last-child { border-right: none; }
+  .model-table td { padding: 10px 12px; border-bottom: 1px solid #1e2436; vertical-align: middle; }
   .model-table tr:last-child td { border-bottom: none; }
   .model-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; display: inline-block; }
   .tag-red { background: #2d0a0a; color: #fc8181; border: 1px solid #742a2a; }
@@ -335,14 +324,6 @@ if ('serviceWorker' in navigator) {
       <div style="font-size:13px;font-weight:700;color:#68d391;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Primary Models — 5 (Official SOV Calculation)</div>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">These models drive the official SOV number we report.</p>
       <table class="model-table" style="margin-bottom:20px;">
-        <colgroup>
-          <col style="width: 18%;">
-          <col style="width: 15%;">
-          <col style="width: 30%;">
-          <col style="width: 12%;">
-          <col style="width: 12%;">
-          <col style="width: 13%;">
-        </colgroup>
         <thead>
           <tr>
             <th>Model</th>
@@ -354,7 +335,7 @@ if ('serviceWorker' in navigator) {
           </tr>
         </thead>
         <tbody id="primary-model-rows">
-          <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
 
@@ -362,14 +343,6 @@ if ('serviceWorker' in navigator) {
       <div style="font-size:13px;font-weight:700;color:#f6ad55;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Pulse Check Models — 3 (Directional Signal Only, Not in Official SOV)</div>
       <p style="font-size:11px;color:#718096;margin-bottom:10px;font-style:italic;">Monitored for emerging behavior. Not included in official SOV calculation.</p>
       <table class="model-table">
-        <colgroup>
-          <col style="width: 18%;">
-          <col style="width: 15%;">
-          <col style="width: 30%;">
-          <col style="width: 12%;">
-          <col style="width: 12%;">
-          <col style="width: 13%;">
-        </colgroup>
         <thead>
           <tr>
             <th>Model</th>
@@ -381,7 +354,7 @@ if ('serviceWorker' in navigator) {
           </tr>
         </thead>
         <tbody id="pulse-model-rows">
-          <tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr>
+          <tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr>
         </tbody>
       </table>
       <p style="font-size:11px;color:#718096;margin-top:10px;" id="model-benchmark-note">Multi-model benchmark via GoCode proxy. Automated via <code>geo_monthly_benchmark.bat</code>.</p>
@@ -728,9 +701,6 @@ if ('serviceWorker' in navigator) {
         var primaryModels = d.model_sov.primary || null;
         var pulseModels = d.model_sov.pulse || null;
 
-        console.log('[Model Structure] primaryModels:', primaryModels, 'pulseModels:', pulseModels);
-        console.log('[Model Structure] Will use flat structure?', !primaryModels && !pulseModels);
-
         // If flat structure, categorize models into primary vs pulse
         if (!primaryModels && !pulseModels) {
           // PRIMARY MODELS (5): Drive official SOV number we report
@@ -836,10 +806,8 @@ if ('serviceWorker' in navigator) {
 
         // Render primary models
         if (primaryRows && primaryModels) {
-          console.log('[Primary Models] Raw data:', primaryModels);
           // Handle both array and object formats
           var modelsArray = Array.isArray(primaryModels) ? primaryModels : Object.values(primaryModels);
-          console.log('[Primary Models] Array format:', modelsArray);
 
           // Color mapping helper
           var COLOR_MAP = {
@@ -849,36 +817,30 @@ if ('serviceWorker' in navigator) {
             'blue': '#90cdf4'
           };
 
-          var pRows = '';
-          for (var i = 0; i < modelsArray.length; i++) {
-            var m = modelsArray[i];
-            var icon = STATUS_ICON[m.status] || '✅ Normal';
+          var pRows = modelsArray.map(function(m) {
+            var icon = STATUS_ICON[m.status] || '✅';
             var note = m.note ? '<br><span style="font-size:10px;color:#4a5568;">' + m.note + '</span>' : '';
             var mName = m.name || '';
             var mWhy = m.why || 'Primary model';
 
             // Flag Haiku as weekly + monthly, others as monthly only
-            var isHaiku = (mName || '').toLowerCase().indexOf('haiku') >= 0;
-            var freqHTML = '';
-            if (isHaiku) {
-              freqHTML = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
-            } else {
-              freqHTML = '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
-            }
+            var isHaiku = mName.toLowerCase().includes('haiku');
+            var frequency = isHaiku
+              ? '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>'
+              : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
 
             // Convert color names to hex
             var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
 
-            pRows += '<tr>';
-            pRows += '<td><strong>' + mName + '</strong></td>';
-            pRows += '<td>' + freqHTML + '</td>';
-            pRows += '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>';
-            pRows += '<td><span class="model-tag tag-red">' + (m.unaided || '0%') + '</span></td>';
-            pRows += '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided || '—') + '</span></td>';
-            pRows += '<td>' + icon + note + '</td>';
-            pRows += '</tr>';
-          }
-          console.log('[Primary Models] Generated HTML rows:', pRows.substring(0, 500));
+            return '<tr>' +
+              '<td><strong>' + mName + '</strong></td>' +
+              '<td>' + frequency + '</td>' +
+              '<td style="color:#a0aec0;font-size:11px;">' + mWhy + '</td>' +
+              '<td><span class="model-tag tag-red">' + (m.unaided||'0%') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td>' + icon + note + '</td>' +
+              '</tr>';
+          }).join('');
           primaryRows.innerHTML = pRows;
         }
 
@@ -895,25 +857,23 @@ if ('serviceWorker' in navigator) {
             'blue': '#90cdf4'
           };
 
-          var pulRows = '';
-          for (var i = 0; i < modelsArray.length; i++) {
-            var m = modelsArray[i];
+          var pulRows = modelsArray.map(function(m) {
             var icon = STATUS_ICON[m.status] || '📊 Tracking';
-            var freqHTML = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
+            var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
 
             // Convert color names to hex
             var unaidedColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
             var aidedColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
 
-            pulRows += '<tr>';
-            pulRows += '<td><strong>' + (m.name || '') + '</strong></td>';
-            pulRows += '<td>' + freqHTML + '</td>';
-            pulRows += '<td style="color:#a0aec0;font-size:11px;">' + (m.why || '') + '</td>';
-            pulRows += '<td><span class="model-tag" style="background:#1a2744;color:' + unaidedColor + ';">' + (m.unaided || '—') + '</span></td>';
-            pulRows += '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided || '—') + '</span></td>';
-            pulRows += '<td>' + icon + '</td>';
-            pulRows += '</tr>';
-          }
+            return '<tr>' +
+              '<td><strong>' + (m.name||'') + '</strong></td>' +
+              '<td>' + frequency + '</td>' +
+              '<td style="color:#a0aec0;font-size:11px;">' + (m.why||'') + '</td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + unaidedColor + ';">' + (m.unaided||'—') + '</span></td>' +
+              '<td><span class="model-tag" style="background:#1a2744;color:' + aidedColor + ';">' + (m.aided||'—') + '</span></td>' +
+              '<td>' + icon + '</td>' +
+              '</tr>';
+          }).join('');
           pulseRows.innerHTML = pulRows;
         }
       }

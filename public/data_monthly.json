@@ -43,30 +43,6 @@
         "unaided_sov": 0.0,
         "aided_sov": 85.7,
         "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 100.0,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
-        "rate_saver_sov": 0.0
       }
     ],
     "weekly": [
@@ -74,42 +50,6 @@
         "run_id": "2026-06-W26",
         "unaided_sov": 0.0,
         "aided_sov": 100.0,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-06-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 100.0,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-06-W26",
-        "unaided_sov": 0.0,
-        "aided_sov": 100.0,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 100.0,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
-        "rate_saver_sov": 0.0
-      },
-      {
-        "run_id": "2026-07-W27",
-        "unaided_sov": 0.0,
-        "aided_sov": 85.7,
         "rate_saver_sov": 0.0
       },
       {

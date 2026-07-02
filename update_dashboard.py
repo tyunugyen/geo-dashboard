@@ -358,12 +358,28 @@ def main():
             "rate_saver_sov": scored["r_sov"]
         }
 
-        # Append to weekly trends (always)
-        monthly["trends"]["weekly"].append(new_trend)
+        # Append to weekly trends (check for duplicates first)
+        existing_weekly_ids = [t["run_id"] for t in monthly["trends"]["weekly"]]
+        if new_trend["run_id"] not in existing_weekly_ids:
+            monthly["trends"]["weekly"].append(new_trend)
+        else:
+            # Update existing entry instead of appending
+            for i, t in enumerate(monthly["trends"]["weekly"]):
+                if t["run_id"] == new_trend["run_id"]:
+                    monthly["trends"]["weekly"][i] = new_trend
+                    break
 
         # Append to monthly trends only if it's a monthly run (not a weekly pulse)
         if "monthly" in scored.get("label", "").lower() or scored["run_id"].endswith("W27"):
-            monthly["trends"]["monthly"].append(new_trend)
+            existing_monthly_ids = [t["run_id"] for t in monthly["trends"]["monthly"]]
+            if new_trend["run_id"] not in existing_monthly_ids:
+                monthly["trends"]["monthly"].append(new_trend)
+            else:
+                # Update existing entry instead of appending
+                for i, t in enumerate(monthly["trends"]["monthly"]):
+                    if t["run_id"] == new_trend["run_id"]:
+                        monthly["trends"]["monthly"][i] = new_trend
+                        break
 
         with open(data_monthly_path, "w", encoding="utf-8") as f:
             json.dump(monthly, f, indent=2, ensure_ascii=False)

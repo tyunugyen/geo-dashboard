@@ -804,7 +804,7 @@
         if (pulseRows && pulseModels) {
           var pulRows = Object.values(pulseModels).map(function(m) {
             var icon = STATUS_ICON[m.status] || '⚠️';
-            var frequency = '<span style="background:#44337a;color:#f6ad55;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
+            var frequency = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px;">WEEKLY</span><span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
             return '<tr>' +
               '<td><strong>' + (m.name||'') + '</strong></td>' +
               '<td>' + frequency + '</td>' +
@@ -914,10 +914,14 @@
       var note = document.getElementById('trends-note');
 
       if (trendsData && canvas && canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-        canvas.width = canvas.offsetWidth || 900;
-        canvas.height = 180;
-        var w = canvas.width, h = canvas.height;
+        setTimeout(function() {
+          console.log('[Trends] Starting render...');
+          var ctx = canvas.getContext('2d');
+          canvas.width = canvas.offsetWidth || 900;
+          canvas.height = 180;
+          canvas.style.display = 'block'; // Ensure visible
+          var w = canvas.width, h = canvas.height;
+          console.log('[Trends] Canvas size:', w, 'x', h);
         var padL = 50, padR = 20, padT = 30, padB = 40;
         var chartW = w - padL - padR, chartH = h - padT - padB;
         var points = trendsData.monthly || trendsData.weekly || [];
@@ -976,8 +980,9 @@
           }
           
           if (note) note.textContent = points.length + ' data points';
-          console.log('[Trends] Rendered', points.length, 'points');
+          console.log('[Trends] Rendered', points.length, 'points - DONE');
         }
+        }, 100); // Small delay to ensure DOM ready
       } else if (note) {
         note.textContent = 'No trends data';
       }

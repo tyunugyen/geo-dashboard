@@ -126,20 +126,20 @@ details summary::-webkit-details-marker{display:none}
 .cite-tbl tr:last-child td{border-bottom:none;}
 .cite-tbl .col-pub{min-width:180px;}
 .cite-tbl .col-status{min-width:200px;white-space:nowrap;}
-.cite-tbl .col-type{min-width:110px;white-space:nowrap;}
+.cite-tbl .col-type{min-width:110px;}
 .cite-tbl .col-pri{width:60px;text-align:center;}
-.cite-tbl .col-label{min-width:180px;}
 .cite-tbl .col-sov{min-width:120px;}
 .pub-group{background:#161b28;border:1px solid #2d3748;border-radius:10px;margin-bottom:14px;overflow:hidden;}
 .pub-group-hdr{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;background:#1a1f2e;border-bottom:1px solid #2d3748;}
-.pub-page{padding:12px 18px;border-bottom:1px solid #1e2436;display:grid;grid-template-columns:2.5fr 170px 2fr 1fr;gap:12px;align-items:start;}
+.pub-page{padding:12px 18px;border-bottom:1px solid #1e2436;display:grid;grid-template-columns:2.5fr 160px 2fr 1fr;gap:12px;align-items:start;}
 .pub-page:last-child{border-bottom:none;}
-.paid-row{padding:12px 18px;background:#1a1f00;border-top:2px solid #744210;}
+.presence-row{padding:12px 18px;border-bottom:1px solid #1e2436;display:grid;grid-template-columns:2fr 1fr 1fr 2fr;gap:12px;align-items:start;}
+.presence-row:last-child{border-bottom:none;}
 </style>
 </head>
 <body>
 <div class="header">
-  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>🏆 Citations: publisher coverage · outreach pipeline · paid vs editorial</p></div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>🏆 Citations: publisher coverage · outreach pipeline · editorial vs paid</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -147,77 +147,107 @@ details summary::-webkit-details-marker{display:none}
   </div>
 </div>
 <div class="nav"><a href="index.html" class="">📊 Overview</a><a href="insights.html" class="">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="active">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="">📋 Report</a><a href="roadmap.html" class="">🗺️ Next Steps</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
-<div class="lu-bar">
-  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
-</div>
+<div class="lu-bar"><span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span></div>
 <div class="container">
 
 <div class="alert">
-  🏆 All outreach requires <strong>PR + Partnerships + SEO approval</strong> before sending.
+  🏆 All editorial outreach requires <strong>PR + Partnerships + SEO approval</strong> before sending.
   No implied payment, no pressure, no guaranteed-placement language.
 </div>
 
+<!-- Why this matters -->
 <div class="card" style="background:#0a1a2d;border-color:#2d4a8a;margin-bottom:20px;">
-  <h3 style="color:#90cdf4;">🎯 Citation Types — Editorial vs Paid</h3>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px;font-size:12px;">
+  <h3 style="color:#90cdf4;">🎯 Editorial vs Paid — The Critical Distinction</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px;font-size:12px;">
     <div style="background:#0a2d1a;border:1px solid #22543d;border-radius:8px;padding:12px;">
-      <div style="font-weight:700;color:#68d391;margin-bottom:6px;">📋 Editorial Citations</div>
-      <div style="color:#a0aec0;line-height:1.6;">Chosen by editors based on methodology. These are what AI models cite. Getting here requires outreach + product merit. Cannot be paid for directly on NerdWallet, Forbes, FitSmallBusiness. <strong style="color:#68d391;">This is the primary target for unaided SOV.</strong></div>
+      <div style="font-weight:700;color:#68d391;margin-bottom:5px;">📋 Editorial Citations → Drive AI SOV</div>
+      <div style="color:#a0aec0;line-height:1.6;">Chosen by editors independently. AI models cite these. Getting a "Best for X" label here directly moves unaided SOV. <strong style="color:#68d391;">This is the primary GEO lever.</strong></div>
     </div>
     <div style="background:#2d1f00;border:1px solid #744210;border-radius:8px;padding:12px;">
-      <div style="font-weight:700;color:#f6ad55;margin-bottom:6px;">💰 Paid / Affiliate Placements</div>
-      <div style="color:#a0aec0;line-height:1.6;">Sponsored slots, affiliate links, "Compare Quotes" buttons. These generate traffic and leads but <strong style="color:#f6ad55;">AI models do not cite paid placements</strong> — they cite editorial content. Track these separately.</div>
+      <div style="font-weight:700;color:#f6ad55;margin-bottom:5px;">💰 Paid / Affiliate → Traffic Only</div>
+      <div style="color:#a0aec0;line-height:1.6;">Sponsored slots, affiliate commissions. AI models do <strong style="color:#f6ad55;">not</strong> cite paid placements for recommendations. Drives traffic and leads, not SOV.</div>
     </div>
   </div>
 </div>
 
-<!-- Existing paid/affiliate presence -->
-<div class="section-title">💰 Current Paid / Affiliate Presence</div>
+<!-- Current paid/affiliate presence with real links -->
+<div class="section-title">💰 Current Paid &amp; Affiliate Presence</div>
 <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
   <table class="cite-tbl">
     <thead><tr>
       <th class="col-pub">Publisher</th>
       <th class="col-status">GoDaddy Status</th>
-      <th class="col-type">Placement Type</th>
-      <th class="col-label">Label / Score</th>
-      <th>Notes</th>
+      <th class="col-type">Type</th>
+      <th class="col-sov">Label / Score</th>
+      <th>Live Link &amp; Actions</th>
     </tr></thead>
     <tbody>
       <tr>
-        <td><strong style="color:#e2e8f0;">Business.com</strong><div style="font-size:10px;color:#718096;">Best POS Systems 2026</div></td>
-        <td><span class="tag-green">✅ Present</span></td>
+        <td class="col-pub">
+          <strong style="color:#e2e8f0;">Business.com</strong>
+          <div style="font-size:10px;color:#718096;">Best POS Systems 2026</div>
+        </td>
+        <td><span class="tag-green">✅ Listed #2</span></td>
         <td><span class="tag-yellow">Affiliate + Editorial</span></td>
         <td style="font-size:11px;color:#68d391;font-weight:600;">Best for E-Commerce · 9.2/10</td>
-        <td style="font-size:11px;color:#a0aec0;">GoDaddy POS listed #2 overall. Affiliate commission on clicks. Editorial review included. AI may cite this — <strong>leverage for CITE outreach to other publishers.</strong></td>
+        <td style="font-size:11px;">
+          <a href="https://www.business.com/categories/best-pos-systems/" target="_blank" class="ext-link">→ View live page ↗</a>
+          <div style="color:#a0aec0;margin-top:4px;">Actions: request label upgrade · add Rate Saver to review · request CC Processors guide inclusion · add FOS link from godaddy.com/payments</div>
+        </td>
       </tr>
       <tr>
-        <td><strong style="color:#e2e8f0;">NerdWallet</strong><div style="font-size:10px;color:#718096;">Sponsored Partner Picks</div></td>
-        <td><span class="tag-yellow">⚠️ Slot Available</span></td>
-        <td><span class="tag-yellow">Paid Sponsorship</span></td>
-        <td style="font-size:11px;color:#f6ad55;">Not yet purchased</td>
-        <td style="font-size:11px;color:#a0aec0;">NerdWallet has "Sponsored partner picks" slots separate from editorial 5-processor list. These are paid but clearly labeled. AI does NOT cite them. Low ROI for GEO — focus on editorial.</td>
+        <td class="col-pub">
+          <strong style="color:#e2e8f0;">TechRadar</strong>
+          <div style="font-size:10px;color:#718096;">Best POS Systems for Small Business</div>
+        </td>
+        <td><span class="tag-yellow">⚠️ Present, no label</span></td>
+        <td><span class="tag-green">Editorial</span></td>
+        <td style="font-size:11px;color:#f6ad55;">No "Best for" label assigned</td>
+        <td style="font-size:11px;">
+          <a href="https://www.techradar.com/best/best-pos-system" target="_blank" class="ext-link">→ View live page ↗</a>
+          <div style="color:#a0aec0;margin-top:4px;">Actions: request "Best for low fees" label · add Rate Saver detail to review section</div>
+        </td>
       </tr>
       <tr>
-        <td><strong style="color:#e2e8f0;">Google Ads / Search</strong><div style="font-size:10px;color:#718096;">Paid Search</div></td>
-        <td><span class="tag-blue">ℹ️ Managed separately</span></td>
-        <td><span class="tag-blue">Paid Search</span></td>
-        <td style="font-size:11px;color:#90cdf4;">Out of scope for GEO</td>
-        <td style="font-size:11px;color:#a0aec0;">Paid search drives direct traffic but does not contribute to AI unaided SOV. Tracked by paid media team separately.</td>
+        <td class="col-pub">
+          <strong style="color:#e2e8f0;">TrustPilot</strong>
+          <div style="font-size:10px;color:#718096;">GoDaddy reviews</div>
+        </td>
+        <td><span class="tag-green">✅ 4.5/5 · 127K reviews</span></td>
+        <td><span class="tag-blue">Review Profile</span></td>
+        <td style="font-size:11px;color:#68d391;font-weight:600;">4.5/5 stars</td>
+        <td style="font-size:11px;">
+          <a href="https://www.trustpilot.com/review/www.godaddy.com" target="_blank" class="ext-link">→ View live page ↗</a>
+          <div style="color:#a0aec0;margin-top:4px;">Maintain: respond to reviews · grow review count · cite in aggregated reviews BUILD page</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="col-pub">
+          <strong style="color:#e2e8f0;">G2</strong>
+          <div style="font-size:10px;color:#718096;">GoDaddy Online Store reviews</div>
+        </td>
+        <td><span class="tag-yellow">⚠️ Listed, thin profile</span></td>
+        <td><span class="tag-blue">Review Profile</span></td>
+        <td style="font-size:11px;color:#f6ad55;">4.1/5 · 26 reviews</td>
+        <td style="font-size:11px;">
+          <a href="https://www.g2.com/products/godaddy-online-store/reviews" target="_blank" class="ext-link">→ View live page ↗</a>
+          <div style="color:#a0aec0;margin-top:4px;">Grow: solicit more reviews · complete product profile · AI increasingly cites G2</div>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Editorial pipeline — the primary target -->
+<!-- Editorial outreach pipeline — dynamic from session.json -->
 <div class="section-title">📋 Editorial Outreach Pipeline — <span id="pipeline-date" style="font-weight:400;color:#718096;font-size:12px;text-transform:none;letter-spacing:0;">loading...</span></div>
-<div class="alert blue">These are the editorial "Best of" lists that AI models cite. Getting a "Best for X" label here moves unaided SOV. GoDaddy absent from <strong id="absent-count">—</strong> of <strong id="total-count">—</strong> tracked slots.</div>
+<div class="alert blue">These are the editorial "Best of" lists AI models cite. GoDaddy absent from <strong id="absent-count">—</strong> of <strong id="total-count">—</strong> tracked slots. Each absence = lost unaided SOV.</div>
 <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
   <table class="cite-tbl">
     <thead><tr>
       <th class="col-pub">Publisher · Section</th>
       <th class="col-status">Status</th>
       <th class="col-pri">Priority</th>
-      <th class="col-label">Best For Label</th>
+      <th style="min-width:160px;">Best For Label</th>
       <th class="col-sov">Est. SOV Impact</th>
       <th>Blocked By</th>
     </tr></thead>
@@ -227,34 +257,32 @@ details summary::-webkit-details-marker{display:none}
   </table>
 </div>
 
-<!-- Coverage map -->
+<!-- Coverage map — dynamic from cite_pipeline -->
 <div class="section-title">🏷️ Publisher Coverage Map — <span id="coverage-date" style="font-weight:400;color:#718096;font-size:12px;text-transform:none;letter-spacing:0;">loading...</span></div>
-<div id="aggregator-coverage"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
+<div id="aggregator-coverage"><div style="color:#4a5568;font-size:12px;">Loading coverage map...</div></div>
 
 <!-- Outreach process -->
-<div class="section-title" style="margin-top:20px;">📋 Outreach Process</div>
+<div class="section-title" style="margin-top:20px;">📋 Outreach Process (Editorial Only)</div>
 <div class="card">
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;text-align:center;">
     <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">1</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">Find editor</div><div style="font-size:10px;color:#718096;">Byline + LinkedIn</div></div>
     <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">2</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">Lead with gap</div><div style="font-size:10px;color:#718096;">"Missing $0 fixed-fee processor"</div></div>
-    <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">3</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">Provide proof</div><div style="font-size:10px;color:#718096;">Fee page + Claim Registry</div></div>
+    <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">3</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">Provide proof</div><div style="font-size:10px;color:#718096;">Claim Registry IDs</div></div>
     <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">4</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">Propose label</div><div style="font-size:10px;color:#718096;">Never "best overall"</div></div>
-    <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">5</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">PR approves</div><div style="font-size:10px;color:#718096;">No implied compensation</div></div>
+    <div style="padding:10px;"><div style="font-size:22px;font-weight:900;color:#3182ce;margin-bottom:4px;">5</div><div style="font-size:11px;font-weight:600;color:#a0aec0;">PR approves → send</div><div style="font-size:10px;color:#718096;">No implied compensation</div></div>
   </div>
 </div>
 
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
-<script>
-/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+<div class="footer">GoDaddy Payments GEO Dashboard · Rate Saver: eligible plan required, not CT/MA/PR, not ecommerce.</div>
 
+<script>
 function renderPage(s) {
   var pipe = s.cite_pipeline || [];
   var el = function(id){return document.getElementById(id);};
-  if(el('pipeline-date') && s.meta) el('pipeline-date').textContent = s.meta.last_updated || '—';
-  if(el('coverage-date') && s.meta)  el('coverage-date').textContent  = s.meta.last_updated || '—';
-
-  var absent = pipe.filter(function(p){return p.status && p.status.indexOf('not cited')>-1;}).length;
+  if(el('pipeline-date') && s.meta) el('pipeline-date').textContent = s.meta.last_updated||'—';
+  if(el('coverage-date') && s.meta)  el('coverage-date').textContent  = s.meta.last_updated||'—';
+  var absent = pipe.filter(function(p){return p.status&&p.status.indexOf('not cited')>-1;}).length;
   if(el('absent-count')) el('absent-count').textContent = absent;
   if(el('total-count'))  el('total-count').textContent  = pipe.length;
 
@@ -262,63 +290,60 @@ function renderPage(s) {
   var tbody = el('cite-pipeline-tbody');
   if(tbody) {
     tbody.innerHTML = pipe.map(function(p) {
-      var isAbsent = p.status && p.status.indexOf('not cited') > -1;
-      var isMon    = p.status && p.status.indexOf('monitoring') > -1;
-      var statusBadge = isAbsent
-        ? '<span class="tag-red">❌ Not Cited</span>'
-        : isMon ? '<span class="tag-yellow">👁️ Monitoring</span>'
-        : '<span class="tag-green">✅ Cited</span>';
-      var priBadge = p.priority==='P0'?'<span class="priority-badge p0">P0</span>':
-                     p.priority==='P1'?'<span class="priority-badge p1">P1</span>':
-                     '<span class="priority-badge p2">P2</span>';
-      return '<tr>' +
-        '<td class="col-pub"><strong style="color:#e2e8f0;">' + p.publisher + '</strong>' +
-          '<div style="font-size:10px;color:#718096;">' + p.section + '</div></td>' +
-        '<td class="col-status">' + statusBadge + '</td>' +
-        '<td class="col-pri">' + priBadge + '</td>' +
-        '<td class="col-label" style="font-size:11px;color:#a0aec0;">' + (p.best_for_label||'—') + '</td>' +
-        '<td class="col-sov" style="font-size:11px;color:#68d391;">' + (p.est_sov_impact||'—') + '</td>' +
-        '<td style="font-size:11px;color:#f6ad55;">' + (p.blocked_by||'—') + '</td>' +
+      var isAbsent = p.status&&p.status.indexOf('not cited')>-1;
+      var isMon    = p.status&&p.status.indexOf('monitoring')>-1;
+      var sb = isAbsent?'<span class="tag-red">❌ Not Cited</span>':
+               isMon?'<span class="tag-yellow">👁️ Monitoring</span>':
+               '<span class="tag-green">✅ Cited</span>';
+      var pb = p.priority==='P0'?'<span class="priority-badge p0">P0</span>':
+               p.priority==='P1'?'<span class="priority-badge p1">P1</span>':
+               '<span class="priority-badge p2">P2</span>';
+      return '<tr>'+
+        '<td class="col-pub"><strong style="color:#e2e8f0;">'+p.publisher+'</strong><div style="font-size:10px;color:#718096;">'+p.section+'</div></td>'+
+        '<td class="col-status">'+sb+'</td>'+
+        '<td class="col-pri">'+pb+'</td>'+
+        '<td style="font-size:11px;color:#a0aec0;">'+(p.best_for_label||'—')+'</td>'+
+        '<td class="col-sov" style="font-size:11px;color:#68d391;">'+(p.est_sov_impact||'—')+'</td>'+
+        '<td style="font-size:11px;color:#f6ad55;">'+(p.blocked_by||'—')+'</td>'+
       '</tr>';
     }).join('');
   }
 
-  // Coverage map from cite_pipeline
-  var groups = {};
-  pipe.forEach(function(p) {
-    var pub = p.publisher.split('(')[0].trim().split(' ')[0];
-    if(!groups[pub]) groups[pub] = {name:p.publisher.split('(')[0].trim(), priority:p.priority, pages:[]};
+  // Coverage map
+  var groups={};
+  pipe.forEach(function(p){
+    var pub=p.publisher.split('(')[0].trim().split(' ')[0];
+    if(!groups[pub]) groups[pub]={name:p.publisher.split('(')[0].trim(),priority:p.priority,pages:[]};
     groups[pub].pages.push(p);
   });
-
-  var covEl = el('aggregator-coverage');
-  if(covEl) {
-    covEl.innerHTML = Object.values(groups).map(function(g) {
-      var presentCount = g.pages.filter(function(p){return p.status && p.status.indexOf('not cited')===-1 && p.status.indexOf('monitoring')===-1;}).length;
-      var total = g.pages.length;
-      var badge = presentCount > 0 ? '<span class="tag-green">' + presentCount + '/' + total + ' present</span>' : '<span class="tag-red">' + presentCount + '/' + total + ' present</span>';
-      var priBadge = g.priority==='P0'?'<span class="priority-badge p0">P0</span>':g.priority==='P1'?'<span class="priority-badge p1">P1</span>':'<span class="priority-badge p2">P2</span>';
-      return '<div class="pub-group">' +
-        '<div class="pub-group-hdr">' +
-          '<div style="display:flex;align-items:center;gap:10px;">' +
-            '<strong style="font-size:13px;color:#e2e8f0;">' + g.name + '</strong>' + priBadge +
-          '</div>' + badge +
-        '</div>' +
-        g.pages.map(function(p) {
-          var isPresent = p.status && p.status.indexOf('not cited')===-1 && p.status.indexOf('monitoring')===-1;
-          return '<div class="pub-page">' +
-            '<div><div style="font-size:12px;font-weight:600;color:#e2e8f0;">' + p.section + '</div>' +
-              '<div style="font-size:10px;color:#4a5568;">' + p.outreach_channel + '</div></div>' +
-            '<div>' + (isPresent ? '<span class="tag-green">✅ Present</span>' : '<span class="tag-red">❌ Absent</span>') + '</div>' +
-            '<div style="font-size:11px;color:#a0aec0;">' + (p.best_for_label||'—') + '</div>' +
-            '<div style="font-size:11px;color:#68d391;">' + (p.est_sov_impact||'—') + '</div>' +
+  var covEl=el('aggregator-coverage');
+  if(covEl){
+    covEl.innerHTML=Object.values(groups).map(function(g){
+      var presentCount=g.pages.filter(function(p){return p.status&&p.status.indexOf('not cited')===-1&&p.status.indexOf('monitoring')===-1;}).length;
+      var total=g.pages.length;
+      var badge=presentCount>0?'<span class="tag-green">'+presentCount+'/'+total+' present</span>':'<span class="tag-red">'+presentCount+'/'+total+' present</span>';
+      var priBadge=g.priority==='P0'?'<span class="priority-badge p0">P0</span>':g.priority==='P1'?'<span class="priority-badge p1">P1</span>':'<span class="priority-badge p2">P2</span>';
+      return '<div class="pub-group">'+
+        '<div class="pub-group-hdr">'+
+          '<div style="display:flex;align-items:center;gap:10px;"><strong style="font-size:13px;color:#e2e8f0;">'+g.name+'</strong>'+priBadge+'</div>'+
+          badge+
+        '</div>'+
+        g.pages.map(function(p){
+          var isPresent=p.status&&p.status.indexOf('not cited')===-1&&p.status.indexOf('monitoring')===-1;
+          return '<div class="pub-page">'+
+            '<div>'+
+              '<div style="font-size:12px;font-weight:600;color:#e2e8f0;">'+p.section+'</div>'+
+              '<div style="font-size:10px;color:#4a5568;">'+p.outreach_channel+'</div>'+
+            '</div>'+
+            '<div>'+(isPresent?'<span class="tag-green">✅ Present</span>':'<span class="tag-red">❌ Absent</span>')+'</div>'+
+            '<div style="font-size:11px;color:#a0aec0;">'+(p.best_for_label||'—')+'</div>'+
+            '<div style="font-size:11px;color:#68d391;">'+(p.est_sov_impact||'—')+'</div>'+
           '</div>';
-        }).join('') +
+        }).join('')+
       '</div>';
     }).join('');
   }
 }
-
 </script>
 <script src="./js/session-loader.js"></script>
 </body></html>

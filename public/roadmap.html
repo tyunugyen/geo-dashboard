@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GEO Roadmap</title>
+<title>GEO Next Steps</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
@@ -120,48 +120,48 @@ details summary::-webkit-details-marker{display:none}
 .intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
 .intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
 
-.tab-row{display:flex;gap:0;border-bottom:2px solid #2d3748;margin-bottom:20px;}
-.tab-btn{padding:10px 20px;font-size:13px;font-weight:600;color:#718096;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s;}
+.tab-row{display:flex;gap:0;border-bottom:2px solid #2d3748;margin-bottom:18px;}
+.tab-btn{padding:9px 18px;font-size:12px;font-weight:600;color:#718096;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s;}
 .tab-btn:hover{color:#cbd5e0;}
 .tab-btn.active{color:#90cdf4;border-bottom-color:#3182ce;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
-.tracker-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.tracker-2col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 @media(max-width:900px){.tracker-2col{grid-template-columns:1fr;}}
-.tracker-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s;}
-.tracker-card:hover{border-color:#3182ce;}
-.tracker-card.done{border-left:4px solid #68d391;opacity:.8;}
-.tracker-card.inprog{border-left:4px solid #90cdf4;}
-.tracker-card.blocked{border-left:4px solid #f6ad55;}
-.tracker-card.todo{border-left:4px solid #2d3748;}
-.tracker-row{display:flex;align-items:flex-start;gap:10px;}
-.tracker-num{font-size:18px;font-weight:900;color:#4a5568;width:26px;flex-shrink:0;padding-top:2px;}
-.tracker-content{flex:1;}
-.tracker-action{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:3px;line-height:1.4;}
-.tracker-meta{font-size:11px;color:#718096;margin-bottom:2px;}
-.tracker-root{font-size:11px;color:#a0aec0;margin-bottom:2px;}
-.tracker-win{font-size:10px;color:#4a5568;}
-.tracker-blocked{font-size:11px;color:#f6ad55;font-weight:600;margin-top:3px;}
-.prog-wrap{flex:1;min-width:80px;height:8px;background:#2d3748;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;}
+.tc{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s;}
+.tc:hover{border-color:#3182ce;}
+.tc.todo{border-left:3px solid #2d3748;}
+.tc.inprog{border-left:3px solid #90cdf4;}
+.tc.blocked{border-left:3px solid #f6ad55;}
+.tc.done{border-left:3px solid #68d391;opacity:.85;}
+.tc-row{display:flex;align-items:flex-start;gap:10px;}
+.tc-num{font-size:18px;font-weight:900;color:#4a5568;width:26px;flex-shrink:0;padding-top:2px;}
+.tc-body{flex:1;}
+.tc-action{font-size:12px;font-weight:600;color:#e2e8f0;margin-bottom:3px;line-height:1.4;}
+.tc-meta{font-size:11px;color:#718096;margin-bottom:2px;}
+.tc-root{font-size:11px;color:#a0aec0;margin-bottom:2px;}
+.tc-win{font-size:10px;color:#4a5568;}
+.tc-blocked-msg{font-size:11px;color:#f6ad55;font-weight:600;margin-top:3px;}
+.tc-controls{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.prog-wrap{flex:1;min-width:80px;height:8px;background:#2d3748;border-radius:4px;overflow:hidden;cursor:pointer;}
 .prog-fill{height:100%;border-radius:4px;transition:width .25s;}
 .status-sel{background:#161b28;border:1px solid #2d3748;color:#e2e8f0;font-size:11px;padding:3px 7px;border-radius:6px;cursor:pointer;}
-.tracker-controls{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
 .score-chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:#1a2744;color:#90cdf4;border:1px solid #2d4a8a;flex-shrink:0;}
-.done-card{background:#0a1a0a;border:1px solid #22543d;border-left:4px solid #68d391;border-radius:8px;padding:12px 16px;margin-bottom:8px;}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.save-flash{font-size:10px;color:#68d391;opacity:0;transition:opacity .3s;}
+.done-card{background:#0a1a0a;border:1px solid #22543d;border-left:4px solid #68d391;border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.undo-btn{background:none;border:1px solid #22543d;color:#68d391;font-size:10px;padding:3px 10px;border-radius:6px;cursor:pointer;flex-shrink:0;}
+.undo-btn:hover{background:#0a2d1a;}
+.gap-card{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:12px 14px;margin-bottom:10px;}
+.nxt-card{background:#1a1f2e;border:1px solid #2d3748;border-left:4px solid #3182ce;border-radius:6px;padding:12px 14px;margin-bottom:10px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
 .stat-box{background:#1a1f2e;border:1px solid #2d3748;border-radius:8px;padding:14px;text-align:center;}
 .stat-num{font-size:26px;font-weight:800;}
 .stat-lbl{font-size:11px;color:#718096;margin-top:3px;}
-.gap-card{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:12px 14px;margin-bottom:10px;}
-.gap-pri{font-size:10px;font-weight:700;color:#f6ad55;text-transform:uppercase;margin-bottom:3px;}
-.gap-title{font-size:12px;font-weight:700;color:#fbd38d;margin-bottom:3px;}
-.gap-meta{font-size:11px;color:#a0aec0;}
-.nxt-card{background:#1a1f2e;border:1px solid #2d3748;border-left:4px solid #3182ce;border-radius:6px;padding:12px 14px;margin-bottom:10px;}
 </style>
 </head>
 <body>
 <div class="header">
-  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>🗺️ Next Steps: task tracker · P0+P1 side-by-side · progress persists</p></div>
+  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>🗺️ Next Steps: interactive task tracker · P0+P1 side-by-side · persists across refreshes</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
@@ -169,9 +169,7 @@ details summary::-webkit-details-marker{display:none}
   </div>
 </div>
 <div class="nav"><a href="index.html" class="">📊 Overview</a><a href="insights.html" class="">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="">📋 Report</a><a href="roadmap.html" class="active">🗺️ Next Steps</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
-<div class="lu-bar">
-  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
-</div>
+<div class="lu-bar"><span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span></div>
 <div class="container">
 
 <div id="constraint-banner" class="alert" style="display:none;"></div>
@@ -182,69 +180,163 @@ details summary::-webkit-details-marker{display:none}
   <div class="stat-box"><div class="stat-num" id="st-blocked" style="color:#f6ad55;">—</div><div class="stat-lbl">Blocked</div></div>
 </div>
 
-<!-- Root cause map -->
 <div class="section-title">📊 Root Cause → Action Map</div>
-<div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:18px;">
   <table class="data-table">
-    <thead><tr>
-      <th style="width:55px;">Priority</th>
-      <th style="width:26%;">Gap</th>
-      <th style="width:26%;">Root Cause</th>
-      <th>Action</th>
-      <th style="width:14%;">Window</th>
-    </tr></thead>
-    <tbody id="root-cause-tbody">
-      <tr><td colspan="5" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr>
-    </tbody>
+    <thead><tr><th style="width:55px;">Priority</th><th style="width:25%;">Gap</th><th style="width:25%;">Root Cause</th><th>Action</th><th style="width:13%;">Window</th></tr></thead>
+    <tbody id="root-cause-tbody"><tr><td colspan="5" style="color:#4a5568;text-align:center;padding:14px;">Loading...</td></tr></tbody>
   </table>
 </div>
 
-<!-- Task Tracker with 2 tabs -->
 <div class="section-title">🗺️ Task Tracker</div>
 <div class="tab-row">
   <button class="tab-btn active" onclick="switchTab('ongoing',this)">Ongoing</button>
-  <button class="tab-btn" onclick="switchTab('completed',this)">Completed <span id="done-count-badge" style="font-size:10px;background:#0a2d1a;color:#68d391;padding:1px 7px;border-radius:10px;margin-left:4px;">0</span></button>
+  <button class="tab-btn" onclick="switchTab('completed',this)">Completed &nbsp;<span id="done-count-badge" style="font-size:10px;background:#0a2d1a;color:#68d391;padding:1px 7px;border-radius:10px;">0</span></button>
 </div>
 
-<!-- ONGOING TAB -->
 <div class="tab-panel active" id="tab-ongoing">
   <div class="tracker-2col">
     <div>
-      <div style="font-size:11px;font-weight:700;color:#fc8181;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">🔴 P0 — Highest Impact</div>
+      <div style="font-size:11px;font-weight:700;color:#fc8181;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">🔴 P0 — Highest Impact</div>
       <div id="p0-tracker"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
     </div>
     <div>
-      <div style="font-size:11px;font-weight:700;color:#f6e05e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">🟡 P1 — Medium Impact</div>
+      <div style="font-size:11px;font-weight:700;color:#f6e05e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">🟡 P1 — Medium Impact</div>
       <div id="p1-tracker"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
     </div>
   </div>
 </div>
 
-<!-- COMPLETED TAB -->
 <div class="tab-panel" id="tab-completed">
-  <div id="completed-container">
-    <div class="alert green">✅ No completed tasks yet. Mark actions as Completed using the tracker above.</div>
-  </div>
+  <div id="completed-container"><div class="alert green">✅ No completed tasks yet.</div></div>
 </div>
 
-<!-- Active Gaps -->
-<div class="section-title" style="margin-top:20px;">🔴 Active Gaps</div>
+<div class="section-title" style="margin-top:18px;">🔴 Active Gaps</div>
 <div id="gaps-container"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
 
-<!-- Next Month -->
-<div class="section-title" style="margin-top:20px;">📅 Next Month Priorities</div>
+<div class="section-title" style="margin-top:18px;">📅 Next Month Priorities</div>
 <div id="next-priorities"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
 
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
+<div class="footer">GoDaddy Payments GEO Dashboard · Progress saved in browser · <a href="report.html" class="ext-link">Report</a></div>
+
 <script>
-/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+/* ── Persistent tracker state ─────────────────────────────────────────────
+   Key: 'geo-tracker-v3'
+   Value: { "p0-1": {prog:50, status:"inprog"}, "p1-5": {prog:0, status:"blocked"}, ... }
+   State survives page refresh, tab close, and browser restart (localStorage).
+   Changes save immediately on every interaction.
+──────────────────────────────────────────────────────────────────────────── */
+var SK = 'geo-tracker-v3';
+function gs() { try { return JSON.parse(localStorage.getItem(SK))||{}; } catch(e) { return {}; } }
+function ss(k,p,st) { var s=gs(); s[k]={prog:p,status:st}; localStorage.setItem(SK,JSON.stringify(s)); flashSaved(k); }
 
-var STORE_KEY = 'geo-tracker-v2';
-function getState(){ try{return JSON.parse(localStorage.getItem(STORE_KEY))||{};}catch(e){return{};} }
-function setState(k,prog,status){ var s=getState(); s[k]={prog:prog,status:status}; localStorage.setItem(STORE_KEY,JSON.stringify(s)); }
+function flashSaved(key) {
+  var f=document.getElementById('saved-'+key);
+  if(f) { f.style.opacity='1'; setTimeout(function(){f.style.opacity='0';},1200); }
+}
 
-function switchTab(name, btn) {
+var COLORS={todo:'#4a5568',inprog:'#90cdf4',blocked:'#f6ad55',done:'#68d391'};
+
+function buildCard(action, tier) {
+  var key = tier+'-'+action.rank;
+  var saved = gs()[key]||{prog:0,status:'todo'};
+  var prog = saved.prog, status = saved.status;
+  // Done items render in Completed tab, not here
+  if(status==='done') return '';
+  var fc = COLORS[status]||'#3182ce';
+  var isBlocked = action.blocked_by && action.blocked_by!=='none' && action.blocked_by!=='None';
+  var sc = action.priority_score||0;
+  var scoreColor = sc>=9?'#fc8181':sc>=7?'#f6e05e':'#68d391';
+  return '<div class="tc '+status+'" id="tc-'+key+'">' +
+    '<div class="tc-row">' +
+      '<div class="tc-num">'+action.rank+'</div>' +
+      '<div class="tc-body">' +
+        '<div class="tc-action">'+action.action+'</div>' +
+        '<div class="tc-meta">Owner: <strong>'+(action.owner||'—')+'</strong> · '+(action.agent||'—')+'</div>' +
+        '<div class="tc-root">Root cause: '+(action.root_cause||'—')+'</div>' +
+        '<div class="tc-win">⏱ '+(action.window||'—')+'</div>' +
+        (isBlocked?'<div class="tc-blocked-msg">⚠️ Blocked: '+action.blocked_by+'</div>':'') +
+        '<div class="tc-controls">' +
+          '<div class="prog-wrap" onclick="clickProg(''+key+'')" title="Click to advance 25%">' +
+            '<div class="prog-fill" id="pf-'+key+'" style="width:'+prog+'%;background:'+fc+';"></div>' +
+          '</div>' +
+          '<span style="font-size:11px;color:#718096;min-width:30px;" id="pct-'+key+'">'+prog+'%</span>' +
+          '<select class="status-sel" id="sel-'+key+'" onchange="chStatus(''+key+'',this.value)">' +
+            '<option value="todo"'+(status==='todo'?' selected':'')+'>Not Started</option>' +
+            '<option value="inprog"'+(status==='inprog'?' selected':'')+'>In Progress</option>' +
+            '<option value="blocked"'+(status==='blocked'?' selected':'')+'>Blocked</option>' +
+            '<option value="done"'+(status==='done'?' selected':'')+'>Completed ✅</option>' +
+          '</select>' +
+          '<span class="score-chip" style="color:'+scoreColor+';">'+sc+'</span>' +
+          '<span class="save-flash" id="saved-'+key+'">✓ saved</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function clickProg(key) {
+  var s=gs()[key]||{prog:0,status:'todo'};
+  var next=(s.prog+25)>100?0:s.prog+25;
+  var st=next===100?'done':next>0?'inprog':'todo';
+  ss(key,next,st);
+  applyCardUI(key,next,st);
+  if(st==='done') moveToDone(key);
+  refreshStats();
+}
+
+function chStatus(key,st) {
+  var s=gs()[key]||{prog:0};
+  var prog=st==='done'?100:st==='inprog'?Math.max(s.prog||0,10):s.prog||0;
+  ss(key,prog,st);
+  applyCardUI(key,prog,st);
+  if(st==='done') moveToDone(key);
+  refreshStats();
+}
+
+function applyCardUI(key,prog,st) {
+  var fc=COLORS[st]||'#3182ce';
+  var fill=document.getElementById('pf-'+key);
+  var pct=document.getElementById('pct-'+key);
+  var sel=document.getElementById('sel-'+key);
+  var card=document.getElementById('tc-'+key);
+  if(fill){fill.style.width=prog+'%';fill.style.background=fc;}
+  if(pct)pct.textContent=prog+'%';
+  if(sel)sel.value=st;
+  if(card)card.className=card.className.replace(/\b(todo|inprog|blocked|done)\b/g,st);
+}
+
+function moveToDone(key) {
+  var card=document.getElementById('tc-'+key);
+  if(card) card.style.display='none';
+  // Re-render completed tab if currently visible
+  var tab=document.getElementById('tab-completed');
+  if(tab && tab.classList.contains('active')) renderCompleted();
+}
+
+function undoComplete(key) {
+  ss(key,0,'todo');
+  var card=document.getElementById('tc-'+key);
+  if(card){card.style.display='';applyCardUI(key,0,'todo');}
+  renderCompleted();
+  refreshStats();
+}
+
+function refreshStats() {
+  var state=gs(); var done=0,blocked=0,total=0;
+  Object.keys(state).forEach(function(k){
+    total++;
+    if(state[k].status==='done')done++;
+    if(state[k].status==='blocked')blocked++;
+  });
+  function s(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  s('st-done',done); s('st-blocked',blocked); s('st-ongoing',total-done);
+  var badge=document.getElementById('done-count-badge');
+  if(badge)badge.textContent=done;
+}
+
+function switchTab(name,btn) {
   document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab-'+name).classList.add('active');
@@ -253,185 +345,96 @@ function switchTab(name, btn) {
 }
 
 function renderCompleted() {
-  var state = getState();
-  var doneItems = Object.entries ? Object.entries(state).filter(function(e){return e[1].status==='done';}) : [];
-  // Fallback for older browsers
-  if(!Object.entries) {
-    doneItems = [];
-    Object.keys(state).forEach(function(k){ if(state[k].status==='done') doneItems.push([k,state[k]]); });
-  }
-  var el = document.getElementById('completed-container');
-  if(!el) return;
-  if(!doneItems.length) {
-    el.innerHTML = '<div class="alert green">✅ No completed tasks yet.</div>';
-    return;
-  }
-  el.innerHTML = doneItems.map(function(entry) {
-    var key = entry[0];
-    var label = key.replace('p0-','P0 Action #').replace('p1-','P1 Action #');
+  var state=gs();
+  var doneKeys=Object.keys(state).filter(function(k){return state[k].status==='done';});
+  var el=document.getElementById('completed-container');
+  if(!el)return;
+  if(!doneKeys.length){el.innerHTML='<div class="alert green">✅ No completed tasks yet.</div>';return;}
+  // Map keys to action labels from current actions
+  el.innerHTML=doneKeys.map(function(key){
+    var label=key.replace('p0-','P0 Action #').replace('p1-','P1 Action #');
+    // Try to get the action title from the DOM (hidden cards)
+    var card=document.getElementById('tc-'+key);
+    var title=card?card.querySelector('.tc-action')&&card.querySelector('.tc-action').textContent:'';
     return '<div class="done-card">' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
-        '<span style="font-size:12px;font-weight:600;color:#68d391;">✅ ' + label + '</span>' +
-        '<button onclick="undoComplete(\'' + key + '\')" style="background:none;border:1px solid #22543d;color:#68d391;font-size:10px;padding:2px 8px;border-radius:6px;cursor:pointer;">Undo</button>' +
+      '<div>' +
+        '<div style="font-size:11px;font-weight:700;color:#68d391;margin-bottom:3px;">✅ '+label+'</div>' +
+        (title?'<div style="font-size:12px;color:#a0aec0;">'+title+'</div>':'') +
       '</div>' +
+      '<button class="undo-btn" onclick="undoComplete(''+key+'')">Undo</button>' +
     '</div>';
   }).join('');
 }
 
-function undoComplete(key) {
-  setState(key, 0, 'todo');
-  updateCardUI(key, 0, 'todo');
-  refreshCounts();
-  renderCompleted();
-}
-
-function makeTracker(action, tier) {
-  var key  = tier+'-'+action.rank;
-  var saved = getState()[key] || {prog:0,status:'todo'};
-  var prog = saved.prog; var status = saved.status;
-  if(status==='done') return ''; // done items go to completed tab
-  var colors = {todo:'#4a5568',inprog:'#90cdf4',blocked:'#f6ad55',done:'#68d391'};
-  var fillColor = colors[status]||'#3182ce';
-  var blocked = action.blocked_by && action.blocked_by!=='none' && action.blocked_by!=='None';
-  var sc = action.priority_score; var scoreColor = sc>=9?'#fc8181':sc>=7?'#f6e05e':'#68d391';
-
-  return '<div class="tracker-card '+status+'" id="tc-'+key+'">' +
-    '<div class="tracker-row">' +
-      '<div class="tracker-num">'+action.rank+'</div>' +
-      '<div class="tracker-content">' +
-        '<div class="tracker-action">'+action.action+'</div>' +
-        '<div class="tracker-meta">Owner: <strong>'+(action.owner||'—')+'</strong> · '+(action.agent||'—')+'</div>' +
-        '<div class="tracker-root">Root cause: '+(action.root_cause||'—')+'</div>' +
-        '<div class="tracker-win">⏱ '+(action.window||'—')+'</div>' +
-        (blocked?'<div class="tracker-blocked">⚠️ Blocked: '+action.blocked_by+'</div>':'') +
-        '<div class="tracker-controls">' +
-          '<div class="prog-wrap" onclick="advanceProg(\'' + key + '\')" title="Click to advance">' +
-            '<div class="prog-fill" id="pf-'+key+'" style="width:'+prog+'%;background:'+fillColor+';"></div>' +
-          '</div>' +
-          '<span style="font-size:11px;color:#718096;min-width:30px;" id="pct-'+key+'">'+prog+'%</span>' +
-          '<select class="status-sel" id="sel-'+key+'" onchange="changeStatus(\'' + key + '\',this.value)">' +
-            '<option value="todo"'    +(status==='todo'   ?' selected':'')  +'>Not Started</option>' +
-            '<option value="inprog"'  +(status==='inprog' ?' selected':'')  +'>In Progress</option>' +
-            '<option value="blocked"' +(status==='blocked'?' selected':'')  +'>Blocked</option>' +
-            '<option value="done"'    +(status==='done'   ?' selected':'')  +'>Completed ✅</option>' +
-          '</select>' +
-          '<span class="score-chip" style="color:'+scoreColor+';">'+sc+'</span>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
-}
-
-function advanceProg(key) {
-  var s=getState()[key]||{prog:0,status:'todo'};
-  var next=s.prog+25>100?0:s.prog+25;
-  var st=next===100?'done':next>0?'inprog':'todo';
-  setState(key,next,st);
-  if(st==='done') {
-    var card=document.getElementById('tc-'+key);
-    if(card) card.style.display='none'; // hide from ongoing, show in completed
-  } else {
-    updateCardUI(key,next,st);
-  }
-  refreshCounts();
-}
-
-function changeStatus(key,status) {
-  var s=getState()[key]||{prog:0};
-  var prog=status==='done'?100:status==='inprog'?Math.max(s.prog,10):s.prog;
-  setState(key,prog,status);
-  if(status==='done') {
-    var card=document.getElementById('tc-'+key);
-    if(card) card.style.display='none';
-  } else {
-    updateCardUI(key,prog,status);
-  }
-  refreshCounts();
-}
-
-function updateCardUI(key,prog,status) {
-  var colors={todo:'#4a5568',inprog:'#90cdf4',blocked:'#f6ad55',done:'#68d391'};
-  var fill=document.getElementById('pf-'+key);
-  var pct=document.getElementById('pct-'+key);
-  var sel=document.getElementById('sel-'+key);
-  var card=document.getElementById('tc-'+key);
-  if(fill){fill.style.width=prog+'%';fill.style.background=colors[status]||'#3182ce';}
-  if(pct) pct.textContent=prog+'%';
-  if(sel) sel.value=status;
-  if(card) card.className=card.className.replace(/\b(todo|inprog|blocked|done)\b/,status);
-}
-
-function refreshCounts() {
-  var state=getState();
-  var total=0, done=0, blocked=0;
-  Object.keys(state).forEach(function(k){
-    total++;
-    if(state[k].status==='done') done++;
-    if(state[k].status==='blocked') blocked++;
-  });
-  function setEl(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
-  setEl('st-done',    done);
-  setEl('st-blocked', blocked);
-  setEl('st-ongoing', total-done);
-  var badge=document.getElementById('done-count-badge');
-  if(badge) badge.textContent=done;
-}
-
+/* ── Main render ─────────────────────────────────────────────────────────── */
 function renderPage(s) {
-  var sa = s.strategy_actions || {};
-  var p0 = Array.isArray(sa.p0) ? sa.p0 : [];
-  var p1 = Array.isArray(sa.p1) ? sa.p1 : [];
-  var rs = s.report_summary || {};
-  var el = function(id){return document.getElementById(id);};
+  var sa=s.strategy_actions||{};
+  var p0=Array.isArray(sa.p0)?sa.p0:[];
+  var p1=Array.isArray(sa.p1)?sa.p1:[];
+  var rs=s.report_summary||{};
 
-  var cb=el('constraint-banner');
-  if(cb && rs.binding_constraint) { cb.textContent='⚠️ '+rs.binding_constraint; cb.style.display='block'; }
+  var cb=document.getElementById('constraint-banner');
+  if(cb&&rs.binding_constraint){cb.textContent='⚠️ '+rs.binding_constraint;cb.style.display='block';}
 
   // Root cause table
-  var rcEl=el('root-cause-tbody');
-  if(rcEl) {
+  var rc=document.getElementById('root-cause-tbody');
+  if(rc){
     var gaps=rs.top_gaps||[];
-    rcEl.innerHTML=gaps.length
-      ? gaps.map(function(g){
-          var pb=g.priority==='P0'?'<span class="priority-badge p0">P0</span>':'<span class="priority-badge p1">P1</span>';
-          return '<tr><td>'+pb+'</td><td style="font-weight:600;color:#e2e8f0;">'+g.gap+'</td><td style="color:#a0aec0;font-size:11px;">'+g.root_cause+'</td><td style="color:#90cdf4;font-size:11px;">'+g.action+'</td><td style="color:#4a5568;font-size:11px;">'+g.window+'</td></tr>';
-        }).join('')
-      : '<tr><td colspan="5" style="color:#4a5568;text-align:center;padding:14px;">No gap data</td></tr>';
+    rc.innerHTML=gaps.length?gaps.map(function(g){
+      var pb=g.priority==='P0'?'<span class="priority-badge p0">P0</span>':'<span class="priority-badge p1">P1</span>';
+      return '<tr><td>'+pb+'</td><td style="font-weight:600;color:#e2e8f0;">'+g.gap+'</td>'+
+        '<td style="font-size:11px;color:#a0aec0;">'+g.root_cause+'</td>'+
+        '<td style="font-size:11px;color:#90cdf4;">'+g.action+'</td>'+
+        '<td style="font-size:10px;color:#4a5568;">'+g.window+'</td></tr>';
+    }).join(''):'<tr><td colspan="5" style="color:#4a5568;text-align:center;padding:14px;">No gap data</td></tr>';
   }
 
-  // Render trackers (skip done items — they go to Completed tab)
-  var p0El=el('p0-tracker');
-  if(p0El) {
-    var p0Html = p0.map(function(a){return makeTracker(a,'p0');}).filter(Boolean).join('');
-    p0El.innerHTML = p0Html || '<div style="color:#4a5568;font-size:12px;">No P0 actions</div>';
+  // Render P0 — skip cards that are marked done (they show in Completed tab)
+  var p0El=document.getElementById('p0-tracker');
+  if(p0El){
+    var html=p0.map(function(a){return buildCard(a,'p0');}).filter(Boolean).join('');
+    p0El.innerHTML=html||'<div style="color:#4a5568;font-size:12px;">All P0 actions completed ✅</div>';
   }
-  var p1El=el('p1-tracker');
-  if(p1El) {
-    var p1Html = p1.map(function(a){return makeTracker(a,'p1');}).filter(Boolean).join('');
-    p1El.innerHTML = p1Html || '<div style="color:#4a5568;font-size:12px;">No P1 actions</div>';
+
+  var p1El=document.getElementById('p1-tracker');
+  if(p1El){
+    var html1=p1.map(function(a){return buildCard(a,'p1');}).filter(Boolean).join('');
+    p1El.innerHTML=html1||'<div style="color:#4a5568;font-size:12px;">All P1 actions completed ✅</div>';
   }
 
   // Gaps
-  var gEl=el('gaps-container');
-  if(gEl) {
+  var gEl=document.getElementById('gaps-container');
+  if(gEl){
     var gaps=rs.top_gaps||[];
-    gEl.innerHTML=gaps.length
-      ? gaps.map(function(g){return '<div class="gap-card"><div class="gap-pri">'+g.priority+'</div><div class="gap-title">'+g.gap+'</div><div class="gap-meta" style="margin-bottom:3px;">Root cause: '+g.root_cause+'</div><div class="gap-meta">Action: '+g.action+' · '+g.window+'</div></div>';}).join('')
-      : '<div class="alert green">✅ No active gaps.</div>';
+    gEl.innerHTML=gaps.length?gaps.map(function(g){
+      return '<div class="gap-card">' +
+        '<div style="font-size:10px;font-weight:700;color:#f6ad55;text-transform:uppercase;margin-bottom:3px;">'+g.priority+'</div>'+
+        '<div style="font-size:12px;font-weight:700;color:#fbd38d;margin-bottom:3px;">'+g.gap+'</div>'+
+        '<div style="font-size:11px;color:#a0aec0;margin-bottom:2px;">Root cause: '+g.root_cause+'</div>'+
+        '<div style="font-size:11px;color:#a0aec0;">Action: '+g.action+' · '+g.window+'</div>'+
+      '</div>';
+    }).join(''):'<div class="alert green">✅ No active gaps.</div>';
   }
 
   // Next month
-  var nEl=el('next-priorities');
-  if(nEl) {
+  var nEl=document.getElementById('next-priorities');
+  if(nEl){
     var nmp=rs.next_month_priority||[];
-    nEl.innerHTML=nmp.length
-      ? nmp.map(function(n,i){return '<div class="nxt-card"><div style="font-size:12px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">'+(i+1)+'. '+(n.priority||'—')+'</div><div style="font-size:11px;color:#a0aec0;margin-bottom:5px;">'+(n.action||'—')+'</div><div style="display:flex;gap:14px;font-size:10px;color:#718096;"><span>Agent: '+(n.agent||'—')+'</span><span style="color:#68d391;">Impact: '+(n.sov_impact||'—')+'</span><span>Window: '+(n.window||'—')+'</span></div></div>';}).join('')
-      : '<div style="color:#4a5568;font-size:12px;">No next-month priorities.</div>';
+    nEl.innerHTML=nmp.length?nmp.map(function(n,i){
+      return '<div class="nxt-card">' +
+        '<div style="font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">'+(i+1)+'. '+n.priority+'</div>'+
+        '<div style="font-size:12px;color:#a0aec0;margin-bottom:5px;">'+n.action+'</div>'+
+        '<div style="display:flex;gap:14px;font-size:10px;color:#718096;flex-wrap:wrap;">'+
+          '<span>Agent: '+n.agent+'</span>'+
+          '<span style="color:#68d391;">Impact: '+n.sov_impact+'</span>'+
+          '<span>Window: '+n.window+'</span>'+
+        '</div>'+
+      '</div>';
+    }).join(''):'<div style="color:#4a5568;font-size:12px;">No next-month priorities.</div>';
   }
 
-  refreshCounts();
+  refreshStats();
 }
-
 </script>
 <script src="./js/session-loader.js"></script>
 </body></html>

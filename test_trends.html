@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { background: #0a1628; color: #e2e8f0; font-family: sans-serif; padding: 20px; }
+canvas { background: #1a1f2e; border: 1px solid #2d4a8a; }
+</style>
+</head>
+<body>
+<h2>SOV Trends Test</h2>
+<canvas id="test" width="800" height="200"></canvas>
+<script>
+// Simple test data
+const data = [
+  { run_id: '2026-06-W26', aided_sov: 100.0 },
+  { run_id: '2026-07-W27', aided_sov: 100.0 }
+];
+
+const canvas = document.getElementById('test');
+const ctx = canvas.getContext('2d');
+const w = canvas.width;
+const h = canvas.height;
+
+// Clear
+ctx.fillStyle = '#1a1f2e';
+ctx.fillRect(0, 0, w, h);
+
+// Draw axes
+ctx.strokeStyle = '#2d3748';
+ctx.lineWidth = 1;
+
+// Grid lines
+for (let i = 0; i <= 4; i++) {
+  const y = 40 + (120 / 4) * i;
+  ctx.beginPath();
+  ctx.moveTo(50, y);
+  ctx.lineTo(w - 20, y);
+  ctx.stroke();
+}
+
+// Y-axis labels
+ctx.fillStyle = '#718096';
+ctx.font = '12px sans-serif';
+ctx.textAlign = 'right';
+for (let i = 0; i <= 4; i++) {
+  const val = 100 - (i * 25);
+  const y = 40 + (120 / 4) * i;
+  ctx.fillText(val + '%', 45, y + 4);
+}
+
+// Plot points
+const chartW = w - 70;
+data.forEach((d, i) => {
+  const x = 50 + (chartW / (data.length - 1)) * i;
+  const y = 40 + 120 - (120 * d.aided_sov / 100);
+
+  // Draw point
+  ctx.fillStyle = '#68d391';
+  ctx.beginPath();
+  ctx.arc(x, y, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Label
+  ctx.fillStyle = '#90cdf4';
+  ctx.textAlign = 'center';
+  ctx.fillText(d.run_id, x, h - 10);
+});
+
+// Draw line
+ctx.strokeStyle = '#68d391';
+ctx.lineWidth = 2;
+ctx.beginPath();
+data.forEach((d, i) => {
+  const x = 50 + (chartW / (data.length - 1)) * i;
+  const y = 40 + 120 - (120 * d.aided_sov / 100);
+  if (i === 0) ctx.moveTo(x, y);
+  else ctx.lineTo(x, y);
+});
+ctx.stroke();
+
+console.log('Trends chart rendered!');
+</script>
+</body>
+</html>

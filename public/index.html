@@ -906,19 +906,21 @@
         }
       }
 
-      // Render trends chart - simplified version
+      // Render trends chart - use requestAnimationFrame to ensure DOM is ready
       var trendsData = d.trends || (session && session.trends) || null;
       var canvas = document.getElementById('trendsChart');
       var note = document.getElementById('trends-note');
 
       if (trendsData && canvas && canvas.getContext) {
-        try {
-          // Set canvas internal dimensions to match display size
-          var rect = canvas.getBoundingClientRect();
-          canvas.width = rect.width;
-          canvas.height = 180;
+        requestAnimationFrame(function() {
+          try {
+            // Set canvas internal dimensions to match display size
+            var rect = canvas.getBoundingClientRect();
+            if (!rect.width) return; // Canvas not visible yet
+            canvas.width = rect.width;
+            canvas.height = 180;
 
-          var ctx = canvas.getContext('2d');
+            var ctx = canvas.getContext('2d');
 
           // Debug: Draw background to verify canvas works
           ctx.fillStyle = '#1a1f2e';
@@ -1183,10 +1185,11 @@
             ctx.fillText('Unable to generate timeline - check data format', w / 2, h / 2);
             if (note) note.textContent = 'No trend data available';
           }
-        } catch (err) {
-          console.error('Trends chart error:', err);
-          if (note) note.textContent = 'Chart rendering error - check console';
-        }
+          } catch (err) {
+            console.error('Trends chart error:', err);
+            if (note) note.textContent = 'Chart rendering error - check console';
+          }
+        }); // End requestAnimationFrame
       } else if (note) {
         note.textContent = 'No trends data available';
       }

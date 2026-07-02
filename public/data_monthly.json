@@ -193,9 +193,85 @@
     }
   ],
   "model_sov": {
-    "gemini": {
-      "value": "0%",
-      "color": "#fc8181"
+    "claude_sonnet_4_6": {
+      "name": "Claude Sonnet 4.6",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Not run this month (Gemini only)",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "claude_haiku_4_5_20251001": {
+      "name": "Claude Haiku 4.5",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Not run this month (Gemini only)",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "claude_opus_4_8": {
+      "name": "Claude Opus 4.8",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Not run this month (Gemini only)",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "gpt_4o": {
+      "name": "GPT-4o",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Not run this month (Gemini only)",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "gemini_2_5_pro": {
+      "name": "Gemini 2.5 Pro",
+      "unaided": "0.0%",
+      "aided": "100.0%",
+      "rs": "0.0%",
+      "status": "success",
+      "note": "",
+      "u_color": "#fc8181",
+      "a_color": "#68d391"
+    },
+    "gemini_2_5_flash": {
+      "name": "Gemini 2.5 Flash",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Weekly only - not run in monthly",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "o3_mini": {
+      "name": "o3-mini",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Weekly only - not run in monthly",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
+    },
+    "gemini_3_1_pro_preview": {
+      "name": "Gemini 3.1 Pro Preview",
+      "unaided": "—",
+      "aided": "—",
+      "rs": "—",
+      "status": "tracking",
+      "note": "Weekly only - not run in monthly",
+      "u_color": "#4a5568",
+      "a_color": "#4a5568"
     }
   }
 }

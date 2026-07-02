@@ -380,108 +380,182 @@ function renderReport(s) {
   set('report-methodology', r.methodology_note || '—');
 }
 
-// ── Trends Chart ──────────────────────────────────────────────────────
+// ── Trends Chart ─────────────────────────────────────────────────
+// 6-month rolling window: 26 week slots, months on x-axis, WK ticks between
 function renderTrendsChart(trends) {
   const canvas = document.getElementById('trendsChart');
   const note = document.getElementById('trends-note');
-
   if (!canvas) return;
 
-  // Handle dual-tier structure: trends can be {monthly: [...], weekly: [...]} or just [...]
-  let trendsArray = [];
+  // Normalise input — handle {monthly:[...], weekly:[...]} or flat array
+  let dataPoints = [];
   if (trends && typeof trends === 'object' && !Array.isArray(trends)) {
-    trendsArray = trends.monthly || trends.weekly || [];
+    dataPoints = trends.monthly || trends.weekly || [];
   } else if (Array.isArray(trends)) {
-    trendsArray = trends;
+    dataPoints = trends;
   }
 
-  if (!trendsArray || trendsArray.length === 0) {
-    if (note) note.textContent = 'No historical data yet. Trends will appear after multiple weekly runs.';
-    return;
+  // Build 26-slot skeleton (6 months back to today)
+  function getISOWeek(d) {
+    const jan4 = new Date(d.getFullYear(), 0, 4);
+    const w1 = new Date(jan4);
+    w1.setDate(jan4.getDate() - jan4.getDay() + 1);
+    return Math.floor((d - w1) / (7 * 86400000)) + 1;
+  }
+  function getWeekStart(year, week) {
+    const jan4 = new Date(year, 0, 4);
+    const w1 = new Date(jan4);
+    w1.setDate(jan4.getDate() - jan4.getDay() + 1);
+    const d = new Date(w1);
+    d.setDate(d.getDate() + (week - 1) * 7);
+    return d;
   }
 
-  trends = trendsArray;
+  const today = new Date();
+  const currentWeek = getISOWeek(today);
+  const currentYear = today.getFullYear();
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const NUM_SLOTS = 26;
 
-  const ctx = canvas.getContext('2d');
-  const width = canvas.width;
-  const height = canvas.height;
-
-  ctx.clearRect(0, 0, width, height);
-
-  const padding = { top: 20, right: 40, bottom: 30, left: 50 };
-  const chartWidth = width - padding.left - padding.right;
-  const chartHeight = height - padding.top - padding.bottom;
-
-  const maxSov = Math.max(10,
-    ...trends.map(t => Math.max(t.unaided_sov || 0, t.aided_sov || 0, t.rate_saver_sov || 0))
-  );
-
-  ctx.strokeStyle = '#2d3748';
-  ctx.lineWidth = 1;
-  for (let i = 0; i <= 4; i++) {
-    const y = padding.top + (chartHeight / 4) * i;
-    ctx.beginPath();
-    ctx.moveTo(padding.left, y);
-    ctx.lineTo(padding.left + chartWidth, y);
-    ctx.stroke();
-
-    const value = Math.round(maxSov * (1 - i / 4));
-    ctx.fillStyle = '#718096';
-    ctx.font = '10px -apple-system, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(value + '%', padding.left - 10, y + 4);
-  }
-
-  const drawLine = (data, color) => {
-    if (data.length === 0) return;
-
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-
-    data.forEach((point, i) => {
-      const x = padding.left + (chartWidth / (trends.length - 1)) * i;
-      const y = padding.top + chartHeight - (point.value / maxSov * chartHeight);
-
-      if (i === 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
+  // slot 0 = 25 weeks ago, slot 25 = current week
+  const slots = [];
+  for (let i = 0; i < NUM_SLOTS; i++) {
+    let wn = currentWeek - (NUM_SLOTS - 1) + i;
+    let yr = currentYear;
+    if (wn <= 0) { wn += 52; yr -= 1; }
+    const ws = getWeekStart(yr, wn);
+    slots.push({
+      weekNum: wn, year: yr,
+      label: 'WK' + wn,
+      month: MONTH_NAMES[ws.getMonth()],
+      isMonthStart: ws.getDate() <= 7,
+      unaided: null, aided: null, rateSaver: null, hasData: false
     });
+  }
 
-    ctx.stroke();
-
-    ctx.fillStyle = color;
-    data.forEach((point, i) => {
-      const x = padding.left + (chartWidth / (trends.length - 1)) * i;
-      const y = padding.top + chartHeight - (point.value / maxSov * chartHeight);
-
-      ctx.beginPath();
-      ctx.arc(x, y, 4, 0, 2 * Math.PI);
-      ctx.fill();
-    });
-  };
-
-  const unaidedData = trends.map(t => ({ value: t.unaided_sov || 0 }));
-  const aidedData = trends.map(t => ({ value: t.aided_sov || 0 }));
-  const rateSaverData = trends.map(t => ({ value: t.rate_saver_sov || 0 }));
-
-  drawLine(aidedData, '#68d391');
-  drawLine(rateSaverData, '#90cdf4');
-  drawLine(unaidedData, '#fc8181');
-
-  ctx.fillStyle = '#718096';
-  ctx.font = '10px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  trends.forEach((t, i) => {
-    const x = padding.left + (chartWidth / (trends.length - 1)) * i;
-    const label = t.run_id.replace('2026-06-', 'W');
-    ctx.fillText(label, x, height - 10);
+  // Map actual data into slots by extracting week number from run_id
+  // Handles formats: "2026-06-W26", "2026-07-W27", "W26", etc.
+  dataPoints.forEach(function(p) {
+    var rid = p.run_id || '';
+    var wMatch = rid.match(/W([0-9]+)$/);
+    if (!wMatch) return;
+    var wn = parseInt(wMatch[1]);
+    var slot = null;
+    for (var si = 0; si < slots.length; si++) {
+      if (slots[si].weekNum === wn) { slot = slots[si]; break; }
+    }
+    if (!slot) return;
+    slot.unaided   = parseFloat(p.unaided_sov)    || 0;
+    slot.aided     = parseFloat(p.aided_sov)      || 0;
+    slot.rateSaver = parseFloat(p.rate_saver_sov) || 0;
+    slot.hasData = true;
   });
 
+  var dataCount = slots.filter(function(s) { return s.hasData; }).length;
+
+  // Canvas setup
+  canvas.width  = canvas.offsetWidth || 900;
+  canvas.height = 210;
+  canvas.style.display = 'block';
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var padL = 52, padR = 24, padT = 28, padB = 56;
+  var chartW = W - padL - padR;
+  var chartH = H - padT - padB;
+
+  ctx.fillStyle = '#161b28';
+  ctx.fillRect(0, 0, W, H);
+
+  // Y-axis grid lines + labels
+  var yPcts = [100, 75, 50, 25, 0];
+  yPcts.forEach(function(pct) {
+    var y = padT + chartH - (pct / 100) * chartH;
+    ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#718096'; ctx.font = '10px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(pct + '%', padL - 6, y + 4);
+  });
+
+  // Slot X positions
+  function slotX(i) { return padL + (chartW / (NUM_SLOTS - 1)) * i; }
+
+  // Week tick marks (every slot, tiny gray)
+  slots.forEach(function(s, i) {
+    ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(slotX(i), H - padB + 2);
+    ctx.lineTo(slotX(i), H - padB + 5);
+    ctx.stroke();
+  });
+
+  // WK labels every 2 slots (small gray) — skip month-start slots
+  slots.forEach(function(s, i) {
+    if (s.isMonthStart) return;
+    if (i % 2 !== 0) return;
+    ctx.fillStyle = '#4a5568'; ctx.font = '9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(s.label, slotX(i), H - padB + 16);
+  });
+
+  // Month labels (blue bold) + dashed vertical guide at month boundaries
+  slots.forEach(function(s, i) {
+    if (!s.isMonthStart) return;
+    var x = slotX(i);
+    // Dashed vertical guide
+    ctx.strokeStyle = '#2d4a8a'; ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, H - padB + 2); ctx.stroke();
+    ctx.setLineDash([]);
+    // Tick
+    ctx.beginPath(); ctx.moveTo(x, H - padB + 2); ctx.lineTo(x, H - padB + 8); ctx.stroke();
+    // Month name
+    ctx.fillStyle = '#90cdf4'; ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(s.month, x, H - padB + 30);
+  });
+
+  // Draw lines + dots for the 3 metrics
+  var METRICS = [
+    { key: 'unaided',   color: '#dc2626' },
+    { key: 'aided',     color: '#fbbf24' },
+    { key: 'rateSaver', color: '#90cdf4' }
+  ];
+
+  METRICS.forEach(function(metric) {
+    // Line through data-bearing slots only
+    ctx.strokeStyle = metric.color; ctx.lineWidth = 2; ctx.setLineDash([]);
+    var started = false;
+    ctx.beginPath();
+    slots.forEach(function(s, i) {
+      if (!s.hasData) return;
+      var x = slotX(i);
+      var y = padT + chartH - (s[metric.key] / 100) * chartH;
+      if (!started) { ctx.moveTo(x, y); started = true; }
+      else { ctx.lineTo(x, y); }
+    });
+    if (started) ctx.stroke();
+
+    // Dots with dark ring on data slots
+    slots.forEach(function(s, i) {
+      if (!s.hasData) return;
+      var x = slotX(i);
+      var y = padT + chartH - (s[metric.key] / 100) * chartH;
+      ctx.fillStyle = metric.color;
+      ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#161b28'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.stroke();
+    });
+  });
+
+  // Footer note
   if (note) {
-    note.textContent = `Tracking ${trends.length} week${trends.length > 1 ? 's' : ''} of data`;
+    var first = null, last = null;
+    slots.forEach(function(s) { if (s.hasData) { if (!first) first = s; last = s; } });
+    note.textContent = dataCount === 0
+      ? 'No data yet — run a benchmark to populate the chart'
+      : dataCount + ' week' + (dataCount !== 1 ? 's' : '') + ' of data'
+        + (first && last ? ' · ' + first.label + ' → ' + last.label : '');
   }
 }
 

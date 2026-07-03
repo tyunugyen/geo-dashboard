@@ -258,11 +258,11 @@ function buildCard(action, tier) {
         '<div class="tc-win">⏱ '+(action.window||'—')+'</div>' +
         (isBlocked?'<div class="tc-blocked-msg">⚠️ Blocked: '+action.blocked_by+'</div>':'') +
         '<div class="tc-controls">' +
-          '<div class="prog-wrap" data-k="'+key+'" onclick="clickProg(this.dataset.k)" title="Click to advance 25%">' +
+          '<div class="prog-wrap" onclick="clickProg(''+key+'')" title="Click to advance 25%">' +
             '<div class="prog-fill" id="pf-'+key+'" style="width:'+prog+'%;background:'+fc+';"></div>' +
           '</div>' +
           '<span style="font-size:11px;color:#718096;min-width:30px;" id="pct-'+key+'">'+prog+'%</span>' +
-          '<select class="status-sel" id="sel-'+key+'" data-k="'+key+'" onchange="chStatus(this.dataset.k,this.value)">' +
+          '<select class="status-sel" id="sel-'+key+'" onchange="chStatus(''+key+'',this.value)">' +
             '<option value="todo"'+(status==='todo'?' selected':'')+'>Not Started</option>' +
             '<option value="inprog"'+(status==='inprog'?' selected':'')+'>In Progress</option>' +
             '<option value="blocked"'+(status==='blocked'?' selected':'')+'>Blocked</option>' +
@@ -361,7 +361,7 @@ function renderCompleted() {
         '<div style="font-size:11px;font-weight:700;color:#68d391;margin-bottom:3px;">✅ '+label+'</div>' +
         (title?'<div style="font-size:12px;color:#a0aec0;">'+title+'</div>':'') +
       '</div>' +
-      '<button class="undo-btn" data-k="'+key+'" onclick="undoComplete(this.dataset.k)">Undo</button>' +
+      '<button class="undo-btn" onclick="undoComplete(''+key+'')">Undo</button>' +
     '</div>';
   }).join('');
 }
@@ -437,6 +437,32 @@ function renderPage(s) {
 }
 </script>
 <script src="./js/session-loader.js"></script>
-
-
+<script>
+/* Self-contained session fetch — no dependency on session-loader.js timing */
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('./data/session.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(session) {
+      if (typeof renderPage === 'function') {
+        renderPage(session);
+      }
+    })
+    .catch(function(e) {
+      console.error('Session fetch failed:', e);
+    });
+});
+</script>
+<script>
+/* self-fetch: loads session.json independently of session-loader.js */
+(function(){
+  function run(){
+    fetch('./data/session.json?v='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(s){if(typeof renderPage==='function')renderPage(s);})
+      .catch(function(e){console.error('session fetch:',e);});
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
 </body></html>

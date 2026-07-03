@@ -181,11 +181,6 @@ details summary::-webkit-details-marker{display:none}
 <script>
 /* renderPage MUST be defined before session-loader.js loads */
 
-function toggleFaq(el){
-  var a = el.nextElementSibling;
-  a.style.display = (a.style.display === 'block') ? 'none' : 'block';
-}
-
 function renderPage(s) {
   var pages = s.build_pages || [];
   var p0  = pages.filter(function(p){return p.priority==='P0';}).length;
@@ -220,7 +215,7 @@ function renderPage(s) {
 
     var faqHtml=(p.faq||[]).map(function(q){
       return '<div class="faq-row">' +
-        '<div class="faq-q" onclick="toggleFaq(this)">'+
+        '<div class="faq-q" onclick="var a=this.nextElementSibling;a.style.display=a.style.display==='block'?'none':'block';">'+
           q.q+'<span style="color:#4a5568;font-size:10px;">▼</span>'+
         '</div>'+
         '<div class="faq-a">'+q.a+'</div>'+
@@ -270,6 +265,32 @@ function renderPage(s) {
 
 </script>
 <script src="./js/session-loader.js"></script>
-
-
+<script>
+/* Self-contained session fetch — no dependency on session-loader.js timing */
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('./data/session.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(session) {
+      if (typeof renderPage === 'function') {
+        renderPage(session);
+      }
+    })
+    .catch(function(e) {
+      console.error('Session fetch failed:', e);
+    });
+});
+</script>
+<script>
+/* self-fetch: loads session.json independently of session-loader.js */
+(function(){
+  function run(){
+    fetch('./data/session.json?v='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(s){if(typeof renderPage==='function')renderPage(s);})
+      .catch(function(e){console.error('session fetch:',e);});
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
 </body></html>

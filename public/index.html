@@ -278,6 +278,30 @@ details summary::-webkit-details-marker{display:none}
 </div>
 <div class="footer">GoDaddy Payments GEO Dashboard · session.json auto-updates · <a href="maintenance.html" class="ext-link">Maintenance</a></div>
 
+<script>
+function renderSparklines(s) {
+  var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
+  var metrics = [
+    {id:'spark-unaided',   key:'unaided_sov'},
+    {id:'spark-aided',     key:'aided_sov'},
+    {id:'spark-ratesaver', key:'rate_saver_sov'}
+  ];
+  metrics.forEach(function(m) {
+    var el = document.getElementById(m.id);
+    if (!el) return;
+    var last4 = weekly.slice(-4);
+    while (last4.length < 4) last4.unshift({unaided_sov:0,aided_sov:0,rate_saver_sov:0});
+    var vals = last4.map(function(w){ return w[m.key]||0; });
+    var maxV = Math.max.apply(null, vals.concat([0.01]));
+    var bars = vals.map(function(v,i) {
+      var h = Math.round(3 + (v/maxV)*33);
+      var cls = (i===3) ? 'pf-bar now' : 'pf-bar';
+      return '<div class="'+cls+'" style="height:'+h+'px"></div>';
+    }).join('');
+    el.innerHTML = bars;
+  });
+}
+</script>
 <script src="./js/session-loader.js"></script>
 <script>
 function renderPage(s) {
@@ -308,6 +332,7 @@ function renderPage(s) {
     confEl.textContent = '⚠️ ' + s.report_summary.data_confidence;
     confEl.style.display = 'block';
   }
+  renderSparklines(s);
 }
 
 function renderActionPills(s) {
@@ -356,7 +381,7 @@ function renderActionsGrid(s) {
         '<td class="col-blocker">' +
           (blocked
             ? '<span style="font-size:11px;color:#f6ad55;font-weight:600;">⚠️ ' + a.blocked_by + '</span>'
-            : '<span style="font-size:11px;color:#68d391;">✅ Unblocked</span>') +
+            : '<span style="font-size:11px;color:#4a5568;">N/A</span>') +
         '</td>' +
       '</tr>';
     }).join('');

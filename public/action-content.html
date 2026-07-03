@@ -280,21 +280,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 <script>
 /* self-fetch: loads session.json independently of session-loader.js */
-(function() {
-  function go() {
-    fetch('./data/session.json?v=' + Date.now())
-      .then(function(r){ return r.json(); })
-      .then(function(s){ if (typeof renderPage === 'function') renderPage(s); })
-      .catch(function(e){ console.error('session fetch failed', e); });
+(function(){
+  function run(){
+    fetch('./data/session.json?v='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(s){if(typeof renderPage==='function')renderPage(s);})
+      .catch(function(e){console.error('session fetch:',e);});
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', go);
-  } else {
-    go();
-  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
 })();
 </script>
 </body></html>

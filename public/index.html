@@ -45,7 +45,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .kpi-target span{color:#63b3ed;font-weight:700}
 .pf-spark{height:34px;margin-top:8px;display:flex;align-items:flex-end;gap:3px}
 .pf-bar{flex:1;background:#2d3748;border-radius:2px 2px 0 0;min-height:3px}
-.pf-bar.prev{background:#4a7fbf}
 .pf-bar.now{background:#3182ce}
 .priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;display:inline-block}
 .p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
@@ -291,19 +290,12 @@ function renderSparklines(s) {
     var el = document.getElementById(m.id);
     if (!el) return;
     var last4 = weekly.slice(-4);
-    // Track which slots are real data vs zero-padding
-    var isReal = [];
-    while (last4.length < 4) { last4.unshift(null); isReal.unshift(false); }
-    // Mark the original real data slots as true
-    var padCount = 4 - weekly.slice(-4).length;
-    for (var ri = 0; ri < 4; ri++) { isReal[ri] = ri >= padCount; }
-    var vals = last4.map(function(w){ return w ? (w[m.key]||0) : 0; });
+    while (last4.length < 4) last4.unshift({unaided_sov:0,aided_sov:0,rate_saver_sov:0});
+    var vals = last4.map(function(w){ return w[m.key]||0; });
     var maxV = Math.max.apply(null, vals.concat([0.01]));
     var bars = vals.map(function(v,i) {
       var h = Math.round(3 + (v/maxV)*33);
-      var cls = (i===3) ? 'pf-bar now'
-              : isReal[i] ? 'pf-bar prev'
-              : 'pf-bar';
+      var cls = (i===3) ? 'pf-bar now' : 'pf-bar';
       return '<div class="'+cls+'" style="height:'+h+'px"></div>';
     }).join('');
     el.innerHTML = bars;

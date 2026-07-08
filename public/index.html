@@ -281,6 +281,57 @@ details summary::-webkit-details-marker{display:none}
 <script>
 function renderSparklines(s) {
   var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
+  var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : '';
+
+  // Build lookup by run_id
+  var lookup = {};
+  weekly.forEach(function(w) { if (w.run_id) lookup[w.run_id] = w; });
+
+  // Citation rank: calculate % of top publishers citing GoDaddy from cite_pipeline
+  var cited = (s.cite_pipeline || []).filter(function(r) {
+    return r.status && r.status.indexOf('cited') >= 0 && r.status.indexOf('not_cited') < 0;
+  }).length;
+  var total = Math.max((s.cite_pipeline || []).length, 6);
+  var citePct = total > 0 ? (cited / total) * 100 : 0;
+
+  // 4 metrics mapped to their spark container ids and data keys
+  var metrics = [
+    { id: 'spark-unaided',   key: 'unaided_sov' },
+    { id: 'spark-aided',     key: 'aided_sov' },
+    { id: 'spark-ratesaver', key: 'rate_saver_sov' },
+    { id: 'spark-citation',  key: null, fixedVal: citePct }
+  ];
+
+  metrics.forEach(function(m) {
+    var el = document.getElementById(m.id);
+    if (!el) return;
+    el.querySelectorAll('.pf-bar').forEach(function(bar) {
+      var rid = bar.getAttribute('data-run');
+      var data = rid ? lookup[rid] : null;
+      var hasData = data !== null && data !== undefined;
+
+      // Get value: fixed override OR from trends data
+      var val = m.fixedVal !== undefined ? m.fixedVal
+              : (hasData ? (parseFloat(data[m.key]) || 0) : null);
+
+      if (val === null) {
+        // No data for this week — grey 1px
+        bar.style.background = '#2d3748';
+        bar.style.height = '1px';
+        return;
+      }
+
+      // Color: dark blue = current week, light blue = all others (data exists)
+      var isCurrent = rid === currentRunId;
+      bar.style.background = isCurrent ? '#3182ce' : '#7ba3d1';
+
+      // Height: 0% = 1px light blue, 100% = 34px, proportional
+      bar.style.height = val === 0 ? '1px' : Math.round(4 + (val / 100) * 30) + 'px';
+    });
+  });
+}
+unction renderSparklines(s) {
+  var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
   var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : "";
   var lookup = {};
   weekly.forEach(function(w) { if(w.run_id) lookup[w.run_id] = w; });

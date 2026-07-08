@@ -143,7 +143,7 @@ details summary::-webkit-details-marker{display:none}
 .tc-win{font-size:10px;color:#4a5568;}
 .tc-blocked-msg{font-size:11px;color:#f6ad55;font-weight:600;margin-top:3px;}
 .tc-controls{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.prog-wrap{flex:1;min-width:80px;height:8px;background:#2d3748;border-radius:4px;overflow:hidden;cursor:pointer;}
+.prog-wrap{flex:1;min-width:80px;height:8px;background:#2d3748;border-radius:4px;overflow:hidden;cursor:pointer;}.prog-slider{flex:1;min-width:80px;height:6px;cursor:pointer;accent-color:#3182ce;}
 .prog-fill{height:100%;border-radius:4px;transition:width .25s;}
 .status-sel{background:#161b28;border:1px solid #2d3748;color:#e2e8f0;font-size:11px;padding:3px 7px;border-radius:6px;cursor:pointer;}
 .score-chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:#1a2744;color:#90cdf4;border:1px solid #2d4a8a;flex-shrink:0;}
@@ -276,6 +276,13 @@ function buildCard(action, tier) {
   '</div>';
 }
 
+function slideProg(key, val) {
+  var st = val===100?'done':val>0?'inprog':'todo';
+  ss(key,val,st);
+  applyCardUI(key,val,st);
+  if(st==='done') moveToDone(key);
+  refreshStats();
+}
 function clickProg(key) {
   var s=gs()[key]||{prog:0,status:'todo'};
   var next=(s.prog+25)>100?0:s.prog+25;
@@ -301,7 +308,7 @@ function applyCardUI(key,prog,st) {
   var pct=document.getElementById('pct-'+key);
   var sel=document.getElementById('sel-'+key);
   var card=document.getElementById('tc-'+key);
-  if(fill){fill.style.width=prog+'%';fill.style.background=fc;}
+  if(fill){if(fill.tagName==='INPUT'){fill.value=prog;fill.style.accentColor=fc;}else{fill.style.width=prog+'%';fill.style.background=fc;}}
   if(pct)pct.textContent=prog+'%';
   if(sel)sel.value=st;
   if(card)card.className=card.className.replace(/\b(todo|inprog|blocked|done)\b/g,st);

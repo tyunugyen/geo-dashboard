@@ -1,1 +1,2 @@
 model_id,model_name,unaided_sov,aided_sov,rate_saver_sov,unaided_hits,unaided_prompts,aided_hits,aided_prompts,status
+claude-haiku-4-5-20251001,Claude Haiku 4.5,0.0%,100.0%,0.0%,0,63,7,7,success

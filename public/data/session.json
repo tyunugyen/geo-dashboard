@@ -2,10 +2,10 @@
   "meta": {
     "run_type": "weekly",
     "run_id": "2026-07-W28",
-    "last_updated": "2026-07-06 13:19",
-    "model_name": "Claude Sonnet 4.6",
+    "last_updated": "2026-07-08 10:15",
+    "model_name": "Claude Haiku 4.5",
     "model_count": 1,
-    "prompt_count": 0,
+    "prompt_count": 70,
     "generated_by": "generate_session_json.py",
     "last_full_benchmark": "July 2026"
   },
@@ -40,7 +40,7 @@
       {
         "run_id": "2026-07-W28",
         "unaided_sov": 0.0,
-        "aided_sov": 0.0,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ]
@@ -52,8 +52,8 @@
       "target": "15%"
     },
     "aided_sov": {
-      "value": "0%",
-      "status": "yellow",
+      "value": "100%",
+      "status": "green",
       "target": "100%"
     },
     "rate_saver_sov": {
@@ -202,13 +202,13 @@
   "model_sov": {
     "primary": [
       {
-        "name": "Claude Sonnet 4.6",
+        "name": "Claude Haiku 4.5",
         "why": "Weekly pulse check",
         "unaided": "0%",
-        "aided": "0%",
+        "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "green"
       }
     ],
     "pulse": [
@@ -297,7 +297,7 @@
     "leadership_decisions": [],
     "leadership_decisions_carryover": [],
     "next_month_priority": [],
-    "data_confidence": "High — 0 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Sonnet 4.6. Full 8-model benchmark last run: July 2026"
+    "data_confidence": "High — 70 prompts across 1 model",
+    "methodology_note": "Weekly pulse check using Claude Haiku 4.5. Full 8-model benchmark last run: July 2026"
   }
 }

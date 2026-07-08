@@ -27,45 +27,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .stat-lbl{font-size:11px;color:#718096;margin-top:3px}
 .section-title{font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .section-title::after{content:"";flex:1;height:1px;background:#2d3748}
-/* Priority queue table */
 .queue-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:24px}
 .queue-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:9px 14px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2d3748;white-space:nowrap}
 .queue-table td{padding:10px 14px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.5}
 .queue-table tr:last-child td{border-bottom:none}
 .queue-table tr:hover td{background:#1a1f2e}
-.priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;white-space:nowrap}
-.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
-.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210}
-.crawl-pending{color:#f6ad55;font-size:10px;font-weight:600}
-.crawl-ok{color:#68d391;font-size:10px;font-weight:600}
-/* Draft cards */
-.draft-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;margin-bottom:12px;overflow:hidden}
-.draft-card-header{padding:12px 16px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px;cursor:pointer;user-select:none}
-.draft-card-header:hover{background:#1e2436}
-.draft-h1{font-size:14px;font-weight:700;color:#e2e8f0;margin:3px 0;line-height:1.35}
-.draft-meta{font-size:11px;color:#718096;margin-top:2px}
-.draft-body{padding:14px 16px;display:none}
-.draft-body.open{display:block}
+.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block}
+.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block}
+/* 2-column draft grid */
+.drafts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:900px){.drafts-grid{grid-template-columns:1fr}}
+/* Draft card — community style */
+.draft-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;overflow:hidden}
+.draft-hdr{padding:13px 16px;border-bottom:1px solid #2d3748;display:flex;align-items:flex-start;gap:12px}
+.draft-body{padding:13px 16px}
+.sub-label{font-size:10px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px}
+.sub-label:first-child{margin-top:0}
+.draft-h1{font-size:13px;font-weight:700;color:#e2e8f0;line-height:1.4;margin-bottom:4px}
+.draft-desc{font-size:12px;color:#a0aec0;line-height:1.6}
 .cluster-chip{background:#0a1a2d;border:1px solid #2d4a8a;color:#90cdf4;font-size:10px;padding:2px 8px;border-radius:10px;display:inline-block;margin:2px 2px 2px 0}
-.flag-item{display:flex;align-items:flex-start;gap:8px;padding:5px 10px;border-radius:4px;font-size:11px;margin:3px 0}
-.flag-v{background:#0a2d1a;border-left:3px solid #22543d;color:#68d391}
-.flag-p{background:#2d1f00;border-left:3px solid #744210;color:#f6ad55}
-.not-best{background:#2d0a0a;border-left:3px solid #742a2a;padding:7px 11px;border-radius:0 4px 4px 0;font-size:11px;color:#fc8181;margin:8px 0}
-.faq-wrap{border:1px solid #2d3748;border-radius:6px;overflow:hidden;margin-top:8px}
+.not-best{background:#2d0a0a;border-left:3px solid #742a2a;padding:7px 11px;border-radius:0 4px 4px 0;font-size:11px;color:#fc8181;margin:4px 0}
+.faq-wrap{border:1px solid #2d3748;border-radius:6px;overflow:hidden}
 .faq-row{border-bottom:1px solid #1e2436}
 .faq-row:last-child{border-bottom:none}
 .faq-q{padding:8px 12px;font-size:12px;font-weight:600;color:#e2e8f0;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
 .faq-q:hover{background:#1e2436}
-.faq-a{display:none;padding:0 12px 9px;font-size:11px;color:#a0aec0;line-height:1.6}
-.meta-block{background:#0d1420;border:1px solid #2d3748;border-radius:6px;padding:9px 12px;font-family:monospace;font-size:11px;color:#68d391;margin-top:8px;word-break:break-all}
-.chevron{font-size:11px;color:#4a5568;transition:transform .2s;flex-shrink:0;margin-left:8px}
-.chevron.open{transform:rotate(180deg)}
+.faq-a{padding:0 12px 9px;font-size:11px;color:#a0aec0;line-height:1.6}
+.meta-block{background:#0d1420;border:1px solid #2d3748;border-radius:6px;padding:9px 12px;font-family:monospace;font-size:11px;color:#68d391;word-break:break-all;line-height:1.8}
+.brief-id{font-size:10px;color:#4a5568;font-weight:600}
+.crawl-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.crawl-pending{background:#2d1f00;color:#f6ad55;border:1px solid #744210}
+.crawl-ok{background:#0a2d1a;color:#68d391;border:1px solid #22543d}
 .footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
 </style>
 </head>
 <body>
 <div class="header">
-  <div><h1>&#x1F3AF; GoDaddy Payments &mdash; GEO Visibility Dashboard</h1><p>&#x1F528; Content: what to write next &middot; page drafts &middot; claim status</p></div>
+  <div><h1>&#x1F3AF; GoDaddy Payments &mdash; GEO Visibility Dashboard</h1><p>&#x1F528; Content: what to write next &middot; page drafts &middot; 2-column view</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
     <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>&mdash;</span></span>
@@ -86,121 +84,117 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 <div class="lu-bar">Last updated: <strong data-lu-date>&mdash;</strong> &nbsp;&middot;&nbsp; Run: <span data-lu-run>&mdash;</span> &nbsp;&middot;&nbsp; <span data-lu-details></span></div>
 
 <div class="container">
-
-  <!-- KPI row -->
   <div class="stats-row">
     <div class="stat-box"><div class="stat-num" id="st-total" style="color:#90cdf4;">&mdash;</div><div class="stat-lbl">Total Drafts</div></div>
     <div class="stat-box"><div class="stat-num" id="st-p0" style="color:#fc8181;">&mdash;</div><div class="stat-lbl">P0 Priority</div></div>
     <div class="stat-box"><div class="stat-num" id="st-p1" style="color:#f6e05e;">&mdash;</div><div class="stat-lbl">P1 Priority</div></div>
-    <div class="stat-box"><div class="stat-num" id="st-flags" style="color:#f6ad55;">&mdash;</div><div class="stat-lbl">Claims to Verify</div></div>
+    <div class="stat-box"><div class="stat-num" id="st-pub" style="color:#68d391;">&mdash;</div><div class="stat-lbl">Published</div></div>
   </div>
 
-  <!-- Priority queue — what to write next -->
-  <div class="section-title">&#x1F3AF; What to Write Next</div>
+  <div class="section-title">&#x1F3AF; What to Write Next &mdash; Priority Queue</div>
   <table class="queue-table">
     <thead><tr>
       <th style="width:60px;">Priority</th>
       <th>Page Title (H1)</th>
       <th style="width:120px;">Competitor</th>
       <th style="width:110px;">CRAWL Gate</th>
-      <th style="width:80px;">FAQs</th>
-      <th style="width:90px;">Claims</th>
+      <th style="width:60px;">FAQs</th>
     </tr></thead>
     <tbody id="queue-tbody"></tbody>
   </table>
 
-  <!-- Draft cards — expandable -->
-  <div class="section-title">&#x1F4C4; Draft Details <span style="font-size:10px;color:#4a5568;font-weight:400;text-transform:none;letter-spacing:0;">&mdash; click to expand</span></div>
-  <div id="drafts-container"></div>
-
+  <div class="section-title">&#x1F4C4; Draft Details &mdash; 2 per row</div>
+  <div class="drafts-grid" id="drafts-container"></div>
 </div>
+
 <div class="footer">GoDaddy Payments GEO Dashboard</div>
 
 <script>
-function toggleFaq(el) {
-  var a = el.nextElementSibling;
-  a.style.display = (a.style.display === 'block') ? 'none' : 'block';
-}
-function toggleDraft(id) {
-  var body = document.getElementById('db-' + id);
-  var chev = document.getElementById('chev-' + id);
-  if (!body) return;
-  var isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  if (chev) chev.classList.toggle('open', !isOpen);
-}
-
 function renderPage(s) {
   var pages = s.build_pages || [];
   var p0 = pages.filter(function(p){return p.priority==='P0';}).length;
   var p1 = pages.filter(function(p){return p.priority==='P1';}).length;
-  var flags = pages.reduce(function(acc,p){return acc+(p.claim_flags||[]).filter(function(f){return f.claim_status==='verify_needed';}).length;},0);
+  var pub = pages.filter(function(p){return p.status==='published';}).length;
 
   function se(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
-  se('st-total',pages.length); se('st-p0',p0); se('st-p1',p1); se('st-flags',flags);
+  se('st-total',pages.length); se('st-p0',p0); se('st-p1',p1); se('st-pub',pub);
 
-  // Priority queue table
+  // Priority queue
   var tbody = document.getElementById('queue-tbody');
-  if (tbody) {
-    tbody.innerHTML = pages.map(function(p, i) {
-      var priCls = p.priority==='P0' ? 'p0' : 'p1';
-      var crawlColor = p.crawl_phase2==='pending' ? 'crawl-pending' : 'crawl-ok';
-      var crawlIcon  = p.crawl_phase2==='pending' ? '&#x23F3; Pending' : '&#x2705; ' + p.crawl_phase2;
-      var pendFlags  = (p.claim_flags||[]).filter(function(f){return f.claim_status==='verify_needed';}).length;
-      return '<tr onclick="toggleDraft('+i+')" style="cursor:pointer;">'
-        + '<td><span class="priority-badge '+priCls+'">'+p.priority+'</span></td>'
-        + '<td><strong style="color:#e2e8f0;">'+p.h1+'</strong><div style="font-size:10px;color:#4a5568;margin-top:2px;">'+p.brief_id+'</div></td>'
-        + '<td style="color:#a0aec0;">'+(p.competitor||'—')+'</td>'
-        + '<td class="'+crawlColor+'">'+crawlIcon+'</td>'
-        + '<td style="color:#90cdf4;">'+(p.faq||[]).length+'</td>'
-        + '<td style="color:'+(pendFlags>0?'#f6ad55':'#68d391')+';font-weight:700;">'+(pendFlags>0?pendFlags+' &#x26A0;&#xFE0F;':'&#x2705; Clear')+'</td>'
+  if(tbody) {
+    tbody.innerHTML = pages.map(function(p,i) {
+      var priCls = p.priority==='P0'?'p0':'p1';
+      var crawlOk = p.crawl_phase2 && p.crawl_phase2 !== 'pending';
+      var crawlBadge = crawlOk
+        ? '<span class="crawl-badge crawl-ok">&#x2705; ' + p.crawl_phase2 + '</span>'
+        : '<span class="crawl-badge crawl-pending">&#x23F3; Pending</span>';
+      return '<tr>'
+        + '<td><span class="' + priCls + '">' + p.priority + '</span></td>'
+        + '<td><strong style="color:#e2e8f0;">' + p.h1 + '</strong>'
+        + '<div style="font-size:10px;color:#4a5568;margin-top:2px;">' + p.brief_id + '</div></td>'
+        + '<td style="color:#a0aec0;">' + (p.competitor||'—') + '</td>'
+        + '<td>' + crawlBadge + '</td>'
+        + '<td style="color:#90cdf4;">' + (p.faq||[]).length + '</td>'
         + '</tr>';
     }).join('');
   }
 
-  // Draft cards
+  // Draft cards — 2-col, all sections always visible, no claim flags
   var container = document.getElementById('drafts-container');
-  if (!container) return;
-  container.innerHTML = pages.map(function(p, i) {
-    var priCls = p.priority==='P0' ? 'p0' : 'p1';
-    var pendFlags = (p.claim_flags||[]).filter(function(f){return f.claim_status==='verify_needed';}).length;
+  if(!container) return;
+  container.innerHTML = pages.map(function(p) {
+    var priCls = p.priority==='P0'?'p0':'p1';
+    var crawlOk = p.crawl_phase2 && p.crawl_phase2 !== 'pending';
+    var crawlBadge = crawlOk
+      ? '<span class="crawl-badge crawl-ok">&#x2705; ' + p.crawl_phase2 + '</span>'
+      : '<span class="crawl-badge crawl-pending">&#x23F3; CRAWL pending</span>';
 
-    var flagsHtml = (p.claim_flags||[]).map(function(f){
-      var cls = f.claim_status==='verified' ? 'flag-v' : 'flag-p';
-      var ico = f.claim_status==='verified' ? '&#x2705;' : '&#x26A0;&#xFE0F;';
-      return '<div class="flag-item '+cls+'"><span>'+ico+'</span><span><strong>'+f.field+':</strong> '+f.note+'</span></div>';
+    // All query cluster pills — no truncation, no "+N more"
+    var allClusters = (p.query_cluster||[]).map(function(q){
+      return '<span class="cluster-chip">' + q + '</span>';
     }).join('');
 
+    // FAQ — all visible, no collapse
     var faqHtml = (p.faq||[]).map(function(q){
       return '<div class="faq-row">'
-        + '<div class="faq-q" onclick="toggleFaq(this)">'+q.q+'<span style="color:#4a5568;font-size:10px;">&#x25BC;</span></div>'
-        + '<div class="faq-a">'+q.a+'</div>'
+        + '<div class="faq-q" style="cursor:default;">' + q.q + '</div>'
+        + '<div class="faq-a">' + q.a + '</div>'
         + '</div>';
     }).join('');
 
-    var clusters = (p.query_cluster||[]).slice(0,4).map(function(q){
-      return '<span class="cluster-chip">'+q+'</span>';
-    }).join('') + ((p.query_cluster||[]).length>4 ? '<span class="cluster-chip" style="background:#151921;border-color:#2d3748;color:#718096;">+'+(p.query_cluster.length-4)+' more</span>' : '');
-
     return '<div class="draft-card">'
-      + '<div class="draft-card-header" onclick="toggleDraft('+i+')">'
-      + '<span class="priority-badge '+priCls+'" style="margin-top:3px;">'+p.priority+'</span>'
+      // Header
+      + '<div class="draft-hdr">'
+      + '<span class="' + priCls + '" style="margin-top:3px;">' + p.priority + '</span>'
       + '<div style="flex:1;">'
-      + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px;">'
-      + '<span style="font-size:10px;color:#4a5568;">'+p.brief_id+'</span>'
-      + (pendFlags>0 ? '<span style="font-size:10px;color:#f6ad55;font-weight:700;">'+pendFlags+' claim'+(pendFlags>1?'s':'')+' to verify</span>' : '<span style="font-size:10px;color:#68d391;">Claims clear</span>')
+      + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px;">'
+      + '<span class="brief-id">' + p.brief_id + '</span>'
+      + crawlBadge
       + '</div>'
-      + '<div class="draft-h1">'+p.h1+'</div>'
-      + '<div class="draft-meta">'+p.win_angle+'</div>'
       + '</div>'
-      + '<span class="chevron" id="chev-'+i+'">&#x25BC;</span>'
       + '</div>'
-      + '<div class="draft-body" id="db-'+i+'">'
-      + '<div style="margin-bottom:10px;">'+clusters+'</div>'
-      + (flagsHtml ? '<div style="margin-bottom:8px;">'+flagsHtml+'</div>' : '')
-      + (p.not_best_for ? '<div class="not-best">&#x274C; Not best for: '+p.not_best_for+'</div>' : '')
-      + (faqHtml ? '<div class="faq-wrap">'+faqHtml+'</div>' : '')
-      + (p.meta_title ? '<details style="margin-top:8px;"><summary style="font-size:11px;color:#4a5568;cursor:pointer;">Meta / Canonical</summary><div class="meta-block">title: '+p.meta_title+'<br>desc: '+p.meta_description+'<br>canonical: '+(p.canonical||'—')+'</div></details>' : '')
+      // Body
+      + '<div class="draft-body">'
+      // Title
+      + '<div class="sub-label">Title</div>'
+      + '<div class="draft-h1">' + p.h1 + '</div>'
+      // Description / Win angle
+      + '<div class="sub-label">Description</div>'
+      + '<div class="draft-desc">' + (p.win_angle||'—') + '</div>'
+      // Query clusters
+      + '<div class="sub-label">Query Clusters</div>'
+      + '<div>' + allClusters + '</div>'
+      // Not best for
+      + (p.not_best_for ? '<div class="sub-label">Not Best For</div><div class="not-best">' + p.not_best_for + '</div>' : '')
+      // FAQ
+      + (faqHtml ? '<div class="sub-label">FAQ (' + (p.faq||[]).length + ' questions)</div><div class="faq-wrap">' + faqHtml + '</div>' : '')
+      // Meta / Canonical — always visible
+      + '<div class="sub-label">Meta &amp; Canonical</div>'
+      + '<div class="meta-block">'
+      + '<strong>Title:</strong> ' + (p.meta_title||'—') + '<br>'
+      + '<strong>Description:</strong> ' + (p.meta_description||'—') + '<br>'
+      + '<strong>Canonical:</strong> ' + (p.canonical||'—')
+      + '</div>'
       + '</div>'
       + '</div>';
   }).join('');

@@ -10,7 +10,13 @@
     "last_full_benchmark": "July 2026"
   },
   "trends": {
-    "monthly": [
+    "weekly": [
+      {
+        "run_id": "2026-06-W25",
+        "unaided_sov": 0.0,
+        "aided_sov": 100.0,
+        "rate_saver_sov": 0.0
+      },
       {
         "run_id": "2026-06-W26",
         "unaided_sov": 0.0,
@@ -20,11 +26,23 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 85.7,
+        "aided_sov": 100.0,
+        "rate_saver_sov": 0.0
+      },
+      {
+        "run_id": "2026-07-W28",
+        "unaided_sov": 0.0,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       }
     ],
-    "weekly": [
+    "monthly": [
+      {
+        "run_id": "2026-06-W25",
+        "unaided_sov": 0.0,
+        "aided_sov": 100.0,
+        "rate_saver_sov": 0.0
+      },
       {
         "run_id": "2026-06-W26",
         "unaided_sov": 0.0,
@@ -34,7 +52,7 @@
       {
         "run_id": "2026-07-W27",
         "unaided_sov": 0.0,
-        "aided_sov": 85.7,
+        "aided_sov": 100.0,
         "rate_saver_sov": 0.0
       },
       {

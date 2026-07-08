@@ -20,7 +20,6 @@ function renderHeader(s) {
   const m = s.meta || {};
   const u = s.sov_dashboard?.unaided_sov?.value || s.kpis?.unaided_sov?.value || '~0%';
 
-  // Update header badges
   document.querySelectorAll('[data-last-updated]').forEach(el =>
     el.textContent = m.last_updated || '—');
 
@@ -37,7 +36,6 @@ function renderHeader(s) {
   document.querySelectorAll('[data-unaided-sov]').forEach(el =>
     el.textContent = 'Unaided SOV ' + u);
 
-  // Last updated bar
   document.querySelectorAll('[data-lu-date]').forEach(el =>
     el.textContent = m.last_updated || '—');
 
@@ -52,7 +50,6 @@ function renderHeader(s) {
     }
   });
 
-  // Show last full benchmark on weekly pages
   document.querySelectorAll('[data-last-benchmark]').forEach(el => {
     if (m.run_type === 'weekly' && m.last_full_benchmark) {
       el.style.display = 'inline';
@@ -102,13 +99,12 @@ function renderCompetitors(s, containerId) {
 }
 
 // ── Model tables (Overview + Report) ─────────────────────────────
-// FIX: adds Frequency column, consistent colors, also populates report.html table
 function renderModelTables(s) {
   const primary = s.model_sov?.primary || [];
   const pulse   = s.model_sov?.pulse   || [];
   const COLOR_MAP = {'red':'#fc8181','yellow':'#f6e05e','green':'#68d391','blue':'#90cdf4'};
 
-  // Build a row for the Overview "What We Track" table (6 columns)
+  // FIXED: correct column order — Model | Freq | Unaided | Aided | Status | Notes
   function primaryRow(m) {
     const isHaiku = (m.name || '').toLowerCase().includes('haiku');
     const freq = isHaiku
@@ -116,26 +112,36 @@ function renderModelTables(s) {
       : '<span style="background:#2d4a8a;color:#90cdf4;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">MONTHLY</span>';
     const uColor = COLOR_MAP[m.u_color] || m.u_color || '#fc8181';
     const aColor = COLOR_MAP[m.a_color] || m.a_color || '#68d391';
+    var note = m.notes || m.why || '';
+    var noteColor = '#718096';
+    if (m.status === 'partial') { note = '⚠️ ' + note; noteColor = '#f6ad55'; }
+    else if (m.status === 'error') { note = '❌ ' + note; noteColor = '#fc8181'; }
     return '<tr>'
       + '<td><strong>' + m.name + '</strong></td>'
       + '<td>' + freq + '</td>'
-      + '<td style="color:#a0aec0;font-size:11px;">' + m.why + '</td>'
-      + '<td><span class="model-tag tag-red" style="color:' + uColor + '">' + m.unaided + '</span></td>'
-      + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
-      + '<td>' + statusBadge(m.status) + '</td>'
+      + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="color:' + uColor + ';font-weight:700;">' + m.unaided + '</span></td>'
+      + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="background:#1a2744;color:' + aColor + ';padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;">' + m.aided + '</span></td>'
+      + '<td style="width:90px;">' + statusBadge(m.status) + '</td>'
+      + '<td style="color:' + noteColor + ';font-size:11px;">' + note + '</td>'
       + '</tr>';
   }
+
+  // FIXED: correct column order — Model | Freq | Unaided | Aided | Status | Notes
   function pulseRow(m) {
     const freq = '<span style="background:#f6ad55;color:#1a202c;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;">WEEKLY</span>';
     const uColor = COLOR_MAP[m.u_color] || m.u_color || '#4a5568';
     const aColor = COLOR_MAP[m.a_color] || m.a_color || '#4a5568';
+    var note = m.notes || m.why || '';
+    if (m.trigger) note = (note ? note + ' — ' : '') + m.trigger;
+    var noteColor = m.status === 'partial' ? '#f6ad55' : '#718096';
+    if (m.status === 'partial') note = '⚠️ ' + note;
     return '<tr>'
       + '<td><strong>' + m.name + '</strong></td>'
       + '<td>' + freq + '</td>'
-      + '<td style="color:#a0aec0;font-size:11px;">' + m.why + '</td>'
-      + '<td><span class="model-tag" style="background:#1a2744;color:' + uColor + ';">' + m.unaided + '</span></td>'
-      + '<td><span class="model-tag" style="background:#1a2744;color:' + aColor + ';">' + m.aided + '</span></td>'
-      + '<td>' + statusBadge(m.status) + '</td>'
+      + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="color:' + uColor + ';font-weight:700;">' + m.unaided + '</span></td>'
+      + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="background:#1a2744;color:' + aColor + ';padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;">' + m.aided + '</span></td>'
+      + '<td style="width:90px;">' + statusBadge(m.status) + '</td>'
+      + '<td style="color:' + noteColor + ';font-size:11px;">' + note + '</td>'
       + '</tr>';
   }
 
@@ -147,7 +153,7 @@ function renderModelTables(s) {
   const pulseEl = document.getElementById('pulse-model-rows');
   if (pulseEl) pulseEl.innerHTML = pulse.map(pulseRow).join('');
 
-  // Report page AI Platform table — same data, extra Type + Notes columns
+  // Report page AI Platform table
   const reportEl = document.getElementById('report-ai-platform-rows');
   if (reportEl) {
     var rows = '';
@@ -187,7 +193,6 @@ function renderModelTables(s) {
     reportEl.innerHTML = rows;
   }
 }
-
 
 // ── Perplexity simulation table (Overview + Report) ──────────────
 function renderPerplexity(s, containerId) {
@@ -265,17 +270,12 @@ function renderBuildPages(s, containerId) {
       <h3 class="build-h1">${p.h1}</h3>
       <div class="build-meta">Cluster: ${p.query_cluster.join(', ')} · Competitor: ${p.competitor}</div>
       <div class="build-win-angle">Win angle: ${p.win_angle}</div>
-
       ${p.claim_flags?.length ? `
         <div class="claim-flags">
           ${p.claim_flags.map(f => `
-            <div class="claim-flag">
-              ⚠️ <strong>${f.field}:</strong> ${f.note}
-            </div>`).join('')}
+            <div class="claim-flag">⚠️ <strong>${f.field}:</strong> ${f.note}</div>`).join('')}
         </div>` : ''}
-
       <div class="build-not-best">❌ Not best for: ${p.not_best_for}</div>
-
       <details class="build-faq">
         <summary>FAQ (${p.faq?.length || 0} questions)</summary>
         ${(p.faq || []).map(q => `
@@ -284,12 +284,10 @@ function renderBuildPages(s, containerId) {
             <div class="faq-a">${q.a}</div>
           </div>`).join('')}
       </details>
-
       ${p.footnotes?.length ? `
         <div class="build-footnotes">
           ${p.footnotes.map((f,i) => `<div>¹ ${f}</div>`).join('')}
         </div>` : ''}
-
       <div class="build-meta-tags">
         <div><strong>Meta title:</strong> ${p.meta_title}</div>
         <div><strong>Meta desc:</strong> ${p.meta_description}</div>
@@ -313,20 +311,16 @@ function renderAmplifyThreads(s, containerId) {
       </div>
       <div class="amplify-thread">"${t.thread}"</div>
       <div class="amplify-clusters">Cluster: ${t.cluster.join(', ')}</div>
-
       ${t.claim_flags?.length ? `
         <div class="claim-flags">
           ${t.claim_flags.map(f => `
-            <div class="claim-flag">⚠️ <strong>${f.field}:</strong> ${f.note}</div>`
-          ).join('')}
+            <div class="claim-flag">⚠️ <strong>${f.field}:</strong> ${f.note}</div>`).join('')}
         </div>` : ''}
-
       <details class="amplify-draft">
         <summary>View draft response</summary>
         <pre class="draft-text">${t.draft}</pre>
         <div class="disclosure-box">📢 ${t.disclosure}</div>
       </details>
-
     </div>`).join('');
 }
 
@@ -369,10 +363,8 @@ function renderCitePipeline(s, containerId) {
 function renderReport(s) {
   const r = s.report_summary || {};
 
-  // Binding constraint banner
   set('report-constraint', r.binding_constraint || '—');
 
-  // Top wins
   const winsEl = document.getElementById('report-wins');
   if (winsEl) winsEl.innerHTML = (r.top_wins || []).map(w => `
     <div class="win-card">
@@ -380,7 +372,6 @@ function renderReport(s) {
       <div><strong>${w.win}</strong><br><small>Agent: ${w.agent} · ${w.impact}</small></div>
     </div>`).join('');
 
-  // Top gaps
   const gapsEl = document.getElementById('report-gaps');
   if (gapsEl) gapsEl.innerHTML = (r.top_gaps || []).map(g => `
     <div class="gap-card">
@@ -390,7 +381,6 @@ function renderReport(s) {
       </div>
     </div>`).join('');
 
-  // Leading indicators
   const liEl = document.getElementById('report-leading-indicators');
   if (liEl) liEl.innerHTML = (r.leading_indicators || []).map(i => `
     <tr>
@@ -399,7 +389,6 @@ function renderReport(s) {
       <td>${trafficLight(i.status)}</td>
     </tr>`).join('');
 
-  // Leadership decisions
   const ldEl = document.getElementById('report-leadership-decisions');
   if (ldEl) ldEl.innerHTML = (r.leadership_decisions || []).map(d => `
     <tr>
@@ -409,7 +398,6 @@ function renderReport(s) {
       <td>${d.consequence}</td>
     </tr>`).join('');
 
-  // Next month priority
   const nmEl = document.getElementById('report-next-priority');
   if (nmEl) nmEl.innerHTML = (r.next_month_priority || []).map(n => `
     <tr>
@@ -420,22 +408,16 @@ function renderReport(s) {
       <td>${n.window}</td>
     </tr>`).join('');
 
-  // Data confidence
   set('report-confidence', r.data_confidence || '—');
   set('report-methodology', r.methodology_note || '—');
 }
 
-// ── Trends Chart ─────────────────────────────────────────────────
-// Rolling 6-month window: starts at earliest data month, goes 6 months forward.
-// Jun data → shows Jun-Nov. When Jun drops off (>6mo old) → shifts to Aug-Jan.
-// X-axis: month names in blue at boundaries, WK labels every 2 weeks between.
-// Last month label is always shown even if no data has reached it yet.
+// ── Trends Chart ──────────────────────────────────────────────────
 function renderTrendsChart(trends) {
   const canvas = document.getElementById('trendsChart');
   const note = document.getElementById('trends-note');
   if (!canvas) return;
 
-  // Normalise input
   var dataPoints = [];
   if (trends && typeof trends === 'object' && !Array.isArray(trends)) {
     dataPoints = trends.monthly || trends.weekly || [];
@@ -446,26 +428,21 @@ function renderTrendsChart(trends) {
   var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun',
                      'Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  // ── Determine 6-month window ──────────────────────────────────────
-  // Start = earliest data month still within 6 months of today.
-  // If no data, start = current month. End = start + 5 months.
   var today = new Date();
   var currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  // Six months ago (start of month)
   var sixMoBackMonth = today.getMonth() - 5;
   var sixMoBackYear  = today.getFullYear();
   if (sixMoBackMonth < 0) { sixMoBackMonth += 12; sixMoBackYear -= 1; }
   var sixMonthsAgo = new Date(sixMoBackYear, sixMoBackMonth, 1);
 
-  // Collect data months that fall within the window
   var dataMonths = [];
   dataPoints.forEach(function(p) {
     var rid = p.run_id || '';
     var parts = rid.split('-');
     if (parts.length >= 2) {
       var yr = parseInt(parts[0]);
-      var mo = parseInt(parts[1]) - 1; // 0-indexed
+      var mo = parseInt(parts[1]) - 1;
       if (!isNaN(yr) && !isNaN(mo)) {
         var dm = new Date(yr, mo, 1);
         if (dm >= sixMonthsAgo) dataMonths.push(dm);
@@ -473,38 +450,31 @@ function renderTrendsChart(trends) {
     }
   });
 
-  // Window start: earliest valid data month, or current month if no data
   var windowStart = dataMonths.length > 0
     ? dataMonths.reduce(function(a, b) { return a < b ? a : b; })
     : currentMonth;
 
-  // Window end: windowStart + 5 months
   var endMo = windowStart.getMonth() + 5;
   var endYr = windowStart.getFullYear();
   if (endMo > 11) { endMo -= 12; endYr += 1; }
-  var windowEnd = new Date(endYr, endMo, 1); // first day of last month
+  var windowEnd = new Date(endYr, endMo, 1);
 
-  // ── Build week slots from windowStart Monday → last day of windowEnd month ──
   function getMonday(d) {
     var day = d.getDay();
     var diff = d.getDate() - day + (day === 0 ? -6 : 1);
     return new Date(d.getFullYear(), d.getMonth(), diff);
   }
 
-  // First Monday on or after windowStart
   var slotDate = getMonday(windowStart);
-  // Last day of windowEnd month
   var windowEndLastDay = new Date(windowEnd.getFullYear(), windowEnd.getMonth() + 1, 0);
 
   var slots = [];
   var d = new Date(slotDate);
   while (d <= windowEndLastDay) {
-    // ISO week number
     var jan4 = new Date(d.getFullYear(), 0, 4);
     var w1 = new Date(jan4);
     w1.setDate(jan4.getDate() - jan4.getDay() + 1);
     var weekNum = Math.floor((d - w1) / (7 * 86400000)) + 1;
-
     slots.push({
       date: new Date(d),
       weekNum: weekNum,
@@ -517,7 +487,6 @@ function renderTrendsChart(trends) {
     d.setDate(d.getDate() + 7);
   }
 
-  // ── Map data points into slots by week number ─────────────────────
   dataPoints.forEach(function(p) {
     var wMatch = (p.run_id || '').match(/W([0-9]+)$/);
     if (!wMatch) return;
@@ -535,9 +504,8 @@ function renderTrendsChart(trends) {
 
   var dataCount = slots.filter(function(s) { return s.hasData; }).length;
   var NUM_SLOTS = slots.length;
-  if (NUM_SLOTS < 2) NUM_SLOTS = 2; // avoid div-by-zero
+  if (NUM_SLOTS < 2) NUM_SLOTS = 2;
 
-  // ── Canvas ────────────────────────────────────────────────────────
   canvas.width  = canvas.offsetWidth || 900;
   canvas.height = 210;
   canvas.style.display = 'block';
@@ -550,7 +518,6 @@ function renderTrendsChart(trends) {
   ctx.fillStyle = '#161b28';
   ctx.fillRect(0, 0, W, H);
 
-  // Y-axis grid + labels
   [100, 75, 50, 25, 0].forEach(function(pct) {
     var y = padT + chartH - (pct / 100) * chartH;
     ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
@@ -562,7 +529,6 @@ function renderTrendsChart(trends) {
 
   function slotX(i) { return padL + (chartW / (NUM_SLOTS - 1)) * i; }
 
-  // Week tick marks
   slots.forEach(function(s, i) {
     ctx.strokeStyle = '#2d3748'; ctx.lineWidth = 1;
     ctx.beginPath();
@@ -571,7 +537,6 @@ function renderTrendsChart(trends) {
     ctx.stroke();
   });
 
-  // WK labels every 2 slots (gray, small) — skip month-start slots
   slots.forEach(function(s, i) {
     if (s.isMonthStart) return;
     if (i % 2 !== 0) return;
@@ -580,8 +545,6 @@ function renderTrendsChart(trends) {
     ctx.fillText(s.label, slotX(i), H - padB + 16);
   });
 
-  // Month labels (blue bold) + dashed vertical guide
-  // Track which months have been labeled to fix the last-month problem
   var labeledMonths = new Set();
   slots.forEach(function(s, i) {
     if (!s.isMonthStart) return;
@@ -597,9 +560,6 @@ function renderTrendsChart(trends) {
     ctx.fillText(s.month, x, H - padB + 30);
   });
 
-  // ── LAST MONTH LABEL FIX ──────────────────────────────────────────
-  // If the last slot's month was never labeled (window ends mid-month),
-  // force the label at the rightmost x position.
   if (slots.length > 0) {
     var lastSlot = slots[slots.length - 1];
     var lastMonthKey = lastSlot.monthIdx + '_' + lastSlot.date.getFullYear();
@@ -616,7 +576,6 @@ function renderTrendsChart(trends) {
     }
   }
 
-  // Lines + dots for each metric
   var METRICS = [
     { key: 'unaided',   color: '#dc2626' },
     { key: 'aided',     color: '#fbbf24' },
@@ -633,7 +592,6 @@ function renderTrendsChart(trends) {
       started ? ctx.lineTo(x, y) : (ctx.moveTo(x, y), started = true);
     });
     if (started) ctx.stroke();
-
     slots.forEach(function(s, i) {
       if (!s.hasData) return;
       var x = slotX(i);
@@ -645,7 +603,6 @@ function renderTrendsChart(trends) {
     });
   });
 
-  // Footer note
   if (note) {
     var startLabel = MONTH_NAMES[windowStart.getMonth()] + ' ' + windowStart.getFullYear();
     var endLabel   = MONTH_NAMES[windowEnd.getMonth()]   + ' ' + windowEnd.getFullYear();
@@ -656,9 +613,7 @@ function renderTrendsChart(trends) {
   }
 }
 
-// ── Branded Search Status ────────────────────────────────────────
-// Handles success (all good), partial (incomplete run, not a failure),
-// and hard failure (model ran fully but missed GoDaddy on branded prompts).
+// ── Branded Search Status ─────────────────────────────────────────
 function renderBrandedSearchStatus(s) {
   var brandedList = document.getElementById('branded-issues-list');
   if (!brandedList) return;
@@ -680,7 +635,6 @@ function renderBrandedSearchStatus(s) {
 
   var html = '';
 
-  // Hard failures — GoDaddy not recognized on branded prompts
   hardFailures.concat(brandedIssues.filter(function(m) {
     return hardFailures.indexOf(m) === -1;
   })).forEach(function(m) {
@@ -692,14 +646,12 @@ function renderBrandedSearchStatus(s) {
       + '</div>';
   });
 
-  // Partial runs — incomplete benchmark, not a recognition failure
   partialRuns.forEach(function(m) {
     var aidedPct = parseFloat((m.aided || '0').replace('%', ''));
     var totalPrompts = m.aided_total || 7;
     var completedPrompts = m.aided_completed || Math.round(aidedPct / 100 * totalPrompts);
     html += '<div class="indicator-row">'
-      + '<span class="priority-badge p0" style="background:#2d1f00;border-color:#744210;color:#f6ad55;">'
-      + '⚠️</span>'
+      + '<span class="priority-badge p0" style="background:#2d1f00;border-color:#744210;color:#f6ad55;">⚠️</span>'
       + '<div class="indicator-label">'
       + '<strong>' + m.name + '</strong>: Partial run — '
       + completedPrompts + '/' + totalPrompts + ' prompts completed. '
@@ -710,7 +662,6 @@ function renderBrandedSearchStatus(s) {
       + '</div>';
   });
 
-  // All clear
   if (html === '') {
     html = '<div class="indicator-row">'
       + '<span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>'

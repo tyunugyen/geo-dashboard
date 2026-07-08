@@ -1,413 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GEO Dashboard — Overview</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0f1117;color:#e2e8f0;min-height:100vh;font-size:13px}
-.header{background:linear-gradient(135deg,#1a1f2e 0%,#0f1117 100%);border-bottom:1px solid #2d3748;padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
-.header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
-.header p{font-size:12px;color:#718096;margin-top:2px}
-.header-right{display:flex;gap:10px;align-items:center}
-.badge{background:#1a2744;border:1px solid #2d4a8a;color:#90cdf4;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
-.badge-warn{background:#2d1f00;border-color:#744210;color:#f6ad55}
-.badge-success{background:#0a2d1a;border-color:#22543d;color:#68d391}
-.nav{display:flex;gap:2px;padding:0 32px;background:#141821;border-bottom:1px solid #2d3748;flex-wrap:wrap}
-.nav a{padding:10px 13px;font-size:12px;font-weight:600;color:#718096;text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
-.nav a:hover{color:#cbd5e0}
-.nav a.active{color:#90cdf4;border-bottom-color:#3182ce}
-.lu-bar{background:#0d1117;border-bottom:1px solid #2d3748;padding:5px 32px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#4a5568;position:sticky;top:0;z-index:90}
-.lu-bar strong{color:#718096}
-.container{padding:20px 32px;max-width:1400px;margin:0 auto}
-.alert{background:#1a0a00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:6px;padding:11px 16px;margin-bottom:18px;font-size:12px;color:#f6ad55}
-.alert strong{color:#fbd38d}
-.alert.green{background:#0a1a0a;border-color:#22543d;border-left-color:#48bb78;color:#68d391}
-.alert.blue{background:#0a1020;border-color:#2d4a8a;border-left-color:#3182ce;color:#90cdf4}
-.section-title{font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.section-title::after{content:"";flex:1;height:1px;background:#2d3748}
-.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
-.card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px}
-.card h3{font-size:11px;font-weight:700;color:#a0aec0;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.kpi{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:16px;position:relative;overflow:hidden}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.kpi.red::before{background:#fc8181}.kpi.yellow::before{background:#f6e05e}.kpi.green::before{background:#68d391}.kpi.blue::before{background:#90cdf4}
-.kpi-label{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.kpi-value{font-size:30px;font-weight:800;line-height:1;margin-bottom:4px}
-.kpi.red .kpi-value{color:#fc8181}.kpi.yellow .kpi-value{color:#f6e05e}.kpi.green .kpi-value{color:#68d391}.kpi.blue .kpi-value{color:#90cdf4}
-.kpi-sub{font-size:11px;color:#718096}
-.kpi-target{font-size:11px;color:#4a5568;margin-top:8px;padding-top:8px;border-top:1px solid #2d3748}
-.kpi-target span{color:#63b3ed;font-weight:700}
-.pf-spark{height:34px;margin-top:8px;display:flex;align-items:flex-end;gap:3px}
-.pf-bar{flex:1;background:#2d3748;border-radius:2px 2px 0 0;min-height:3px}
-.pf-bar.now{background:#3182ce}
-.priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;display:inline-block}
-.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
-.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210}
-.p2{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74}
-.tag-green{background:#0a2d1a;color:#68d391;border:1px solid #22543d;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-red{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-yellow{background:#2d2200;color:#f6e05e;border:1px solid #744210;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-blue{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.indicator-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e2436;gap:10px}
-.indicator-row:last-child{border-bottom:none}
-.indicator-label{font-size:12px;color:#e2e8f0;flex:1}
-.indicator-status{font-size:11px;font-weight:700;flex-shrink:0}
-.indicator-status.red{color:#fc8181}.indicator-status.green{color:#68d391}.indicator-status.yellow{color:#f6ad55}.indicator-status.blue{color:#90cdf4}
-.model-table{width:100%;border-collapse:collapse;font-size:12px}
-.model-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 11px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2d3748}
-.model-table td{padding:9px 11px;border-bottom:1px solid #1e2436;vertical-align:middle}
-.model-table tr:last-child td{border-bottom:none}
-.prompt-table{width:100%;border-collapse:collapse;font-size:12px}
-.prompt-table th{text-align:left;color:#718096;font-size:11px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #2d3748}
-.prompt-table td{padding:9px 8px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top}
-.comp-row{display:flex;align-items:center;margin-bottom:9px;gap:10px}
-.comp-name{font-size:12px;width:76px;flex-shrink:0;font-weight:600}
-.comp-bar-wrap{flex:1;height:18px;background:#2d3748;border-radius:4px;overflow:hidden}
-.comp-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff}
-.comp-pct{font-size:11px;color:#a0aec0;width:36px;text-align:right;flex-shrink:0}
-.comp-label{font-size:10px;color:#4a5568;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.cat-cell{border-radius:6px;padding:9px 11px;cursor:pointer;text-decoration:none;display:block;color:inherit;transition:transform .1s}
-.cat-cell:hover{transform:translateY(-1px)}
-.cat-cell-red{background:#2d0a0a;border:1px solid #742a2a}
-.cat-cell-green{background:#0a2d1a;border:1px solid #22543d}
-.cat-cell-yellow{background:#2d2200;border:1px solid #744210}
-.cat-name{font-size:11px;color:#a0aec0;font-weight:600}
-.cat-sov{font-size:18px;font-weight:800;margin-top:3px}
-.cat-sov.red{color:#fc8181}.cat-sov.green{color:#68d391}.cat-sov.yellow{color:#f6e05e}
-.cat-target{font-size:10px;color:#4a5568;margin-top:1px}
-.trend-card{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:18px;margin-bottom:20px}
-.ext-link{color:#90cdf4;text-decoration:none;border-bottom:1px dotted #3182ce}
-.ext-link:hover{color:#bee3f8}
-details summary{cursor:pointer;font-size:12px;color:#90cdf4;padding:6px 0;list-style:none}
-details summary::-webkit-details-marker{display:none}
-.data-table{width:100%;border-collapse:collapse;font-size:12px}
-.data-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;white-space:nowrap}
-.data-table td{padding:9px 12px;border-bottom:1px solid #1e2436;vertical-align:top}
-.data-table tr:last-child td{border-bottom:none}
-.data-table td:first-child{font-weight:500;color:#e2e8f0}
-.footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
-
-.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
-.status-pill:hover{border-color:#3182ce}
-.status-pill.red{border-left:3px solid #fc8181}
-.status-pill.yellow{border-left:3px solid #f6e05e}
-.status-pill.green{border-left:3px solid #68d391}
-.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-/* Action table */
-.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
-.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.action-section-title.p0-title{color:#fc8181}
-.action-section-title.p1-title{color:#f6e05e}
-.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
-.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
-.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
-.action-tbl tr:last-child td{border-bottom:none}
-.action-tbl .col-pri{width:60px;text-align:center}
-.action-tbl .col-action{width:40%}
-.action-tbl .col-root{width:30%}
-.action-tbl .col-blocker{width:20%}
-.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
-/* Intel card */
-.intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
-.intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
-.intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GEO Dashboard — Overview</title>
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-<div class="header">
-  <div>
-    <h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1>
-    <p>Overview: SOV dashboard · signals · action status</p>
+
+<!-- ── Header ─────────────────────────────────────────────────── -->
+<header class="dash-header">
+  <div class="header-left">
+    <span class="header-logo">🎯 GoDaddy Payments — GEO Visibility Dashboard</span>
+    <span class="header-sub">Overview: SOV dashboard · signals · action status</span>
   </div>
   <div class="header-right">
-    <span class="badge" data-run-type>BAT automated</span>
-    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
-    <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
+    <span data-run-type class="badge">BAT automated</span>
+    <span class="header-date">Updated: <strong data-last-updated>—</strong></span>
+    <span class="header-sov" data-unaided-sov>Unaided SOV ~0%</span>
   </div>
-</div>
-<div class="nav"><a href="index.html" class="active">📊 Overview</a><a href="insights.html" class="">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="">📋 Report</a><a href="roadmap.html" class="">🗺️ Next Steps</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
+</header>
+
+<!-- ── Nav ────────────────────────────────────────────────────── -->
+<nav class="dash-nav">
+  <a href="index.html" class="nav-active">📊 Overview</a>
+  <a href="insights.html">📡 Insights</a>
+  <a href="prompts.html">📝 Prompts</a>
+  <a href="citations.html">🏆 Citations</a>
+  <a href="build.html">🔨 Content</a>
+  <a href="amplify.html">📣 Community</a>
+  <a href="report.html">📋 Report</a>
+  <a href="next-steps.html">🗺️ Next Steps</a>
+  <a href="maintenance.html">🔧 Maintenance</a>
+</nav>
+
+<!-- ── Last updated bar ───────────────────────────────────────── -->
 <div class="lu-bar">
-  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
-</div>
-<div class="container">
-
-<div class="alert">⚠️ <strong>Unaided SOV is 0%.</strong> GoDaddy is invisible when AI builds a consideration set cold. Binding constraint = absent from NerdWallet, Forbes Advisor, and TechRadar roundups.</div>
-
-<!-- KPI tiles -->
-<div class="section-title">📈 Top-Line Metrics</div>
-<div class="grid-4">
-  <div class="kpi red">
-    <div class="kpi-label">🎯 Unaided SOV</div>
-    <div class="kpi-value" id="kpi-unaided">~0%</div>
-    <div class="kpi-sub">Cold — no GoDaddy in prompt</div>
-    <div class="pf-spark" id="spark-unaided"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-    <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
-  </div>
-  <div class="kpi green">
-    <div class="kpi-label">✅ Aided SOV</div>
-    <div class="kpi-value" id="kpi-aided">~100%</div>
-    <div class="kpi-sub">GoDaddy named in prompt ✓</div>
-    <div class="pf-spark" id="spark-aided"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:30px"></div></div>
-    <div class="kpi-target">Target: <span>Maintain ~100%</span></div>
-  </div>
-  <div class="kpi red">
-    <div class="kpi-label">🏆 Citation Rank</div>
-    <div class="kpi-value" id="kpi-citation" style="font-size:18px;padding-top:6px;">Unranked</div>
-    <div class="kpi-sub">Absent 5/6 top publishers</div>
-    <div class="pf-spark"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-    <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
-  </div>
-  <div class="kpi yellow">
-    <div class="kpi-label">💡 Rate Saver Cited</div>
-    <div class="kpi-value" id="kpi-rate-saver">0%</div>
-    <div class="kpi-sub">Only 0% product — invisible</div>
-    <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
-    <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
-  </div>
+  Last updated: <strong data-lu-date>—</strong>
+  &nbsp;·&nbsp;
+  Run: <strong data-lu-run>—</strong>
+  &nbsp;·&nbsp;
+  <span data-lu-details></span>
+  <span data-last-benchmark style="display:none;"></span>
 </div>
 
-<!-- Trend -->
-<div class="trend-card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-    <div style="font-size:12px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:.5px;">📈 SOV Trends (Rolling 6-Month)</div>
-    <div style="display:flex;gap:14px;font-size:11px;">
-      <span style="color:#dc2626;">━ Unaided</span>
-      <span style="color:#fbbf24;">━ Aided</span>
-      <span style="color:#90cdf4;">━ Rate Saver</span>
+<!-- ── Binding constraint banner ──────────────────────────────── -->
+<div class="constraint-banner">
+  ⚠️ Unaided SOV is 0%. GoDaddy is invisible when AI builds a consideration set cold.
+  Binding constraint = absent from NerdWallet, Forbes Advisor, and TechRadar roundups.
+</div>
+
+<!-- ── KPI cards ──────────────────────────────────────────────── -->
+<section class="kpi-section">
+  <h2>📈 Top-Line Metrics</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-red">
+      <div class="kpi-label">🎯 Unaided SOV</div>
+      <div class="kpi-value" id="kpi-unaided">~0%</div>
+      <div class="kpi-sub">Cold — no GoDaddy in prompt</div>
+      <div class="kpi-target">Target: 40%+ by month 9</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-label">✅ Aided SOV</div>
+      <div class="kpi-value" id="kpi-aided">~100%</div>
+      <div class="kpi-sub">GoDaddy named in prompt ✓</div>
+      <div class="kpi-target">Target: Maintain ~100%</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-label">🏆 Citation Rank</div>
+      <div class="kpi-value" id="kpi-citation">Unranked</div>
+      <div class="kpi-sub">Absent 5/6 top publishers</div>
+      <div class="kpi-target">Target: NerdWallet + Forbes by month 3</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-label">💡 Rate Saver Cited</div>
+      <div class="kpi-value" id="kpi-rate-saver">0%</div>
+      <div class="kpi-sub">Only 0% product — invisible</div>
+      <div class="kpi-target">Target: 50% of fee queries by month 9</div>
     </div>
   </div>
-  <canvas id="trendsChart" style="width:100%;height:170px;display:block;"></canvas>
-  <div id="trends-note" style="margin-top:6px;font-size:10px;color:#4a5568;text-align:center;">Loading...</div>
-</div>
+</section>
 
-<!-- Category + Competitor -->
-<div class="grid-2">
-  <div class="card">
-    <h3>📊 Unaided SOV by Category <span style="font-size:10px;color:#4a5568;font-weight:400;">— click to see prompts</span></h3>
-    <div id="category-grid" class="cat-grid"></div>
+<!-- ── Trends chart ───────────────────────────────────────────── -->
+<section class="trends-section">
+  <h2>📈 SOV Trends (Rolling 6-Month)</h2>
+  <div class="trends-legend">
+    <span style="color:#dc2626;">━ Unaided</span>
+    &nbsp;&nbsp;
+    <span style="color:#fbbf24;">━ Aided</span>
+    &nbsp;&nbsp;
+    <span style="color:#90cdf4;">━ Rate Saver</span>
   </div>
-  <div class="card">
-    <h3>🏆 Competitor Unaided SOV</h3>
-    <a href="citations.html" style="display:block;text-decoration:none;color:inherit;"><div id="competitor-chart"></div></a>
-  </div>
-</div>
+  <canvas id="trendsChart" style="width:100%;"></canvas>
+  <div id="trends-note" class="trends-note">Loading...</div>
+</section>
 
-<!-- Models + Intel & Signals side by side -->
-<div class="grid-2" style="margin-top:20px;">
-  <div class="card">
-    <h3>✅ What We Track <span style="font-size:10px;color:#4a5568;font-weight:400;">— <a href="report.html" class="ext-link">full report</a></span></h3>
-    <div style="background:#0a1a2d;border:1px solid #2d4a8a;border-radius:6px;padding:9px 13px;margin-bottom:12px;font-size:11px;color:#90cdf4;">
-      Primary models drive the official SOV number. Pulse models are directional signals.
-    </div>
-    <div style="font-size:11px;font-weight:700;color:#68d391;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;">Primary — 5 models</div>
-    <table class="model-table" style="margin-bottom:14px;">
-      <thead><tr><th>Model</th><th>Freq</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
-      <tbody id="primary-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
-    </table>
-    <div style="font-size:11px;font-weight:700;color:#f6ad55;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;">Pulse — 3 models (directional)</div>
+<!-- ── Category grid ──────────────────────────────────────────── -->
+<section class="category-section">
+  <h2>📊 Unaided SOV by Category — click to see prompts</h2>
+  <div id="category-grid" class="cat-grid"></div>
+</section>
+
+<!-- ── Competitor bars ────────────────────────────────────────── -->
+<section class="competitor-section">
+  <h2>🏆 Competitor Unaided SOV</h2>
+  <div id="competitor-bars"></div>
+</section>
+
+<!-- ── Model tables ───────────────────────────────────────────── -->
+<section class="model-section">
+  <h2>✅ What We Track — full report</h2>
+  <p style="color:#a0aec0;font-size:13px;margin-bottom:12px;">
+    Primary models drive the official SOV number. Pulse models are directional signals.
+  </p>
+
+  <h3 style="color:#e2e8f0;margin-bottom:8px;">Primary — 5 models</h3>
+  <div class="table-wrap">
     <table class="model-table">
-      <thead><tr><th>Model</th><th>Freq</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
-      <tbody id="pulse-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
+      <thead><tr>
+        <th>Model</th>
+        <th>Freq</th>
+        <th style="width:72px;text-align:right;">Unaided</th>
+        <th style="width:72px;text-align:right;">Aided</th>
+        <th style="width:90px;">Status</th>
+        <th>Notes</th>
+      </tr></thead>
+      <tbody id="primary-model-rows">
+        <tr><td colspan="6">Loading...</td></tr>
+      </tbody>
     </table>
   </div>
 
-  <!-- Intel & Signals -->
-  <div class="intel-card">
-    <div class="section-title" style="margin-bottom:0;">📡 Intel &amp; Signals</div>
-
-    <div class="intel-sub">Top Signal Indicators</div>
-    <div class="indicator-row">
-      <span class="priority-badge p0">P0</span>
-      <div class="indicator-label">📰 Citations — NerdWallet / Forbes inclusion <div style="font-size:10px;color:#4a5568;"><a href="citations.html" class="ext-link">→ outreach plan</a></div></div>
-      <div class="indicator-status red">❌ ABSENT</div>
-    </div>
-    <div class="indicator-row">
-      <span class="priority-badge p0">P0</span>
-      <div class="indicator-label">💡 Rate Saver cited unprompted <div style="font-size:10px;color:#4a5568;"><a href="action-content.html" class="ext-link">→ content draft</a></div></div>
-      <div class="indicator-status red">❌ <span id="signal-rate-saver">0%</span></div>
-    </div>
-    <div class="indicator-row">
-      <span class="priority-badge p1">P1</span>
-      <div class="indicator-label">💬 Community drafts ready <div style="font-size:10px;color:#4a5568;"><a href="action-community.html" class="ext-link">→ review &amp; post</a></div></div>
-      <div class="indicator-status yellow">⚠️ <span id="signal-amplify-count">loading...</span></div>
-    </div>
-    <div class="indicator-row">
-      <div class="indicator-label">📡 Perplexity citation audit <div style="font-size:10px;color:#4a5568;"><a href="insights.html" class="ext-link">→ Insights page</a></div></div>
-      <div class="indicator-status blue">📊 Live</div>
-    </div>
-
-    <div class="intel-sub">Branded Search Status</div>
-    <div id="branded-issues-list">
-      <div class="indicator-row">
-        <span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>
-        <div class="indicator-label">All models identify GoDaddy Payments when explicitly searched</div>
-        <div class="indicator-status green">✅ Clear</div>
-      </div>
-    </div>
-
-    <div class="intel-sub">Competitive Intel — <span id="competitive-intel-date" style="font-weight:400;text-transform:none;">loading...</span></div>
-    <div id="competitive-intel-rows"><div style="color:#4a5568;font-size:12px;">Loading...</div></div>
-    <p style="font-size:10px;color:#4a5568;margin-top:8px;">Live crawl each session · <a href="insights.html" class="ext-link">full analysis →</a></p>
-
-    <div id="data-confidence-note" style="display:none;margin-top:10px;padding:8px 12px;background:#2d1f00;border:1px solid #744210;border-left:4px solid #ed8936;border-radius:4px;font-size:11px;color:#f6ad55;"></div>
+  <h3 style="color:#e2e8f0;margin:20px 0 8px;">Pulse — 3 models (directional)</h3>
+  <div class="table-wrap">
+    <table class="model-table">
+      <thead><tr>
+        <th>Model</th>
+        <th>Freq</th>
+        <th style="width:72px;text-align:right;">Unaided</th>
+        <th style="width:72px;text-align:right;">Aided</th>
+        <th style="width:90px;">Status</th>
+        <th>Notes</th>
+      </tr></thead>
+      <tbody id="pulse-model-rows">
+        <tr><td colspan="6">Loading...</td></tr>
+      </tbody>
+    </table>
   </div>
-</div>
+</section>
 
-<!-- Action Status Pills -->
-<div class="section-title" style="margin-top:8px;">🚨 Action Status</div>
-<div class="pills-row" id="action-pills-row"></div>
+<!-- ── Intel signals ──────────────────────────────────────────── -->
+<section class="intel-section">
+  <h2>📡 Intel &amp; Signals</h2>
 
-<!-- Action table: 4 columns — Priority | Action | Root Cause | Blocker -->
-<div class="section-title">📋 Actions by Priority</div>
-<div class="actions-grid" id="actions-grid-container">
-  <div style="color:#4a5568;font-size:12px;">Loading actions...</div>
-</div>
+  <h3>Top Signal Indicators</h3>
+  <div class="indicator-row">
+    <span class="priority-badge p0">P0</span>
+    <span class="indicator-label">📰 Citations — NerdWallet / Forbes inclusion → outreach plan</span>
+    <span class="indicator-status red">❌ ABSENT</span>
+  </div>
+  <div class="indicator-row">
+    <span class="priority-badge p0">P0</span>
+    <span class="indicator-label">💡 Rate Saver cited unprompted → content draft</span>
+    <span class="indicator-status red">❌ 0%</span>
+  </div>
+  <div class="indicator-row">
+    <span class="priority-badge p1">P1</span>
+    <span class="indicator-label">💬 Community drafts ready → review &amp; post</span>
+    <span class="indicator-status yellow">⚠️ loading...</span>
+  </div>
+  <div class="indicator-row">
+    <span class="indicator-label">📡 Perplexity citation audit → Insights page</span>
+    <span class="indicator-status blue">📊 Live</span>
+  </div>
 
-<div style="margin-top:14px;padding:10px 14px;background:#0a2d1a;border:1px solid #22543d;border-radius:6px;font-size:12px;color:#68d391;">
-  ✅ <strong>Crawler access confirmed.</strong> Server logs confirm GPTBot, ClaudeBot, PerplexityBot return 200.
-</div>
+  <h3 style="margin-top:20px;">Branded Search Status</h3>
+  <div id="branded-issues-list">
+    <div class="indicator-row">
+      <span class="priority-badge p0" style="background:#0a2d1a;border-color:#22543d;color:#68d391;">OK</span>
+      <div class="indicator-label">All models identify GoDaddy Payments when explicitly searched</div>
+      <div class="indicator-status green">✅ Clear</div>
+    </div>
+  </div>
 
-</div>
-<div class="footer">GoDaddy Payments GEO Dashboard · session.json auto-updates · <a href="maintenance.html" class="ext-link">Maintenance</a></div>
+  <h3 style="margin-top:20px;">Competitive Intel — loading...</h3>
+  <div id="competitive-intel-list">Loading...</div>
+  <p style="color:#4a5568;font-size:11px;margin-top:4px;">Live crawl each session · full analysis →</p>
+</section>
 
-<script>
-function renderSparklines(s) {
-  var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
-  var metrics = [
-    {id:'spark-unaided',   key:'unaided_sov'},
-    {id:'spark-aided',     key:'aided_sov'},
-    {id:'spark-ratesaver', key:'rate_saver_sov'}
-  ];
-  metrics.forEach(function(m) {
-    var el = document.getElementById(m.id);
-    if (!el) return;
-    var last4 = weekly.slice(-4);
-    while (last4.length < 4) last4.unshift({unaided_sov:0,aided_sov:0,rate_saver_sov:0});
-    var vals = last4.map(function(w){ return w[m.key]||0; });
-    var maxV = Math.max.apply(null, vals.concat([0.01]));
-    var bars = vals.map(function(v,i) {
-      var h = Math.round(3 + (v/maxV)*33);
-      var cls = (i===3) ? 'pf-bar now' : 'pf-bar';
-      return '<div class="'+cls+'" style="height:'+h+'px"></div>';
-    }).join('');
-    el.innerHTML = bars;
-  });
-}
-</script>
-<script src="./js/session-loader.js"></script>
+<!-- ── Strategy actions ───────────────────────────────────────── -->
+<section class="actions-section">
+  <h2>🚨 Action Status</h2>
+  <h3>📋 Actions by Priority</h3>
+  <div id="strategy-actions">Loading actions...</div>
+  <p style="color:#68d391;font-size:12px;margin-top:12px;">
+    ✅ Crawler access confirmed. Server logs confirm GPTBot, ClaudeBot, PerplexityBot return 200.
+  </p>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer class="dash-footer">
+  GoDaddy Payments GEO Dashboard · session.json auto-updates · <a href="maintenance.html">Maintenance</a>
+</footer>
+
+<script src="js/session-loader.js"></script>
 <script>
 function renderPage(s) {
   renderSOVCards(s);
   renderCategories(s, 'category-grid');
-  renderCompetitors(s, 'competitor-chart');
+  renderCompetitors(s, 'competitor-bars');
   renderModelTables(s);
+  renderCompetitiveIntel(s, 'competitive-intel-list');
+  renderStrategyActions(s);
   renderBrandedSearchStatus(s);
-  renderCompetitiveIntel(s, 'competitive-intel-rows');
-  var ciHdr = document.getElementById('competitive-intel-date');
-  if (ciHdr && s.meta) ciHdr.textContent = s.meta.last_updated || '—';
-
-  // Signals
-  var ampEl = document.getElementById('signal-amplify-count');
-  if (ampEl) ampEl.textContent = (s.amplify_threads || []).length + ' drafted';
-  var rsEl = document.getElementById('signal-rate-saver');
-  if (rsEl && s.sov_dashboard && s.sov_dashboard.rate_saver_sov) rsEl.textContent = s.sov_dashboard.rate_saver_sov.value;
-
-  // Pills
-  renderActionPills(s);
-
-  // Actions grid — 4-col table, P0 and P1 side-by-side
-  renderActionsGrid(s);
-
-  // Confidence
-  var confEl = document.getElementById('data-confidence-note');
-  if (confEl && s.report_summary && s.report_summary.data_confidence) {
-    confEl.textContent = '⚠️ ' + s.report_summary.data_confidence;
-    confEl.style.display = 'block';
-  }
-  renderSparklines(s);
-}
-
-function renderActionPills(s) {
-  var row = document.getElementById('action-pills-row');
-  if (!row) return;
-  var p = s.build_pages || [], amp = s.amplify_threads || [], cite = s.cite_pipeline || [];
-  var drafted = p.length, pub = p.filter(function(x){return x.status==='published';}).length;
-  var ampPosted = amp.filter(function(t){return t.posted;}).length;
-  var citeAbsent = cite.filter(function(c){return c.priority==='P0' && c.status && c.status.indexOf('not cited')>-1;}).length;
-  row.innerHTML =
-    '<a href="action-content.html" class="status-pill ' + (pub===0?'red':'yellow') + '">' +
-      '<span style="color:#a0aec0;font-weight:600;">🔨 Content</span>' +
-      '<span style="color:#f6ad55;font-weight:700;">' + drafted + ' drafts</span>' +
-      '<span style="color:#718096;">' + pub + ' published</span>' +
-      '<span style="color:#90cdf4;font-size:11px;">→</span>' +
-    '</a>' +
-    '<a href="action-community.html" class="status-pill ' + (ampPosted===0?'yellow':'green') + '">' +
-      '<span style="color:#a0aec0;font-weight:600;">📣 Community</span>' +
-      '<span style="color:#f6ad55;font-weight:700;">' + amp.length + ' drafted</span>' +
-      '<span style="color:#718096;">' + ampPosted + ' posted</span>' +
-      '<span style="color:#90cdf4;font-size:11px;">→</span>' +
-    '</a>' +
-    '<a href="citations.html" class="status-pill red">' +
-      '<span style="color:#a0aec0;font-weight:600;">🏆 Citations</span>' +
-      '<span style="color:#fc8181;font-weight:700;">' + citeAbsent + ' P0 absent</span>' +
-      '<span style="color:#718096;">' + cite.length + ' tracked</span>' +
-      '<span style="color:#90cdf4;font-size:11px;">→</span>' +
-    '</a>';
-}
-
-function renderActionsGrid(s) {
-  var container = document.getElementById('actions-grid-container');
-  if (!container) return;
-  var sa = s.strategy_actions || {};
-  var p0 = sa.p0 || [], p1 = sa.p1 || [];
-
-  function makeTable(actions, tierClass, tierLabel) {
-    if (!actions.length) return '';
-    var rows = actions.map(function(a) {
-      var blocked = a.blocked_by && a.blocked_by !== 'none' && a.blocked_by !== 'None';
-      return '<tr>' +
-        '<td class="col-pri"><span class="priority-badge ' + tierClass + '">' + tierClass.toUpperCase() + '</span><div style="font-size:10px;color:#718096;margin-top:4px;">#' + a.rank + '</div></td>' +
-        '<td class="col-action"><div style="font-weight:600;color:#e2e8f0;margin-bottom:3px;">' + a.action + '</div>' +
-          '<div style="font-size:10px;color:#718096;">Owner: ' + (a.owner||'—') + ' · ' + (a.window||'—') + '</div></td>' +
-        '<td class="col-root" style="color:#a0aec0;font-size:11px;">' + (a.root_cause||'—') + '</td>' +
-        '<td class="col-blocker">' +
-          (blocked
-            ? '<span style="font-size:11px;color:#f6ad55;font-weight:600;">⚠️ ' + a.blocked_by + '</span>'
-            : '<span style="font-size:11px;color:#4a5568;">N/A</span>') +
-        '</td>' +
-      '</tr>';
-    }).join('');
-    return '<div class="action-section">' +
-      '<div class="action-section-title ' + tierClass + '-title">🔴 '.replace('🔴', tierClass==='p0'?'🔴':'🟡') +
-        tierLabel + '</div>' +
-      '<table class="action-tbl">' +
-        '<thead><tr>' +
-          '<th class="col-pri">Priority</th>' +
-          '<th class="col-action">Action</th>' +
-          '<th class="col-root">Root Cause</th>' +
-          '<th class="col-blocker">Blocker</th>' +
-        '</tr></thead>' +
-        '<tbody>' + rows + '</tbody>' +
-      '</table>' +
-    '</div>';
-  }
-
-  container.innerHTML =
-    makeTable(p0, 'p0', 'P0 — Highest SOV Impact') +
-    makeTable(p1, 'p1', 'P1 — Medium Impact');
-
-  if (!p0.length && !p1.length) {
-    container.innerHTML = '<div style="color:#4a5568;font-size:12px;padding:16px;">No strategy actions in session.json</div>';
-  }
 }
 </script>
-<!-- v2.1 -->
-</body></html>
+</body>
+</html>

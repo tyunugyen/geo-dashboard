@@ -226,7 +226,48 @@
         "aided": "100%",
         "status": "success",
         "u_color": "red",
-        "a_color": "green"
+        "a_color": "green",
+        "notes": "Weekly pulse check"
+      },
+      {
+        "name": "Claude Sonnet 4.6",
+        "why": "Full benchmark primary",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green",
+        "notes": "Jul 2026 benchmark"
+      },
+      {
+        "name": "GPT-4o",
+        "why": "Largest consumer install base",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green",
+        "notes": "Jul 2026 benchmark"
+      },
+      {
+        "name": "o3",
+        "why": "OpenAI reasoning — growing merchant use",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green",
+        "notes": "Jul 2026 benchmark"
+      },
+      {
+        "name": "Gemini 2.5 Pro",
+        "why": "Google search integration — high reach",
+        "unaided": "0%",
+        "aided": "100%",
+        "status": "success",
+        "u_color": "red",
+        "a_color": "green",
+        "notes": "Jul 2026 benchmark"
       }
     ],
     "pulse": [
@@ -237,7 +278,8 @@
         "aided": "100%",
         "status": "tracking",
         "u_color": "red",
-        "a_color": "green"
+        "a_color": "green",
+        "notes": "Directional signal"
       },
       {
         "name": "o3-mini",
@@ -246,7 +288,8 @@
         "aided": "100%",
         "status": "tracking",
         "u_color": "red",
-        "a_color": "green"
+        "a_color": "green",
+        "notes": "Directional signal"
       },
       {
         "name": "Gemini 3.1 Pro Preview",
@@ -255,7 +298,8 @@
         "aided": "28.6%",
         "status": "partial",
         "u_color": "red",
-        "a_color": "yellow"
+        "a_color": "yellow",
+        "notes": "⚠️ Next-gen Gemini — 28.6% aided SOV anomaly in W26"
       }
     ]
   },

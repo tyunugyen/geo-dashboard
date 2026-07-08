@@ -281,26 +281,61 @@ details summary::-webkit-details-marker{display:none}
 <script>
 function renderSparklines(s) {
   var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
+  var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : "";
+
+  // For each spark container, color bars by whether data exists for that week
+  // Light blue = previous weeks WITH data, Blue = current week WITH data
+  // Grey = no data for that week
+  // Height = proportional to value, BUT if value is 0 and data exists: show small light-blue bar
+
+  var lookup = {};
+  weekly.forEach(function(w) { if(w.run_id) lookup[w.run_id] = w; });
+
   var metrics = [
-    {id:'spark-unaided',   key:'unaided_sov'},
-    {id:'spark-aided',     key:'aided_sov'},
-    {id:'spark-ratesaver', key:'rate_saver_sov'}
+    {id:"spark-unaided",   key:"unaided_sov"},
+    {id:"spark-aided",     key:"aided_sov"},
+    {id:"spark-ratesaver", key:"rate_saver_sov"}
   ];
+
   metrics.forEach(function(m) {
     var el = document.getElementById(m.id);
     if (!el) return;
-    var last4 = weekly.slice(-4);
-    while (last4.length < 4) last4.unshift({unaided_sov:0,aided_sov:0,rate_saver_sov:0});
-    var vals = last4.map(function(w){ return w[m.key]||0; });
-    var maxV = Math.max.apply(null, vals.concat([0.01]));
-    var bars = vals.map(function(v,i) {
-      var h = Math.round(3 + (v/maxV)*33);
-      var cls = (i===3) ? 'pf-bar now' : 'pf-bar';
-      return '<div class="'+cls+'" style="height:'+h+'px"></div>';
-    }).join('');
-    el.innerHTML = bars;
+    var bars = el.querySelectorAll(".pf-bar");
+    bars.forEach(function(bar) {
+      var rid = bar.getAttribute("data-run");
+      var isCurrent = rid === currentRunId;
+      var data = rid ? lookup[rid] : null;
+      var hasData = data !== undefined && data !== null;
+      if (!hasData) {
+        // No data for this week — grey flat
+        bar.style.background = "#2d3748";
+        bar.style.height = "3px";
+      } else {
+        // Has data — color it
+        var val = data[m.key] || 0;
+        // Height: 0% value = 6px (visible), 100% value = 34px
+        var h = Math.max(6, Math.round(6 + (val / 100) * 28));
+        bar.style.height = h + "px";
+        if (isCurrent) {
+          bar.style.background = "#3182ce"; // current week = blue
+        } else {
+          bar.style.background = "#7ba3d1"; // prev weeks = light blue
+        }
+      }
+    });
   });
+
+  // Citation Rank has no % trend data — hide its sparkbar
+  var citSpark = document.querySelector("#kpi-citation");
+  if (citSpark) {
+    var parent = citSpark.closest(".kpi");
+    if (parent) {
+      var spark = parent.querySelector(".pf-spark");
+      if (spark) spark.style.display = "none";
+    }
+  }
 }
+
 </script>
 <script src="./js/session-loader.js"></script>
 <script>

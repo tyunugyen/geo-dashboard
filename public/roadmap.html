@@ -258,9 +258,7 @@ function buildCard(action, tier) {
         '<div class="tc-win">⏱ '+(action.window||'—')+'</div>' +
         (isBlocked?'<div class="tc-blocked-msg">⚠️ Blocked: '+action.blocked_by+'</div>':'') +
         '<div class="tc-controls">' +
-          '<div class="prog-wrap" data-k="'+key+'" onclick="clickProg(this.dataset.k)" title="Click to advance 25%">' +
-            '<div class="prog-fill" id="pf-'+key+'" style="width:'+prog+'%;background:'+fc+';"></div>' +
-          '</div>' +
+          '<input type="range" min="0" max="100" step="5" '+ 'value="'+prog+'"'+ ' id="pf-'+key+'"'+ ' data-k="'+ key +'"'+ ' oninput="slideProg(this.dataset.k,+this.value)"'+ ' style="flex:1;min-width:80px;height:6px;accent-color:'+fc+';cursor:pointer;">' +
           '<span style="font-size:11px;color:#718096;min-width:30px;" id="pct-'+key+'">'+prog+'%</span>' +
           '<select class="status-sel" id="sel-'+key+'" data-k="'+key+'" onchange="chStatus(this.dataset.k,this.value)">' +
             '<option value="todo"'+(status==='todo'?' selected':'')+'>Not Started</option>' +
@@ -283,6 +281,7 @@ function slideProg(key, val) {
   if(st==='done') moveToDone(key);
   refreshStats();
 }
+function slideProg(key,val){ var s=gs()[key]||{prog:0,status:'todo'}; var st=val===100?'done':val>0?'inprog':s.status==='blocked'?'blocked':'todo'; ss(key,val,st); applyCardUI(key,val,st); if(st==='done') moveToDone(key); refreshStats();}
 function clickProg(key) {
   var s=gs()[key]||{prog:0,status:'todo'};
   var next=(s.prog+25)>100?0:s.prog+25;

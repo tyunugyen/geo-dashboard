@@ -31,7 +31,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}}
 .card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px}
 .card h3{font-size:11px;font-weight:700;color:#a0aec0;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
 .kpi{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:16px;position:relative;overflow:hidden}
@@ -148,28 +148,28 @@ details summary::-webkit-details-marker{display:none}
     <div class="kpi-label">🎯 Unaided SOV</div>
     <div class="kpi-value" id="kpi-unaided">~0%</div>
     <div class="kpi-sub">Cold — no GoDaddy in prompt</div>
-    <div class="pf-spark" id="spark-unaided"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+    <div class="pf-spark" id="spark-unaided"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
     <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
   </div>
   <div class="kpi green">
     <div class="kpi-label">✅ Aided SOV</div>
     <div class="kpi-value" id="kpi-aided">~100%</div>
     <div class="kpi-sub">GoDaddy named in prompt ✓</div>
-    <div class="pf-spark" id="spark-aided"><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar" style="height:6px"></div><div class="pf-bar now" style="height:30px"></div></div>
+    <div class="pf-spark" id="spark-aided"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
     <div class="kpi-target">Target: <span>Maintain ~100%</span></div>
   </div>
   <div class="kpi red">
     <div class="kpi-label">🏆 Citation Rank</div>
     <div class="kpi-value" id="kpi-citation" style="font-size:18px;padding-top:6px;">Unranked</div>
     <div class="kpi-sub">Absent 5/6 top publishers</div>
-    <div class="pf-spark"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+    <div class="pf-spark"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
     <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
   </div>
   <div class="kpi yellow">
     <div class="kpi-label">💡 Rate Saver Cited</div>
     <div class="kpi-value" id="kpi-rate-saver">0%</div>
     <div class="kpi-sub">Only 0% product — invisible</div>
-    <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar" style="height:3px"></div><div class="pf-bar now" style="height:3px"></div></div>
+    <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
     <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
   </div>
 </div>
@@ -209,13 +209,13 @@ details summary::-webkit-details-marker{display:none}
     </div>
     <div style="font-size:11px;font-weight:700;color:#68d391;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;">Primary — 5 models</div>
     <table class="model-table" style="margin-bottom:14px;">
-      <thead><tr><th>Model</th><th>Frequency</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
-      <tbody id="primary-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
+      <thead><tr><th>Model</th><th>Frequency</th><th style="width:72px;text-align:right;">Unaided</th><th style="width:72px;text-align:right;">Aided</th><th style="width:90px;">Status</th><th>Notes</th></tr></thead>
+      <tbody id="primary-model-rows"><tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
     </table>
     <div style="font-size:11px;font-weight:700;color:#f6ad55;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px;">Pulse — 3 models (directional)</div>
     <table class="model-table">
-      <thead><tr><th>Model</th><th>Frequency</th><th>Unaided</th><th>Aided</th><th>Status</th></tr></thead>
-      <tbody id="pulse-model-rows"><tr><td colspan="5" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
+      <thead><tr><th>Model</th><th>Frequency</th><th style="width:72px;text-align:right;">Unaided</th><th style="width:72px;text-align:right;">Aided</th><th style="width:90px;">Status</th><th>Notes</th></tr></thead>
+      <tbody id="pulse-model-rows"><tr><td colspan="6" style="color:#4a5568;text-align:center;">Loading...</td></tr></tbody>
     </table>
   </div>
 

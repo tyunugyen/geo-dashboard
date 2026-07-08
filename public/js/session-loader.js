@@ -85,27 +85,6 @@ function renderCategories(s, containerId) {
     </div>`).join('');
 }
 
-
-// ── Sparkbars for KPI cards (grey=no data, light-blue=prev, blue=current) ──
-function renderSparkbars(s) {
-  var trends = s.trends || {};
-  var weekly = Array.isArray(trends) ? trends : (trends.weekly || trends.monthly || []);
-  var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : '';
-  var lookup = {};
-  weekly.forEach(function(p) { if(p.run_id) lookup[p.run_id] = p; });
-  document.querySelectorAll('.pf-spark').forEach(function(spark) {
-    var bars = spark.querySelectorAll('.pf-bar');
-    bars.forEach(function(bar) {
-      var rid = bar.getAttribute('data-run');
-      if (!rid) { bar.style.background = '#2d3748'; bar.style.height = '3px'; return; }
-      var isCurrent = (rid === currentRunId);
-      var hasData = lookup[rid] !== undefined;
-      if (!hasData) { bar.style.background = '#2d3748'; bar.style.height = '3px'; }
-      else if (isCurrent) { bar.style.background = '#3182ce'; bar.style.height = '100%'; }
-      else { bar.style.background = '#7ba3d1'; bar.style.height = '65%'; }
-    });
-  });
-}
 // ── Competitor bars (Overview) ────────────────────────────────────
 function renderCompetitors(s, containerId) {
   const el = document.getElementById(containerId);
@@ -128,8 +107,6 @@ function renderModelTables(s) {
   const primary = s.model_sov?.primary || [];
   const pulse   = s.model_sov?.pulse   || [];
 
-  // ── Always show 8 models — pad with defaults if session has fewer ──
-  // Also merge weekly data into monthly-only models so data persists
   const DEFAULT_PRIMARY = [
     {name:'Claude Haiku 4.5',  why:'Weekly pulse check',                     unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
     {name:'Claude Sonnet 4.6', why:'Full benchmark primary',                  unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
@@ -142,32 +119,21 @@ function renderModelTables(s) {
     {name:'o3-mini',                why:'OpenAI reasoning — usage pattern emerging',    unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'green'},
     {name:'Gemini 3.1 Pro Preview', why:'Next-gen Gemini — monitor for anomalies',     unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'yellow'},
   ];
-  // Try to pull last known data from localStorage for models not in current run
   var LSKEY = 'geo-model-cache-v1';
   try {
     var cached = JSON.parse(localStorage.getItem(LSKEY) || '{}');
-    // Save current run data to cache
     primary.concat(pulse).forEach(function(m) {
       if (m.unaided !== '—' && m.unaided !== undefined) cached[m.name] = {unaided:m.unaided, aided:m.aided, u_color:m.u_color, a_color:m.a_color};
     });
     localStorage.setItem(LSKEY, JSON.stringify(cached));
   } catch(e) { var cached = {}; }
-
   function padModels(live, defaults) {
     var names = live.map(function(m){return m.name;});
     var out = live.slice();
     defaults.forEach(function(d){
       if (names.indexOf(d.name) === -1) {
         var merged = Object.assign({}, d);
-        // Use cached data if available
-        if (cached[d.name]) {
-          merged.unaided = cached[d.name].unaided;
-          merged.aided   = cached[d.name].aided;
-          merged.u_color = cached[d.name].u_color || d.u_color;
-          merged.a_color = cached[d.name].a_color || d.a_color;
-          merged.status  = 'cached';
-          merged.notes   = 'Last benchmark data';
-        }
+        if (cached[d.name]) { merged.unaided=cached[d.name].unaided; merged.aided=cached[d.name].aided; merged.u_color=cached[d.name].u_color||d.u_color; merged.a_color=cached[d.name].a_color||d.a_color; merged.status='cached'; merged.notes='Last benchmark data'; }
         out.push(merged);
       }
     });
@@ -302,20 +268,11 @@ function renderCompetitiveIntel(s, containerId) {
     var chg = r.changed ? '<span style="color:#f6ad55;font-size:10px;font-weight:700;">⚠️ Changed</span>' : '<span style="color:#90cdf4;font-size:10px;">✅ No change</span>';
     return '<div style="padding:10px 0;border-bottom:1px solid #1e2436;">'
       + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
-      + '<strong style="font-size:13px;color:#e2e8f0;">' + r.competitor + '</strong>' + chg
-      + '</div>'
+      + '<strong style="font-size:13px;color:#e2e8f0;">' + r.competitor + '</strong>' + chg + '</div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px;">'
-      + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;">'
-      + '<div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">In-Person</div>'
-      + '<div style="font-size:13px;font-weight:700;color:#fc8181;">' + ip + '</div>'
-      + '</div>'
-      + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;">'
-      + '<div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Online</div>'
-      + '<div style="font-size:13px;font-weight:700;color:#f6ad55;">' + ol + '</div>'
-      + '</div>'
-      + '</div>'
-      + '<div style="font-size:10px;color:#4a5568;">Source: ' + src + '</div>'
-      + '</div>';
+      + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;"><div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">In-Person</div><div style="font-size:13px;font-weight:700;color:#fc8181;">' + ip + '</div></div>'
+      + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;"><div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Online</div><div style="font-size:13px;font-weight:700;color:#f6ad55;">' + ol + '</div></div>'
+      + '</div><div style="font-size:10px;color:#4a5568;">Source: ' + src + '</div></div>';
   }).join('');
 }
 
@@ -852,7 +809,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (typeof renderPage === 'function') {
         renderPage(session);
       }
-      renderSparkbars(session);
     }
   });
 });

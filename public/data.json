@@ -2,10 +2,10 @@
   "meta": {
     "label": "Monthly",
     "period": "July 2026",
-    "run_id": "2026-07-W27",
-    "sources": "Gemini 2.5 Pro (GoCode proxy)",
+    "run_id": "2026-07-W28",
+    "sources": "Claude Haiku 4.5 (GoCode proxy)",
     "prompt_bank_version": "2.6",
-    "models": "Gemini 2.5 Pro"
+    "models": "Claude Haiku 4.5"
   },
   "kpis": {
     "unaided_sov": {
@@ -163,7 +163,7 @@
     }
   ],
   "model_sov": {
-    "gemini": {
+    "claude": {
       "value": "0%",
       "color": "#fc8181"
     }

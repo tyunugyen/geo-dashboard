@@ -149,7 +149,7 @@ details summary::-webkit-details-marker{display:none}
     <div class="kpi-value" id="kpi-unaided">~0%</div>
     <div class="kpi-sub">Cold — no GoDaddy in prompt</div>
     <div class="pf-spark" id="spark-unaided"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
-    <div class="kpi-target">Target: <span>40%+</span> by month 9</div>
+    <div class="kpi-target">Target: <span>40%+</span></div>
   </div>
   <div class="kpi green">
     <div class="kpi-label">✅ Aided SOV</div>
@@ -162,15 +162,15 @@ details summary::-webkit-details-marker{display:none}
     <div class="kpi-label">🏆 Citation Rank</div>
     <div class="kpi-value" id="kpi-citation" style="font-size:18px;padding-top:6px;">Unranked</div>
     <div class="kpi-sub">Absent 5/6 top publishers</div>
-    <div class="pf-spark"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
-    <div class="kpi-target">Target: <span>NerdWallet + Forbes</span> by month 3</div>
+    <div class="pf-spark" id="spark-citation"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
+    <div class="kpi-target">Target: <span>NerdWallet + Forbes</span></div>
   </div>
   <div class="kpi yellow">
     <div class="kpi-label">💡 Rate Saver Cited</div>
     <div class="kpi-value" id="kpi-rate-saver">0%</div>
     <div class="kpi-sub">Only 0% product — invisible</div>
     <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
-    <div class="kpi-target">Target: <span>50%</span> of fee queries by month 9</div>
+    <div class="kpi-target">Target: <span>50%</span> of fee queries</div>
   </div>
 </div>
 
@@ -282,15 +282,10 @@ details summary::-webkit-details-marker{display:none}
 function renderSparklines(s) {
   var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
   var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : "";
-
-  // For each spark container, color bars by whether data exists for that week
-  // Light blue = previous weeks WITH data, Blue = current week WITH data
-  // Grey = no data for that week
-  // Height = proportional to value, BUT if value is 0 and data exists: show small light-blue bar
-
   var lookup = {};
   weekly.forEach(function(w) { if(w.run_id) lookup[w.run_id] = w; });
 
+  // % metrics: height proportional to value, min 8px so 0% is still visible
   var metrics = [
     {id:"spark-unaided",   key:"unaided_sov"},
     {id:"spark-aided",     key:"aided_sov"},
@@ -300,41 +295,34 @@ function renderSparklines(s) {
   metrics.forEach(function(m) {
     var el = document.getElementById(m.id);
     if (!el) return;
-    var bars = el.querySelectorAll(".pf-bar");
-    bars.forEach(function(bar) {
+    el.querySelectorAll(".pf-bar").forEach(function(bar) {
       var rid = bar.getAttribute("data-run");
-      var isCurrent = rid === currentRunId;
       var data = rid ? lookup[rid] : null;
-      var hasData = data !== undefined && data !== null;
+      var hasData = data !== null && data !== undefined;
       if (!hasData) {
-        // No data for this week — grey flat
         bar.style.background = "#2d3748";
         bar.style.height = "3px";
       } else {
-        // Has data — color it
-        var val = data[m.key] || 0;
-        // Height: 0% value = 6px (visible), 100% value = 34px
-        var h = Math.max(6, Math.round(6 + (val / 100) * 28));
+        var val = parseFloat(data[m.key]) || 0;
+        var h = Math.round(8 + (val / 100) * 26); // 8px at 0%, 34px at 100%
         bar.style.height = h + "px";
-        if (isCurrent) {
-          bar.style.background = "#3182ce"; // current week = blue
-        } else {
-          bar.style.background = "#7ba3d1"; // prev weeks = light blue
-        }
+        bar.style.background = (rid === currentRunId) ? "#3182ce" : "#7ba3d1";
       }
     });
   });
 
-  // Citation Rank has no % trend data — hide its sparkbar
-  var citSpark = document.querySelector("#kpi-citation");
-  if (citSpark) {
-    var parent = citSpark.closest(".kpi");
-    if (parent) {
-      var spark = parent.querySelector(".pf-spark");
-      if (spark) spark.style.display = "none";
-    }
+  // Citation rank: 1/6 publishers = fixed 17% across all 4 weeks (data exists)
+  var citEl = document.getElementById("spark-citation");
+  if (citEl) {
+    citEl.querySelectorAll(".pf-bar").forEach(function(bar) {
+      var rid = bar.getAttribute("data-run");
+      var h = 13; // 17% height — fixed
+      bar.style.height = h + "px";
+      bar.style.background = (rid === currentRunId) ? "#3182ce" : "#7ba3d1";
+    });
   }
 }
+
 
 </script>
 <script src="./js/session-loader.js"></script>

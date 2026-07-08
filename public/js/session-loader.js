@@ -1,5 +1,5 @@
 // session-loader.js — shared fetch + render engine for all dashboard tabs
-// All tabs call: loadSession().then(s => renderTab(s))  // restored 2026-07-08
+// All tabs call: loadSession().then(s => renderTab(s))
 
 const SESSION_URL = './data/session.json';
 

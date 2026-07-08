@@ -169,7 +169,7 @@ details summary::-webkit-details-marker{display:none}
     <div class="kpi-label">💡 Rate Saver Cited</div>
     <div class="kpi-value" id="kpi-rate-saver">0%</div>
     <div class="kpi-sub">Only 0% product — invisible</div>
-    <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar" data-run="2026-07-W28"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
+    <div class="pf-spark" id="spark-ratesaver"><div class="pf-bar" data-run="2026-06-W25"></div><div class="pf-bar" data-run="2026-06-W26"></div><div class="pf-bar" data-run="2026-07-W27"></div><div class="pf-bar now" data-run="2026-07-W28"></div></div>
     <div class="kpi-target">Target: <span>50%</span> of fee queries</div>
   </div>
 </div>
@@ -278,23 +278,21 @@ details summary::-webkit-details-marker{display:none}
 </div>
 <div class="footer">GoDaddy Payments GEO Dashboard · session.json auto-updates · <a href="maintenance.html" class="ext-link">Maintenance</a></div>
 
+
 <script>
 function renderSparklines(s) {
   var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
   var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : '';
-
-  // Build lookup by run_id
   var lookup = {};
   weekly.forEach(function(w) { if (w.run_id) lookup[w.run_id] = w; });
 
-  // Citation rank: calculate % of top publishers citing GoDaddy from cite_pipeline
+  // Citation rank: % of top publishers citing GoDaddy
   var cited = (s.cite_pipeline || []).filter(function(r) {
     return r.status && r.status.indexOf('cited') >= 0 && r.status.indexOf('not_cited') < 0;
   }).length;
   var total = Math.max((s.cite_pipeline || []).length, 6);
   var citePct = total > 0 ? (cited / total) * 100 : 0;
 
-  // 4 metrics mapped to their spark container ids and data keys
   var metrics = [
     { id: 'spark-unaided',   key: 'unaided_sov' },
     { id: 'spark-aided',     key: 'aided_sov' },
@@ -309,73 +307,22 @@ function renderSparklines(s) {
       var rid = bar.getAttribute('data-run');
       var data = rid ? lookup[rid] : null;
       var hasData = data !== null && data !== undefined;
-
-      // Get value: fixed override OR from trends data
       var val = m.fixedVal !== undefined ? m.fixedVal
               : (hasData ? (parseFloat(data[m.key]) || 0) : null);
 
       if (val === null) {
-        // No data for this week — grey 1px
         bar.style.background = '#2d3748';
         bar.style.height = '1px';
         return;
       }
-
-      // Color: dark blue = current week, light blue = all others (data exists)
       var isCurrent = rid === currentRunId;
       bar.style.background = isCurrent ? '#3182ce' : '#7ba3d1';
-
-      // Height: 0% = 1px light blue, 100% = 34px, proportional
       bar.style.height = val === 0 ? '1px' : Math.round(4 + (val / 100) * 30) + 'px';
     });
   });
 }
-unction renderSparklines(s) {
-  var weekly = (s.trends && s.trends.weekly) ? s.trends.weekly : [];
-  var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : "";
-  var lookup = {};
-  weekly.forEach(function(w) { if(w.run_id) lookup[w.run_id] = w; });
-
-  // % metrics: height proportional to value, min 8px so 0% is still visible
-  var metrics = [
-    {id:"spark-unaided",   key:"unaided_sov"},
-    {id:"spark-aided",     key:"aided_sov"},
-    {id:"spark-ratesaver", key:"rate_saver_sov"}
-  ];
-
-  metrics.forEach(function(m) {
-    var el = document.getElementById(m.id);
-    if (!el) return;
-    el.querySelectorAll(".pf-bar").forEach(function(bar) {
-      var rid = bar.getAttribute("data-run");
-      var data = rid ? lookup[rid] : null;
-      var hasData = data !== null && data !== undefined;
-      if (!hasData) {
-        bar.style.background = "#2d3748";
-        bar.style.height = "3px";
-      } else {
-        var val = parseFloat(data[m.key]) || 0;
-        var h = Math.round(8 + (val / 100) * 26); // 8px at 0%, 34px at 100%
-        bar.style.height = h + "px";
-        bar.style.background = (rid === currentRunId) ? "#3182ce" : "#7ba3d1";
-      }
-    });
-  });
-
-  // Citation rank: 1/6 publishers = fixed 17% across all 4 weeks (data exists)
-  var citEl = document.getElementById("spark-citation");
-  if (citEl) {
-    citEl.querySelectorAll(".pf-bar").forEach(function(bar) {
-      var rid = bar.getAttribute("data-run");
-      var h = 13; // 17% height — fixed
-      bar.style.height = h + "px";
-      bar.style.background = (rid === currentRunId) ? "#3182ce" : "#7ba3d1";
-    });
-  }
-}
-
-
 </script>
+
 <script src="./js/session-loader.js"></script>
 <script>
 function renderPage(s) {

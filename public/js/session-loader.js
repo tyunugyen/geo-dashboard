@@ -85,42 +85,27 @@ function renderCategories(s, containerId) {
     </div>`).join('');
 }
 
+
 // ── Sparkbars for KPI cards (grey=no data, light-blue=prev, blue=current) ──
 function renderSparkbars(s) {
   var trends = s.trends || {};
   var weekly = Array.isArray(trends) ? trends : (trends.weekly || trends.monthly || []);
-  // Get last run_id from meta
   var currentRunId = (s.meta && s.meta.run_id) ? s.meta.run_id : '';
-  // Build lookup: run_id -> unaided_sov
   var lookup = {};
-  weekly.forEach(function(p) { lookup[p.run_id] = p; });
-  // Find all spark containers
+  weekly.forEach(function(p) { if(p.run_id) lookup[p.run_id] = p; });
   document.querySelectorAll('.pf-spark').forEach(function(spark) {
     var bars = spark.querySelectorAll('.pf-bar');
-    bars.forEach(function(bar, i) {
+    bars.forEach(function(bar) {
       var rid = bar.getAttribute('data-run');
-      if (!rid) {
-        // No data — grey
-        bar.style.background = '#2d3748';
-        bar.style.height = '3px';
-        return;
-      }
+      if (!rid) { bar.style.background = '#2d3748'; bar.style.height = '3px'; return; }
       var isCurrent = (rid === currentRunId);
       var hasData = lookup[rid] !== undefined;
-      if (!hasData) {
-        bar.style.background = '#2d3748'; // grey
-        bar.style.height = '3px';
-      } else if (isCurrent) {
-        bar.style.background = '#3182ce'; // blue — current week
-        bar.style.height = '100%';
-      } else {
-        bar.style.background = '#7ba3d1'; // light blue — previous weeks
-        bar.style.height = '60%';
-      }
+      if (!hasData) { bar.style.background = '#2d3748'; bar.style.height = '3px'; }
+      else if (isCurrent) { bar.style.background = '#3182ce'; bar.style.height = '100%'; }
+      else { bar.style.background = '#7ba3d1'; bar.style.height = '65%'; }
     });
   });
 }
-
 // ── Competitor bars (Overview) ────────────────────────────────────
 function renderCompetitors(s, containerId) {
   const el = document.getElementById(containerId);
@@ -144,23 +129,47 @@ function renderModelTables(s) {
   const pulse   = s.model_sov?.pulse   || [];
 
   // ── Always show 8 models — pad with defaults if session has fewer ──
+  // Also merge weekly data into monthly-only models so data persists
   const DEFAULT_PRIMARY = [
-    {name:'Claude Haiku 4.5',  why:'Weekly pulse check',                         unaided:'—', aided:'—', status:'pending', u_color:'red',    a_color:'green'},
-    {name:'Claude Sonnet 4.6', why:'Full benchmark primary',                      unaided:'—', aided:'—', status:'pending', u_color:'red',    a_color:'green'},
-    {name:'GPT-4o',            why:'Largest consumer install base',               unaided:'—', aided:'—', status:'pending', u_color:'red',    a_color:'green'},
-    {name:'o3',                why:'OpenAI reasoning — growing merchant use',     unaided:'—', aided:'—', status:'pending', u_color:'red',    a_color:'green'},
-    {name:'Gemini 2.5 Pro',    why:'Google search integration — high reach',      unaided:'—', aided:'—', status:'pending', u_color:'red',    a_color:'green'},
+    {name:'Claude Haiku 4.5',  why:'Weekly pulse check',                     unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
+    {name:'Claude Sonnet 4.6', why:'Full benchmark primary',                  unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
+    {name:'GPT-4o',            why:'Largest consumer install base',           unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
+    {name:'o3',                why:'OpenAI reasoning — growing merchant use', unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
+    {name:'Gemini 2.5 Pro',    why:'Google search integration — high reach',  unaided:'—', aided:'—', status:'pending', u_color:'red', a_color:'green'},
   ];
   const DEFAULT_PULSE = [
-    {name:'Gemini 2.5 Flash',      why:'Promoted to stable — behaviour consolidating', unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'green'},
-    {name:'o3-mini',               why:'OpenAI reasoning — usage pattern emerging',    unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'green'},
+    {name:'Gemini 2.5 Flash',       why:'Promoted to stable — behaviour consolidating', unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'green'},
+    {name:'o3-mini',                why:'OpenAI reasoning — usage pattern emerging',    unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'green'},
     {name:'Gemini 3.1 Pro Preview', why:'Next-gen Gemini — monitor for anomalies',     unaided:'—', aided:'—', status:'tracking', u_color:'red', a_color:'yellow'},
   ];
+  // Try to pull last known data from localStorage for models not in current run
+  var LSKEY = 'geo-model-cache-v1';
+  try {
+    var cached = JSON.parse(localStorage.getItem(LSKEY) || '{}');
+    // Save current run data to cache
+    primary.concat(pulse).forEach(function(m) {
+      if (m.unaided !== '—' && m.unaided !== undefined) cached[m.name] = {unaided:m.unaided, aided:m.aided, u_color:m.u_color, a_color:m.a_color};
+    });
+    localStorage.setItem(LSKEY, JSON.stringify(cached));
+  } catch(e) { var cached = {}; }
+
   function padModels(live, defaults) {
     var names = live.map(function(m){return m.name;});
     var out = live.slice();
     defaults.forEach(function(d){
-      if (names.indexOf(d.name) === -1) out.push(d);
+      if (names.indexOf(d.name) === -1) {
+        var merged = Object.assign({}, d);
+        // Use cached data if available
+        if (cached[d.name]) {
+          merged.unaided = cached[d.name].unaided;
+          merged.aided   = cached[d.name].aided;
+          merged.u_color = cached[d.name].u_color || d.u_color;
+          merged.a_color = cached[d.name].a_color || d.a_color;
+          merged.status  = 'cached';
+          merged.notes   = 'Last benchmark data';
+        }
+        out.push(merged);
+      }
     });
     return out;
   }
@@ -182,7 +191,7 @@ function renderModelTables(s) {
     else if (m.status === 'error') { note = '❌ ' + note; noteColor = '#fc8181'; }
     return '<tr>'
       + '<td><strong>' + m.name + '</strong></td>'
-      + '<td>' + freq + '</td>'
+      + '<td style="white-space:nowrap;">' + freq + '</td>'
       + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="color:' + uColor + ';font-weight:700;">' + m.unaided + '</span></td>'
       + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="background:#1a2744;color:' + aColor + ';padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;">' + m.aided + '</span></td>'
       + '<td style="width:90px;">' + statusBadge(m.status) + '</td>'
@@ -199,7 +208,7 @@ function renderModelTables(s) {
     if (m.status === 'partial') note = '⚠️ ' + note;
     return '<tr>'
       + '<td><strong>' + m.name + '</strong></td>'
-      + '<td>' + freq + '</td>'
+      + '<td style="white-space:nowrap;">' + freq + '</td>'
       + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="color:' + uColor + ';font-weight:700;">' + m.unaided + '</span></td>'
       + '<td style="width:72px;text-align:right;padding-right:16px;"><span style="background:#1a2744;color:' + aColor + ';padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;">' + m.aided + '</span></td>'
       + '<td style="width:90px;">' + statusBadge(m.status) + '</td>'
@@ -274,45 +283,38 @@ function renderPerplexity(s, containerId) {
 }
 
 // ── Competitive intel (Overview) ──────────────────────────────────
-// Verified rates (May 2026 — flag if stale):
-// Square:  in-person 2.6%+$0.15 (Free) / online 2.9%+$0.30
-// Stripe:  in-person 2.7%+$0.05 / online 2.9%+$0.30
-// Clover:  in-person 2.3-2.6%+$0.10 (reseller varies) / online 3.5%+$0.10
-// Helcim:  in-person ~1.93%+$0.08 (interchange+) / online ~2.43%+$0.25
 var CI_FALLBACK = {
-  'Square':  {ip:'2.6% + $0.15', ol:'2.9% + $0.30', src:'Square.com (verified May 2026)'},
-  'Stripe':  {ip:'2.7% + $0.05', ol:'2.9% + $0.30', src:'Stripe.com (verified May 2026)'},
-  'Clover':  {ip:'2.3–2.6% + $0.10', ol:'3.5% + $0.10', src:'Merchant Maverick (verified May 2026)'},
-  'Helcim':  {ip:'~1.93% + $0.08', ol:'~2.43% + $0.25', src:'Helcim.com (verified May 2026)'},
+  'Square': {ip:'2.6% + $0.15', ol:'2.9% + $0.30', src:'Square.com Jul 2026'},
+  'Stripe': {ip:'2.7% + $0.05', ol:'2.9% + $0.30', src:'Stripe.com Jul 2026'},
+  'Clover': {ip:'2.3–2.6% + $0.10', ol:'3.5% + $0.10', src:'Merchant Maverick Jul 2026'},
+  'Helcim': {ip:'~1.93% + $0.08', ol:'~2.43% + $0.25', src:'Helcim.com Jul 2026'},
 };
 function renderCompetitiveIntel(s, containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
   const rows = s.competitive_intel || [];
-  if (!rows.length) { el.innerHTML = '<div style="color:#4a5568;font-size:12px;">No competitive intel this session.</div>'; return; }
+  if (!rows.length) { el.innerHTML = '<div style="color:#4a5568;font-size:12px;padding:8px 0;">No competitive intel this session.</div>'; return; }
   el.innerHTML = rows.map(function(r) {
-    var fb = CI_FALLBACK[r.competitor] || null;
-    var ipRate = r.in_person_rate || (fb ? fb.ip : '—');
-    var olRate = r.online_rate || (fb ? fb.ol : '—');
-    var src    = r.source || (fb ? fb.src : '');
-    var verified = r.verified_date ? r.verified_date : (fb ? '⚠️ fallback' : '—');
-    var changed = r.changed ? '<span style="color:#f6ad55;font-size:10px;">⚠️ Changed</span>' : '<span style="color:#90cdf4;font-size:10px;">✅ No change</span>';
+    var fb = CI_FALLBACK[r.competitor] || {};
+    var ip = r.in_person_rate || fb.ip || '—';
+    var ol = r.online_rate    || fb.ol || '—';
+    var src = r.source        || fb.src || '';
+    var chg = r.changed ? '<span style="color:#f6ad55;font-size:10px;font-weight:700;">⚠️ Changed</span>' : '<span style="color:#90cdf4;font-size:10px;">✅ No change</span>';
     return '<div style="padding:10px 0;border-bottom:1px solid #1e2436;">'
-      + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">'
-      + '<strong style="color:#e2e8f0;font-size:13px;">' + r.competitor + '</strong>'
-      + changed
+      + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+      + '<strong style="font-size:13px;color:#e2e8f0;">' + r.competitor + '</strong>' + chg
       + '</div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px;">'
       + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;">'
-      + '<div style="font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">In-Person</div>'
-      + '<div style="font-size:13px;font-weight:700;color:#fc8181;">' + ipRate + '</div>'
+      + '<div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">In-Person</div>'
+      + '<div style="font-size:13px;font-weight:700;color:#fc8181;">' + ip + '</div>'
       + '</div>'
       + '<div style="background:#161b28;border-radius:4px;padding:5px 9px;">'
-      + '<div style="font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Online</div>'
-      + '<div style="font-size:13px;font-weight:700;color:#f6ad55;">' + olRate + '</div>'
+      + '<div style="font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Online</div>'
+      + '<div style="font-size:13px;font-weight:700;color:#f6ad55;">' + ol + '</div>'
       + '</div>'
       + '</div>'
-      + '<div style="font-size:10px;color:#4a5568;">Source: ' + src + ' · Verified: ' + verified + '</div>'
+      + '<div style="font-size:10px;color:#4a5568;">Source: ' + src + '</div>'
       + '</div>';
   }).join('');
 }

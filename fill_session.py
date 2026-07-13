@@ -807,18 +807,29 @@ def build_prompt_call1(session, live_results):
         "  ],\n"
         '  "cite_pipeline": [\n'
         '    // Use LIVE DATA from publisher crawls to update status\n'
-        '    // 6 publishers: NerdWallet (payment processors), NerdWallet (POS),\n'
-        '    //               Forbes Advisor, Wise, Business.com, TechRadar\n'
-        '    // Each: { "publisher": str, "section": str, "status": str, "priority": str,\n'
-        '    //         "best_for_label": str, "blocked_by": str, "est_sov_impact": str,\n'
-        '    //         "last_contact": str, "response": str, "outreach_channel": str }\n'
-        "  ],\n"
+	'    // 11 entries. Required publishers:\n'
+	'    //   NerdWallet (payment processors), NerdWallet (POS),\n'
+	'    //   Forbes Advisor, Wise, Business.com, TechRadar,\n'
+	'    //   G2, Capterra, WordPress.org, Wikidata, Medium\n'
+	'    // Each: { "publisher": str, "section": str, "status": str, "priority": str,\n'
+	'    //         "citation_type": str,\n'
+	'    //         (Affiliate-Editorial | Earned-Contributed | Broad-PR |\n'
+	'    //          Review-Profile | Developer-Registry | Paid-Sponsorship)\n'
+	'    //         "ai_cites": str, (Yes | No | Partial | Yes-and-growing)\n'
+	'    //         "best_for_label": str, "blocked_by": str, "est_sov_impact": str,\n'
+	'    //         "last_contact": str, "response": str, "outreach_channel": str }\n'        
+	"  ],\n"
         '  "report_summary": {\n'
         '    "binding_constraint": str,\n'
         '    "top_wins": [ /* 3 wins: { "win": str, "agent": str, "impact": str } */ ],\n'
         '    "top_gaps": [ /* 3 gaps: { "gap": str, "priority": str, "root_cause": str, "action": str, "window": str } */ ],\n'
         '    "leading_indicators": [ /* 6: { "indicator": str, "value": str, "status": "red|yellow|green" } */ ],\n'
         '    "leadership_decisions": [ /* { "decision": str, "owner": str, "deadline": str, "consequence": str } */ ],\n'
+	'    "pillar_performance": [\n'
+	'      /* 4 entries: { "pillar": int, "name": str, "key_metric": str,\n'
+	'         "this_month": str, "status": "red|yellow|green",\n'
+	'         "actions_completed": int, "next_action": str } */\n'
+	'    ],\n'
         '    "leadership_decisions_carryover": [],\n'
         '    "next_month_priority": [ /* { "priority": str, "action": str, "agent": str, "sov_impact": str, "window": str } */ ],\n'
         '    "data_confidence": str,\n'
@@ -831,6 +842,11 @@ def build_prompt_call1(session, live_results):
         "- GoDaddy POS Plus: 2.3% + $0\n"
         "- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT in CT, MA, PR or ecommerce\n"
         "- Unaided SOV and Aided SOV are NEVER blended\n"
+	"- cite_pipeline MUST include G2, Capterra as citation_type: Review-Profile, ai_cites: Yes-and-growing\n"
+	"- cite_pipeline MUST include WordPress.org, Wikidata as citation_type: Developer-Registry, ai_cites: Yes\n"
+	"- cite_pipeline MUST include Medium as citation_type: Earned-Contributed, ai_cites: Yes\n"
+	"- Affiliate-Editorial entries: ai_cites = Yes\n"
+	"- Paid-Sponsorship entries: ai_cites = No\n"
         "- All Gap Flags AUTO-ACCEPTED\n"
         "- claim_flags use claim_status: 'verify_needed' — never invent Registry IDs\n"
         "- Amplify draft disclosures: 'Disclosure: I represent GoDaddy Payments.'\n"
@@ -913,7 +929,8 @@ def merge_session(skeleton, call1_data, call2_data):
     # From call 1
     for field in ["perplexity_simulation", "competitive_intel",
                   "strategy_actions", "amplify_threads",
-                  "cite_pipeline", "report_summary"]:
+                  "cite_pipeline", "report_summary",
+                  "pillar_performance"]:
         if field in call1_data and call1_data[field]:
             result[field] = call1_data[field]
 

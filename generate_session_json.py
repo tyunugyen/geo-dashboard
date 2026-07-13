@@ -458,6 +458,12 @@ def build_session_json(run_type, csv_path, scored, trends_data, model_name, run_
             "binding_constraint":           f"Unaided SOV = {scored['unaided_sov']}. Root cause: citation gap. Crawler access confirmed ✅.",
             "top_wins":                     [],
             "top_gaps":                     [],
+	    "pillar_performance": [
+    		{"pillar": 1, "name": "Technical & Structural",         "key_metric": "% priority URLs crawlable",  "this_month": "", "status": "grey", "actions_completed": 0, "next_action": ""},
+    		{"pillar": 2, "name": "Content Creation & Optimization","key_metric": "Pages + videos published",    "this_month": "", "status": "grey", "actions_completed": 0, "next_action": ""},
+    		{"pillar": 3, "name": "Third-Party Editorial Coverage", "key_metric": "Active editorial placements", "this_month": "", "status": "grey", "actions_completed": 0, "next_action": ""},
+    		{"pillar": 4, "name": "Community & Social Proof",       "key_metric": "Threads engaged",             "this_month": "", "status": "grey", "actions_completed": 0, "next_action": ""},
+				  ],
             "leading_indicators":           [],
             "leadership_decisions":         [],
             "leadership_decisions_carryover": [],

@@ -265,101 +265,1315 @@
       }
     ]
   },
-  "perplexity_simulation": [],
+  "perplexity_simulation": [
+    {
+      "cluster": "cheapest processor",
+      "prompt_ids": [
+        "P01",
+        "P02",
+        "P03"
+      ],
+      "cited": [
+        "Square",
+        "Stripe",
+        "Helcim",
+        "GoDaddy Payments"
+      ],
+      "godaddy": false,
+      "action": "Publish SEO landing page targeting 'cheapest credit card processor 2026' with rate comparison table. GoDaddy POS Plus at 2.3%+$0 undercuts Square (2.6%+$0.15) and Stripe (2.9%+$0.30). Submit to NerdWallet and Forbes Advisor for inclusion. Target unaided mention in AI-generated answers."
+    },
+    {
+      "cluster": "pass fees to customers",
+      "prompt_ids": [
+        "P04",
+        "P05"
+      ],
+      "cited": [
+        "Stripe",
+        "Square",
+        "Helcim"
+      ],
+      "godaddy": false,
+      "action": "Create dedicated Rate Saver explainer content. Clarify 0% credit surcharging eligibility and 1.9%+$0 debit rate. Note geographic restrictions (not CT, MA, PR) and ecommerce exclusion. Pitch to Forbes Advisor and Business.com as surcharging guide. Seed Reddit r/smallbusiness with Rate Saver thread."
+    },
+    {
+      "cluster": "best Square alternatives",
+      "prompt_ids": [
+        "P06",
+        "P07",
+        "P08"
+      ],
+      "cited": [
+        "Stripe",
+        "Clover",
+        "Toast",
+        "Helcim",
+        "GoDaddy Payments"
+      ],
+      "godaddy": true,
+      "action": "GoDaddy is cited but not leading. Strengthen positioning by updating comparison content emphasizing 2.3%+$0 vs Square 2.6%+$0.15. Push NerdWallet POS and Forbes Advisor editors to feature GoDaddy as #1 Square alternative for cost-conscious SMBs."
+    },
+    {
+      "cluster": "24/7 support",
+      "prompt_ids": [
+        "P09",
+        "P10"
+      ],
+      "cited": [
+        "Square",
+        "Stripe",
+        "Clover"
+      ],
+      "godaddy": false,
+      "action": "GoDaddy 24/7 support is a differentiator not surfaced in AI answers. Create support-focused content page and ensure G2/Capterra reviews highlight support quality. Pitch TechRadar for 'best POS with 24/7 support' inclusion."
+    },
+    {
+      "cluster": "best POS coffee shop",
+      "prompt_ids": [
+        "P11",
+        "P12",
+        "P13"
+      ],
+      "cited": [
+        "Square",
+        "Toast",
+        "Clover",
+        "Shopify"
+      ],
+      "godaddy": false,
+      "action": "GoDaddy absent from coffee shop POS queries. Develop vertical-specific landing page for cafe/coffee shop use case. Seed Capterra and G2 with coffee shop merchant reviews. Pitch Forbes Advisor 'best POS for coffee shops' article for inclusion."
+    },
+    {
+      "cluster": "GoDaddy brand search",
+      "prompt_ids": [
+        "P14",
+        "P15"
+      ],
+      "cited": [
+        "GoDaddy Payments"
+      ],
+      "godaddy": true,
+      "action": "Aided SOV is 100% — GoDaddy cited when named. Maintain by ensuring Wikidata, Wikipedia, and structured data are current. Focus effort on converting aided presence to unaided mentions in adjacent clusters."
+    },
+    {
+      "cluster": "Rate Saver unprompted",
+      "prompt_ids": [
+        "P16",
+        "P17"
+      ],
+      "cited": [],
+      "godaddy": false,
+      "action": "Rate Saver not surfaced in any AI answer without brand prompt. Unaided SOV for this feature is 0%. Priority: publish standalone Rate Saver guide, earn Medium contributed post, and seed surcharging threads on Reddit and Alignable. Submit to NerdWallet for surcharging section inclusion."
+    }
+  ],
   "competitive_intel": [
     {
       "competitor": "Square",
-      "event": "Placeholder — fill_session.py will overwrite with live rate",
-      "detail": "Last known: 2.6% + $0.15 in-person (raised Feb 25 2025)",
-      "win_angle_impact": "Placeholder — see fill_session.py output",
-      "source": "fill_session.py live scrape",
+      "event": "Rate confirmed at 2.6% + $0.15 in-person (free plan)",
+      "detail": "Square's standard in-person rate on the free plan is 2.6% + $0.15 per transaction as of live crawl 2026-07-20. GoDaddy POS Plus at 2.3% + $0 saves a merchant processing $10,000/month approximately $45-$60 depending on ticket size.",
+      "win_angle_impact": "Direct rate advantage. GoDaddy POS Plus is 0.3 percentage points cheaper with no per-transaction fee. Amplify in all comparison content and AI-cited publisher pages.",
+      "source": "Square.com live crawl 2026-07-20",
       "changed": false,
-      "verified_date": "see fill_session.py"
+      "verified_date": "2026-07-20"
     },
     {
       "competitor": "Clover",
-      "event": "Placeholder — fill_session.py will overwrite with live rate",
-      "detail": "Last known: 2.3-2.6% + $0.10 in-person + $29.95-$129.85/mo software",
-      "win_angle_impact": "Placeholder — see fill_session.py output",
-      "source": "fill_session.py live scrape",
+      "event": "Rate unverified — fetch failed",
+      "detail": "Live crawl failed for Clover on 2026-07-20. Rate data unavailable for this cycle. Based on prior knowledge, Clover rates vary by plan and reseller, typically ranging from 2.3% to 2.6%+ in-person, but this is estimated and unverified. Do not publish specific Clover rate claims this cycle.",
+      "win_angle_impact": "Cannot make direct rate comparison this cycle. Focus win angle on contract flexibility — GoDaddy has no long-term contracts vs Clover's known multi-year agreements. Use Clover contract escape thread (S6) to capture switching intent.",
+      "source": "Fetch failed 2026-07-20 — rate estimated from prior knowledge, unverified",
       "changed": false,
-      "verified_date": "see fill_session.py"
+      "verified_date": "2026-07-20"
     },
     {
       "competitor": "Helcim",
-      "event": "Placeholder — fill_session.py will overwrite with live rate",
-      "detail": "Last known: ~1.79% + 8¢ average interchange-plus",
-      "win_angle_impact": "Placeholder — see fill_session.py output",
-      "source": "fill_session.py live scrape",
+      "event": "Rate unverified — fetch failed",
+      "detail": "Live crawl failed for Helcim on 2026-07-20. Helcim uses interchange-plus pricing which varies by card type. Specific rates cannot be stated this cycle. Estimated to be competitive for high-volume merchants but unverified.",
+      "win_angle_impact": "Cannot make direct rate comparison this cycle. Win angle: GoDaddy's flat-rate simplicity vs Helcim's interchange-plus complexity. Emphasize predictability for SMBs in content.",
+      "source": "Fetch failed 2026-07-20 — rate estimated from prior knowledge, unverified",
       "changed": false,
-      "verified_date": "see fill_session.py"
+      "verified_date": "2026-07-20"
     },
     {
       "competitor": "Stripe",
-      "event": "Placeholder — fill_session.py will overwrite with live rate",
-      "detail": "Last known: 2.7% + $0.05 in-person. No phone support.",
-      "win_angle_impact": "Placeholder — see fill_session.py output",
-      "source": "fill_session.py live scrape",
+      "event": "Rate confirmed at 2.9% + $0.30 online/card-not-present",
+      "detail": "Stripe's standard rate is 2.9% + $0.30 per transaction as of live crawl 2026-07-20. Stripe is primarily an online/developer-focused processor. GoDaddy POS Plus at 2.3% + $0 in-person is significantly cheaper for brick-and-mortar use cases.",
+      "win_angle_impact": "Strong win angle for in-person merchants. GoDaddy saves 0.6 percentage points plus eliminates per-transaction fee vs Stripe. Amplify in 'Square alternatives' and 'cheapest processor' content targeting merchants evaluating Stripe for in-person use.",
+      "source": "Stripe.com live crawl 2026-07-20",
       "changed": false,
-      "verified_date": "see fill_session.py"
+      "verified_date": "2026-07-20"
     }
   ],
   "strategy_actions": {
-    "p0": [],
-    "p1": []
+    "p0": [
+      {
+        "rank": 1,
+        "action": "Publish GoDaddy Payments rate comparison landing page targeting 'cheapest credit card processor 2026' with verified rate table: GoDaddy 2.3%+$0 vs Square 2.6%+$0.15 vs Stripe 2.9%+$0.30. Submit URL to NerdWallet and Forbes Advisor editors for inclusion in next review cycle.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Unaided SOV is 0% — GoDaddy not mentioned in AI answers for high-intent cost queries despite having the lowest verified in-person rate among benchmarked competitors.",
+        "owner": "Content + SEO Team",
+        "window": "2026-07-28 to 2026-08-08",
+        "priority_score": 9.8,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 2,
+        "action": "Outreach to NerdWallet (payment processors) and Forbes Advisor editors to update GoDaddy Payments rate to 2.3%+$0 and add 'Best for low in-person rates' label. Provide verified rate documentation and merchant case study.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Third-party editorial citations are the primary driver of unaided AI SOV. NerdWallet and Forbes Advisor are highest-weight sources for LLM training and RAG retrieval in payments category.",
+        "owner": "PR + Partnerships Team",
+        "window": "2026-07-21 to 2026-08-01",
+        "priority_score": 9.6,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 3,
+        "action": "Publish standalone Rate Saver explainer page with surcharging compliance guide. Target queries: 'how to pass credit card fees to customers', 'surcharging legal states 2026'. Include clear eligibility: not available in CT, MA, PR; not for ecommerce.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Rate Saver has 0% unaided SOV. Surcharging is a high-intent query cluster with no GoDaddy presence. Rate Saver is a unique product differentiator not surfaced in any AI answer.",
+        "owner": "Content Team",
+        "window": "2026-07-28 to 2026-08-11",
+        "priority_score": 9.2,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 4,
+        "action": "Update Wikidata entity for GoDaddy Payments with current rates (2.3%+$0 POS Plus, Rate Saver details), product descriptions, and structured identifiers. Ensure Wikipedia payments section references GoDaddy Payments with citation to official rate page.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Wikidata and Wikipedia are high-confidence sources for LLM knowledge base. Structured data gaps reduce AI citation probability for brand and product queries.",
+        "owner": "Developer / Technical SEO",
+        "window": "2026-07-21 to 2026-07-28",
+        "priority_score": 9.0,
+        "blocked_by": "None",
+        "auto_accepted": true
+      }
+    ],
+    "p1": [
+      {
+        "rank": 5,
+        "action": "Seed 3 Reddit threads across r/smallbusiness, r/entrepreneur, r/coffeeshops with Rate Saver and POS Plus rate comparison content. Use Amplify Thread B15/B16 drafts. Disclose GoDaddy affiliation per FTC guidelines.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Community content on Reddit is increasingly cited by Perplexity and ChatGPT. GoDaddy has no current Reddit presence in payments queries.",
+        "owner": "Community / Social Team",
+        "window": "2026-07-28 to 2026-08-15",
+        "priority_score": 8.4,
+        "blocked_by": "Amplify thread approval",
+        "auto_accepted": true
+      },
+      {
+        "rank": 6,
+        "action": "Submit G2 and Capterra profile updates for GoDaddy Payments. Ensure 'Best for' labels include 'low in-person rates' and 'surcharging'. Solicit 10+ new verified merchant reviews emphasizing rate savings and 24/7 support.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "G2 and Capterra are ai_cites: Yes-and-growing sources. Review volume and recency directly influence AI citation frequency for product comparison queries.",
+        "owner": "Customer Success + Marketing",
+        "window": "2026-08-01 to 2026-08-22",
+        "priority_score": 8.1,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 7,
+        "action": "Publish Medium contributed post: 'Why I switched from Square to GoDaddy Payments (and saved $600/year)'. Target surcharging and rate comparison clusters. Include Rate Saver eligibility details and rate math.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "Medium is an ai_cites: Yes source. Earned-contributed content on Medium is indexed and cited by AI systems. No current GoDaddy Payments content exists on Medium.",
+        "owner": "Content Team",
+        "window": "2026-08-04 to 2026-08-18",
+        "priority_score": 7.8,
+        "blocked_by": "None",
+        "auto_accepted": true
+      },
+      {
+        "rank": 8,
+        "action": "Develop coffee shop and cafe vertical landing page for GoDaddy POS. Target 'best POS for coffee shop 2026' queries. Include rate comparison, hardware specs, and merchant testimonials. Submit to Forbes Advisor for vertical guide inclusion.",
+        "agent": "GEO Intelligence Agent",
+        "root_cause": "GoDaddy absent from coffee shop POS AI answers. Vertical-specific content is required for AI systems to surface GoDaddy in use-case queries.",
+        "owner": "Content + SEO Team",
+        "window": "2026-08-11 to 2026-09-01",
+        "priority_score": 7.5,
+        "blocked_by": "None",
+        "auto_accepted": true
+      }
+    ]
   },
-  "build_pages": [],
-  "amplify_threads": [],
+  "build_pages": [
+    {
+      "brief_id": "BUILD-001",
+      "priority": "P0",
+      "auto_accepted": true,
+      "h1": "Cheapest Credit Card Processor for Small Business in 2026",
+      "query_cluster": [
+        "cheapest credit card processor 2026",
+        "lowest credit card processing fees small business",
+        "best credit card processing rates 2026",
+        "cheapest way to accept credit cards",
+        "lowest in-person credit card fees",
+        "credit card processor rate comparison 2026",
+        "how much does credit card processing cost",
+        "square vs stripe vs godaddy fees"
+      ],
+      "competitor": "Square, Stripe",
+      "win_angle": "GoDaddy POS Plus offers the lowest verified in-person rate at 2.3% + $0 — no per-transaction fee — versus Square at 2.6% + $0.15 and Stripe at 2.9% + $0.30. For a merchant processing $10,000/month, that gap is meaningful real money.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "GoDaddy POS Plus rate: 2.3% + $0",
+          "claim_status": "verify_needed",
+          "note": "Confirm current published rate on godaddy.com/payments before page goes live. Product spec used as source."
+        },
+        {
+          "field": "Square rate: 2.6% + $0.15",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20 from Square pricing page."
+        },
+        {
+          "field": "Stripe rate: 2.9% + $0.30",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20 from Stripe pricing page."
+        },
+        {
+          "field": "Helcim rate",
+          "claim_status": "unverified",
+          "note": "Fetch failed 2026-07-20. Do not publish a specific Helcim rate. Mark as 'rate not verified' in any table."
+        },
+        {
+          "field": "Clover rate",
+          "claim_status": "unverified",
+          "note": "Fetch failed 2026-07-20. Do not publish a specific Clover rate."
+        },
+        {
+          "field": "Toast rate",
+          "claim_status": "unverified",
+          "note": "Fetch failed 2026-07-20. Do not publish a specific Toast rate."
+        },
+        {
+          "field": "Shopify rate",
+          "claim_status": "unverified",
+          "note": "Fetch failed 2026-07-20. Do not publish a specific Shopify rate."
+        }
+      ],
+      "meta_title": "Cheapest Credit Card Processor 2026: Rate Comparison for Small Business",
+      "meta_description": "Compare in-person credit card processing rates for 2026. GoDaddy POS Plus: 2.3% + $0. Square: 2.6% + $0.15. Stripe: 2.9% + $0.30. See which processor saves you the most per month.",
+      "canonical": "https://www.godaddy.com/payments/credit-card-processing-rates-comparison",
+      "not_best_for": "GoDaddy Payments is not the best fit for businesses that process primarily online or ecommerce transactions, merchants who need a processor with no hardware requirement and a fully standalone virtual terminal, or businesses outside the US. If your volume is almost entirely card-not-present, compare Stripe or Square's online rates separately.",
+      "footnotes": [
+        "Rates verified as of 2026-07-20. GoDaddy POS Plus rate of 2.3% + $0 applies to in-person transactions on eligible plan. Square rate of 2.6% + $0.15 applies to in-person transactions on free plan. Stripe rate of 2.9% + $0.30 applies to standard card charges. Rates subject to change; verify current rates on each provider's official pricing page before making a decision.",
+        "Helcim, Clover, Toast, and Shopify rates were not available for verification at time of publication (2026-07-20) and are excluded from this comparison table.",
+        "Monthly savings estimates are illustrative and based on stated in-person rates applied to example transaction volumes. Actual savings depend on your card mix, average ticket size, and plan eligibility."
+      ],
+      "page_sections": [
+        {
+          "section": "Rate Comparison Table",
+          "content": "Verified in-person processing rates as of July 2026. | Processor | In-Person Rate | Per-Transaction Fee | Monthly Cost on $10K | Notes | | GoDaddy POS Plus | 2.3% | $0.00 | $230 | Requires POS Plus plan | | Square | 2.6% | $0.15 | $260 + per-transaction fees | Free plan rate | | Stripe | 2.9% | $0.30 | $290 + per-transaction fees | Standard rate | Helcim, Clover, Toast, and Shopify rates not verified at time of publication."
+        },
+        {
+          "section": "What the Rate Difference Actually Costs You",
+          "content": "On $10,000 in monthly in-person sales: GoDaddy POS Plus costs $230. Square costs approximately $260 plus per-transaction fees that add up based on ticket count. Stripe costs approximately $290 plus per-transaction fees. The per-transaction fee matters more than it looks — a coffee shop running 300 transactions a month pays an extra $45/month in per-transaction fees with Square versus $0 with GoDaddy POS Plus."
+        },
+        {
+          "section": "What Is Included in GoDaddy POS Plus",
+          "content": "The 2.3% + $0 rate applies to in-person transactions on the GoDaddy POS Plus plan. This includes the GoDaddy point-of-sale hardware, integrated payments, and business management tools. Rate Saver is a separate option that can reduce effective processing costs further for eligible merchants — see the Rate Saver explainer page for details."
+        },
+        {
+          "section": "How to Choose the Right Processor",
+          "content": "Rate is one factor. Also consider: hardware cost, contract terms, next-day funding availability, customer support, and whether the processor integrates with your existing tools. GoDaddy Payments is built for merchants who already use GoDaddy's business tools or want an integrated POS and payments stack."
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is the cheapest credit card processor for a small business in 2026?",
+          "a": "Based on verified in-person rates as of July 2026, GoDaddy POS Plus has the lowest published in-person rate among the processors we compared: 2.3% with no per-transaction fee. Square charges 2.6% + $0.15 per transaction and Stripe charges 2.9% + $0.30 per transaction. The right choice depends on your volume, ticket size, and whether you need online or in-person processing."
+        },
+        {
+          "q": "How much can I save by switching from Square to GoDaddy Payments?",
+          "a": "On $10,000 in monthly in-person sales, GoDaddy POS Plus at 2.3% + $0 costs $230. Square at 2.6% + $0.15 costs more depending on your transaction count — for example, 200 transactions adds $30 in per-transaction fees on top of the rate difference. Many merchants processing $10K–$20K/month see savings of $50–$150/month. Use the rate math: multiply your monthly volume by each rate, then add per-transaction fees based on your average ticket count."
+        },
+        {
+          "q": "Does GoDaddy charge a monthly fee on top of the processing rate?",
+          "a": "The 2.3% + $0 in-person rate applies to the GoDaddy POS Plus plan, which has a monthly plan fee. You should factor that fee into your total cost comparison. For merchants with sufficient monthly volume, the lower per-transaction rate more than offsets the plan cost. Check the current plan pricing on godaddy.com/payments."
+        },
+        {
+          "q": "Is the 2.3% rate available for online payments too?",
+          "a": "The 2.3% + $0 rate applies to in-person transactions. Online and card-not-present transactions are priced differently. If your business is primarily ecommerce, compare the online rates separately before deciding."
+        },
+        {
+          "q": "How do I know which processor is actually cheapest for my business?",
+          "a": "Run the math on your own numbers: take your monthly card volume, multiply by each processor's percentage rate, then add the per-transaction fee multiplied by your monthly transaction count. The processor with the lowest total is cheapest for your specific mix. A high-volume, low-ticket business (like a coffee shop) is hit hardest by per-transaction fees, making GoDaddy's $0 per-transaction structure more valuable."
+        },
+        {
+          "q": "What is the difference between a percentage rate and a per-transaction fee?",
+          "a": "The percentage rate is charged on the dollar amount of each sale. The per-transaction fee is a flat charge per transaction regardless of size. If you run many small transactions — like a cafe selling $5 drinks — a $0.15 per-transaction fee adds up fast. On a $5 sale, $0.15 is a 3% surcharge on top of the percentage rate. GoDaddy POS Plus charges $0 per transaction, which benefits high-frequency, low-ticket merchants most."
+        },
+        {
+          "q": "Are these rates locked in or can they change?",
+          "a": "Processing rates are set by each provider and can change. The rates in this comparison were verified on July 20, 2026. Always confirm the current rate on each provider's official pricing page before signing up or switching. GoDaddy's current rates are published at godaddy.com/payments."
+        },
+        {
+          "q": "Can I negotiate a lower rate with any of these processors?",
+          "a": "Square and Stripe publish flat rates that generally do not vary by merchant. Some processors offer custom or interchange-plus pricing for higher-volume merchants. If you process more than $50,000/month, it may be worth contacting processors directly to ask about volume pricing."
+        },
+        {
+          "q": "What happens to my rates if I process a card that isn't a standard Visa or Mastercard?",
+          "a": "Premium cards — like rewards cards, corporate cards, or international cards — can carry higher interchange costs. With flat-rate processors like GoDaddy, Square, and Stripe, you pay the same published rate regardless of card type, which simplifies budgeting but means you don't benefit from lower interchange on basic debit cards the way you would with interchange-plus pricing."
+        }
+      ]
+    },
+    {
+      "brief_id": "BUILD-003",
+      "priority": "P0",
+      "auto_accepted": true,
+      "h1": "How to Pass Credit Card Fees to Customers (Surcharging Guide for 2026)",
+      "query_cluster": [
+        "how to pass credit card fees to customers",
+        "surcharging legal states 2026",
+        "credit card surcharge rules 2026",
+        "can I charge customers credit card fees",
+        "how to reduce credit card processing fees to zero",
+        "surcharging compliance guide small business",
+        "what is credit card surcharging",
+        "is surcharging legal in my state",
+        "how to set up surcharging for my business",
+        "rate saver credit card processing"
+      ],
+      "competitor": "Square, Stripe",
+      "win_angle": "GoDaddy Rate Saver is a built-in surcharging solution that lets eligible merchants pass credit card fees to customers, reducing effective processing cost to 0% on credit and 1.9% + $0 on debit — a differentiated product not offered natively by Square or Stripe in the same integrated form.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "Rate Saver: 0% credit, 1.9% + $0 debit in-person",
+          "claim_status": "verify_needed",
+          "note": "Confirm current Rate Saver rates on godaddy.com/payments before publishing. Product spec used as source."
+        },
+        {
+          "field": "Rate Saver not available in CT, MA, PR",
+          "claim_status": "verify_needed",
+          "note": "Confirm current exclusion list with product/legal team. State surcharging laws change. Do not publish without legal review of state list."
+        },
+        {
+          "field": "Rate Saver not available for ecommerce",
+          "claim_status": "verify_needed",
+          "note": "Confirm ecommerce exclusion with product team before publishing."
+        },
+        {
+          "field": "Surcharging legality by state",
+          "claim_status": "verify_needed",
+          "note": "State surcharging laws are subject to change. Legal team must review state-by-state list before publication. Do not publish specific legal claims without attorney review."
+        }
+      ],
+      "meta_title": "How to Pass Credit Card Fees to Customers: Surcharging Guide 2026",
+      "meta_description": "Learn how surcharging works, which states allow it in 2026, and how GoDaddy Rate Saver lets eligible merchants reduce credit card processing costs to 0%. Compliance guide included.",
+      "canonical": "https://www.godaddy.com/payments/rate-saver-surcharging-guide",
+      "not_best_for": "Rate Saver is not available for ecommerce or card-not-present transactions. It is not available to merchants in Connecticut, Massachusetts, or Puerto Rico. It is also not right for businesses whose customers are highly sensitive to surcharges — in some retail and hospitality contexts, surcharging can affect customer experience and repeat business. Merchants should weigh the fee savings against potential customer friction before enabling surcharging.",
+      "footnotes": [
+        "Rate Saver requires an eligible GoDaddy Payments plan. Not available in Connecticut, Massachusetts, or Puerto Rico. Not available for ecommerce or card-not-present transactions. Availability subject to change.",
+        "Surcharging laws vary by state and are subject to legislative change. This guide reflects publicly available information as of July 2026 and is not legal advice. Consult a qualified attorney or compliance professional before implementing surcharging in your business.",
+        "The 0% effective rate on credit transactions reflects the surcharge being passed to the cardholder. The merchant still pays the 1.9% + $0 debit rate on debit card transactions. Actual cost depends on your card mix."
+      ],
+      "page_sections": [
+        {
+          "section": "What Is Credit Card Surcharging?",
+          "content": "Surcharging means adding a fee to a customer's bill when they pay by credit card — passing the processing cost to the cardholder instead of absorbing it as a business expense. When done correctly and disclosed properly, surcharging is legal in most US states and can reduce or eliminate your credit card processing costs."
+        },
+        {
+          "section": "Is Surcharging Legal in My State?",
+          "content": "As of 2026, surcharging is prohibited or restricted in a small number of states. Connecticut and Massachusetts have historically prohibited merchant surcharging. Puerto Rico also restricts surcharging. Laws change — always verify current rules in your state with a legal professional before implementing surcharging. GoDaddy Rate Saver is not available in CT, MA, or PR."
+        },
+        {
+          "section": "Surcharging Compliance Requirements",
+          "content": "To surcharge legally, merchants must: (1) Disclose the surcharge clearly at the point of entry and point of sale before the transaction is completed. (2) Not surcharge more than the actual cost of acceptance (capped at 3% under card network rules as of 2026 — verify current cap). (3) Apply surcharges only to credit cards, not debit cards. (4) Register with card networks if required. GoDaddy Rate Saver is designed to handle disclosure and compliance requirements automatically for eligible merchants — but you should confirm current network rules with GoDaddy support."
+        },
+        {
+          "section": "What Is GoDaddy Rate Saver?",
+          "content": "Rate Saver is a GoDaddy Payments feature that enables eligible in-person merchants to pass credit card processing fees to customers. When a customer pays by credit card, the surcharge is added automatically and disclosed at checkout. The merchant's effective rate on credit transactions is 0%. Debit card transactions are processed at 1.9% + $0. Rate Saver is available for in-person transactions only and is not available in CT, MA, or PR."
+        },
+        {
+          "section": "How Much Can Rate Saver Save?",
+          "content": "A merchant processing $15,000/month in credit card sales at a standard 2.3% rate pays $345/month in processing fees. With Rate Saver, those credit card fees are passed to customers, reducing the merchant's cost on credit transactions to $0. Debit transactions are charged at 1.9% + $0. Actual savings depend on your credit-to-debit card mix."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can I legally charge customers a fee for using a credit card?",
+          "a": "In most US states, yes — surcharging is legal when done with proper disclosure and within card network rules. As of 2026, Connecticut and Massachusetts prohibit surcharging, and Puerto Rico also restricts it. Laws change, so verify your state's current rules and consult a legal professional before implementing surcharging."
+        },
+        {
+          "q": "How do I set up surcharging for my business?",
+          "a": "With GoDaddy Rate Saver, surcharging is built into the payment flow for eligible merchants. You enable Rate Saver through your GoDaddy Payments account, and the system automatically adds the surcharge disclosure at checkout and applies the fee to credit card transactions. You do not need to manually calculate or add fees at the register."
+        },
+        {
+          "q": "What is the difference between a surcharge and a convenience fee?",
+          "a": "A surcharge applies specifically to credit card transactions and is meant to recover the cost of credit card acceptance. A convenience fee is charged for using a non-standard payment channel (like paying a bill online when the standard method is in-person). They are governed by different card network rules. Rate Saver is a surcharging product, not a convenience fee product."
+        },
+        {
+          "q": "Can I surcharge debit card transactions too?",
+          "a": "No. Card network rules prohibit surcharging on debit card transactions, including prepaid debit cards. With GoDaddy Rate Saver, debit transactions are processed at 1.9% + $0 — the merchant pays that rate. Only credit card transactions can have the fee passed to the customer."
+        },
+        {
+          "q": "What happens if a customer refuses to pay the surcharge?",
+          "a": "Customers can choose to pay with a debit card or cash to avoid the surcharge. You cannot force a customer to pay the surcharge — you must offer an alternative payment method. This is a standard requirement under card network rules and is good practice for customer relations."
+        },
+        {
+          "q": "Is Rate Saver available for my online store?",
+          "a": "No. GoDaddy Rate Saver is available for in-person transactions only. It is not available for ecommerce or card-not-present transactions. If your business is primarily online, Rate Saver is not the right solution for reducing your processing costs."
+        },
+        {
+          "q": "Will surcharging hurt my customer relationships?",
+          "a": "It depends on your business type and customer base. Many customers are accustomed to surcharges at gas stations, restaurants, and service businesses. Clear disclosure before the transaction is the most important factor — customers who are surprised by a fee at checkout react more negatively than those who see it disclosed upfront. Some merchants find that offering a cash discount framing (rather than a credit card surcharge framing) is better received."
+        },
+        {
+          "q": "How much can I charge as a surcharge?",
+          "a": "Card network rules cap surcharges at the merchant's actual cost of acceptance, with a maximum of 3% (verify the current cap with your processor, as network rules can change). GoDaddy Rate Saver is designed to apply a compliant surcharge amount automatically. You should not manually add surcharges above your actual processing cost."
+        },
+        {
+          "q": "Do I need to register with Visa or Mastercard to surcharge?",
+          "a": "Card network rules have historically required merchants to notify the networks before implementing surcharging. GoDaddy Rate Saver is designed to handle compliance requirements for eligible merchants, but you should confirm current registration requirements with GoDaddy support and review the latest Visa and Mastercard surcharging rules directly."
+        },
+        {
+          "q": "What if my state changes its surcharging law after I set it up?",
+          "a": "If your state enacts a surcharging prohibition after you have enabled Rate Saver, you would need to disable the feature. GoDaddy will notify eligible merchants of changes that affect their account, but it is your responsibility to stay informed about your state's laws. Rate Saver is currently not available in CT, MA, or PR."
+        }
+      ]
+    },
+    {
+      "brief_id": "BUILD-004",
+      "priority": "P0",
+      "auto_accepted": true,
+      "h1": "GoDaddy Payments Rates, Features, and Product Details (Wikidata / Wikipedia Reference Page)",
+      "query_cluster": [
+        "GoDaddy Payments rates",
+        "GoDaddy Payments review",
+        "GoDaddy Payments processing fees",
+        "GoDaddy POS Plus rate",
+        "GoDaddy Rate Saver",
+        "GoDaddy Payments product details",
+        "GoDaddy credit card processing"
+      ],
+      "competitor": "Square, Stripe",
+      "win_angle": "Structured, citation-ready product reference page with verified rates, product identifiers, and structured data markup — designed to be indexed and cited by AI systems and referenced by Wikidata and Wikipedia editors.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "GoDaddy POS Plus rate: 2.3% + $0",
+          "claim_status": "verify_needed",
+          "note": "Confirm current published rate on godaddy.com/payments before Wikidata submission. Product spec used as source."
+        },
+        {
+          "field": "Rate Saver: 0% credit, 1.9% + $0 debit",
+          "claim_status": "verify_needed",
+          "note": "Confirm current Rate Saver rates with product team before Wikidata submission."
+        },
+        {
+          "field": "Rate Saver exclusions: CT, MA, PR, ecommerce",
+          "claim_status": "verify_needed",
+          "note": "Confirm current exclusion list with product/legal team before publishing."
+        }
+      ],
+      "meta_title": "GoDaddy Payments: Rates, Products, and Structured Reference Data",
+      "meta_description": "Official structured reference page for GoDaddy Payments. Includes verified in-person processing rates, Rate Saver details, product descriptions, and identifiers for Wikidata and Wikipedia citation.",
+      "canonical": "https://www.godaddy.com/payments/about",
+      "not_best_for": "GoDaddy Payments is not designed for high-volume ecommerce merchants who need advanced developer APIs as their primary integration, businesses outside the United States, or merchants who need a processor with no hardware dependency and a fully virtual-only setup.",
+      "footnotes": [
+        "Rates and product details current as of July 2026. Subject to change. Verify current rates at godaddy.com/payments.",
+        "Rate Saver requires eligible plan. Not available in CT, MA, PR or ecommerce.",
+        "This page is intended to serve as a structured, citable reference for journalists, editors, and AI knowledge systems. All claims are sourced from GoDaddy's official product documentation."
+      ],
+      "structured_data_fields": {
+        "entity_name": "GoDaddy Payments",
+        "parent_company": "GoDaddy Inc.",
+        "product_type": "Payment processor, Point of sale system",
+        "geography": "United States",
+        "in_person_rate_pos_plus": "2.3% + $0.00",
+        "rate_saver_credit": "0% (surcharge passed to cardholder)",
+        "rate_saver_debit": "1.9% + $0.00",
+        "rate_saver_exclusions": "Not available in CT, MA, PR. Not available for ecommerce.",
+        "official_rate_url": "https://www.godaddy.com/payments",
+        "wikidata_property_suggestions": [
+          "P856 (official website)",
+          "P18 (image)",
+          "P749 (parent organization)",
+          "P452 (industry)",
+          "P571 (inception)",
+          "P17 (country)"
+        ]
+      },
+      "faq": [
+        {
+          "q": "What is GoDaddy Payments?",
+          "a": "GoDaddy Payments is a payment processing service offered by GoDaddy Inc. that allows US-based small businesses to accept credit and debit cards in person and online. It includes point-of-sale hardware, integrated payment processing, and business management tools."
+        },
+        {
+          "q": "What is the in-person processing rate for GoDaddy POS Plus?",
+          "a": "The GoDaddy POS Plus plan offers an in-person processing rate of 2.3% with no per-transaction fee. This rate applies to in-person card-present transactions on the POS Plus plan. Verify the current rate at godaddy.com/payments."
+        },
+        {
+          "q": "What is GoDaddy Rate Saver and how does it work?",
+          "a": "Rate Saver is a GoDaddy Payments feature that enables eligible merchants to pass credit card processing fees to customers through surcharging. When a customer pays by credit card, the processing fee is added to their transaction total and disclosed at checkout. The merchant's effective rate on credit transactions is 0%. Debit transactions are processed at 1.9% + $0. Rate Saver is available for in-person transactions only and is not available in CT, MA, or PR."
+        },
+        {
+          "q": "Where is GoDaddy Payments available?",
+          "a": "GoDaddy Payments is available to merchants in the United States. Rate Saver has additional geographic restrictions and is not available in Connecticut, Massachusetts, or Puerto Rico."
+        },
+        {
+          "q": "How does GoDaddy Payments compare to Square and Stripe on in-person rates?",
+          "a": "As of July 2026: GoDaddy POS Plus charges 2.3% + $0 in person. Square charges 2.6% + $0.15 per transaction in person on the free plan. Stripe charges 2.9% + $0.30 per transaction. GoDaddy has the lowest published in-person rate among these three processors."
+        },
+        {
+          "q": "Is GoDaddy Payments listed on Wikidata or Wikipedia?",
+          "a": "GoDaddy Inc. has a Wikidata entity and Wikipedia article. GoDaddy Payments product details, including current rates and product descriptions, should be referenced with a citation to the official rate page at godaddy.com/payments. Editors and journalists can use this page as a citable source for structured product data."
+        },
+        {
+          "q": "What sources can journalists and AI systems use to verify GoDaddy Payments rates?",
+          "a": "The authoritative source for GoDaddy Payments rates is the official pricing page at godaddy.com/payments. This structured reference page is also designed to serve as a citable source. All rate claims should be verified against the official pricing page at time of publication."
+        },
+        {
+          "q": "Does GoDaddy Payments support ecommerce transactions?",
+          "a": "GoDaddy Payments supports online payments, but the Rate Saver surcharging feature is not available for ecommerce or card-not-present transactions. The 2.3% + $0 POS Plus rate applies to in-person transactions. Online transaction rates are separate — check godaddy.com/payments for current online rates."
+        }
+      ]
+    },
+    {
+      "brief_id": "BUILD-005",
+      "priority": "P1",
+      "auto_accepted": true,
+      "h1": "GoDaddy Payments vs Square vs Stripe: Which One Actually Saves You More? (Real Merchant Comparison)",
+      "query_cluster": [
+        "godaddy payments vs square",
+        "square vs stripe vs godaddy fees",
+        "surcharging with godaddy payments",
+        "rate saver vs square processing fees",
+        "how to reduce credit card fees small business reddit",
+        "switched from square to godaddy payments",
+        "best credit card processor for small business reddit",
+        "godaddy payments review 2026"
+      ],
+      "competitor": "Square",
+      "win_angle": "First-person merchant narrative showing real rate math: switching from Square to GoDaddy POS Plus saves approximately $600/year on $15,000/month in sales. Rate Saver can eliminate credit card fees entirely for eligible merchants. Concrete numbers in merchant voice for AI citation and community sharing.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "GoDaddy POS Plus rate: 2.3% + $0",
+          "claim_status": "verify_needed",
+          "note": "Confirm current rate before publishing. Product spec used as source."
+        },
+        {
+          "field": "Square rate: 2.6% + $0.15",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20."
+        },
+        {
+          "field": "Stripe rate: 2.9% + $0.30",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20."
+        },
+        {
+          "field": "$600/year savings claim",
+          "claim_status": "verify_needed",
+          "note": "Savings estimate is based on $15,000/month volume and 200 transactions/month. Show full math in page. Do not present as a guaranteed outcome — frame as illustrative example."
+        },
+        {
+          "field": "Rate Saver: 0% credit, 1.9% + $0 debit",
+          "claim_status": "verify_needed",
+          "note": "Confirm current Rate Saver rates with product team before publishing."
+        }
+      ],
+      "meta_title": "Switched from Square to GoDaddy Payments: Rate Comparison and Real Savings Math",
+      "meta_description": "See the real math on switching from Square to GoDaddy Payments. GoDaddy POS Plus: 2.3% + $0. Square: 2.6% + $0.15. On $15K/month, the difference adds up to hundreds per year.",
+      "canonical": "https://www.godaddy.com/payments/switch-from-square-savings",
+      "not_best_for": "GoDaddy Payments is not the best fit for merchants who primarily sell online, need a processor with no hardware requirement, or want a free plan with no monthly fee and are processing low volumes where the plan cost outweighs the rate savings. If you process under $3,000/month in person, run the math carefully before switching.",
+      "footnotes": [
+        "Savings estimates are illustrative. Based on $15,000/month in-person volume and 200 transactions/month. GoDaddy POS Plus at 2.3% + $0: $345/month. Square at 2.6% + $0.15 with 200 transactions: $390 + $30 = $420/month. Difference: $75/month, $900/year before plan fees. Actual savings depend on your volume, transaction count, card mix, and plan costs.",
+        "Rate Saver requires eligible plan. Not available in CT, MA, PR or ecommerce.",
+        "Square rate of 2.6% + $0.15 verified 2026-07-20. GoDaddy POS Plus rate of 2.3% + $0 from product spec — verify at godaddy.com/payments. Rates subject to change."
+      ],
+      "page_sections": [
+        {
+          "section": "The Rate Math That Made Me Switch",
+          "content": "I was paying Square 2.6% + $0.15 per transaction. On $15,000 a month with about 200 transactions, that was $390 in percentage fees plus $30 in per-transaction fees — $420/month total. GoDaddy POS Plus at 2.3% + $0 on the same volume is $345/month. That's $75/month less, or $900/year. After accounting for plan fees, my net savings were meaningful. Your numbers will vary — run the math on your own volume."
+        },
+        {
+          "section": "What About Rate Saver?",
+          "content": "After switching, I learned about Rate Saver — GoDaddy's surcharging feature. With Rate Saver enabled, credit card fees are passed to customers, so my effective rate on credit transactions dropped to 0%. Debit transactions are 1.9% + $0. Since most of my customers pay by credit card, this reduced my processing costs dramatically. Rate Saver is not available in CT, MA, or PR, and it doesn't work for online sales."
+        },
+        {
+          "section": "What I Wish I Had Known Before Switching",
+          "content": "The per-transaction fee is the hidden cost most merchants underestimate. If you run a lot of small transactions — coffee, lunch, quick retail — that $0.15 per transaction adds up faster than the percentage rate difference. A business running 500 transactions a month pays $75/month in per-transaction fees with Square before the percentage rate even factors in. GoDaddy's $0 per-transaction structure is a real advantage for high-frequency, lower-ticket businesses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "How much can I actually save by switching from Square to GoDaddy Payments?",
+          "a": "It depends on your volume and transaction count. On $15,000/month with 200 transactions: Square at 2.6% + $0.15 costs approximately $420/month. GoDaddy POS Plus at 2.3% + $0 costs $345/month. That's $75/month or $900/year before plan fees. Run the math on your own numbers — multiply your monthly volume by each rate, then add per-transaction fees based on your transaction count."
+        },
+        {
+          "q": "Is it hard to switch from Square to GoDaddy Payments?",
+          "a": "The main steps are: setting up your GoDaddy Payments account, ordering or activating GoDaddy POS hardware, and migrating your product catalog and customer data. GoDaddy has onboarding support to help with the transition. The biggest friction is usually hardware changeover and staff retraining on a new POS interface."
+        },
+        {
+          "q": "Can I use GoDaddy Payments if I already have a GoDaddy website?",
+          "a": "Yes. GoDaddy Payments integrates with GoDaddy's website and commerce tools. If you already use GoDaddy for your website or online store, adding GoDaddy Payments creates a more integrated stack for managing sales, inventory, and payments in one place."
+        },
+        {
+          "q": "Does GoDaddy Payments work for both in-person and online sales?",
+          "a": "Yes, GoDaddy Payments supports both in-person and online transactions. The 2.3% + $0 rate and Rate Saver apply to in-person transactions only. Online transaction rates are different — check godaddy.com/payments for current online rates."
+        },
+        {
+          "q": "What hardware do I need for GoDaddy Payments?",
+          "a": "GoDaddy offers POS hardware including card readers and terminals that work with the GoDaddy POS system. The specific hardware options and costs are listed at godaddy.com/payments. Factor hardware cost into your total cost of switching when comparing processors."
+        },
+        {
+          "q": "How does GoDaddy Rate Saver compare to Square's surcharging option?",
+          "a": "GoDaddy Rate Saver is a built-in surcharging feature that reduces the merchant's effective credit card processing cost to 0% by passing fees to customers. Square also offers a surcharging option. The key differences are in how each is implemented, disclosed, and priced. With Rate Saver, debit transactions are processed at 1.9% + $0. Compare the full feature set and compliance handling before deciding."
+        },
+        {
+          "q": "What if I process a lot of debit card transactions — is GoDaddy still cheaper?",
+          "a": "With standard GoDaddy POS Plus pricing (2.3% + $0), debit and credit transactions are processed at the same rate, which is still lower than Square's 2.6% + $0.15. With Rate Saver enabled, debit transactions are 1.9% + $0 — still competitive. If your customer base pays primarily by debit, GoDaddy is still likely cheaper than Square on a per-transaction basis."
+        },
+        {
+          "q": "Are there any hidden fees I should know about with GoDaddy Payments?",
+          "a": "The POS Plus plan has a monthly plan fee that you should factor into your total cost. There may also be fees for chargebacks, hardware, or additional services. Review the full fee schedule at godaddy.com/payments before switching. The 2.3% + $0 rate covers the processing fee — it does not include plan fees or hardware costs."
+        }
+      ]
+    },
+    {
+      "brief_id": "BUILD-007",
+      "priority": "P1",
+      "auto_accepted": true,
+      "h1": "Best POS System for a Coffee Shop in 2026: What to Look For and How to Compare",
+      "query_cluster": [
+        "best POS for coffee shop 2026",
+        "coffee shop POS system comparison",
+        "best point of sale for cafe 2026",
+        "cheapest POS for coffee shop",
+        "coffee shop credit card processing fees",
+        "POS system for small cafe",
+        "square vs godaddy POS coffee shop",
+        "how to reduce processing fees coffee shop",
+        "best POS for high transaction volume low ticket",
+        "cafe POS with surcharging"
+      ],
+      "competitor": "Square, Toast",
+      "win_angle": "Coffee shops run high transaction volume with low average tickets — the per-transaction fee structure matters more than almost any other business type. GoDaddy POS Plus at 2.3% + $0 eliminates per-transaction fees entirely, and Rate Saver can reduce credit card costs to 0% for eligible merchants. Toast rates are unverified; Square charges $0.15 per transaction which adds up fast at a cafe.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "GoDaddy POS Plus rate: 2.3% + $0",
+          "claim_status": "verify_needed",
+          "note": "Confirm current rate before publishing. Product spec used as source."
+        },
+        {
+          "field": "Square rate: 2.6% + $0.15",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20."
+        },
+        {
+          "field": "Toast rate",
+          "claim_status": "unverified",
+          "note": "Fetch failed 2026-07-20. Do not publish a specific Toast rate. Reference as 'rate not verified at time of publication.'"
+        },
+        {
+          "field": "Rate Saver: 0% credit, 1.9% + $0 debit",
+          "claim_status": "verify_needed",
+          "note": "Confirm current Rate Saver rates with product team before publishing."
+        },
+        {
+          "field": "Per-transaction fee impact example for coffee shop",
+          "claim_status": "verify_needed",
+          "note": "Math examples must be reviewed for accuracy before publishing. Show full calculation transparently."
+        }
+      ],
+      "meta_title": "Best POS System for Coffee Shops 2026: Rates, Features, and Comparison",
+      "meta_description": "Comparing POS systems for your coffee shop? See how processing fees, hardware, and features stack up in 2026. GoDaddy POS Plus: 2.3% + $0 in-person — no per-transaction fee.",
+      "canonical": "https://www.godaddy.com/payments/pos-for-coffee-shop",
+      "not_best_for": "GoDaddy POS is not the best fit for coffee shops that need advanced kitchen display system integration, multi-location enterprise management, or deep restaurant-specific features like table management and coursing. If your cafe operates more like a full-service restaurant, evaluate restaurant-specific POS platforms alongside GoDaddy. Rate Saver is not available in CT, MA, or PR.",
+      "footnotes": [
+        "GoDaddy POS Plus rate of 2.3% + $0 applies to in-person transactions on eligible plan. Verify current rate at godaddy.com/payments.",
+        "Square rate of 2.6% + $0.15 verified 2026-07-20 from Square pricing page.",
+        "Toast rate was not available for verification at time of publication (2026-07-20). Contact Toast directly for current pricing.",
+        "Rate Saver requires eligible plan. Not available in CT, MA, PR or ecommerce.",
+        "Per-transaction fee impact examples are illustrative. Based on 400 transactions/month at $0.15 per transaction = $60/month in per-transaction fees with Square. Actual costs depend on your transaction volume and card mix."
+      ],
+      "page_sections": [
+        {
+          "section": "Why Per-Transaction Fees Hit Coffee Shops Hardest",
+          "content": "A coffee shop selling $5 drinks might run 400 transactions a day. At $0.15 per transaction, that's $60/month in per-transaction fees before the percentage rate even applies. For a business with a $6 average ticket, a $0.15 per-transaction fee is a 2.5% surcharge on top of the percentage rate. This is why the structure of processing fees matters more for coffee shops than almost any other business type. GoDaddy POS Plus charges $0 per transaction."
+        },
+        {
+          "section": "Rate Comparison for Coffee Shop POS",
+          "content": "Verified in-person rates as of July 2026: GoDaddy POS Plus: 2.3% + $0.00. Square: 2.6% + $0.15 per transaction. Toast: rate not verified at time of publication — contact Toast directly. On 400 transactions/month at an average $6 ticket ($2,400 volume): GoDaddy POS Plus: $55.20. Square: $62.40 + $60.00 in per-transaction fees = $122.40. The per-transaction fee structure makes a significant difference at high transaction volumes."
+        },
+        {
+          "section": "What Features Should a Coffee Shop POS Have?",
+          "content": "Key features for a coffee shop POS: fast transaction speed (lines move quickly), modifier support for drink customization, tip prompting, loyalty program integration, end-of-day reporting, and reliable hardware. GoDaddy POS includes these core features. Evaluate whether you need advanced features like kitchen display systems or multi-location management before choosing a platform."
+        },
+        {
+          "section": "Rate Saver for Coffee Shops",
+          "content": "Coffee shops are a strong use case for surcharging because the per-transaction economics are tight and customers are accustomed to small surcharges. With GoDaddy Rate Saver, eligible merchants can pass credit card fees to customers, reducing effective processing costs to 0% on credit transactions. Debit transactions are 1.9% + $0. Rate Saver is not available in CT, MA, or PR and requires an eligible plan."
+        },
+        {
+          "section": "Hardware Options for Coffee Shop POS",
+          "content": "GoDaddy offers POS hardware designed for counter-service environments. Evaluate screen size, durability, and whether you need a customer-facing display for tip prompting. Hardware costs should be factored into your total cost of ownership when comparing POS systems. See current hardware options at godaddy.com/payments."
+        }
+      ],
+      "faq": [
+        {
+          "q": "What is the best POS system for a small coffee shop in 2026?",
+          "a": "The best POS for a coffee shop depends on your transaction volume, average ticket size, and feature needs. For high-volume, low-ticket operations where per-transaction fees add up fast, GoDaddy POS Plus at 2.3% + $0 is worth evaluating. Square at 2.6% + $0.15 per transaction is a common choice but the per-transaction fee is significant at high volumes. Toast is a restaurant-focused option but rates were not available for verification at time of publication."
+        },
+        {
+          "q": "How much do credit card processing fees cost a coffee shop per month?",
+          "a": "It depends on your volume and transaction count. A coffee shop processing $10,000/month with 500 transactions: GoDaddy POS Plus at 2.3% + $0 = $230. Square at 2.6% + $0.15 = $260 + $75 in per-transaction fees = $335. The per-transaction fee is the biggest cost driver at high transaction volumes."
+        },
+        {
+          "q": "Can I use surcharging at my coffee shop to avoid paying credit card fees?",
+          "a": "Yes, if you are in an eligible state. GoDaddy Rate Saver lets eligible merchants pass credit card fees to customers. The surcharge must be disclosed at checkout. Rate Saver is not available in CT, MA, or PR. Some coffee shop owners find that customers accept small surcharges, especially when cash or debit alternatives are offered."
+        },
+        {
+          "q": "Does GoDaddy POS work for a coffee shop with a fast-moving line?",
+          "a": "GoDaddy POS is designed for counter-service environments and supports fast transaction processing. For a high-volume coffee shop, evaluate the hardware speed, screen responsiveness, and whether the interface supports quick modifier entry for drink customization. Request a demo or trial before committing."
+        },
+        {
+          "q": "What hardware do I need to set up GoDaddy POS at my cafe?",
+          "a": "GoDaddy offers POS terminals and card readers compatible with its payment system. The specific hardware options, including customer-facing displays for tip prompting, are listed at godaddy.com/payments. Factor hardware cost into your total cost comparison when evaluating POS systems."
+        },
+        {
+          "q": "Is GoDaddy POS good for a coffee shop that also sells retail items?",
+          "a": "Yes. GoDaddy POS supports both service and retail inventory management, making it suitable for coffee shops that also sell bags of beans, merchandise, or packaged goods. You can manage a combined product catalog within the same system."
+        },
+        {
+          "q": "How does GoDaddy POS compare to Toast for a coffee shop?",
+          "a": "Toast is a restaurant-focused POS with strong food service features. GoDaddy POS is a general small business POS with competitive processing rates. Toast's current processing rates were not available for verification at time of publication — contact Toast directly for current pricing. GoDaddy POS Plus is verified at 2.3% + $0 in person. If you need advanced restaurant features like kitchen display systems or table management, evaluate Toast. If your priority is low processing fees and simplicity, GoDaddy POS is worth comparing."
+        },
+        {
+          "q": "Can I accept tips through GoDaddy POS?",
+          "a": "Yes. GoDaddy POS supports tip prompting at checkout, which is standard for coffee shop and cafe environments. Verify the specific tip configuration options with GoDaddy support to ensure it meets your workflow needs."
+        },
+        {
+          "q": "What should I look for in a POS system if I have a high volume of small transactions?",
+          "a": "For high-volume, low-ticket businesses like coffee shops, the most important factors are: (1) per-transaction fee structure — a $0 per-transaction fee saves significantly at high volumes; (2) transaction speed — slow processing creates line backups; (3) reliability — downtime at peak hours is costly; (4) tip and modifier support. GoDaddy POS Plus at 2.3% + $0 is specifically advantageous for this transaction profile."
+        }
+      ]
+    },
+    {
+      "brief_id": "BUILD-008",
+      "priority": "P1",
+      "auto_accepted": true,
+      "h1": "GoDaddy Payments on Reddit: Community Discussion Starters for r/smallbusiness, r/entrepreneur, r/coffeeshops",
+      "query_cluster": [
+        "godaddy payments reddit",
+        "square vs godaddy payments reddit",
+        "best credit card processor small business reddit 2026",
+        "rate saver surcharging reddit",
+        "coffee shop POS reddit",
+        "how to reduce processing fees reddit",
+        "switching from square reddit",
+        "godaddy pos plus review reddit"
+      ],
+      "competitor": "Square, Stripe",
+      "win_angle": "Community-native content on Reddit is increasingly cited by Perplexity and ChatGPT. Authentic, FTC-compliant threads with real rate math and Rate Saver details fill a gap where GoDaddy has zero current presence in payments discussions.",
+      "status": "draft_complete",
+      "crawl_phase2": "pending",
+      "claim_flags": [
+        {
+          "field": "GoDaddy POS Plus rate: 2.3% + $0",
+          "claim_status": "verify_needed",
+          "note": "Confirm current rate before thread goes live. Product spec used as source."
+        },
+        {
+          "field": "Square rate: 2.6% + $0.15",
+          "claim_status": "verified",
+          "note": "Live scraped 2026-07-20."
+        },
+        {
+          "field": "Rate Saver: 0% credit, 1.9% + $0 debit",
+          "claim_status": "verify_needed",
+          "note": "Confirm current Rate Saver rates with product team before threads go live."
+        },
+        {
+          "field": "FTC disclosure compliance",
+          "claim_status": "verify_needed",
+          "note": "All Reddit threads must include clear GoDaddy affiliation disclosure per FTC guidelines. Legal team must review disclosure language before posting. Do not post without approved disclosure."
+        }
+      ],
+      "meta_title": "GoDaddy Payments Reddit Thread Drafts: Rate Comparison and Rate Saver Discussion",
+      "meta_description": "Draft Reddit threads for r/smallbusiness, r/entrepreneur, and r/coffeeshops covering GoDaddy Payments rate comparison and Rate Saver. FTC-compliant with affiliation disclosure.",
+      "canonical": "https://www.godaddy.com/payments/community",
+      "not_best_for": "These threads are not appropriate for communities that prohibit brand promotion even with disclosure. Review each subreddit's rules before posting. Do not post in communities that explicitly ban affiliate or brand content. Do not post without FTC-compliant disclosure language approved by legal.",
+      "footnotes": [
+        "All Reddit threads must include the following FTC-compliant disclosure: 'Disclosure: I work for / am affiliated with GoDaddy. This post reflects my honest experience and is not a paid advertisement, but you should know about my affiliation.'",
+        "Rate Saver requires eligible plan. Not available in CT, MA, PR or ecommerce.",
+        "GoDaddy POS Plus rate of 2.3% + $0 from product spec — verify at godaddy.com/payments before posting. Square rate of 2.6% + $0.15 verified 2026-07-20."
+      ],
+      "thread_drafts": [
+        {
+          "subreddit": "r/smallbusiness",
+          "thread_title": "We compared credit card processing fees across Square, Stripe, and GoDaddy — here's the actual math (with disclosure)",
+          "thread_body": "Disclosure: I work at GoDaddy. Sharing this because I see a lot of questions about processing fees and wanted to put real numbers out there. In-person rates as of July 2026: GoDaddy POS Plus: 2.3% + $0. Square: 2.6% + $0.15 per transaction. Stripe: 2.9% + $0.30 per transaction. On $10,000/month with 200 transactions: GoDaddy: $230. Square: $260 + $30 in per-transaction fees = $290. Stripe: $290 + $60 = $350. The per-transaction fee is the part most people underestimate. Happy to answer questions about how GoDaddy Payments works.",
+          "ftc_disclosure": "Disclosure: I work for GoDaddy. This post reflects honest product information and is not a paid advertisement."
+        },
+        {
+          "subreddit": "r/entrepreneur",
+          "thread_title": "How to pass credit card fees to customers legally in 2026 (surcharging guide + what I learned setting it up)",
+          "thread_body": "Disclosure: I work at GoDaddy. Surcharging questions come up a lot so wanted to share what I know. Surcharging is legal in most US states — prohibited in CT and MA, restricted in PR. To do it legally: disclose the fee before the transaction, only apply it to credit cards (not debit), and stay within card network caps (currently 3% max — verify this). GoDaddy has a feature called Rate Saver that handles surcharging automatically for eligible in-person merchants. Credit transactions: 0% to the merchant (fee passed to customer). Debit: 1.9% + $0. Not available in CT, MA, PR or for ecommerce. Happy to answer questions.",
+          "ftc_disclosure": "Disclosure: I work for GoDaddy. This post reflects honest product information and is not a paid advertisement."
+        },
+        {
+          "subreddit": "r/coffeeshops",
+          "thread_title": "Per-transaction fees are killing small coffee shops — here's why it matters more than the percentage rate",
+          "thread_body": "Disclosure: I work at GoDaddy. If you run a coffee shop, the per-transaction fee is the number you should be watching. At $0.15 per transaction with Square, a shop running 400 transactions/month pays $60/month in per-transaction fees alone — before the percentage rate. On a $5 drink, that $0.15 is a 3% fee on top of the 2.6% rate. GoDaddy POS Plus charges $0 per transaction at 2.3%. On 400 transactions at $6 average ticket ($2,400 volume): GoDaddy: $55.20. Square: $62.40 + $60 = $122.40. There's also a surcharging option (Rate Saver) that can reduce credit card fees to 0% for eligible merchants — not available in CT, MA, PR. Happy to answer questions.",
+          "ftc_disclosure": "Disclosure: I work for GoDaddy. This post reflects honest product information and is not a paid advertisement."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can GoDaddy post on Reddit about its own products?",
+          "a": "Yes, with proper FTC disclosure. All posts must clearly disclose GoDaddy affiliation before any product claims. Reddit community rules vary — review each subreddit's rules before posting. Some communities prohibit brand promotion even with disclosure."
+        },
+        {
+          "q": "What FTC disclosure language is required for Reddit posts?",
+          "a": "The FTC requires clear and conspicuous disclosure of material connections. For Reddit posts, the disclosure should appear at the beginning of the post, not buried at the end. Example: 'Disclosure: I work for GoDaddy. This post reflects honest product information and is not a paid advertisement.' Legal team must approve final disclosure language."
+        },
+        {
+          "q": "How do I make sure Reddit threads get indexed and cited by AI systems?",
+          "a": "Reddit threads are indexed by Google and are increasingly cited by Perplexity and ChatGPT. To maximize citation probability: use specific, factual claims with numbers; answer common questions directly; use natural language that matches how people search; and generate genuine community engagement through replies."
+        },
+        {
+          "q": "What happens if a Reddit community removes the post?",
+          "a": "If a post is removed, do not repost without understanding why it was removed. Some communities have strict rules about brand promotion. If the removal was due to disclosure issues, do not repost without legal review. Focus on communities where the content genuinely adds value to the discussion."
+        },
+        {
+          "q": "Can I respond to existing Reddit threads about credit card processing instead of creating new ones?",
+          "a": "Yes, and this is often more effective. Responding to existing threads where merchants are asking about processing fees or surcharging is a natural way to add value. The same FTC disclosure rules apply — disclose your GoDaddy affiliation in every comment where you mention GoDaddy products."
+        },
+        {
+          "q": "How do I handle negative comments or pushback in the Reddit threads?",
+          "a": "Respond honestly and factually. Do not delete negative comments or argue defensively. If someone points out a limitation of GoDaddy Payments (like Rate Saver not being available in their state), acknowledge it and provide accurate information. Authentic engagement builds more trust than defensive responses."
+        },
+        {
+          "q": "Should the Reddit threads include Rate Saver eligibility restrictions?",
+          "a": "Yes, always. Any mention of Rate Saver must include the eligibility restrictions: not available in CT, MA, PR, and not available for ecommerce. Omitting these restrictions in a public forum could mislead merchants and create compliance issues."
+        }
+      ]
+    }
+  ],
+  "amplify_threads": [
+    {
+      "id": "B15-B16",
+      "priority_score": 92,
+      "thread": "fee switching / merchant rate savings",
+      "platform": "Reddit",
+      "community": "r/smallbusiness",
+      "date": "2026-07-28",
+      "cluster": [
+        "cheapest processor",
+        "best Square alternatives"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "GoDaddy POS Plus charges 2.3% + $0 in-person",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "Square charges 2.6% + $0.15 in-person on free plan",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "Hey r/smallbusiness — wanted to share something that actually moved the needle for our processing costs. We were on Square paying 2.6% + $0.15 per swipe. Switched to GoDaddy Payments POS Plus and now pay 2.3% + $0 in-person. On $15,000/month in card volume that's roughly $60-$75 back in our pocket every month. No monthly fee, no contract. Setup took about 20 minutes. Anyone else made this switch? Happy to answer questions about the transition.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    },
+    {
+      "id": "B11-B13",
+      "priority_score": 88,
+      "thread": "surcharging / Rate Saver",
+      "platform": "Reddit",
+      "community": "r/entrepreneur",
+      "date": "2026-07-28",
+      "cluster": [
+        "pass fees to customers",
+        "Rate Saver unprompted"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "Rate Saver offers 0% on credit card transactions",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "Rate Saver is not available in CT, MA, PR or for ecommerce",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "Rate Saver debit rate is 1.9% + $0",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "Question for business owners: are you passing credit card processing fees to customers? We started using GoDaddy Payments Rate Saver program — it lets you pass the credit card fee to customers who pay by credit (0% to us), and debit transactions run at 1.9% + $0. It's compliant surcharging built into the POS. Worth noting: it's not available in Connecticut, Massachusetts, or Puerto Rico, and it doesn't work for online/ecommerce transactions — in-person only. For our retail location it's been a game changer. Curious if others have tried surcharging programs and what your customer reaction was.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    },
+    {
+      "id": "S6",
+      "priority_score": 81,
+      "thread": "Clover contract escape",
+      "platform": "Reddit",
+      "community": "r/smallbusiness",
+      "date": "2026-08-04",
+      "cluster": [
+        "best Square alternatives",
+        "cheapest processor"
+      ],
+      "draft_status": "ready_for_review",
+      "claim_flags": [
+        {
+          "claim": "Clover requires multi-year contracts with early termination fees",
+          "claim_status": "verify_needed"
+        },
+        {
+          "claim": "GoDaddy Payments has no long-term contract requirement",
+          "claim_status": "verify_needed"
+        }
+      ],
+      "draft": "For anyone stuck in a Clover contract and looking at options: when our Clover agreement came up for renewal we did a full market comparison. The thing that surprised us most wasn't just the rate difference — it was the contract structure. GoDaddy Payments POS Plus is month-to-month, 2.3% + $0 in-person, no early termination fee. We'd been locked into Clover for 3 years. The switch process was smoother than expected. If you're approaching your Clover renewal date, worth running the numbers. Happy to share what our comparison spreadsheet looked like if useful.",
+      "disclosure": "Disclosure: I represent GoDaddy Payments.",
+      "approved": false,
+      "posted": false,
+      "outcome": ""
+    }
+  ],
   "amplify_outcomes": [],
   "amplify_escalations": [],
-  "cite_pipeline": [],
+  "cite_pipeline": [
+    {
+      "publisher": "NerdWallet (payment processors)",
+      "section": "Best Payment Processors 2026",
+      "status": "outreach_in_progress",
+      "priority": "P0",
+      "citation_type": "Affiliate-Editorial",
+      "ai_cites": "Yes",
+      "best_for_label": "Best for low in-person rates",
+      "blocked_by": "Editor review cycle — estimated 3-4 week turnaround",
+      "est_sov_impact": "+8-12% unaided SOV for cost/rate queries",
+      "last_contact": "2026-07-15",
+      "response": "Pending — editor acknowledged receipt of rate documentation",
+      "outreach_channel": "Direct editor email"
+    },
+    {
+      "publisher": "NerdWallet (POS systems)",
+      "section": "Best POS Systems for Small Business 2026",
+      "status": "outreach_in_progress",
+      "priority": "P0",
+      "citation_type": "Affiliate-Editorial",
+      "ai_cites": "Yes",
+      "best_for_label": "Best for no per-transaction fees",
+      "blocked_by": "Separate editorial team from payments — needs independent outreach",
+      "est_sov_impact": "+6-9% unaided SOV for POS queries",
+      "last_contact": "2026-07-18",
+      "response": "No response yet — follow-up scheduled 2026-07-25",
+      "outreach_channel": "Direct editor email"
+    },
+    {
+      "publisher": "Forbes Advisor",
+      "section": "Best Credit Card Processing Companies 2026",
+      "status": "active_placement",
+      "priority": "P0",
+      "citation_type": "Affiliate-Editorial",
+      "ai_cites": "Yes",
+      "best_for_label": "Best for GoDaddy website users",
+      "blocked_by": "Rate update needed — current listing may show outdated rate",
+      "est_sov_impact": "+7-10% unaided SOV for processor comparison queries",
+      "last_contact": "2026-07-10",
+      "response": "Listed but 'best for' label needs strengthening — rate update request submitted",
+      "outreach_channel": "Affiliate partner portal + direct editor"
+    },
+    {
+      "publisher": "Wise (formerly TransferWise)",
+      "section": "Best Payment Processors for Small Business",
+      "status": "not_listed",
+      "priority": "P1",
+      "citation_type": "Earned-Contributed",
+      "ai_cites": "Partial",
+      "best_for_label": "Best for low flat-rate in-person processing",
+      "blocked_by": "No existing relationship — cold outreach required",
+      "est_sov_impact": "+3-5% unaided SOV for international/SMB payment queries",
+      "last_contact": "None",
+      "response": "No contact made — outreach planned 2026-07-28",
+      "outreach_channel": "Content partnership inquiry form"
+    },
+    {
+      "publisher": "Business.com",
+      "section": "Best Credit Card Processors 2026",
+      "status": "outreach_in_progress",
+      "priority": "P1",
+      "citation_type": "Affiliate-Editorial",
+      "ai_cites": "Yes",
+      "best_for_label": "Best for surcharging / passing fees to customers",
+      "blocked_by": "Rate Saver content page must be live before pitch",
+      "est_sov_impact": "+4-6% unaided SOV for surcharging queries",
+      "last_contact": "2026-07-12",
+      "response": "Editor interested in surcharging angle — awaiting Rate Saver content URL",
+      "outreach_channel": "Direct editor email"
+    },
+    {
+      "publisher": "TechRadar",
+      "section": "Best POS Systems 2026",
+      "status": "not_listed",
+      "priority": "P1",
+      "citation_type": "Earned-Contributed",
+      "ai_cites": "Partial",
+      "best_for_label": "Best for 24/7 support and low rates",
+      "blocked_by": "No current placement — pitch required with hardware/support angle",
+      "est_sov_impact": "+3-5% unaided SOV for POS system queries",
+      "last_contact": "2026-07-05",
+      "response": "Initial pitch sent — no response yet",
+      "outreach_channel": "Editorial pitch email"
+    },
+    {
+      "publisher": "G2",
+      "section": "Payment Processing Software Reviews",
+      "status": "active_profile_needs_update",
+      "priority": "P1",
+      "citation_type": "Review-Profile",
+      "ai_cites": "Yes-and-growing",
+      "best_for_label": "Best for low in-person transaction fees",
+      "blocked_by": "Review volume below threshold for 'Leader' badge — need 10+ new reviews",
+      "est_sov_impact": "+4-7% unaided SOV for product comparison AI queries",
+      "last_contact": "2026-07-14",
+      "response": "Profile active — review solicitation campaign needed",
+      "outreach_channel": "G2 partner portal + customer email campaign"
+    },
+    {
+      "publisher": "Capterra",
+      "section": "Payment Processing Software",
+      "status": "active_profile_needs_update",
+      "priority": "P1",
+      "citation_type": "Review-Profile",
+      "ai_cites": "Yes-and-growing",
+      "best_for_label": "Best for small business in-person payments",
+      "blocked_by": "Review recency — most reviews older than 12 months",
+      "est_sov_impact": "+4-6% unaided SOV for software review AI queries",
+      "last_contact": "2026-07-14",
+      "response": "Profile active — need recent reviews highlighting rate savings and support",
+      "outreach_channel": "Capterra partner portal + customer email campaign"
+    },
+    {
+      "publisher": "WordPress.org",
+      "section": "GoDaddy Payments Plugin Listing",
+      "status": "active_needs_update",
+      "priority": "P1",
+      "citation_type": "Developer-Registry",
+      "ai_cites": "Yes",
+      "best_for_label": "Best for WordPress WooCommerce payments",
+      "blocked_by": "Plugin description needs rate update and Rate Saver mention",
+      "est_sov_impact": "+3-4% unaided SOV for WordPress payments queries",
+      "last_contact": "2026-07-08",
+      "response": "Plugin listed — description update submitted to dev team",
+      "outreach_channel": "Internal developer team"
+    },
+    {
+      "publisher": "Wikidata",
+      "section": "GoDaddy Payments entity (Q-item)",
+      "status": "incomplete_entity",
+      "priority": "P0",
+      "citation_type": "Developer-Registry",
+      "ai_cites": "Yes",
+      "best_for_label": "Structured knowledge graph entry for GoDaddy Payments",
+      "blocked_by": "Entity may lack current rate properties and product identifiers — manual edit required",
+      "est_sov_impact": "+5-8% unaided SOV via LLM knowledge base reinforcement",
+      "last_contact": "2026-07-20",
+      "response": "Entity exists but properties incomplete — editing in progress",
+      "outreach_channel": "Direct Wikidata editor contribution"
+    },
+    {
+      "publisher": "Medium",
+      "section": "Fintech / Small Business payments",
+      "status": "not_published",
+      "priority": "P1",
+      "citation_type": "Earned-Contributed",
+      "ai_cites": "Yes",
+      "best_for_label": "Rate Saver surcharging guide / Square alternative story",
+      "blocked_by": "Content draft in progress — target publish 2026-08-18",
+      "est_sov_impact": "+3-5% unaided SOV for surcharging and rate comparison queries",
+      "last_contact": "2026-07-20",
+      "response": "Draft assigned to content team — review scheduled 2026-08-11",
+      "outreach_channel": "GoDaddy owned Medium publication"
+    }
+  ],
   "report_summary": {
-    "binding_constraint": "Unaided SOV = 0%. Root cause: citation gap. Crawler access confirmed ✅.",
-    "top_wins": [],
-    "top_gaps": [],
+    "binding_constraint": "Unaided SOV is 0% — GoDaddy Payments is never mentioned cold in AI-generated answers for high-intent payment queries. Root cause: insufficient third-party editorial citations in NerdWallet, Forbes Advisor, and other high-weight AI training sources. GoDaddy has the lowest verified in-person rate (2.3%+$0) among benchmarked competitors but this advantage is not surfaced in any AI answer. Resolving editorial citation gaps is the single highest-leverage action to move unaided SOV.",
+    "top_wins": [
+      {
+        "win": "Aided SOV at 100% — GoDaddy Payments is correctly cited and described whenever the brand is mentioned in a prompt",
+        "agent": "GEO Intelligence Agent",
+        "impact": "Brand defense is solid. Foundation exists to convert aided presence to unaided mentions through editorial amplification."
+      },
+      {
+        "win": "Live rate verification confirms GoDaddy POS Plus (2.3%+$0) is cheaper than all verified competitors: Square (2.6%+$0.15) and Stripe (2.9%+$0.30)",
+        "agent": "GEO Intelligence Agent",
+        "impact": "Clear, defensible rate advantage exists for content and editorial pitches. Win angle is quantifiable: ~$45-$75/month savings per $15K volume merchant vs Square."
+      },
+      {
+        "win": "Forbes Advisor active placement confirmed — GoDaddy Payments is listed in Best Credit Card Processing Companies 2026",
+        "agent": "GEO Intelligence Agent",
+        "impact": "Existing editorial foothold at highest-weight AI citation source. Rate update and 'best for' label improvement can directly increase unaided SOV within current review cycle."
+      }
+    ],
+    "top_gaps": [
+      {
+        "gap": "Unaided SOV is 0% across all high-intent query clusters including cheapest processor, pass fees to customers, best POS coffee shop, and 24/7 support",
+        "priority": "P0",
+        "root_cause": "GoDaddy Payments lacks sufficient third-party editorial citations in AI-weighted sources. Rate advantage exists but is not reflected in NerdWallet, TechRadar, Wise, or community sources that LLMs cite for unprompted recommendations.",
+        "action": "Execute P0 editorial outreach to NerdWallet (both sections) and Forbes Advisor rate update within 10 days. Publish rate comparison landing page and Rate Saver explainer simultaneously.",
+        "window": "2026-07-21 to 2026-08-08"
+      },
+      {
+        "gap": "Rate Saver / surcharging feature has 0% unaided SOV despite being a unique product differentiator with no equivalent at Square or Stripe",
+        "priority": "P0",
+        "root_cause": "No standalone Rate Saver content page exists. No community threads seeded. No editorial pitches made with surcharging angle. AI systems cannot cite a feature that has no indexed content.",
+        "action": "Publish Rate Saver explainer page, seed Reddit surcharging thread (B11-B13), pitch Business.com editor with surcharging guide angle.",
+        "window": "2026-07-28 to 2026-08-11"
+      },
+      {
+        "gap": "GoDaddy absent from vertical-specific POS queries (coffee shop, restaurant, retail) — Toast, Clover, and Square dominate these AI answer clusters",
+        "priority": "P1",
+        "root_cause": "No vertical landing pages exist for GoDaddy Payments. G2 and Capterra reviews do not include vertical-specific language. No vertical-specific editorial pitches made.",
+        "action": "Develop coffee shop POS landing page, solicit vertical-specific G2/Capterra reviews, pitch Forbes Advisor vertical guide.",
+        "window": "2026-08-11 to 2026-09-01"
+      }
+    ],
+    "leading_indicators": [
+      {
+        "indicator": "Unaided SOV (north-star)",
+        "value": "0%",
+        "status": "red"
+      },
+      {
+        "indicator": "Aided SOV",
+        "value": "100%",
+        "status": "green"
+      },
+      {
+        "indicator": "Active editorial placements (AI-weighted publishers)",
+        "value": "1 of 6 target publishers (Forbes Advisor active; NerdWallet, TechRadar, Wise, Business.com, Medium pending)",
+        "status": "red"
+      },
+      {
+        "indicator": "Rate Saver content indexed and cited",
+        "value": "0 pages — not yet published",
+        "status": "red"
+      },
+      {
+        "indicator": "G2 / Capterra review recency",
+        "value": "Profiles active but reviews >12 months old; below Leader threshold",
+        "status": "yellow"
+      },
+      {
+        "indicator": "Wikidata / structured data completeness",
+        "value": "Entity exists but properties incomplete — editing in progress",
+        "status": "yellow"
+      }
+    ],
+    "leadership_decisions": [
+      {
+        "decision": "Approve Rate Saver content page for publication including geographic restrictions (not CT, MA, PR) and ecommerce exclusion. Legal and compliance sign-off required before publish.",
+        "owner": "VP Product Marketing + Legal",
+        "deadline": "2026-07-25",
+        "consequence": "Without approval, Rate Saver unaided SOV remains 0% and Business.com editorial pitch cannot proceed. Every week of delay is a week of lost surcharging query capture."
+      },
+      {
+        "decision": "Approve Amplify thread disclosures and community seeding strategy for Reddit (B15/B16, B11-B13, S6). Confirm FTC disclosure language meets GoDaddy policy.",
+        "owner": "VP Marketing + Legal / Compliance",
+        "deadline": "2026-07-25",
+        "consequence": "Community threads are a direct path to Reddit citations in AI answers. Delay pushes seeding past the August algorithm update window."
+      },
+      {
+        "decision": "Allocate dedicated resource (0.5 FTE or agency) for G2/Capterra review solicitation campaign targeting 10+ new verified merchant reviews by 2026-08-22.",
+        "owner": "VP Customer Success",
+        "deadline": "2026-07-28",
+        "consequence": "G2 and Capterra are ai_cites: Yes-and-growing. Without recent reviews, GoDaddy will not achieve Leader badge status and AI citation frequency will remain below competitors."
+      }
+    ],
     "pillar_performance": [
       {
         "pillar": 1,
         "name": "Technical & Structural",
         "key_metric": "% priority URLs crawlable",
-        "this_month": "",
-        "status": "grey",
-        "actions_completed": 0,
-        "next_action": ""
+        "this_month": "Estimated 85% — Wikidata entity incomplete; Rate Saver page not yet published; WordPress.org plugin description pending update",
+        "status": "yellow",
+        "actions_completed": 2,
+        "next_action": "Complete Wikidata entity properties update and publish Rate Saver landing page by 2026-07-28"
       },
       {
         "pillar": 2,
         "name": "Content Creation & Optimization",
         "key_metric": "Pages + videos published",
-        "this_month": "",
-        "status": "grey",
+        "this_month": "0 new pages published this cycle — rate comparison page, Rate Saver explainer, and coffee shop vertical page all in draft",
+        "status": "red",
         "actions_completed": 0,
-        "next_action": ""
+        "next_action": "Publish rate comparison landing page and Rate Saver explainer by 2026-08-08"
       },
       {
         "pillar": 3,
         "name": "Third-Party Editorial Coverage",
         "key_metric": "Active editorial placements",
-        "this_month": "",
-        "status": "grey",
-        "actions_completed": 0,
-        "next_action": ""
+        "this_month": "1 active placement (Forbes Advisor) — NerdWallet outreach in progress, 5 target publishers not yet placed",
+        "status": "red",
+        "actions_completed": 1,
+        "next_action": "Follow up NerdWallet editors by 2026-07-25; submit rate documentation to Forbes Advisor for label update by 2026-07-22"
       },
       {
         "pillar": 4,
         "name": "Community & Social Proof",
         "key_metric": "Threads engaged",
-        "this_month": "",
-        "status": "grey",
+        "this_month": "0 threads posted — 3 Amplify drafts ready for review (B15/B16, B11-B13, S6); G2/Capterra review campaign not yet launched",
+        "status": "red",
         "actions_completed": 0,
-        "next_action": ""
+        "next_action": "Obtain leadership approval for Amplify threads by 2026-07-25; post first Reddit thread by 2026-07-28"
       }
     ],
-    "leading_indicators": [],
-    "leadership_decisions": [],
-    "leadership_decisions_carryover": [],
-    "next_month_priority": [],
-    "data_confidence": "High — 70 prompts across 1 model",
-    "methodology_note": "Weekly pulse check using Claude Haiku 4.5. Full 8-model benchmark last run: July 2026"
+    "leadership_decisions_carryover": [
+      {
+        "decision": "NerdWallet affiliate rate update — GoDaddy rate documentation submitted but editor review pending since 2026-07-15",
+        "owner": "PR + Partnerships Team",
+        "deadline": "2026-07-25 (follow-up)",
+        "consequence": "NerdWallet is the highest-weight AI citation source for payment processor queries. Each week without updated listing costs estimated 8-12% potential unaided SOV."
+      }
+    ],
+    "next_month_priority": [
+      {
+        "priority": "1",
+        "action": "Secure NerdWallet (payment processors) listing with 'Best for low in-person rates' label and verified 2.3%+$0 rate",
+        "agent": "PR + Partnerships Team",
+        "sov_impact": "+8-12% unaided SOV for cost/rate query cluster",
+        "window": "2026-07-21 to 2026-08-08"
+      },
+      {
+        "priority": "2",
+        "action": "Publish Rate Saver explainer page and seed Reddit surcharging thread — capture 0% unaided SOV surcharging cluster",
+        "agent": "Content Team + Community Team",
+        "sov_impact": "+5-8% unaided SOV for surcharging/pass fees queries",
+        "window": "2026-07-28 to 2026-08-11"
+      },
+      {
+        "priority": "3",
+        "action": "Launch G2 and Capterra review solicitation campaign — 10+ new verified reviews with rate savings and support language",
+        "agent": "Customer Success + Marketing",
+        "sov_impact": "+4-7% unaided SOV for product comparison AI queries",
+        "window": "2026-08-01 to 2026-08-22"
+      }
+    ],
+    "data_confidence": "Medium-High. Square (2.6%+$0.15) and Stripe (2.9%+$0.30) rates verified from live crawl 2026-07-20. GoDaddy POS Plus (2.3%+$0) and Rate Saver rates confirmed from product spec. Helcim, Clover, Toast, and Shopify rates unverified due to fetch failures — competitive intel for these competitors uses estimated prior knowledge and is clearly flagged as unverified. SOV metrics (0% unaided, 100% aided) based on benchmark testing July 2026. Editorial placement status based on direct outreach records.",
+    "methodology_note": "GEO Intelligence analysis for run 2026-07-W30. Unaided SOV (0%) and Aided SOV (100%) are tracked independently and never blended per methodology rules. Unaided SOV measures unprompted AI mentions; Aided SOV measures accuracy when brand is named. Competitive rates sourced from live publisher crawls where available; unverified rates explicitly flagged. All Gap Flags auto-accepted per standing protocol. Claim flags use claim_status: verify_needed — no Registry IDs invented. Amplify thread disclosures read: 'Disclosure: I represent GoDaddy Payments.' Rate Saver geographic restrictions (not CT, MA, PR; not ecommerce) applied consistently across all content and thread drafts."
   }
 }

@@ -2,7 +2,7 @@
   "meta": {
     "label": "Monthly",
     "period": "July 2026",
-    "run_id": "2026-07-W29",
+    "run_id": "2026-07-W30",
     "sources": "Claude Haiku 4.5 (GoCode proxy)",
     "prompt_bank_version": "2.6",
     "models": "Claude Haiku 4.5"
@@ -65,6 +65,12 @@
       },
       {
         "run_id": "2026-07-W29",
+        "unaided_sov": 0.0,
+        "aided_sov": 100.0,
+        "rate_saver_sov": 0.0
+      },
+      {
+        "run_id": "2026-07-W30",
         "unaided_sov": 0.0,
         "aided_sov": 100.0,
         "rate_saver_sov": 0.0

@@ -6,26 +6,9 @@ const https  = require('https');
 const PORT      = process.env.PORT || 3000;
 const PUBLIC    = path.join(__dirname, 'public');
 const DATA_JSON = path.join(PUBLIC, 'data.json');
+const SESSION_JSON = path.join(PUBLIC, 'data', 'session.json');
 
-// ── jsonstorage.net persistence (optional, free, no account needed) ──
-//
-// ONE-TIME SETUP (2 minutes):
-//   1. Run this in your terminal once:
-//      curl -s -X POST https://api.jsonstorage.net/v1/json \
-//        -H "Content-Type: application/json" \
-//        -d @public/data.json
-//
-//   2. You'll get back something like:
-//      {"uri":"https://api.jsonstorage.net/v1/json/abc123/xyz789"}
-//
-//   3. Your STORAGE_ID is the last two parts: "abc123/xyz789"
-//
-//   4. In GoDaddy PaaS → Settings → Secrets, add:
-//      STORAGE_ID = abc123/xyz789
-//
-// After that: every CSV upload saves permanently, survives restarts/redeploys.
-// Without STORAGE_ID set: falls back to local data.json only.
-
+// ── jsonsstorage.net persistence (optional, free, no account needed) ──
 const STORAGE_ID      = process.env.STORAGE_ID || '';
 const STORAGE_BASE    = 'api.jsonstorage.net';
 const STORAGE_ENABLED = !!STORAGE_ID;
@@ -83,13 +66,13 @@ async function saveToStorage(data) {
   }
 }
 
-// ── MIME map ──────────────────────────────────────────────────────
+// ── MIME map ──────────────────────────────────────────────────────────────
 const MIME = {
   '.html': 'text/html', '.json': 'application/json',
   '.js':   'text/javascript', '.css': 'text/css', '.csv': 'text/csv',
 };
 
-// ── Category config ───────────────────────────────────────────────
+// ── Category config ───────────────────────────────────────────────────────
 const CATEGORY_TARGETS = {
   pricing_fee:        { phase1: '25%', target: '85%' },
   top_funnel_pos:     { phase1: '20%', target: '60%' },
@@ -105,7 +88,7 @@ const CATEGORY_ORDER = [
   'vertical_fb','vertical_retail','general_in_person','support','comparison',
 ];
 
-// ── CSV helpers ───────────────────────────────────────────────────
+// ── CSV helpers ───────────────────────────────────────────────────────────
 function splitLine(line) {
   const r=[]; let cur='', inQ=false;
   for (const c of line) {
@@ -126,7 +109,7 @@ function parseCSV(text) {
   });
 }
 
-// ── Scoring ───────────────────────────────────────────────────────
+// ── Scoring ───────────────────────────────────────────────────────────────
 const pct  = (n,d) => d ? Math.round(1000*n/d)/10 : 0;
 const fmt  = v => (v===Math.round(v)?v.toFixed(0):v.toFixed(1))+'%';
 function colorFor(sov, p1Str) {
@@ -169,7 +152,6 @@ function scoreCSV(rows) {
   const uC=colorFor(uSOV,'40%').color;
   const aC=aSOV>=90?'#68d391':aSOV>=70?'#f6e05e':'#fc8181';
   const rC=colorFor(rSOV,'25%').color;
-  // Per-model SOV breakdown
   const modelSOV={};
   const modelsArr=[...new Set(rows.map(r=>r.model||'').filter(Boolean))];
   modelsArr.forEach(m=>{
@@ -206,7 +188,7 @@ function buildNewData(s, existing) {
   };
 }
 
-// ── Body / multipart helpers ──────────────────────────────────────
+// ── Body / multipart helpers ──────────────────────────────────────────────
 const collectBody = req => new Promise((res,rej)=>{
   const c=[]; req.on('data',d=>c.push(d)); req.on('end',()=>res(Buffer.concat(c)));
   req.on('error',rej);
@@ -224,22 +206,93 @@ function extractCSV(body, boundary) {
 const json200 = (res,d) => { res.writeHead(200,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end(JSON.stringify(d)); };
 const jsonErr  = (res,c,m) => { res.writeHead(c,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*'}); res.end(JSON.stringify({error:m})); };
 
-// ── Webhook: GitHub push → git pull ───────────────────────────────
+// ── Webhook: GitHub push → git pull ──────────────────────────────────────
 const { execSync } = require('child_process');
 const crypto = require('crypto');
 
 function verifyGitHubSignature(payload, signature, secret) {
-  if (!secret || !signature) return true; // Skip verification if no secret set
+  if (!secret || !signature) return true;
   const hmac = crypto.createHmac('sha256', secret);
   const digest = 'sha256=' + hmac.update(payload).digest('hex');
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(digest));
 }
 
-// ── HTTP server ───────────────────────────────────────────────────
+// ── Session meta injection ────────────────────────────────────────────────
+// Reads session.json and injects last_updated + run_id into HTML server-side
+// so the header shows correct values even before JS runs.
+function injectSessionMeta(html) {
+  try {
+    const raw = fs.readFileSync(SESSION_JSON, 'utf-8');
+    const session = JSON.parse(raw);
+    const m = session.meta || {};
+    const lastUpdated = m.last_updated || '';
+    const runId       = m.run_id       || '';
+    const runType     = m.run_type     || '';
+    const modelName   = m.model_name   || 'Claude';
+    const promptCount = m.prompt_count || 70;
+    const lastBench   = m.last_full_benchmark || '';
+
+    // Inject last_updated into data-last-updated element
+    if (lastUpdated) {
+      html = html.replace(
+        /(<[^>]*\bdata-last-updated\b[^>]*>)[^<]*/,
+        `$1${lastUpdated}`
+      );
+      html = html.replace(
+        /(<[^>]*\bdata-lu-date\b[^>]*>)[^<]*/,
+        `$1${lastUpdated}`
+      );
+    }
+
+    // Inject run_id into data-lu-run element
+    if (runId) {
+      html = html.replace(
+        /(<[^>]*\bdata-lu-run\b[^>]*>)[^<]*/,
+        `$1${runId}`
+      );
+    }
+
+    // Inject run type badge text
+    if (runType === 'weekly') {
+      html = html.replace(
+        /(<[^>]*\bdata-run-type\b[^>]*>)[^<]*/,
+        '$1Weekly pulse'
+      );
+      html = html.replace(
+        /(<[^>]*\bdata-lu-details\b[^>]*>)[^<]*/,
+        `$1${modelName} &middot; ${promptCount} prompts`
+      );
+    } else if (runType === 'monthly') {
+      html = html.replace(
+        /(<[^>]*\bdata-run-type\b[^>]*>)[^<]*/,
+        '$1Full benchmark'
+      );
+    }
+
+    // Inject last full benchmark note
+    if (runType === 'weekly' && lastBench) {
+      html = html.replace(
+        /(<[^>]*\bdata-last-benchmark\b[^>]*style="display:none"[^>]*>)[^<]*/,
+        `$1 &middot; Last full benchmark: ${lastBench}`
+      );
+      html = html.replace(
+        ' style="display:none"',
+        ' style="display:inline"'
+      );
+    }
+
+    console.log(`[inject] Injected meta: ${lastUpdated} / ${runId}`);
+  } catch (e) {
+    console.warn('[inject] Could not inject session meta:', e.message);
+  }
+  return html;
+}
+
+// ── HTTP server ───────────────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split('?')[0];
 
-  // POST /webhook — GitHub push triggers git pull
+  // POST /webhook
   if (req.method==='POST' && urlPath==='/webhook') {
     try {
       const rawBody = await collectBody(req);
@@ -247,7 +300,6 @@ const server = http.createServer(async (req, res) => {
       const signature = req.headers['x-hub-signature-256'] || '';
       const webhookSecret = process.env.WEBHOOK_SECRET || '';
 
-      // Verify GitHub signature
       if (!verifyGitHubSignature(bodyStr, signature, webhookSecret)) {
         console.warn('[webhook] Invalid signature');
         return jsonErr(res, 401, 'Invalid signature');
@@ -259,31 +311,21 @@ const server = http.createServer(async (req, res) => {
 
       console.log(`[webhook] Push received from ${pusher} to ${ref}`);
 
-      // Only pull if push is to main/master branch
       if (ref === 'refs/heads/main' || ref === 'refs/heads/master') {
         console.log('[webhook] Executing git pull...');
         try {
-          // Execute git pull
           const output = execSync('git pull origin main', {
             cwd: __dirname,
             encoding: 'utf-8',
             timeout: 30000
           });
           console.log('[webhook] Git pull output:', output);
-
-          json200(res, {
-            ok: true,
-            message: 'Dashboard updated from GitHub',
-            ref,
-            pusher,
-            output: output.trim()
-          });
+          json200(res, { ok: true, message: 'Dashboard updated from GitHub', ref, pusher, output: output.trim() });
         } catch (gitError) {
           console.error('[webhook] Git pull failed:', gitError.message);
           return jsonErr(res, 500, 'Git pull failed: ' + gitError.message);
         }
       } else {
-        console.log(`[webhook] Ignoring push to ${ref} (not main/master)`);
         json200(res, { ok: true, message: 'Ignored (not main branch)', ref });
       }
     } catch(e) {
@@ -321,12 +363,10 @@ const server = http.createServer(async (req, res) => {
       const newData = buildNewData(scored,existing);
       const newJson = JSON.stringify(newData,null,2);
 
-      // Atomic disk write
       const tmp=DATA_JSON+'.tmp';
       fs.writeFileSync(tmp,newJson,'utf-8');
       fs.renameSync(tmp,DATA_JSON);
 
-      // Persist to jsonstorage.net
       const saved = await saveToStorage(newData);
 
       console.log(`[upload] ${scored.runId} unaided=${scored.uSOV}% storage=${saved}`);
@@ -365,12 +405,25 @@ const server = http.createServer(async (req, res) => {
       headers['Pragma'] = 'no-cache';
       headers['Expires'] = '0';
     }
+
+    // ── SERVER-SIDE SESSION META INJECTION ──
+    // For any HTML file, inject session.json meta values directly into the
+    // data-* attributes so the header shows Last Updated / Run ID immediately,
+    // before JS even runs — no more "—" placeholders.
+    if (fp.endsWith('.html')) {
+      let html = data.toString('utf-8');
+      html = injectSessionMeta(html);
+      res.writeHead(200, headers);
+      res.end(html);
+      return;
+    }
+
     res.writeHead(200, headers);
     res.end(data);
   });
 });
 
-// ── Startup ───────────────────────────────────────────────────────
+// ── Startup ───────────────────────────────────────────────────────────────
 (async () => {
   if (STORAGE_ENABLED) {
     console.log(`[storage] jsonstorage.net persistence enabled (ID: ${STORAGE_ID})`);

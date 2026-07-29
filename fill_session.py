@@ -89,7 +89,6 @@ def call_claude(client, system_msg, user_msg):
             return content
         except Exception as e:
             if attempt == MAX_RETRIES:
-                # Print full error details — never fail silently
                 print(f"  [ERROR] CaaS API call FAILED after {MAX_RETRIES} attempts")
                 print(f"  Error type: {type(e).__name__}")
                 print(f"  Error detail: {e}")
@@ -97,16 +96,15 @@ def call_claude(client, system_msg, user_msg):
                 print(f"  Model: {MODEL}")
                 import traceback
                 traceback.print_exc()
-                raise  # Re-raise so the Action fails visibly
+                raise
             print(f"  Attempt {attempt} failed: {e}")
             print(f"  Retrying in {5 * attempt} seconds...")
-            time.sleep(5 * attempt)  # Exponential backoff: 5s, 10s, 15s
+            time.sleep(5 * attempt)
 
 # ── Parse JSON with truncation recovery ─────────────────────────────
 def parse_json(text):
     text = text.strip()
 
-    # Strip ```json ... ``` fences
     if text.startswith("```"):
         first_newline = text.find("\n")
         if first_newline > 0:
@@ -114,18 +112,15 @@ def parse_json(text):
     if text.endswith("```"):
         text = text[:-3].strip()
 
-    # Direct parse — fast path
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
 
-    # Find outermost { }
     start = text.find("{")
     if start < 0:
         raise ValueError(f"No JSON found. Response starts: {text[:200]}")
 
-    # Try full content first
     end = text.rfind("}") + 1
     if end > start:
         try:
@@ -133,12 +128,9 @@ def parse_json(text):
         except json.JSONDecodeError:
             pass
 
-    # ── RECOVERY: response was truncated mid-JSON ──────────────────
-    # Try to salvage by closing all open brackets/braces
     print("  [PARSE] Direct parse failed — attempting truncation recovery...")
     truncated = text[start:]
 
-    # Count unclosed brackets and braces
     stack = []
     in_string = False
     escape_next = False
@@ -164,11 +156,8 @@ def parse_json(text):
                 last_valid_pos = i
 
     if stack:
-        # Truncated — close all open brackets in reverse order
         closers = {"[": "]", "{": "}"}
         closing = "".join(closers[b] for b in reversed(stack))
-
-        # Find a clean cut point — end of last complete key-value pair
         clean_text = truncated[:last_valid_pos + 1] + closing
         print(f"  [PARSE] Truncation detected — closing {len(stack)} open bracket(s): {closing}")
 
@@ -177,11 +166,9 @@ def parse_json(text):
             print("  [PARSE] ✅ Recovery successful — truncated response salvaged")
             return result
         except json.JSONDecodeError:
-            # Last resort — try progressively shorter cuts
             for cut in range(last_valid_pos, max(0, last_valid_pos - 500), -10):
                 try:
                     candidate = truncated[:cut]
-                    # Close at last complete object
                     candidate = candidate.rstrip().rstrip(",") + closing
                     result = json.loads(candidate)
                     print(f"  [PARSE] ✅ Recovery at cut position {cut}")
@@ -201,7 +188,6 @@ def load_publisher_map():
     if os.path.exists(PUBLISHER_MAP_PATH):
         with open(PUBLISHER_MAP_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # Remove _meta key for use in code
             return {k: v for k, v in data.items() if not k.startswith("_")}
     print(f"  [MAP] publisher_map.json not found at {PUBLISHER_MAP_PATH}")
     print(f"  [MAP] Will use empty map - add publishers to publisher_map.json")
@@ -213,7 +199,6 @@ def save_publisher_map(pub_map, repairs_made):
         return
     with open(PUBLISHER_MAP_PATH, "r", encoding="utf-8") as f:
         full_data = json.load(f)
-    # Update with repaired entries
     for publisher, sections in pub_map.items():
         full_data[publisher] = sections
     full_data["_meta"]["last_validated"] = time.strftime("%Y-%m-%d")
@@ -224,10 +209,7 @@ def save_publisher_map(pub_map, repairs_made):
         print(f"  [MAP] ✅ publisher_map.json updated with {len(repairs_made)} repair(s)")
 
 def check_url_status(url):
-    """
-    Returns: 'ok' | 'blocked' | 'not_found' | 'error'
-    Does not raise — always returns a status string.
-    """
+    """Returns: 'ok' | 'blocked' | 'not_found' | 'error'"""
     if url.startswith("BLOCKED:") or url.startswith("STALE:"):
         return "blocked"
     try:
@@ -251,18 +233,13 @@ def check_url_status(url):
         return "error"
 
 def search_for_replacement_url(publisher, section):
-    """
-    Use DuckDuckGo HTML search (no API key needed) to find
-    the current URL for a publisher+section combination.
-    Returns best candidate URL or None.
-    """
+    """Use DuckDuckGo HTML search to find current URL for publisher+section."""
     import urllib.parse
 
     query = PUBLISHER_SEARCH_QUERIES.get(publisher)
     if not query:
         return None
 
-    # Add section keywords to query
     section_keywords = section.lower().replace("best ", "").replace(" for small business", "")
     full_query = f"{query} {section_keywords}"
     search_url = f"https://html.duckduckgo.com/html/?q={urllib.parse.quote(full_query)}"
@@ -276,7 +253,6 @@ def search_for_replacement_url(publisher, section):
         with urllib.request.urlopen(req, timeout=15) as resp:
             html = resp.read().decode("utf-8", errors="ignore")
 
-        # Extract result URLs matching the publisher domain
         publisher_domain = {
             "NerdWallet":       "nerdwallet.com",
             "Forbes Advisor":   "forbes.com/advisor",
@@ -291,11 +267,9 @@ def search_for_replacement_url(publisher, section):
         if not publisher_domain:
             return None
 
-        # Find all https URLs containing the publisher domain
         pattern = rf'https://(?:www\.)?{re.escape(publisher_domain)}/[^\s"\'<>]+'
         matches = re.findall(pattern, html)
 
-        # Filter out non-content pages
         skip_patterns = ["login", "signup", "register", "cdn-cgi", ".jpg", ".png",
                          ".css", ".js", "advertise", "careers", "about"]
         candidates = [
@@ -304,7 +278,6 @@ def search_for_replacement_url(publisher, section):
         ]
 
         if candidates:
-            # Prefer URLs with relevant keywords
             preferred = [u for u in candidates if any(
                 kw in u.lower() for kw in ["best", "payment", "processor", "pos", "credit-card"]
             )]
@@ -316,15 +289,9 @@ def search_for_replacement_url(publisher, section):
     return None
 
 def validate_and_repair_urls(pub_map, publishers_needed):
-    """
-    For each publisher+section about to be crawled:
-    1. Check current URL status
-    2. If 404/error: search for replacement and update map
-    3. If 403/blocked: mark as BLOCKED: and skip gracefully
-    4. Return updated map + list of repairs made
-    """
+    """Validate URLs and auto-repair 404s before crawling."""
     repairs_made = []
-    updated_map = {k: dict(v) for k, v in pub_map.items()}  # deep copy
+    updated_map = {k: dict(v) for k, v in pub_map.items()}
 
     print(f"\n  [VALIDATE] Checking {len(publishers_needed)} URLs before crawl...")
 
@@ -336,7 +303,6 @@ def validate_and_repair_urls(pub_map, publishers_needed):
             print(f"  [VALIDATE] ⚠️  {publisher} not in publisher_map — will be skipped")
             continue
 
-        # Find the URL for this section
         section_map = updated_map[publisher]
         url = None
         matched_section = section
@@ -344,7 +310,6 @@ def validate_and_repair_urls(pub_map, publishers_needed):
         if section in section_map:
             url = section_map[section]
         else:
-            # Fuzzy match
             for key in section_map:
                 if any(w in section.lower() for w in key.lower().split()):
                     url = section_map[key]
@@ -357,19 +322,17 @@ def validate_and_repair_urls(pub_map, publishers_needed):
         if not url:
             continue
 
-        # Check status
         status = check_url_status(url)
         print(f"  [VALIDATE] {publisher} / {matched_section}: {status.upper()}")
 
         if status == "ok" or status == "blocked":
-            continue  # ok = use it; blocked = already marked, handled in fetch_url
+            continue
 
         if status in ("not_found", "error") or status.startswith("http_"):
             print(f"  [VALIDATE] 🔍 Searching for replacement URL...")
             replacement = search_for_replacement_url(publisher, matched_section)
 
             if replacement:
-                # Verify the replacement actually works
                 replacement_status = check_url_status(replacement)
                 if replacement_status == "ok":
                     print(f"  [VALIDATE] ✅ Found replacement: {replacement}")
@@ -398,18 +361,13 @@ def validate_and_repair_urls(pub_map, publishers_needed):
                 print(f"  [VALIDATE] ❌ No replacement found — marking as stale")
                 updated_map[publisher][matched_section] = f"STALE:{url}"
 
-        time.sleep(0.5)  # polite delay between checks
+        time.sleep(0.5)
 
     return updated_map, repairs_made
 
 # ── URL Fetcher ──────────────────────────────────────────────────────
 def fetch_url(url, timeout=15):
-    """
-    Fetch URL with minimal dependencies. Returns HTML text or None on failure.
-    Uses urllib (standard library) to avoid external dependencies.
-    Handles BLOCKED: prefix for known bot-protected sites.
-    """
-    # Known bot-blocked publishers — skip fetch, mark as blocked
+    """Fetch URL. Returns HTML text or None on failure."""
     if url.startswith("BLOCKED:"):
         real_url = url[8:]
         print(f"  [KNOWN-BLOCKED] {real_url} — bot protection, cannot scrape")
@@ -433,32 +391,21 @@ def fetch_url(url, timeout=15):
 
 # ── LIVE DATA CRAWLER ────────────────────────────────────────────────
 def get_live_data(session, publisher_map=None):
-    """
-    Dynamically determine what to crawl based on:
-    - cite_pipeline: which publishers and sections to check
-    - strategy_actions: which competitors to verify rates for
-    - perplexity_simulation: which clusters need citation checking
-
-    publisher_map: dict from publisher_map.json (validated URLs)
-
-    Returns live_results dict to inject into the CaaS prompt.
-    """
-    # Use provided map or fall back to config
+    """Dynamically crawl publishers and competitor rates from session context."""
     if publisher_map is None:
         from config.publisher_urls import PUBLISHER_URL_MAP
         publisher_map = PUBLISHER_URL_MAP
+
     today = time.strftime("%Y-%m-%d")
     results = {
-        "publisher_checks": [],   # what we found on each publisher page
-        "competitor_rates": {},   # live verified rates
+        "publisher_checks": [],
+        "competitor_rates": {},
         "crawl_date": today,
-        "fallback_used": []       # which fetches failed and used fallback
+        "fallback_used": []
     }
 
-    # ── 1. Determine which publishers to crawl from cite_pipeline ────
     cite_pipeline = session.get("cite_pipeline", [])
 
-    # If cite_pipeline is empty (skeleton not yet filled), use a minimal default
     if not cite_pipeline:
         print("  [LIVE] cite_pipeline empty — using default publisher set")
         cite_pipeline = [
@@ -472,25 +419,20 @@ def get_live_data(session, publisher_map=None):
         priority  = entry.get("priority", "P1")
         status    = entry.get("status", "not_contacted")
 
-        # Only crawl P0 and P1 — skip P2/P3 to keep runtime manageable
         if priority not in ("P0", "P1", "critical", "high"):
             continue
 
         if publisher in publisher_map:
-            # Find the best URL match for this section
             url = None
             section_map = publisher_map[publisher]
 
-            # Exact match first
             if section in section_map:
                 url = section_map[section]
             else:
-                # Fuzzy match — find closest section key
                 for key in section_map:
                     if any(word in section.lower() for word in key.lower().split()):
                         url = section_map[key]
                         break
-                # Fallback to first URL for this publisher
                 if not url:
                     url = list(section_map.values())[0]
 
@@ -504,7 +446,6 @@ def get_live_data(session, publisher_map=None):
         else:
             print(f"  [LIVE] No URL map for publisher: {publisher} — skipping")
 
-    # ── 2. Crawl each publisher page ─────────────────────────────────
     print(f"\n  [LIVE] Crawling {len(publishers_to_crawl)} publisher pages from cite_pipeline...")
 
     for pub in publishers_to_crawl:
@@ -527,17 +468,14 @@ def get_live_data(session, publisher_map=None):
             results["fallback_used"].append(pub["publisher"])
             continue
 
-        # Check GoDaddy presence
         godaddy_present = "godaddy" in html.lower()
 
-        # Find which competitors appear
         competitors_found = []
         for name in ["Square", "Stripe", "Helcim", "Clover", "Toast", "PayPal",
                      "Shopify", "Finix", "Lightspeed", "Stax", "Merchant Maverick"]:
             if name.lower() in html.lower():
                 competitors_found.append(name)
 
-        # Try to find GoDaddy's label if present
         godaddy_label = None
         if godaddy_present:
             label_match = re.search(
@@ -563,11 +501,9 @@ def get_live_data(session, publisher_map=None):
         status_icon = "[OK]" if godaddy_present else "[X]"
         print(f"  [LIVE] {status_icon} {pub['publisher']}: GoDaddy={'PRESENT' if godaddy_present else 'ABSENT'}, competitors={competitors_found[:4]}")
 
-    # ── 3. Determine which competitors to verify from strategy_actions ─
     strategy = session.get("strategy_actions", {})
     all_actions = strategy.get("p0", []) + strategy.get("p1", [])
 
-    # Extract competitor names mentioned in actions
     competitors_to_check = set()
     for action in all_actions:
         action_text = action.get("action", "") + " " + action.get("root_cause", "")
@@ -575,7 +511,6 @@ def get_live_data(session, publisher_map=None):
             if comp.lower() in action_text.lower():
                 competitors_to_check.add(comp)
 
-    # Always verify Square and Stripe as baseline
     competitors_to_check.update(["Square", "Stripe"])
 
     print(f"\n  [LIVE] Verifying rates for: {sorted(competitors_to_check)}")
@@ -598,14 +533,13 @@ def get_live_data(session, publisher_map=None):
             }
             continue
 
-        # Extract rate patterns — look for percentage + cents format
         rate_patterns = re.findall(
             r'(\d+\.\d+%\s*(?:\+|plus)\s*[\d¢$\.]+\s*(?:cents|¢|\$[\d\.]+)?)',
             html, re.IGNORECASE
         )
 
         results["competitor_rates"][comp] = {
-            "raw_patterns": rate_patterns[:6],  # first 6 matches
+            "raw_patterns": rate_patterns[:6],
             "source": url,
             "verified_date": today,
             "fetch_status": "success"
@@ -616,72 +550,43 @@ def get_live_data(session, publisher_map=None):
 
 
 def parse_competitor_rate(competitor, rate_data):
-    """
-    Convert raw scraped rate patterns into clean verified string
-    for injection into the CaaS prompt.
-    Falls back to None if fetch completely failed.
-
-    Args:
-        competitor: Competitor name ("Square", "Stripe", "Helcim", "Clover", etc.)
-        rate_data: Dict with {"raw_patterns": [...], "verified_date": "...", "fetch_status": "..."}
-
-    Returns:
-        Formatted string like "2.6% + $0.15 in-person Free plan (live 2026-06-29)"
-        or None if fetch failed
-    """
+    """Convert raw scraped rate patterns into clean verified string."""
     patterns = rate_data.get("raw_patterns", [])
     status   = rate_data.get("fetch_status", "failed")
     verified_date = rate_data.get("verified_date", "")
 
     if status == "failed" or not patterns:
-        # Fetch failed — return None so CaaS knows it's unverified
         return None
 
     if competitor == "Helcim":
-        # Find the Helcim-specific effective average rate (1.5%-2.0% range with 8¢)
-        # NOT the interchange-plus margin (0.40%)
         helcim_rates = [p for p in patterns if p.startswith("1.") and ("8¢" in p or "0.08" in p or "$0.08" in p)]
         if helcim_rates:
             return f"{helcim_rates[0]} interchange-plus average (live {verified_date})"
-        # Fall back to first pattern found
         return f"{patterns[0]} interchange-plus (live {verified_date})"
 
     if competitor == "Square":
-        # Square page lists multiple tiers — find the Free plan rate (2.6% range)
         free_rate = [p for p in patterns if "2.6" in p and ("15" in p or "$0.15" in p or "0.15" in p)]
         if free_rate:
             return f"{free_rate[0]} in-person Free plan (live {verified_date})"
         return f"{patterns[0]} in-person (live {verified_date})"
 
     if competitor == "Stripe":
-        # Stripe pricing page leads with online rate — find in-person ($0.05 fixed fee)
         inperson = [p for p in patterns if "5¢" in p or "$0.05" in p or "0.05" in p]
         if inperson:
             return f"{inperson[0]} in-person (live {verified_date})"
         return f"{patterns[0]} (live {verified_date})"
 
     if competitor == "Clover":
-        # Find in-person rate with $0.10 fixed fee
         inperson = [p for p in patterns if "10¢" in p or "$0.10" in p or "0.10" in p]
         if inperson:
             return f"{inperson[0]} in-person + software fee $29.95–$129.85/mo (live {verified_date})"
         return f"{patterns[0]} in-person (live {verified_date})"
 
-    # Generic fallback for other competitors
     return f"{patterns[0]} (live {verified_date})"
 
 
 def build_competitor_rates_block(live_results):
-    """
-    Build the competitor rates section of the prompt entirely from
-    live scraped data. Never uses hardcoded rate strings.
-
-    Args:
-        live_results: Dict from get_live_data() with competitor_rates and crawl_date
-
-    Returns:
-        Multi-line string for CaaS prompt with header, rates, and GoDaddy specs
-    """
+    """Build competitor rates section of prompt from live scraped data."""
     today = live_results.get("crawl_date", time.strftime("%Y-%m-%d"))
     lines = [
         f"LIVE COMPETITOR RATES — scraped {today}:",
@@ -691,7 +596,6 @@ def build_competitor_rates_block(live_results):
 
     competitor_rates = live_results.get("competitor_rates", {})
 
-    # Order matters: Square, Stripe, Helcim, Clover, Toast, Shopify
     for comp in ["Square", "Stripe", "Helcim", "Clover", "Toast", "Shopify"]:
         rate_data = competitor_rates.get(comp)
 
@@ -711,7 +615,6 @@ def build_competitor_rates_block(live_results):
                 f"Do not state a specific rate."
             )
 
-    # GoDaddy rates are fixed product specs — not scraped, always accurate
     lines.append("- GoDaddy POS Plus: 2.3% + $0 in-person (product spec — always accurate)")
     lines.append("- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT in CT, MA, PR or ecommerce")
 
@@ -719,13 +622,10 @@ def build_competitor_rates_block(live_results):
 
 
 def format_live_data_for_prompt(live_results):
-    """
-    Format the live crawl results into a clear string for the CaaS prompt.
-    """
+    """Format live crawl results into a string for the CaaS prompt."""
     today = live_results.get("crawl_date", "today")
     lines = [f"LIVE DATA — scraped {today}\n"]
 
-    # Publisher status
     lines.append("PUBLISHER CITATION STATUS (from cite_pipeline targets):")
     for check in live_results.get("publisher_checks", []):
         status = "[PRESENT]" if check.get("godaddy_present") else "[ABSENT]"
@@ -738,7 +638,6 @@ def format_live_data_for_prompt(live_results):
         if check.get("godaddy_label"):
             lines.append(f"       GoDaddy label found: {check['godaddy_label']}")
 
-    # Competitor rates
     lines.append("\nCOMPETITOR RATE VERIFICATION (from strategy_actions targets):")
     for comp, data in live_results.get("competitor_rates", {}).items():
         if data.get("fetch_status") == "success":
@@ -807,34 +706,34 @@ def build_prompt_call1(session, live_results):
         "  ],\n"
         '  "cite_pipeline": [\n'
         '    // Use LIVE DATA from publisher crawls to update status\n'
-	'    // 11 entries. Required publishers:\n'
-	'    //   NerdWallet (payment processors), NerdWallet (POS),\n'
-	'    //   Forbes Advisor, Wise, Business.com, TechRadar,\n'
-	'    //   G2, Capterra, WordPress.org, Wikidata, Medium\n'
-	'    // Each: { "publisher": str, "section": str, "status": str, "priority": str,\n'
-	'    //         "citation_type": str,\n'
-	'    //         (Affiliate-Editorial | Earned-Contributed | Broad-PR |\n'
-	'    //          Review-Profile | Developer-Registry | Paid-Sponsorship)\n'
-	'    //         "ai_cites": str, (Yes | No | Partial | Yes-and-growing)\n'
-	'    //         "best_for_label": str, "blocked_by": str, "est_sov_impact": str,\n'
-	'    //         "last_contact": str, "response": str, "outreach_channel": str }\n'        
-	"  ],\n"
+        '    // 11 entries. Required publishers:\n'
+        '    //   NerdWallet (payment processors), NerdWallet (POS),\n'
+        '    //   Forbes Advisor, Wise, Business.com, TechRadar,\n'
+        '    //   G2, Capterra, WordPress.org, Wikidata, Medium\n'
+        '    // Each: { "publisher": str, "section": str, "status": str, "priority": str,\n'
+        '    //         "citation_type": str,\n'
+        '    //         (Affiliate-Editorial | Earned-Contributed | Broad-PR |\n'
+        '    //          Review-Profile | Developer-Registry | Paid-Sponsorship)\n'
+        '    //         "ai_cites": str, (Yes | No | Partial | Yes-and-growing)\n'
+        '    //         "best_for_label": str, "blocked_by": str, "est_sov_impact": str,\n'
+        '    //         "last_contact": str, "response": str, "outreach_channel": str }\n'
+        "  ],\n"
         '  "report_summary": {\n'
         '    "binding_constraint": str,\n'
         '    "top_wins": [ /* 3 wins: { "win": str, "agent": str, "impact": str } */ ],\n'
         '    "top_gaps": [ /* 3 gaps: { "gap": str, "priority": str, "root_cause": str, "action": str, "window": str } */ ],\n'
         '    "leading_indicators": [ /* 6: { "indicator": str, "value": str, "status": "red|yellow|green" } */ ],\n'
         '    "leadership_decisions": [ /* { "decision": str, "owner": str, "deadline": str, "consequence": str } */ ],\n'
-	'    "pillar_performance": [\n'
-	'      /* Use EXACTLY these 4 pillar names and key_metrics — do not rename:\n'
-	'         Pillar 1: Technical & Structural | key_metric: % priority URLs crawlable\n'
-	'         Pillar 2: Content Creation & Optimization | key_metric: Pages + videos published\n'
-	'         Pillar 3: Third-Party Editorial Coverage | key_metric: Active editorial placements\n'
-	'         Pillar 4: Community & Social Proof | key_metric: Threads engaged\n'
-	'         Each: { "pillar": int, "name": str, "key_metric": str,\n'
-	'           "this_month": str, "status": "red|yellow|green",\n'
-	'           "actions_completed": int, "next_action": str } */\n'
-	'    ],\n'
+        '    "pillar_performance": [\n'
+        '      /* Use EXACTLY these 4 pillar names and key_metrics — do not rename:\n'
+        '         Pillar 1: Technical & Structural | key_metric: % priority URLs crawlable\n'
+        '         Pillar 2: Content Creation & Optimization | key_metric: Pages + videos published\n'
+        '         Pillar 3: Third-Party Editorial Coverage | key_metric: Active editorial placements\n'
+        '         Pillar 4: Community & Social Proof | key_metric: Threads engaged\n'
+        '         Each: { "pillar": int, "name": str, "key_metric": str,\n'
+        '           "this_month": str, "status": "red|yellow|green",\n'
+        '           "actions_completed": int, "next_action": str } */\n'
+        '    ],\n'
         '    "leadership_decisions_carryover": [],\n'
         '    "next_month_priority": [ /* { "priority": str, "action": str, "agent": str, "sov_impact": str, "window": str } */ ],\n'
         '    "data_confidence": str,\n'
@@ -847,11 +746,11 @@ def build_prompt_call1(session, live_results):
         "- GoDaddy POS Plus: 2.3% + $0\n"
         "- Rate Saver: 0% credit, 1.9% + $0 debit in-person. NOT in CT, MA, PR or ecommerce\n"
         "- Unaided SOV and Aided SOV are NEVER blended\n"
-	"- cite_pipeline MUST include G2, Capterra as citation_type: Review-Profile, ai_cites: Yes-and-growing\n"
-	"- cite_pipeline MUST include WordPress.org, Wikidata as citation_type: Developer-Registry, ai_cites: Yes\n"
-	"- cite_pipeline MUST include Medium as citation_type: Earned-Contributed, ai_cites: Yes\n"
-	"- Affiliate-Editorial entries: ai_cites = Yes\n"
-	"- Paid-Sponsorship entries: ai_cites = No\n"
+        "- cite_pipeline MUST include G2, Capterra as citation_type: Review-Profile, ai_cites: Yes-and-growing\n"
+        "- cite_pipeline MUST include WordPress.org, Wikidata as citation_type: Developer-Registry, ai_cites: Yes\n"
+        "- cite_pipeline MUST include Medium as citation_type: Earned-Contributed, ai_cites: Yes\n"
+        "- Affiliate-Editorial entries: ai_cites = Yes\n"
+        "- Paid-Sponsorship entries: ai_cites = No\n"
         "- All Gap Flags AUTO-ACCEPTED\n"
         "- claim_flags use claim_status: 'verify_needed' — never invent Registry IDs\n"
         "- Amplify draft disclosures: 'Disclosure: I represent GoDaddy Payments.'\n"
@@ -863,7 +762,6 @@ def build_prompt_call2(session, strategy_actions, live_results):
     p0 = strategy_actions.get("p0", [])
     p1 = strategy_actions.get("p1", [])
 
-    # Match any action that involves building content/pages
     build_actions = [a for a in p0 + p1 if any(
         keyword in a.get("agent", "").lower() or keyword in a.get("action", "").lower()
         for keyword in ["build", "content", "page", "landing", "seo", "publish"]
@@ -917,7 +815,6 @@ def build_prompt_call2(session, strategy_actions, live_results):
 
 # ── Merge all filled data into skeleton ──────────────────────────────
 def merge_session(skeleton, call1_data, call2_data):
-    # Validate call1_data has actual content before merging
     if not call1_data:
         raise ValueError("Call 1 returned empty data — CaaS call likely failed silently")
 
@@ -931,7 +828,6 @@ def merge_session(skeleton, call1_data, call2_data):
 
     result = dict(skeleton)
 
-    # From call 1
     for field in ["perplexity_simulation", "competitive_intel",
                   "strategy_actions", "amplify_threads",
                   "cite_pipeline", "report_summary",
@@ -939,11 +835,9 @@ def merge_session(skeleton, call1_data, call2_data):
         if field in call1_data and call1_data[field]:
             result[field] = call1_data[field]
 
-    # Build pages from call 2
     if call2_data and call2_data.get("build_pages"):
         result["build_pages"] = call2_data["build_pages"]
 
-    # Categories from prompt bank baseline (always populated)
     if not result.get("categories"):
         result["categories"] = [
             {"name": "pricing_fee",        "type": "U", "sov": "0%", "phase1": "25%", "target": "85%", "cell": "red"},
@@ -956,28 +850,31 @@ def merge_session(skeleton, call1_data, call2_data):
             {"name": "comparison",          "type": "B", "sov": "0%", "phase1": "25%", "target": "70%", "cell": "red"},
         ]
 
-    # Pulse models - updated to reflect current 8-model tracking
     if not result.get("model_sov", {}).get("pulse"):
         result.setdefault("model_sov", {})["pulse"] = [
             {"name": "Gemini 2.5 Flash",       "why": "Promoted to stable release — behaviour consolidating", "unaided": "0%", "aided": "100%", "status": "tracking", "u_color": "red", "a_color": "green"},
             {"name": "o3-mini",                "why": "OpenAI reasoning model — usage pattern emerging",       "unaided": "0%", "aided": "100%", "status": "tracking", "u_color": "red", "a_color": "green"},
             {"name": "Gemini 3.1 Pro Preview", "why": "Next-gen Gemini — 28.6% aided SOV anomaly in W26",     "unaided": "0%", "aided": "28.6%", "status": "partial",  "u_color": "red", "a_color": "yellow"},
         ]
-    # ── Pillar names — fixed constants, never generated by Claude ──────
+
     PILLAR_NAMES = [
         {"pillar": 1, "name": "Technical & Structural",          "key_metric": "% priority URLs crawlable"},
         {"pillar": 2, "name": "Content Creation & Optimization", "key_metric": "Pages + videos published"},
         {"pillar": 3, "name": "Third-Party Editorial Coverage",  "key_metric": "Active editorial placements"},
         {"pillar": 4, "name": "Community & Social Proof",        "key_metric": "Threads engaged"},
     ]
-    # Always preserve skeleton metadata
+
     result["meta"]          = skeleton["meta"]
     result["sov_dashboard"] = skeleton["sov_dashboard"]
     result["trends"]        = skeleton.get("trends", [])
 
-    # Preserve empty arrays if not filled
     result.setdefault("amplify_outcomes",    [])
     result.setdefault("amplify_escalations", [])
+
+    # ── PATCH: Preserve deep_research block — never overwrite with automated run ──
+    deep_research = skeleton.get("deep_research", None)
+    if deep_research is not None:
+        result["deep_research"] = deep_research
 
     return result
 
@@ -989,12 +886,10 @@ def main():
     parser.add_argument("--skip-crawl", action="store_true", help="Skip live crawling (use for testing)")
     args = parser.parse_args()
 
-    # Get API key
     api_key = os.environ.get("CAAS_API_KEY")
     if not api_key:
         print("ERROR: CAAS_API_KEY not set"); sys.exit(1)
 
-    # Load skeleton
     if not os.path.exists(args.session):
         print(f"ERROR: session.json not found at {args.session}"); sys.exit(1)
 
@@ -1004,14 +899,12 @@ def main():
     run_id   = skeleton["meta"].get("run_id", "UNKNOWN")
     print(f"  Run type: {run_type} | Run ID: {run_id}")
 
-    # ── LOAD + VALIDATE PUBLISHER MAP ────────────────────────────────
     publisher_map = None
     if not args.skip_crawl:
         print("\n  Loading publisher map...")
         publisher_map = load_publisher_map()
 
         if publisher_map:
-            # Determine which publishers we'll need based on cite_pipeline
             cite_pipeline = skeleton.get("cite_pipeline", [])
             publishers_needed = [
                 {"publisher": e["publisher"], "section": e["section"]}
@@ -1021,15 +914,11 @@ def main():
             ]
 
             if publishers_needed:
-                # Validate and auto-repair before crawling
                 publisher_map, repairs = validate_and_repair_urls(publisher_map, publishers_needed)
-
-                # Write repaired map back to disk
                 if repairs:
                     save_publisher_map(publisher_map, repairs)
                     print(f"\n  [MAP] {len(repairs)} URL(s) auto-repaired and saved to publisher_map.json")
 
-    # ── LIVE CRAWL (now with validated URLs) ─────────────────────────
     if args.skip_crawl:
         print("\n  [SKIP] Live crawling disabled")
         live_results = {"publisher_checks": [], "competitor_rates": {}, "crawl_date": time.strftime("%Y-%m-%d"), "fallback_used": []}
@@ -1041,7 +930,6 @@ def main():
         print(f"    Competitor rates:   {len(live_results['competitor_rates'])}")
         print(f"    Fallbacks used:     {len(live_results['fallback_used'])}")
 
-    # ── DRY-RUN: Show prompts without API calls ───────────────────────
     if args.dry_run:
         print("\n  [DRY-RUN] Skipping API calls, showing prompts only...")
         prompt1 = build_prompt_call1(skeleton, live_results)
@@ -1053,7 +941,6 @@ def main():
 
     client = get_client(api_key)
 
-    # ── CALL 1: Intelligence arrays ───────────────────────────────────
     print("\n  CALL 1: Intelligence arrays (perplexity, competitive, strategy, amplify, cite, report)...")
     prompt1 = build_prompt_call1(skeleton, live_results)
     print(f"  Prompt length: {len(prompt1):,} chars")
@@ -1074,7 +961,6 @@ def main():
         traceback.print_exc()
         sys.exit(1)
 
-    # ── CALL 2: Build pages ───────────────────────────────────────────
     strategy = call1_data.get("strategy_actions", {"p0": [], "p1": []})
     prompt2  = build_prompt_call2(skeleton, strategy, live_results)
 
@@ -1096,10 +982,8 @@ def main():
     else:
         print("\n  CALL 2: No BUILD actions in strategy — skipping build pages")
 
-    # ── Merge ─────────────────────────────────────────────────────────
     complete = merge_session(skeleton, call1_data, call2_data)
 
-    # ── Validate ──────────────────────────────────────────────────────
     checks = [
         ("perplexity_simulation", lambda v: isinstance(v, list) and len(v) > 0),
         ("competitive_intel",     lambda v: isinstance(v, list) and len(v) > 0),
@@ -1125,7 +1009,6 @@ def main():
     if not all_passed:
         print("\n  [WARNING] Some fields missing - check output")
 
-    # ── Write or dry-run ──────────────────────────────────────────────
     if args.dry_run:
         print("\n  [dry-run] Output preview (first 800 chars):")
         print(json.dumps(complete, indent=2)[:800] + "\n  ...(truncated)")
@@ -1140,7 +1023,6 @@ def main():
         print(f"  build_pages:   {len(complete.get('build_pages', []))}")
         print(f"  categories:    {len(complete.get('categories', []))}")
 
-        # Show live crawl summary
         if not args.skip_crawl:
             print(f"\n  [LIVE] Crawl summary:")
             print(f"    ✅ Publishers present: {sum(1 for p in live_results['publisher_checks'] if p.get('godaddy_present'))}")

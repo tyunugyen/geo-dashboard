@@ -43,131 +43,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backgrou
 .kpi-sub{font-size:11px;color:#718096}
 .kpi-target{font-size:11px;color:#4a5568;margin-top:8px;padding-top:8px;border-top:1px solid #2d3748}
 .kpi-target span{color:#63b3ed;font-weight:700}
-.pf-spark{height:34px;margin-top:8px;display:flex;align-items:flex-end;gap:3px}
-.pf-bar{flex:1;background:#2d3748;border-radius:2px 2px 0 0;min-height:3px}
-.pf-bar.now{background:#3182ce}
-.priority-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;display:inline-block}
-.p0{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a}
-.p1{background:#2d2200;color:#f6e05e;border:1px solid #744210}
-.p2{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74}
-.tag-green{background:#0a2d1a;color:#68d391;border:1px solid #22543d;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-red{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-yellow{background:#2d2200;color:#f6e05e;border:1px solid #744210;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.tag-blue{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block;white-space:nowrap}
-.indicator-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #1e2436;gap:10px}
-.indicator-row:last-child{border-bottom:none}
-.indicator-label{font-size:12px;color:#e2e8f0;flex:1}
-.indicator-status{font-size:11px;font-weight:700;flex-shrink:0}
-.indicator-status.red{color:#fc8181}.indicator-status.green{color:#68d391}.indicator-status.yellow{color:#f6ad55}.indicator-status.blue{color:#90cdf4}
-.model-table{width:100%;border-collapse:collapse;font-size:12px}
-.model-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 11px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2d3748}
-.model-table td{padding:9px 11px;border-bottom:1px solid #1e2436;vertical-align:middle}
-.model-table tr:last-child td{border-bottom:none}
-.prompt-table{width:100%;border-collapse:collapse;font-size:12px}
-.prompt-table th{text-align:left;color:#718096;font-size:11px;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid #2d3748}
-.prompt-table td{padding:9px 8px;border-bottom:1px solid #1a1f2e;color:#cbd5e0;vertical-align:top}
-.comp-row{display:flex;align-items:center;margin-bottom:9px;gap:10px}
-.comp-name{font-size:12px;width:76px;flex-shrink:0;font-weight:600}
-.comp-bar-wrap{flex:1;height:18px;background:#2d3748;border-radius:4px;overflow:hidden}
-.comp-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff}
-.comp-pct{font-size:11px;color:#a0aec0;width:36px;text-align:right;flex-shrink:0}
-.comp-label{font-size:10px;color:#4a5568;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.cat-cell{border-radius:6px;padding:9px 11px;cursor:pointer;text-decoration:none;display:block;color:inherit;transition:transform .1s}
-.cat-cell:hover{transform:translateY(-1px)}
-.cat-cell-red{background:#2d0a0a;border:1px solid #742a2a}
-.cat-cell-green{background:#0a2d1a;border:1px solid #22543d}
-.cat-cell-yellow{background:#2d2200;border:1px solid #744210}
-.cat-name{font-size:11px;color:#a0aec0;font-weight:600}
-.cat-sov{font-size:18px;font-weight:800;margin-top:3px}
-.cat-sov.red{color:#fc8181}.cat-sov.green{color:#68d391}.cat-sov.yellow{color:#f6e05e}
-.cat-target{font-size:10px;color:#4a5568;margin-top:1px}
-.trend-card{background:#161b28;border:1px solid #2d3748;border-radius:12px;padding:18px;margin-bottom:20px}
-.ext-link{color:#90cdf4;text-decoration:none;border-bottom:1px dotted #3182ce}
-.ext-link:hover{color:#bee3f8}
-details summary{cursor:pointer;font-size:12px;color:#90cdf4;padding:6px 0;list-style:none}
-details summary::-webkit-details-marker{display:none}
+.tag-green{background:#0a2d1a;color:#68d391;border:1px solid #22543d;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block!important;white-space:nowrap}
+.tag-red{background:#2d0a0a;color:#fc8181;border:1px solid #742a2a;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block!important;white-space:nowrap}
+.tag-yellow{background:#2d2200;color:#f6e05e;border:1px solid #744210;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block!important;white-space:nowrap}
+.tag-blue{background:#0a1a2d;color:#90cdf4;border:1px solid #2a4a74;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;display:inline-block!important;white-space:nowrap}
 .data-table{width:100%;border-collapse:collapse;font-size:12px}
 .data-table th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748;white-space:nowrap}
 .data-table td{padding:9px 12px;border-bottom:1px solid #1e2436;vertical-align:top}
 .data-table tr:last-child td{border-bottom:none}
 .data-table td:first-child{font-weight:500;color:#e2e8f0}
-.footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
-
-.status-pill{display:inline-flex;align-items:center;gap:8px;background:#161b28;border:1px solid #2d3748;border-radius:8px;padding:9px 14px;font-size:12px;text-decoration:none;color:inherit;transition:border-color .15s}
-.status-pill:hover{border-color:#3182ce}
-.status-pill.red{border-left:3px solid #fc8181}
-.status-pill.yellow{border-left:3px solid #f6e05e}
-.status-pill.green{border-left:3px solid #68d391}
-.pills-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-/* Action table */
-.action-section{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:16px;margin-bottom:12px}
-.action-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.action-section-title.p0-title{color:#fc8181}
-.action-section-title.p1-title{color:#f6e05e}
-.action-tbl{width:100%;border-collapse:collapse;font-size:12px}
-.action-tbl th{background:#151921;color:#718096;font-weight:600;text-align:left;padding:7px 12px;font-size:11px;text-transform:uppercase;border-bottom:1px solid #2d3748}
-.action-tbl td{padding:10px 12px;border-bottom:1px solid #1e2436;vertical-align:top;line-height:1.4}
-.action-tbl tr:last-child td{border-bottom:none}
-.action-tbl .col-pri{width:60px;text-align:center}
-.action-tbl .col-action{width:40%}
-.action-tbl .col-root{width:30%}
-.action-tbl .col-blocker{width:20%}
-.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
-/* Intel card */
+.ci-item{padding:10px 0;border-bottom:1px solid #1e2436}
+.ci-item:last-child{border-bottom:none}
 .intel-card{background:#1a1f2e;border:1px solid #2d3748;border-radius:10px;padding:18px;margin-bottom:20px}
 .intel-sub{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 10px;padding-top:14px;border-top:1px solid #1e2436}
 .intel-sub:first-child{margin-top:0;padding-top:0;border-top:none}
-
 .cluster-row{padding:11px 0;border-bottom:1px solid #1e2436}
 .cluster-row:last-child{border-bottom:none}
-.ci-item{padding:10px 0;border-bottom:1px solid #1e2436}
-.ci-item:last-child{border-bottom:none}
-/* Fix pill display — inline-block not display:table */
-.tag-green,.tag-red,.tag-yellow,.tag-blue{display:inline-block!important}
+.footer{text-align:center;padding:18px;font-size:11px;color:#4a5568;border-top:1px solid #2d3748;margin-top:8px}
+.ext-link{color:#90cdf4;text-decoration:none;border-bottom:1px dotted #3182ce}
+.ext-link:hover{color:#bee3f8}
 </style>
 </head>
 <body>
 <div class="header">
-  <div><h1>🎯 GoDaddy Payments — GEO Visibility Dashboard</h1><p>📡 Insights: Perplexity citations · Competitive Intel</p></div>
+  <div><h1>&#127919; GoDaddy Payments &#8212; GEO Visibility Dashboard</h1><p>&#128225; Insights: Perplexity citations &middot; Competitive Intel &middot; Deep Research</p></div>
   <div class="header-right">
     <span class="badge" data-run-type>BAT automated</span>
-    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>—</span></span>
+    <span class="badge" style="background:#0a1a2d;border-color:#2d4a8a;color:#90cdf4;">Updated: <span data-last-updated>&#8212;</span></span>
     <span class="badge badge-warn" data-unaided-sov>Unaided SOV ~0%</span>
   </div>
 </div>
-<div class="nav"><a href="index.html" class="">📊 Overview</a><a href="insights.html" class="active">📡 Insights</a><a href="prompts.html" class="">📝 Prompts</a><a href="citations.html" class="">🏆 Citations</a><a href="action-content.html" class="">🔨 Content</a><a href="action-community.html" class="">📣 Community</a><a href="report.html" class="">📋 Report</a><a href="roadmap.html" class="">🗺️ Next Steps</a><a href="maintenance.html" class="">🔧 Maintenance</a></div>
+<div class="nav"><a href="index.html" class="">&#128202; Overview</a><a href="insights.html" class="active">&#128225; Insights</a><a href="prompts.html" class="">&#128157; Prompts</a><a href="citations.html" class="">&#127942; Citations</a><a href="action-content.html" class="">&#128296; Content</a><a href="action-community.html" class="">&#128163; Community</a><a href="report.html" class="">&#128211; Report</a><a href="roadmap.html" class="">&#128507;&#65039; Next Steps</a><a href="maintenance.html" class="">&#128295; Maintenance</a></div>
 <div class="lu-bar">
-  <span>Last updated: <strong data-lu-date>—</strong> &nbsp;·&nbsp; Run: <span data-lu-run>—</span> &nbsp;·&nbsp; <span data-lu-details></span></span>
+  <span>Last updated: <strong data-lu-date>&#8212;</strong> &nbsp;&middot;&nbsp; Run: <span data-lu-run>&#8212;</span> &nbsp;&middot;&nbsp; <span data-lu-details></span></span>
 </div>
 <div class="container">
 
-<!-- 3 KPI number boxes -->
-<div class="section-title">📡 Perplexity Citation Audit</div>
+<!-- PERPLEXITY SECTION -->
+<div class="section-title">&#128225; Perplexity Citation Audit</div>
 <div class="grid-3" style="margin-bottom:20px;">
   <div class="kpi blue">
-    <div class="kpi-label">📡 Clusters Tracked</div>
-    <div class="kpi-value" id="kpi-clusters">—</div>
+    <div class="kpi-label">&#128225; Clusters Tracked</div>
+    <div class="kpi-value" id="kpi-clusters">&#8212;</div>
     <div class="kpi-sub">Perplexity query clusters this session</div>
     <div class="kpi-target">Updated each run</div>
   </div>
   <div class="kpi yellow">
-    <div class="kpi-label">✅ GoDaddy Present</div>
-    <div class="kpi-value" id="kpi-present">—</div>
+    <div class="kpi-label">&#10005; GoDaddy Present</div>
+    <div class="kpi-value" id="kpi-present">&#8212;</div>
     <div class="kpi-sub">Clusters where GoDaddy is cited</div>
     <div class="kpi-target">Target: cited in all clusters</div>
   </div>
   <div class="kpi red">
-    <div class="kpi-label">❌ GoDaddy Absent</div>
-    <div class="kpi-value" id="kpi-absent">—</div>
-    <div class="kpi-sub">Clusters — content or citation gap</div>
+    <div class="kpi-label">&#10060; GoDaddy Absent</div>
+    <div class="kpi-value" id="kpi-absent">&#8212;</div>
+    <div class="kpi-sub">Clusters &#8212; content or citation gap</div>
     <div class="kpi-target">Each gap = P0 or P1 action</div>
   </div>
 </div>
 
-<!-- Perplexity table — full width -->
-<div class="alert blue">Not SOV. Tracks which publishers Perplexity cites per query cluster — the leading indicator for unaided SOV. Last audited: <span id="perplexity-audit-date">loading...</span></div>
+<div class="alert blue">Not SOV. Tracks which publishers Perplexity cites per query cluster &#8212; the leading indicator for unaided SOV. Last audited: <span id="perplexity-audit-date">loading...</span></div>
 <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
   <table class="data-table">
     <thead><tr>
@@ -182,8 +117,8 @@ details summary::-webkit-details-marker{display:none}
   </table>
 </div>
 
-<!-- Competitive Intel -->
-<div class="section-title">🔺 Competitive Intel — <span id="ci-date-header" style="font-weight:400;color:#718096;font-size:12px;text-transform:none;letter-spacing:0;">loading...</span></div>
+<!-- COMPETITIVE INTEL -->
+<div class="section-title">&#128378; Competitive Intel &#8212; <span id="ci-date-header" style="font-weight:400;color:#718096;font-size:12px;text-transform:none;letter-spacing:0;">loading...</span></div>
 <div class="grid-2">
   <div class="card">
     <h3>Rate Verification</h3>
@@ -195,11 +130,62 @@ details summary::-webkit-details-marker{display:none}
   </div>
 </div>
 
+<!-- DEEP RESEARCH SECTION -->
+<div class="section-title" style="margin-top:32px;">&#128302; Deep Research Surface</div>
+<div class="alert blue" style="margin-bottom:16px;">
+  <strong>What this is:</strong> Claude runs live web searches simulating how AI Deep Research mode synthesizes payment processor recommendations. Tracks which sources get cited &#8212; the direct input to CITE outreach priorities. Last run: <span id="dr-last-run">loading...</span>
 </div>
-<div class="footer">GoDaddy Payments GEO Dashboard · <a href="report.html" class="ext-link">Report</a></div>
-<script>
-/* renderPage defined BEFORE session-loader.js so it's available at DOMContentLoaded */
+<div class="grid-4" style="margin-bottom:20px;">
+  <div class="kpi red" id="dr-kpi-mention">
+    <div class="kpi-label">&#127919; Mention Rate</div>
+    <div class="kpi-value" id="dr-mention-rate">&#8212;</div>
+    <div class="kpi-sub">Prompts where GoDaddy appeared</div>
+    <div class="kpi-target">Target: <span>5 of 5</span></div>
+  </div>
+  <div class="kpi blue">
+    <div class="kpi-label">&#128240; Top Source Cited</div>
+    <div class="kpi-value" style="font-size:18px;" id="dr-top-source">&#8212;</div>
+    <div class="kpi-sub">Most cited aggregator by Deep Research</div>
+    <div class="kpi-target">Target: GoDaddy in top source</div>
+  </div>
+  <div class="kpi yellow">
+    <div class="kpi-label">&#128680; CITE Gaps Found</div>
+    <div class="kpi-value" id="dr-cite-gaps-count">&#8212;</div>
+    <div class="kpi-sub">New outreach targets surfaced</div>
+    <div class="kpi-target">Target: 0 new gaps</div>
+  </div>
+  <div class="kpi blue">
+    <div class="kpi-label">&#128269; Run Method</div>
+    <div class="kpi-value" style="font-size:14px;" id="dr-platform">&#8212;</div>
+    <div class="kpi-sub">How results were gathered</div>
+    <div class="kpi-target">Monthly cadence</div>
+  </div>
+</div>
+<div class="card" style="padding:0;overflow:hidden;margin-bottom:16px;">
+  <table class="data-table">
+    <thead><tr>
+      <th style="width:20%;">Prompt</th>
+      <th style="width:11%;text-align:center;">GoDaddy?</th>
+      <th style="width:24%;">Sources Cited</th>
+      <th style="width:20%;">Competitors Found</th>
+      <th style="width:10%;text-align:center;">Rate Saver?</th>
+      <th>Notes / CITE Action</th>
+    </tr></thead>
+    <tbody id="dr-tbody">
+      <tr><td colspan="6" style="color:#4a5568;text-align:center;padding:16px;">Loading Deep Research data...</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="intel-card" id="dr-interpretation-card" style="display:none;">
+  <div class="intel-sub" style="margin-top:0;padding-top:0;border-top:none;">&#129504; Interpretation</div>
+  <div id="dr-interpretation" style="font-size:12px;color:#a0aec0;line-height:1.6;"></div>
+  <div class="intel-sub">&#128204; CITE Gaps Identified This Run</div>
+  <div id="dr-cite-gaps-list" style="font-size:12px;color:#a0aec0;line-height:1.8;"></div>
+</div>
 
+</div>
+<div class="footer">GoDaddy Payments GEO Dashboard &middot; <a href="report.html" class="ext-link">Report</a></div>
+<script>
 function renderPage(s) {
   var rows = s.perplexity_simulation || [];
   var present = rows.filter(function(r){return r.godaddy;}).length;
@@ -211,7 +197,7 @@ function renderPage(s) {
   setEl('kpi-absent',   absent);
 
   var pdEl = document.getElementById('perplexity-audit-date');
-  if(pdEl && s.meta) pdEl.textContent = s.meta.last_updated || '—';
+  if(pdEl && s.meta) pdEl.textContent = s.meta.last_updated || '&#8212;';
 
   // Perplexity table
   var tbody = document.getElementById('perplexity-tbody');
@@ -219,14 +205,14 @@ function renderPage(s) {
     tbody.innerHTML = rows.length
       ? rows.map(function(r) {
           var gdBadge = r.godaddy
-            ? '<span class="tag-green">✅ Cited</span>'
-            : '<span class="tag-red">❌ Absent</span>';
+            ? '<span class="tag-green">&#10005; Cited</span>'
+            : '<span class="tag-red">&#10060; Absent</span>';
           return '<tr>' +
             '<td style="font-weight:600;color:#e2e8f0;">' + r.cluster + '</td>' +
             '<td style="color:#a0aec0;font-size:11px;">' + r.cited.join(', ') + '</td>' +
             '<td style="text-align:center;">' + gdBadge + '</td>' +
             '<td style="color:#718096;font-size:11px;line-height:1.5;">' + r.action + '</td>' +
-          '</tr>';
+            '</tr>';
         }).join('')
       : '<tr><td colspan="4" style="color:#4a5568;text-align:center;padding:14px;">No data</td></tr>';
   }
@@ -234,13 +220,13 @@ function renderPage(s) {
   // CI
   var ci = s.competitive_intel || [];
   var ciDateEl = document.getElementById('ci-date-header');
-  if(ciDateEl && ci.length) ciDateEl.textContent = ci[0].verified_date || '—';
+  if(ciDateEl && ci.length) ciDateEl.textContent = ci[0].verified_date || '&#8212;';
 
   var rateEl = document.getElementById('ci-rate-rows');
   if(rateEl) {
     rateEl.innerHTML = ci.map(function(c) {
       var unver = c.event && c.event.indexOf('unverified') > -1;
-      var badge = unver ? '<span class="tag-yellow">⚠️ Unverified</span>' : '<span class="tag-green">✅ Verified</span>';
+      var badge = unver ? '<span class="tag-yellow">&#9888;&#65039; Unverified</span>' : '<span class="tag-green">&#10005; Verified</span>';
       return '<div class="ci-item">' +
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">' +
           '<strong style="color:#e2e8f0;">' + c.competitor + '</strong>' + badge +
@@ -262,8 +248,65 @@ function renderPage(s) {
       '</div>';
     }).join('') || '<div style="color:#4a5568;font-size:12px;">No data</div>';
   }
-}
 
+  // ── Deep Research ──────────────────────────────────────────────────
+  var dr = s.deep_research || {};
+  var drResults = dr.results || [];
+  var drSummary = dr.summary || {};
+
+  function setDR(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  setDR('dr-last-run', dr.last_run || '— not yet run');
+  setDR('dr-platform', dr.platform ? dr.platform.split(' — ')[0] : '—');
+  setDR('dr-mention-rate', drSummary.godaddy_mention_rate || '—');
+  setDR('dr-top-source', (drSummary.top_sources_cited||[])[0] || '—');
+  setDR('dr-cite-gaps-count', String((drSummary.cite_gaps||[]).length || '—'));
+
+  // Color mention KPI
+  var mkpi = document.getElementById('dr-kpi-mention');
+  if(mkpi){
+    var mrate = drSummary.godaddy_mention_rate || '';
+    mkpi.className = mrate.indexOf('0 of') > -1 ? 'kpi red' :
+                     mrate.indexOf('5 of 5') > -1 ? 'kpi green' : 'kpi yellow';
+  }
+
+  // Results table
+  var drTbody = document.getElementById('dr-tbody');
+  if(drTbody && drResults.length){
+    drTbody.innerHTML = drResults.map(function(r){
+      var gdBadge = r.godaddy_mentioned === true ? '<span class="tag-green">&#10005; Yes</span>'
+        : r.godaddy_mentioned === false ? '<span class="tag-red">&#10060; No</span>'
+        : '<span style="color:#4a5568;">&#8212; TBD</span>';
+      var rsBadge = r.rate_saver_appeared === true ? '<span class="tag-green">&#10005; Yes</span>'
+        : r.rate_saver_appeared === false ? '<span class="tag-red">&#10060; No</span>'
+        : '<span style="color:#4a5568;">&#8212;</span>';
+      var src = (r.sources_cited||[]).join(', ') || '&#8212;';
+      var comps = (r.competitors_with_labels||[]).slice(0,3).join('<br>') || '&#8212;';
+      var pShort = (r.prompt||'').replace(/^What (is the|are the) /,'').replace(/^Which payment processors /,'');
+      return '<tr>'+
+        '<td style="font-weight:600;color:#e2e8f0;font-size:11px;">'+(r.prompt_id||'')+'<br><span style="font-weight:400;color:#718096;font-size:10px;">'+pShort+'</span></td>'+
+        '<td style="text-align:center;">'+gdBadge+'</td>'+
+        '<td style="color:#a0aec0;font-size:11px;">'+src+'</td>'+
+        '<td style="color:#718096;font-size:10px;line-height:1.6;">'+comps+'</td>'+
+        '<td style="text-align:center;">'+rsBadge+'</td>'+
+        '<td style="color:#718096;font-size:11px;line-height:1.5;">'+(r.notes||'&#8212;')+'</td>'+
+        '</tr>';
+    }).join('');
+  } else if(drTbody){
+    drTbody.innerHTML = '<tr><td colspan="6" style="color:#4a5568;text-align:center;padding:16px;">No Deep Research data yet &#8212; run patch_deep_research.py after monthly Claude session</td></tr>';
+  }
+
+  // Interpretation card
+  if(drSummary.interpretation){
+    var icard = document.getElementById('dr-interpretation-card');
+    if(icard) icard.style.display='block';
+    setDR('dr-interpretation', drSummary.interpretation);
+    var glist = document.getElementById('dr-cite-gaps-list');
+    if(glist){
+      var gaps = drSummary.cite_gaps||[];
+      glist.innerHTML = gaps.length ? gaps.map(function(g){return '&#8226; '+g;}).join('<br>') : 'No new gaps identified';
+    }
+  }
+}
 </script>
 <script src="./js/session-loader.js"></script>
 </body></html>

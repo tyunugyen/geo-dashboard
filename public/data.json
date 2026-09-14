@@ -1,8 +1,8 @@
 {
   "meta": {
     "label": "Monthly",
-    "period": "August 2026",
-    "run_id": "2026-08-W32",
+    "period": "September 2026",
+    "run_id": "2026-09-W38",
     "sources": "Gemini 3.1 Pro Preview (GoCode proxy)",
     "prompt_bank_version": "2.6",
     "models": "Gemini 3.1 Pro Preview"
